@@ -1,0 +1,82 @@
+00:00.332	ID:8	Rime started with address 8.0
+00:00.342	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-3.x-3160-g1734481 started. Node id is set to 8.
+00:00.351	ID:8	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.355	ID:8	Starting 'Neighbor Discovery via Broadcast' 'GHS Control'
+00:00.496	ID:2	Rime started with address 2.0
+00:00.505	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-3.x-3160-g1734481 started. Node id is set to 2.
+00:00.510	ID:6	Rime started with address 6.0
+00:00.514	ID:2	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.518	ID:2	Starting 'Neighbor Discovery via Broadcast' 'GHS Control'
+00:00.520	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-3.x-3160-g1734481 started. Node id is set to 6.
+00:00.529	ID:6	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.533	ID:6	Starting 'Neighbor Discovery via Broadcast' 'GHS Control'
+00:00.608	ID:4	Rime started with address 4.0
+00:00.617	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-3.x-3160-g1734481 started. Node id is set to 4.
+00:00.626	ID:4	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.630	ID:4	Starting 'Neighbor Discovery via Broadcast' 'GHS Control'
+00:00.642	ID:1	Rime started with address 1.0
+00:00.651	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-3.x-3160-g1734481 started. Node id is set to 1.
+00:00.660	ID:1	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.661	ID:7	Rime started with address 7.0
+00:00.664	ID:1	Starting 'Neighbor Discovery via Broadcast' 'GHS Control'
+00:00.671	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-3.x-3160-g1734481 started. Node id is set to 7.
+00:00.680	ID:7	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.684	ID:7	Starting 'Neighbor Discovery via Broadcast' 'GHS Control'
+00:00.975	ID:5	Rime started with address 5.0
+00:00.984	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-3.x-3160-g1734481 started. Node id is set to 5.
+00:00.993	ID:5	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.997	ID:5	Starting 'Neighbor Discovery via Broadcast' 'GHS Control'
+00:01.159	ID:3	Rime started with address 3.0
+00:01.168	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-3.x-3160-g1734481 started. Node id is set to 3.
+00:01.177	ID:3	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:01.181	ID:3	Starting 'Neighbor Discovery via Broadcast' 'GHS Control'
+06:44.294	ID:5	Process exited: Neighbor Discovery via Broadcast
+06:44.297	ID:5	 	 addr 	 | 	 avg_seqno_gap | seqno = 17 
+06:44.299	ID:5	   	 8.0 	 | 	 1.00 
+06:44.301	ID:5	   	 7.0 	 | 	 1.00 
+06:44.303	ID:5	   	 6.0 	 | 	 1.00 
+06:44.305	ID:5	   	 1.0 	 | 	 1.01 
+06:48.308	ID:8	Process exited: Neighbor Discovery via Broadcast
+06:48.311	ID:8	 	 addr 	 | 	 avg_seqno_gap | seqno = 17 
+06:48.313	ID:8	   	 5.0 	 | 	 1.00 
+06:48.315	ID:8	   	 4.0 	 | 	 1.00 
+06:48.317	ID:8	   	 1.0 	 | 	 1.00 
+06:48.319	ID:8	   	 6.0 	 | 	 1.00 
+06:48.321	ID:8	   	 7.0 	 | 	 1.07 
+06:53.360	ID:3	Process exited: Neighbor Discovery via Broadcast
+06:53.364	ID:3	 	 addr 	 | 	 avg_seqno_gap | seqno = 17 
+06:53.366	ID:3	   	 4.0 	 | 	 1.00 
+06:53.368	ID:3	   	 6.0 	 | 	 1.00 
+06:53.370	ID:3	   	 1.0 	 | 	 1.02 
+06:53.372	ID:3	   	 2.0 	 | 	 1.05 
+06:53.374	ID:3	   	 7.0 	 | 	 1.07 
+07:17.200	ID:4	Process exited: Neighbor Discovery via Broadcast
+07:17.203	ID:4	 	 addr 	 | 	 avg_seqno_gap | seqno = 17 
+07:17.205	ID:4	   	 8.0 	 | 	 1.00 
+07:17.207	ID:4	   	 3.0 	 | 	 1.00 
+07:17.209	ID:4	   	 7.0 	 | 	 1.00 
+07:19.282	ID:1	Process exited: Neighbor Discovery via Broadcast
+07:19.285	ID:1	 	 addr 	 | 	 avg_seqno_gap | seqno = 17 
+07:19.287	ID:1	   	 5.0 	 | 	 1.00 
+07:19.289	ID:1	   	 8.0 	 | 	 1.00 
+07:19.291	ID:1	   	 3.0 	 | 	 1.00 
+07:19.293	ID:1	   	 6.0 	 | 	 1.00 
+07:19.295	ID:1	   	 7.0 	 | 	 1.04 
+07:20.816	ID:7	Process exited: Neighbor Discovery via Broadcast
+07:20.819	ID:7	 	 addr 	 | 	 avg_seqno_gap | seqno = 17 
+07:20.821	ID:7	   	 5.0 	 | 	 1.00 
+07:20.823	ID:7	   	 4.0 	 | 	 1.00 
+07:20.825	ID:7	   	 1.0 	 | 	 1.00 
+07:20.827	ID:7	   	 6.0 	 | 	 1.00 
+07:20.829	ID:7	   	 8.0 	 | 	 1.04 
+07:20.831	ID:7	   	 3.0 	 | 	 1.04 
+07:21.196	ID:6	Process exited: Neighbor Discovery via Broadcast
+07:21.199	ID:6	 	 addr 	 | 	 avg_seqno_gap | seqno = 17 
+07:21.201	ID:6	   	 5.0 	 | 	 1.00 
+07:21.203	ID:6	   	 8.0 	 | 	 1.00 
+07:21.205	ID:6	   	 3.0 	 | 	 1.00 
+07:21.207	ID:6	   	 1.0 	 | 	 1.00 
+07:21.209	ID:6	   	 7.0 	 | 	 1.04 
+07:28.525	ID:2	Process exited: Neighbor Discovery via Broadcast
+07:28.528	ID:2	 	 addr 	 | 	 avg_seqno_gap | seqno = 17 
+07:28.530	ID:2	   	 3.0 	 | 	 1.00 
