@@ -21,3 +21,11 @@ gnuplot
     cd /home/sergiodiaz/Desktop/contiki/examples/GHS_Algoritm/results/topology/graphGnuplot
     gnuplot
     copiar y pegar el contenido del archivo gnuGraphScript.txt
+
+5. El formato de edges_v2.txt es:
+
+    pos_x pos_y id_nodo neigh_x neigh_y weight_link
+    neigh_x neigh_y id_neigh
+
+    5 10 0 20 20 1.1
+    20 20 1
