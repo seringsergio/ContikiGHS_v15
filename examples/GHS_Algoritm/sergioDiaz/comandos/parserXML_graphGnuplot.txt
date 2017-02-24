@@ -1,0 +1,11 @@
+1. Compilar la clase de java que parser el xml File
+
+javac readSimulation.java
+
+2. Usar la clase para parser el xml file a un edges.dbFactory
+
+java readSimulation > edges.dat
+
+3. Correr el script de gnuplot q grafica el grafo
+
+./gnuGraphScript.sh graph.png

@@ -1,0 +1,64 @@
+Root element :simconf
+----------------------------
+
+Current Element :mote
+id : 1
+x : 80.01078836616374
+y : 76.4265827319795
+
+Current Element :mote
+id : 2
+x : 94.1437356322804
+y : 5.666930566131956
+
+Current Element :mote
+id : 3
+x : 15.066663793414358
+y : 83.74728832326159
+
+Current Element :mote
+id : 4
+x : 0.8528402856045059
+y : 44.624744362541215
+
+Current Element :mote
+id : 5
+x : 12.9553689791871
+y : 53.59341606228195
+
+Current Element :mote
+id : 6
+x : 0.9854578889033516
+y : 59.67207002153594
+
+Current Element :mote
+id : 7
+x : 30.917043484131966
+y : 45.37158645500058
+
+Current Element :mote
+id : 8
+x : 22.20736767494198
+y : 74.37013946782186
+
+Current Element :mote
+id : 9
+x : 18.23818371732474
+y : 80.5605517083324
+
+Current Element :mote
+id : 10
+x : 51.1400769880476
+y : 94.56800575739935
+
+Current Element :mote
+id : 11
+x : 68.26554077602034
+y : 19.326102625209774
+
+Current Element :mote
+id : 12
+x : 60.74739601257214
+y : 76.6359847633801
+
+Current Element :mote
