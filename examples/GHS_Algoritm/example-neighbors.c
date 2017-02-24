@@ -139,22 +139,22 @@ static void
 broadcast_neighbor_discovery_exit_handler(void)
 {
   struct neighbor *n_aux, *first_position, *lowest_node = NULL, temp_node;
-  uint32_t lowest_avg_seqno_gap; 
+  uint32_t lowest_avg_seqno_gap;
 
   printf("Process exited: Neighbor Discovery via Broadcast\n\r");
   broadcast_close(&broadcast); // Cierro la conexion de broadcast
 
-  /* Sort Linked List in Ascending Order: 
+  /* Sort Linked List in Ascending Order:
      Encuentro el nodo con menor avg_seqno_gap de la lista,
      lo intercambio con el primer elemento de la lista,
-     repito lo mismo comenzando del segundo elemento de la lista*/  
+     repito lo mismo comenzando del segundo elemento de la lista*/
 
-  for(n_aux = list_head(neighbors_list); 
+  for(n_aux = list_head(neighbors_list);
       n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
   {
      flags &= !EXIST_LOWEST;
      for(first_position = n_aux, lowest_avg_seqno_gap =  first_position->avg_seqno_gap;
-      first_position != NULL; first_position = list_item_next(first_position)) 
+      first_position != NULL; first_position = list_item_next(first_position))
      {
 	 if(first_position->avg_seqno_gap < lowest_avg_seqno_gap)
 	 {
@@ -162,7 +162,7 @@ broadcast_neighbor_discovery_exit_handler(void)
            lowest_node = first_position;
            flags |= EXIST_LOWEST;
 	 }
-     } 
+     }
 
      if(flags & EXIST_LOWEST) // Si existe un nodo menor, reemplazo los datos de los nodos
      {
@@ -173,10 +173,11 @@ broadcast_neighbor_discovery_exit_handler(void)
  }
 
   /* Show the whole list */
-  printf(" \t addr \t | \t avg_seqno_gap | seqno = %d \n\r  ", seqno);  
+  //printf(" \t addr \t | \t avg_seqno_gap | seqno = %d \n\r  ", seqno);
   for(n_aux = list_head(neighbors_list); n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
   {
-    printf(" \t %d.%d \t | \t %d.%02d \n\r  ",
+    printf("Own_addr=%d.%d|Neigh_addr=%d.%d|avg_seqno_gap=%d.%02d \n  ",
+      linkaddr_node_addr.u8[0], linkaddr_node_addr.u8[1],
 	  n_aux->addr.u8[0], n_aux->addr.u8[1],
 	  (int)(n_aux->avg_seqno_gap / SEQNO_EWMA_UNITY),
 	  (int)(((100UL * n_aux->avg_seqno_gap) / SEQNO_EWMA_UNITY) % 100));
@@ -259,7 +260,7 @@ PROCESS_THREAD(ghs_control, ev, data)
   static struct etimer et;
   PROCESS_BEGIN();
 
-  while(1) 
+  while(1)
   {
     /* Delay 2-4 seconds */
     etimer_set(&et, CLOCK_SECOND * 4 + random_rand() % (CLOCK_SECOND * 4));

@@ -11,3 +11,13 @@ gnuplot
 2. Correr gnuplot script
 
 ./gnuGraphScript.sh graph.png
+
+3. Correr el script de los weighted edges
+
+./weightedEdges.sh graph.png
+
+4. Para correr el gnuGraphScript.TXT debo:
+
+    cd /home/sergiodiaz/Desktop/contiki/examples/GHS_Algoritm/results/topology/graphGnuplot
+    gnuplot
+    copiar y pegar el contenido del archivo gnuGraphScript.txt
