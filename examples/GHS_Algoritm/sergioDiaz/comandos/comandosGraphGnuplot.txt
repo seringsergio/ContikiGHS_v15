@@ -29,3 +29,13 @@ gnuplot
 
     5 10 0 20 20 1.1
     20 20 1
+
+6. Para dibujar un tree con weighted edges toca mirar mi pregunta en Stackoverflow:
+
+http://stackoverflow.com/questions/42447683/how-to-plot-a-tree-graph-web-with-weighted-edges-in-gnuplot/42459535#42459535
+
+  o tambien puedo:
+
+  a. Ir a la carpeta /home/sergiodiaz/Desktop/contiki/examples/GHS_Algoritm/results/topology/graphGnuplot
+  b. correr gnuplot
+  c. correr el script gnuGraphScript_v3.txt (Notar que este depende de edges_v3.dat y pnts.dat en la misma carpeta)
