@@ -41,9 +41,10 @@ public class readSimulation {
 
 			Element eElement = (Element) nNode;
 
+            System.out.printf(" " + eElement.getElementsByTagName("id").item(0).getTextContent());
 			System.out.printf(" " + eElement.getElementsByTagName("x").item(0).getTextContent());
-			System.out.printf(" " + eElement.getElementsByTagName("y").item(0).getTextContent());
-            System.out.println(" " + eElement.getElementsByTagName("id").item(0).getTextContent());
+			System.out.println(" -" + eElement.getElementsByTagName("y").item(0).getTextContent());
+
 		}
 	}
     } catch (Exception e) {

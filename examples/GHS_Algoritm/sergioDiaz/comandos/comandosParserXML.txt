@@ -2,6 +2,6 @@
 
 javac readSimulation.java
 
-1. Para leer el asrchivo de simulacion "simulacion.csc"
+1. Para leer el archivo de simulacion "simulacion.csc"
 
-java readSimulation > nodeposition.txt
+java readSimulation > pnts.dat

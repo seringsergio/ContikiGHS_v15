@@ -176,9 +176,11 @@ broadcast_neighbor_discovery_exit_handler(void)
   //printf(" \t addr \t | \t avg_seqno_gap | seqno = %d \n\r  ", seqno);
   for(n_aux = list_head(neighbors_list); n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
   {
-    printf("Own_addr=%d.%d|Neigh_addr=%d.%d|avg_seqno_gap=%d.%02d \n  ",
-      linkaddr_node_addr.u8[0], linkaddr_node_addr.u8[1],
-	  n_aux->addr.u8[0], n_aux->addr.u8[1],
+      
+    //printf("READ %d.%d %d.%d %d.%02d \n  ",
+    printf("READ %d %d %d.%02d \n  ",
+      linkaddr_node_addr.u8[0],
+	  n_aux->addr.u8[0],
 	  (int)(n_aux->avg_seqno_gap / SEQNO_EWMA_UNITY),
 	  (int)(((100UL * n_aux->avg_seqno_gap) / SEQNO_EWMA_UNITY) % 100));
   }

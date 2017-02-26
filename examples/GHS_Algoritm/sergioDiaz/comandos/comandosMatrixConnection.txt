@@ -4,4 +4,4 @@ g++ -o parserLogListener parserLogListener.cpp
 
 2. Ejecutar el parser para leer el archivo loglistener.txt
 
-./parserLogListener
+./parserLogListener > edges.dat

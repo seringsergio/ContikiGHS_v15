@@ -1,0 +1,23 @@
+DESCRIPCION:
+
+1. parserLogListener (Es ejecutable ./parserLogListener)
+
+    input: loglistener.txt
+    output: edges.dat
+
+2. readSimulation.class
+
+    input: simulation.csc
+    output: pnts.dat
+
+3. gnuGraphScript.txt se ejecuta en GNUplot y nececita (pnts.dat,edges.dat)
+
+    input: pnts.dat AND edges.dat
+    output: FIGURA!
+
+PASOS:
+
+./parserLogListener > edges.dat
+java readSimulation > pnts.dat
+gnuplot
+//Copiar y pegar el contenido de gnuGraphScript.txt

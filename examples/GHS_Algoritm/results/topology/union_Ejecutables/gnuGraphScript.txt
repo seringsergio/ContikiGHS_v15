@@ -1,10 +1,10 @@
-set xr [0:50]
-set yr [0:50]
+set xr [-10:160]
+set yr [10:-160]
 
 set size square
 
 flePnts = 'pnts.dat'
-fleEdges = 'edges_v3.dat'
+fleEdges = 'edges.dat'
 
 loadEdges = sprintf('< gawk '' \
     FNR==NR{x[$1]=$2;y[$1]=$3;next;} \
@@ -18,6 +18,6 @@ loadWeights = sprintf('< gawk '' \
 
 plot \
     loadEdges using 1:2 with lines lc rgb "black" lw 2 notitle, \
-    flePnts using 2:3:(0.6) with circles fill solid lc rgb "black" notitle, \
-    flePnts using 2:3:1 with labels tc rgb "white" font "Arial Bold" notitle, \
+    flePnts using 2:3:(3.0) with circles linecolor rgb "white" lw 2 fill solid border lc lt 0 notitle, \
+    flePnts using 2:3:1 with labels offset (0,0) font 'Arial Bold' notitle, \
     loadWeights using 1:2:3 with labels tc rgb "red" center font "Arial Bold" notitle

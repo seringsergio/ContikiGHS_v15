@@ -1,41 +1,11 @@
-
-plot 'edges.dat' u 1:2 with lines lc rgb "black" lw 2 notitle,\
-'edges.dat' u 1:2:(0.8) with circles linecolor rgb "white" lw 2 fill solid border lc lt 0 notitle, \
-'edges.dat' using 1:2:($0) with labels offset (0,0) font 'Arial Bold' notitle
-
-1. Ejecutar gnuplot: primero ir a la carpeta donde tengo los archivos
-
-cd /home/sergiodiaz/Desktop/contiki/examples/GHS_Algoritm/results/topology
-gnuplot
-
-2. Correr gnuplot script
-
-./gnuGraphScript.sh graph.png
-
-3. Correr el script de los weighted edges
-
-./weightedEdges.sh graph.png
-
-4. Para correr el gnuGraphScript.TXT debo:
+1. Ir a la carpeta
 
     cd /home/sergiodiaz/Desktop/contiki/examples/GHS_Algoritm/results/topology/graphGnuplot
+
+2. abrir gnuplot
+
     gnuplot
-    copiar y pegar el contenido del archivo gnuGraphScript.txt
 
-5. El formato de edges_v2.txt es:
+3. Copiar y pegar en gnuplot el contenido del archivo gnuGraphScript.txt
 
-    pos_x pos_y id_nodo neigh_x neigh_y weight_link
-    neigh_x neigh_y id_neigh
-
-    5 10 0 20 20 1.1
-    20 20 1
-
-6. Para dibujar un tree con weighted edges toca mirar mi pregunta en Stackoverflow:
-
-http://stackoverflow.com/questions/42447683/how-to-plot-a-tree-graph-web-with-weighted-edges-in-gnuplot/42459535#42459535
-
-  o tambien puedo:
-
-  a. Ir a la carpeta /home/sergiodiaz/Desktop/contiki/examples/GHS_Algoritm/results/topology/graphGnuplot
-  b. correr gnuplot
-  c. correr el script gnuGraphScript_v3.txt (Notar que este depende de edges_v3.dat y pnts.dat en la misma carpeta)
+4. Se debe abrir la figura con la red
