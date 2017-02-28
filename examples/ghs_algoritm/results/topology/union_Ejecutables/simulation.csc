@@ -24,11 +24,9 @@
       org.contikios.cooja.mspmote.SkyMoteType
       <identifier>sky1</identifier>
       <description>Sky Mote Type #sky1</description>
-      <source EXPORT="discard">[CONTIKI_DIR]/examples/ghs_algoritm/ghs_algorithm.c</source>
-      <commands EXPORT="discard">make clean
-make ghs_compile
-make ghs_algorithm.sky TARGET=sky</commands>
-      <firmware EXPORT="copy">[CONTIKI_DIR]/examples/ghs_algoritm/ghs_algorithm.sky</firmware>
+      <source EXPORT="discard">[CONTIKI_DIR]/examples/ghs_algoritm/example-ghs.c</source>
+      <commands EXPORT="discard">make example-ghs.sky TARGET=sky</commands>
+      <firmware EXPORT="copy">[CONTIKI_DIR]/examples/ghs_algoritm/example-ghs.sky</firmware>
       <moteinterface>org.contikios.cooja.interfaces.Position</moteinterface>
       <moteinterface>org.contikios.cooja.interfaces.RimeAddress</moteinterface>
       <moteinterface>org.contikios.cooja.interfaces.IPAddress</moteinterface>
@@ -49,8 +47,8 @@ make ghs_algorithm.sky TARGET=sky</commands>
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>88.93007891137852</x>
-        <y>190.99341574882789</y>
+        <x>68.33684965006387</x>
+        <y>160.8451296319445</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -67,8 +65,8 @@ make ghs_algorithm.sky TARGET=sky</commands>
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>144.8402135212121</x>
-        <y>87.66888158937527</y>
+        <x>161.71326000712003</x>
+        <y>53.524140904503476</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -85,8 +83,8 @@ make ghs_algorithm.sky TARGET=sky</commands>
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>79.87256557084262</x>
-        <y>22.369960308055965</y>
+        <x>163.74164691180783</x>
+        <y>136.1979288044582</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -103,8 +101,8 @@ make ghs_algorithm.sky TARGET=sky</commands>
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>121.80853597725338</x>
-        <y>21.573904888595948</y>
+        <x>17.716546392732194</x>
+        <y>48.45723617717129</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -121,8 +119,8 @@ make ghs_algorithm.sky TARGET=sky</commands>
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>128.18520170058767</x>
-        <y>170.49549605068884</y>
+        <x>93.39519009471258</x>
+        <y>20.850360025967476</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -139,8 +137,8 @@ make ghs_algorithm.sky TARGET=sky</commands>
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>47.30120984941789</x>
-        <y>38.134102626999194</y>
+        <x>51.49860957108217</x>
+        <y>21.69624480704463</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -157,8 +155,8 @@ make ghs_algorithm.sky TARGET=sky</commands>
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>152.8031336297693</x>
-        <y>46.30967680608658</y>
+        <x>110.79345225510266</x>
+        <y>167.37477883141113</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -175,8 +173,8 @@ make ghs_algorithm.sky TARGET=sky</commands>
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>26.122473798173687</x>
-        <y>108.76035854535344</y>
+        <x>160.8862676272941</x>
+        <y>91.79622322028985</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -193,8 +191,8 @@ make ghs_algorithm.sky TARGET=sky</commands>
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>21.78405640824465</x>
-        <y>66.56660585456217</y>
+        <x>41.55256222616377</x>
+        <y>83.55210884348426</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -211,8 +209,8 @@ make ghs_algorithm.sky TARGET=sky</commands>
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>48.44652075297801</x>
-        <y>187.7287902876871</y>
+        <x>135.40757564691728</x>
+        <y>26.48543977350633</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -229,8 +227,8 @@ make ghs_algorithm.sky TARGET=sky</commands>
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>138.3572277789591</x>
-        <y>130.8334046530014</y>
+        <x>64.0314201697971</x>
+        <y>120.9568577195272</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -247,8 +245,8 @@ make ghs_algorithm.sky TARGET=sky</commands>
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>33.62944372391571</x>
-        <y>147.6259047241394</y>
+        <x>152.05766217128323</x>
+        <y>177.45481943799655</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -278,7 +276,7 @@ make ghs_algorithm.sky TARGET=sky</commands>
       <skin>org.contikios.cooja.plugins.skins.GridVisualizerSkin</skin>
       <skin>org.contikios.cooja.plugins.skins.TrafficVisualizerSkin</skin>
       <skin>org.contikios.cooja.plugins.skins.UDGMVisualizerSkin</skin>
-      <viewport>1.3554326508378625 0.0 0.0 1.3554326508378625 26.739570919632165 42.107410408192685</viewport>
+      <viewport>1.3907916646685368 0.0 0.0 1.3907916646685368 66.18001411584038 66.40169805114482</viewport>
     </plugin_config>
     <width>400</width>
     <z>2</z>
