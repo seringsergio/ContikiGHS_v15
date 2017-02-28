@@ -56,12 +56,18 @@
 #include "lib/memb.h"
 #include "lib/random.h"
 #include "net/rime/rime.h"
+#include "libghs/ghs.h"
 
 #include <stdio.h>
+
+
 
 /* Se definen las flags banderas */
 #define EXIST_LOWEST 0x01
 #define LINK_WEIGHT_AGREEMENT 0x02
+
+/*Define los estados del proceso*/
+
 
 /*Global variables*/
 uint8_t seqno = 0; // sequence number de los paquetes
@@ -174,7 +180,6 @@ recv_uc(struct unicast_conn *c, const linkaddr_t *from)
       }
   }
 
-
 }
 /*---------------------------------------------------------------------------*/
 static void
@@ -186,7 +191,10 @@ sent_uc(struct unicast_conn *c, int status, int num_tx)
   }
   printf("unicast message sent to %d.%d: status %d num_tx %d\n",
     dest->u8[0], dest->u8[1], status, num_tx);
+    my_own_print();
 }
+
+
 /*---------------------------------------------------------------------------*/
 static const struct unicast_callbacks unicast_callbacks = {recv_uc, sent_uc};
 static struct unicast_conn uc;
@@ -348,8 +356,8 @@ PROCESS_THREAD(ghs_control, ev, data)
 
     if ((seqno > STOP_BROADCAST) && !(flags & LINK_WEIGHT_AGREEMENT) )
     {
-       process_exit(&broadcast_neighbor_discovery);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
-       process_post(&link_weight_worst_case,PROCESS_EVENT_CONTINUE, NULL); //Inicio el proceso de unicast
+        process_exit(&broadcast_neighbor_discovery);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
+        process_post(&link_weight_worst_case,PROCESS_EVENT_CONTINUE, NULL); //Inicio el proceso de unicast
     }
 
     if(flags & LINK_WEIGHT_AGREEMENT)
@@ -358,7 +366,6 @@ PROCESS_THREAD(ghs_control, ev, data)
         PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
         process_exit(&link_weight_worst_case);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
     }
-
   }
   PROCESS_END();
 }
