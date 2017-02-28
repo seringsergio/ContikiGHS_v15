@@ -59,9 +59,9 @@
 
 #include <stdio.h>
 
-
+/* Se definen las flags banderas */
 #define EXIST_LOWEST 0x01
-
+#define LINK_WEIGHT_AGREEMENT 0x02
 
 /*Global variables*/
 uint8_t seqno = 0; // sequence number de los paquetes
@@ -70,6 +70,11 @@ uint8_t flags = 0;
 /* This is the structure of broadcast messages. */
 struct broadcast_message {
   uint8_t seqno;
+};
+
+/* This is the structure of unicast messages. */
+struct unicast_message {
+    uint32_t avg_seqno_gap;
 };
 
 /* This structure holds information about neighbors. */
@@ -120,11 +125,12 @@ static struct broadcast_conn broadcast;
 /*---------------------------------------------------------------------------*/
 /* We first declare our two processes. */
 PROCESS(broadcast_neighbor_discovery, "Neighbor Discovery via Broadcast");
+PROCESS(link_weight_worst_case, "Example unicast");
 PROCESS(ghs_control, "GHS Control");
 /* The AUTOSTART_PROCESSES() definition specifices what processes to
    start when this module is loaded. We put both our processes
    there. */
-AUTOSTART_PROCESSES(&broadcast_neighbor_discovery, &ghs_control);
+AUTOSTART_PROCESSES(&broadcast_neighbor_discovery, &ghs_control, &link_weight_worst_case);
 /*---------------------------------------------------------------------------*/
 void copy_data( struct neighbor *dest, struct neighbor *source  )
 {
@@ -133,6 +139,78 @@ void copy_data( struct neighbor *dest, struct neighbor *source  )
  dest->last_lqi      = source->last_lqi;
  dest->last_seqno    = source->last_seqno;
  dest->avg_seqno_gap = source->avg_seqno_gap;
+}
+/*---------------------------------------------------------------------------*/
+static void
+recv_uc(struct unicast_conn *c, const linkaddr_t *from)
+{
+  /*printf("unicast message received from %d.%d\n",
+	 from->u8[0], from->u8[1]);*/
+
+  struct unicast_message *msg;
+  struct neighbor *n_aux;
+
+  /* Grab the pointer to the incoming data. */
+  msg = packetbuf_dataptr();
+
+  printf("unicast ping received from %d.%d with avg_seqno_gap = %d.%02d \n",
+         from->u8[0], from->u8[1],
+         (int)(msg->avg_seqno_gap / SEQNO_EWMA_UNITY),
+         (int)(((100UL * msg->avg_seqno_gap) / SEQNO_EWMA_UNITY) % 100));
+
+  //Promediar el avg_seqno_gap de mi vecino con el mio respecto de mi vecino
+
+  for(n_aux = list_head(neighbors_list); n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
+  {
+      // &n_aux->addr = the rime addr of the neighbor
+      //
+      if(linkaddr_cmp(from, &n_aux->addr)) //Si las direcciones son iguales
+      {
+          if(msg->avg_seqno_gap > n_aux->avg_seqno_gap ) // Si el vecino ve peor caso
+          {
+              n_aux->avg_seqno_gap = msg->avg_seqno_gap; // Se asigna el peor caso
+          }
+          break; // Salgo del for
+      }
+  }
+
+
+}
+/*---------------------------------------------------------------------------*/
+static void
+sent_uc(struct unicast_conn *c, int status, int num_tx)
+{
+  const linkaddr_t *dest = packetbuf_addr(PACKETBUF_ADDR_RECEIVER);
+  if(linkaddr_cmp(dest, &linkaddr_null)) {
+    return;
+  }
+  printf("unicast message sent to %d.%d: status %d num_tx %d\n",
+    dest->u8[0], dest->u8[1], status, num_tx);
+}
+/*---------------------------------------------------------------------------*/
+static const struct unicast_callbacks unicast_callbacks = {recv_uc, sent_uc};
+static struct unicast_conn uc;
+/*---------------------------------------------------------------------------*/
+static void
+link_weight_worst_case_exit_handler(void)
+{
+    struct neighbor *n_aux;
+
+    //Cierro la conexion unicast
+    unicast_close(&uc);
+
+    /* Show the whole list */
+    for(n_aux = list_head(neighbors_list); n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
+    {
+
+      //printf("READ %d.%d %d.%d %d.%02d \n  ",
+      printf("READ %d %d %d.%02d \n  ",
+        linkaddr_node_addr.u8[0],
+        n_aux->addr.u8[0],
+        (int)(n_aux->avg_seqno_gap / SEQNO_EWMA_UNITY),
+        (int)(((100UL * n_aux->avg_seqno_gap) / SEQNO_EWMA_UNITY) % 100));
+    }
+
 }
 /*---------------------------------------------------------------------------*/
 static void
@@ -176,9 +254,9 @@ broadcast_neighbor_discovery_exit_handler(void)
   //printf(" \t addr \t | \t avg_seqno_gap | seqno = %d \n\r  ", seqno);
   for(n_aux = list_head(neighbors_list); n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
   {
-      
+
     //printf("READ %d.%d %d.%d %d.%02d \n  ",
-    printf("READ %d %d %d.%02d \n  ",
+    printf("REEAD %d %d %d.%02d \n  ",
       linkaddr_node_addr.u8[0],
 	  n_aux->addr.u8[0],
 	  (int)(n_aux->avg_seqno_gap / SEQNO_EWMA_UNITY),
@@ -256,7 +334,6 @@ broadcast_recv(struct broadcast_conn *c, const linkaddr_t *from)
 static const struct broadcast_callbacks broadcast_call = {broadcast_recv};
 
 /*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*/
 PROCESS_THREAD(ghs_control, ev, data)
 {
   static struct etimer et;
@@ -269,11 +346,54 @@ PROCESS_THREAD(ghs_control, ev, data)
 
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
-    if (seqno > STOP_BROADCAST)
+    if ((seqno > STOP_BROADCAST) && !(flags & LINK_WEIGHT_AGREEMENT) )
     {
        process_exit(&broadcast_neighbor_discovery);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
+       process_post(&link_weight_worst_case,PROCESS_EVENT_CONTINUE, NULL); //Inicio el proceso de unicast
     }
 
+    if(flags & LINK_WEIGHT_AGREEMENT)
+    {
+        etimer_set(&et, CLOCK_SECOND * 60); //Espero a que otros acaben unicast
+        PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+        process_exit(&link_weight_worst_case);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
+    }
+
+  }
+  PROCESS_END();
+}
+/*---------------------------------------------------------------------------*/
+/* Este proceso envia mensajes de unicast a los vecinos para
+*  ponerse de acuerdo en el peso del link. Se toma el peor caso,
+*  es decir, si el peso de A->B es de 1.00 y el peso de B->A es de
+*  1.25 entonces B le informa (unicast msg) a A que peso 1.25 debe imponerse
+* , entonces A cambia su peso A->B a 1.25
+*/
+PROCESS_THREAD(link_weight_worst_case, ev, data)
+{
+
+  PROCESS_EXITHANDLER(link_weight_worst_case_exit_handler());
+  PROCESS_BEGIN();
+  unicast_open(&uc, 146, &unicast_callbacks);
+
+  while(1)
+  {
+    static struct etimer et;
+    struct neighbor *n_aux;
+    struct unicast_message msg;
+
+    PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
+    etimer_set(&et, CLOCK_SECOND * 60); // Espero 60 segundos a q otros acaben broadcast
+    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
+    for(n_aux = list_head(neighbors_list); n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
+    {
+        msg.avg_seqno_gap = n_aux -> avg_seqno_gap;
+        packetbuf_copyfrom(&msg, sizeof(msg));
+        unicast_send(&uc, &n_aux->addr);
+    }
+    flags |= LINK_WEIGHT_AGREEMENT; // Termine de enviar unicast a todos mis vecinos
+    //PROCESS_EXIT(); //Termino con el proceso una vez se halla enviado el msg unicast
   }
   PROCESS_END();
 }

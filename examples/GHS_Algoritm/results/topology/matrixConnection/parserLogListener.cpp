@@ -28,7 +28,7 @@ int main()
             //Sacar los todos los valores de la linea que estan separados por espacio
             ss >> Time >> Mote >> READ >> id >> neighbor >> avg_seqno_gap;
             //Imprimir los valores guardados
-            std::cout << id << " " << neighbor << " " << avg_seqno_gap  << "\n";
+            std::cout << id << " " << neighbor << " " << avg_seqno_gap  << " 0" << " 0" << "\n";
 
         }
     }
