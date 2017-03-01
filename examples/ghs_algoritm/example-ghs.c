@@ -51,6 +51,10 @@
  *         received.
  */
 
+ /*------------------------------------------------------------------- */
+ /*----------- INCLUDES ------------------------------------------------ */
+ /*------------------------------------------------------------------- */
+
 #include "contiki.h"
 #include "lib/list.h"
 #include "lib/memb.h"
@@ -59,7 +63,9 @@
 #include <stdio.h>
 
 
+/*------------------------------------------------------------------- */
 /*----------GLOBAL VARIABLES -----------------------------------------*/
+/*------------------------------------------------------------------- */
 uint8_t seqno = 0; // sequence number de los paquetes
 uint8_t flags = 0;
 
@@ -71,211 +77,61 @@ MEMB(neighbors_memb, struct neighbor, MAX_NEIGHBORS);
    have seen thus far. */
 LIST(neighbors_list);
 
-/* These hold the broadcast and unicast structures, respectively. */
-static struct broadcast_conn broadcast;
+/*------------------------------------------------------------------- */
+/*----------STATIC VARIABLES -----------------------------------------*/
+/*------------------------------------------------------------------- */
+static struct broadcast_conn n_broadcast; // These hold the broadcast structure.
+static struct unicast_conn n_uc; // These hold the unicast structure.
 
-/*---------------------------------------------------------------------------*/
-/* We first declare our two processes. */
+/*------------------------------------------------------------------- */
+/*----------PROCESSES------- -----------------------------------------*/
+/*------------------------------------------------------------------- */
+
 PROCESS(broadcast_neighbor_discovery, "Neighbor Discovery via Broadcast");
-PROCESS(link_weight_worst_case, "Example unicast");
+PROCESS(link_weight_worst_case, "Assume Worst Weight for Link");
 PROCESS(ghs_control, "GHS Control");
-/* The AUTOSTART_PROCESSES() definition specifices what processes to
-   start when this module is loaded. We put both our processes
-   there. */
+
 AUTOSTART_PROCESSES(&broadcast_neighbor_discovery, &ghs_control, &link_weight_worst_case);
+
 /*---------------------------------------------------------------------------*/
-static void
-recv_uc(struct unicast_conn *c, const linkaddr_t *from)
+static void n_recv_uc(struct unicast_conn *c, const linkaddr_t *from)
 {
-  /*printf("unicast message received from %d.%d\n",
-	 from->u8[0], from->u8[1]);*/
-
-  struct unicast_message *msg;
-  struct neighbor *n_aux;
-
-  /* Grab the pointer to the incoming data. */
-  msg = packetbuf_dataptr();
-
-  printf("unicast ping received from %d.%d with avg_seqno_gap = %d.%02d \n",
-         from->u8[0], from->u8[1],
-         (int)(msg->avg_seqno_gap / SEQNO_EWMA_UNITY),
-         (int)(((100UL * msg->avg_seqno_gap) / SEQNO_EWMA_UNITY) % 100));
-
-  //Promediar el avg_seqno_gap de mi vecino con el mio respecto de mi vecino
-
-  for(n_aux = list_head(neighbors_list); n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
-  {
-      // &n_aux->addr = the rime addr of the neighbor
-      //
-      if(linkaddr_cmp(from, &n_aux->addr)) //Si las direcciones son iguales
-      {
-          if(msg->avg_seqno_gap > n_aux->avg_seqno_gap ) // Si el vecino ve peor caso
-          {
-              n_aux->avg_seqno_gap = msg->avg_seqno_gap; // Se asigna el peor caso
-          }
-          break; // Salgo del for
-      }
-  }
-
+  ghs_n_recv_uc(list_head(neighbors_list), packetbuf_dataptr(), from );
 }
 /*---------------------------------------------------------------------------*/
-static void
-sent_uc(struct unicast_conn *c, int status, int num_tx)
+static void n_sent_uc(struct unicast_conn *c, int status, int num_tx)
 {
-  const linkaddr_t *dest = packetbuf_addr(PACKETBUF_ADDR_RECEIVER);
-  if(linkaddr_cmp(dest, &linkaddr_null)) {
-    return;
-  }
-  printf("unicast message sent to %d.%d: status %d num_tx %d\n",
-    dest->u8[0], dest->u8[1], status, num_tx);
+  ghs_n_sent_uc(packetbuf_addr(PACKETBUF_ADDR_RECEIVER), &linkaddr_null, status, num_tx );
 }
-
-
+static const struct unicast_callbacks unicast_callbacks = {n_recv_uc, n_sent_uc};
 /*---------------------------------------------------------------------------*/
-static const struct unicast_callbacks unicast_callbacks = {recv_uc, sent_uc};
-static struct unicast_conn uc;
 /*---------------------------------------------------------------------------*/
-static void
-link_weight_worst_case_exit_handler(void)
+static void n_link_weight_worst_exit_handler(void)
 {
-    struct neighbor *n_aux;
-
-    //Cierro la conexion unicast
-    unicast_close(&uc);
-
-    /* Show the whole list */
-    for(n_aux = list_head(neighbors_list); n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
-    {
-
-      //printf("READ %d.%d %d.%d %d.%02d \n  ",
-      printf("READ %d %d %d.%02d \n  ",
-        linkaddr_node_addr.u8[0],
-        n_aux->addr.u8[0],
-        (int)(n_aux->avg_seqno_gap / SEQNO_EWMA_UNITY),
-        (int)(((100UL * n_aux->avg_seqno_gap) / SEQNO_EWMA_UNITY) % 100));
-    }
-
+    unicast_close(&n_uc); // Cierro la conexion unicast
+    ghs_n_link_weight_worst_exit_handler(list_head(neighbors_list), &linkaddr_node_addr);
 }
 /*---------------------------------------------------------------------------*/
-static void
-broadcast_neighbor_discovery_exit_handler(void)
+static void n_broadcast_neighbor_discovery_exit_handler(void)
 {
-  struct neighbor *n_aux, *first_position, *lowest_node = NULL, temp_node;
-  uint32_t lowest_avg_seqno_gap;
-
-  printf("Process exited: Neighbor Discovery via Broadcast\n\r");
-  broadcast_close(&broadcast); // Cierro la conexion de broadcast
-
-  /* Sort Linked List in Ascending Order:
-     Encuentro el nodo con menor avg_seqno_gap de la lista,
-     lo intercambio con el primer elemento de la lista,
-     repito lo mismo comenzando del segundo elemento de la lista*/
-
-  for(n_aux = list_head(neighbors_list);
-      n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
-  {
-     flags &= !EXIST_LOWEST;
-     for(first_position = n_aux, lowest_avg_seqno_gap =  first_position->avg_seqno_gap;
-      first_position != NULL; first_position = list_item_next(first_position))
-     {
-	 if(first_position->avg_seqno_gap < lowest_avg_seqno_gap)
-	 {
-           lowest_avg_seqno_gap = first_position->avg_seqno_gap;
-           lowest_node = first_position;
-           flags |= EXIST_LOWEST;
-	 }
-     }
-
-     if(flags & EXIST_LOWEST) // Si existe un nodo menor, reemplazo los datos de los nodos
-     {
-       copy_data(&temp_node, lowest_node);
-       copy_data(lowest_node, n_aux);
-       copy_data(n_aux, &temp_node);
-     }
- }
-
-  /* Show the whole list */
-  //printf(" \t addr \t | \t avg_seqno_gap | seqno = %d \n\r  ", seqno);
-  for(n_aux = list_head(neighbors_list); n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
-  {
-
-    //printf("READ %d.%d %d.%d %d.%02d \n  ",
-    printf("REEAD %d %d %d.%02d \n  ",
-      linkaddr_node_addr.u8[0],
-	  n_aux->addr.u8[0],
-	  (int)(n_aux->avg_seqno_gap / SEQNO_EWMA_UNITY),
-	  (int)(((100UL * n_aux->avg_seqno_gap) / SEQNO_EWMA_UNITY) % 100));
-  }
-
+  broadcast_close(&n_broadcast); // Cierro la conexion de broadcast
+  ghs_n_broadcast_neighbor_discovery_exit_handler(list_head(neighbors_list), &linkaddr_node_addr);
 }
 /*---------------------------------------------------------------------------*/
 
 /* This function is called whenever a broadcast message is received. */
-static void
-broadcast_recv(struct broadcast_conn *c, const linkaddr_t *from)
+static void n_broadcast_recv(struct broadcast_conn *c, const linkaddr_t *from)
 {
-  struct neighbor *n;
-  struct broadcast_message *m;
-  uint8_t seqno_gap;
 
-  /* The packetbuf_dataptr() returns a pointer to the first data byte
-     in the received packet. */
-  m = packetbuf_dataptr();
-
-  /* Check if we already know this neighbor. */
-  for(n = list_head(neighbors_list); n != NULL; n = list_item_next(n)) {
-
-    /* We break out of the loop if the address of the neighbor matches
-       the address of the neighbor from which we received this
-       broadcast message. */
-    if(linkaddr_cmp(&n->addr, from)) {
-      break;
-    }
-  }
-
-  /* If n is NULL, this neighbor was not found in our list, and we
-     allocate a new struct neighbor from the neighbors_memb memory
-     pool. */
-  if(n == NULL) {
-    n = memb_alloc(&neighbors_memb);
-
-    /* If we could not allocate a new neighbor entry, we give up. We
-       could have reused an old neighbor entry, but we do not do this
-       for now. */
-    if(n == NULL) {
-      return;
-    }
-
-    /* Initialize the fields. */
-    linkaddr_copy(&n->addr, from);
-    n->last_seqno = m->seqno - 1;
-    n->avg_seqno_gap = SEQNO_EWMA_UNITY;
-
-    /* Place the neighbor on the neighbor list. */
-    list_add(neighbors_list, n);
-
-  }
-
-  /* We can now fill in the fields in our neighbor entry. */
-  n->last_rssi = packetbuf_attr(PACKETBUF_ATTR_RSSI);
-  n->last_lqi = packetbuf_attr(PACKETBUF_ATTR_LINK_QUALITY);
-
-  /* Compute the average sequence number gap we have seen from this neighbor. */
-  seqno_gap = m->seqno - n->last_seqno;
-  n->avg_seqno_gap = (((uint32_t)seqno_gap * SEQNO_EWMA_UNITY) *
-	              SEQNO_EWMA_ALPHA) / SEQNO_EWMA_UNITY +
-	              ((uint32_t)n->avg_seqno_gap * (SEQNO_EWMA_UNITY -
-	                                             SEQNO_EWMA_ALPHA)) /
-    SEQNO_EWMA_UNITY;
-
-  /* Remember last seqno we heard. */
-  n->last_seqno = m->seqno;
-
+  ghs_n_broadcast_recv(list_head(neighbors_list), packetbuf_dataptr(), from,
+                       packetbuf_attr(PACKETBUF_ATTR_RSSI),
+                       packetbuf_attr(PACKETBUF_ATTR_LINK_QUALITY),
+                       &neighbors_memb, neighbors_list );
 }
 /* This is where we define what function to be called when a broadcast
    is received. We pass a pointer to this structure in the
    broadcast_open() call below. */
-static const struct broadcast_callbacks broadcast_call = {broadcast_recv};
+static const struct broadcast_callbacks broadcast_call = {n_broadcast_recv};
 
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(ghs_control, ev, data)
@@ -315,9 +171,9 @@ PROCESS_THREAD(ghs_control, ev, data)
 PROCESS_THREAD(link_weight_worst_case, ev, data)
 {
 
-  PROCESS_EXITHANDLER(link_weight_worst_case_exit_handler());
+  PROCESS_EXITHANDLER(n_link_weight_worst_exit_handler());
   PROCESS_BEGIN();
-  unicast_open(&uc, 146, &unicast_callbacks);
+  unicast_open(&n_uc, 146, &unicast_callbacks);
 
   while(1)
   {
@@ -333,7 +189,7 @@ PROCESS_THREAD(link_weight_worst_case, ev, data)
     {
         msg.avg_seqno_gap = n_aux -> avg_seqno_gap;
         packetbuf_copyfrom(&msg, sizeof(msg));
-        unicast_send(&uc, &n_aux->addr);
+        unicast_send(&n_uc, &n_aux->addr);
     }
     flags |= LINK_WEIGHT_AGREEMENT; // Termine de enviar unicast a todos mis vecinos
     //PROCESS_EXIT(); //Termino con el proceso una vez se halla enviado el msg unicast
@@ -346,11 +202,11 @@ PROCESS_THREAD(broadcast_neighbor_discovery, ev, data)
   static struct etimer et;
   struct broadcast_message msg;
 
-  PROCESS_EXITHANDLER(broadcast_neighbor_discovery_exit_handler());
+  PROCESS_EXITHANDLER(n_broadcast_neighbor_discovery_exit_handler());
 
   PROCESS_BEGIN();
 
-  broadcast_open(&broadcast, 129, &broadcast_call);
+  broadcast_open(&n_broadcast, 129, &broadcast_call);
 
   while(1) {
 
@@ -361,11 +217,12 @@ PROCESS_THREAD(broadcast_neighbor_discovery, ev, data)
 
     msg.seqno = seqno;
     packetbuf_copyfrom(&msg, sizeof(struct broadcast_message));
-    broadcast_send(&broadcast);
+    broadcast_send(&n_broadcast);
     seqno++;
   }
 
   PROCESS_END();
 }
+
 
 /*---------------------------------------------------------------------------*/

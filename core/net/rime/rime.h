@@ -65,7 +65,7 @@
 #include "net/rime/runicast.h"
 #include "net/rime/timesynch.h"
 #include "net/rime/trickle.h"
-#include "net/rime/ghs.h"
+#include "net/rime/ghs_neigh.h" //GHS algorithm - Es la parte de neighbor discovery
 
 
 #include "net/mac/mac.h"

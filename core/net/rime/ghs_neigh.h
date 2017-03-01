@@ -6,6 +6,9 @@
 /*------------------------------------------------------------------- */
 
 #include "net/linkaddr.h"
+#include "lib/list.h"
+#include "lib/memb.h"
+
 
 /*------------------------------------------------------------------- */
 /*----------- DEFINE ------------------------------------------------ */
@@ -31,6 +34,7 @@
 
 extern uint8_t seqno; // sequence number de los paquetes
 extern uint8_t flags;
+
 
 /*------------------------------------------------------------------- */
 /*--------STRUCTURES---------------------------------------------------*/
@@ -74,10 +78,14 @@ struct neighbor {
 /*------------------------------------------------------------------- */
 /*-----------FUNCIONES-------------------------------------------------*/
 /*------------------------------------------------------------------- */
-void copy_data( struct neighbor *dest, struct neighbor *source  );
-
-
-
-
+void ghs_n_copy_data( struct neighbor *dest, struct neighbor *source  );
+void ghs_n_recv_uc(struct neighbor *list_head, struct unicast_message *msg, const linkaddr_t *from );
+void ghs_n_sent_uc(const linkaddr_t *dest, const linkaddr_t *linkaddr_null, int status, int num_tx);
+void ghs_n_link_weight_worst_exit_handler(struct neighbor *list_head, const linkaddr_t *node_addr);
+void ghs_n_broadcast_neighbor_discovery_exit_handler(struct neighbor *list_head, const linkaddr_t *node_addr);
+void ghs_n_broadcast_recv(struct neighbor *list_head,
+                          struct broadcast_message *m, const linkaddr_t *from,
+                          uint16_t last_rssi, uint16_t last_lqi,
+                          struct memb *neigh_memb, list_t neigh_list);
 
 #endif /* GHS_H */
