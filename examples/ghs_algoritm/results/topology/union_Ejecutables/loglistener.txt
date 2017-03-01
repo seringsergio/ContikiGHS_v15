@@ -46,111 +46,101 @@
 00:01.168	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-47dd39a started. Node id is set to 3.
 00:01.177	ID:3	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:01.182	ID:3	Starting 'Neighbor Discovery via Broadcast' 'GHS Control' 'Example unicast'
+06:42.651	ID:10	Process exited: Neighbor Discovery via Broadcast
+06:42.653	ID:10	REEAD 10 1 1.00 
 06:44.048	ID:12	Process exited: Neighbor Discovery via Broadcast
-06:44.050	ID:12	REEAD 12 7 1.00 
-06:44.052	ID:12	  REEAD 12 3 1.00 
+06:44.050	ID:12	REEAD 12 3 1.00 
+06:44.052	ID:12	  REEAD 12 11 1.00 
 06:44.293	ID:5	Process exited: Neighbor Discovery via Broadcast
-06:44.295	ID:5	REEAD 5 10 1.00 
-06:44.297	ID:5	  REEAD 5 6 1.10 
+06:44.295	ID:5	REEAD 5 6 1.00 
+06:44.297	ID:5	  REEAD 5 11 1.00 
 06:51.840	ID:11	Process exited: Neighbor Discovery via Broadcast
-06:51.842	ID:11	REEAD 11 9 1.00 
-06:51.844	ID:11	  REEAD 11 1 1.00 
-06:53.080	ID:3	Process exited: Neighbor Discovery via Broadcast
-06:53.081	ID:3	REEAD 3 12 1.00 
-06:53.083	ID:3	  REEAD 3 8 1.04 
+06:51.842	ID:11	REEAD 11 5 1.00 
+06:51.844	ID:11	  REEAD 11 8 1.00 
+06:51.846	ID:11	  REEAD 11 12 1.00 
+06:51.848	ID:11	  REEAD 11 2 1.07 
+06:53.361	ID:3	Process exited: Neighbor Discovery via Broadcast
+06:53.363	ID:3	REEAD 3 12 1.00 
+06:53.365	ID:3	  REEAD 3 9 1.15 
 06:55.917	ID:8	Process exited: Neighbor Discovery via Broadcast
-06:55.919	ID:8	REEAD 8 2 1.07 
-06:55.920	ID:8	  REEAD 8 3 1.07 
-06:56.307	ID:10	Process exited: Neighbor Discovery via Broadcast
-06:56.309	ID:10	REEAD 10 5 1.00 
-06:56.311	ID:10	  REEAD 10 2 1.00 
+06:55.919	ID:8	REEAD 8 11 1.00 
+06:55.920	ID:8	  REEAD 8 7 1.05 
 07:04.858	ID:9	Process exited: Neighbor Discovery via Broadcast
-07:04.860	ID:9	REEAD 9 4 1.00 
-07:04.862	ID:9	  REEAD 9 11 1.00 
+07:04.860	ID:9	REEAD 9 3 1.05 
 07:11.118	ID:6	Process exited: Neighbor Discovery via Broadcast
 07:11.120	ID:6	REEAD 6 5 1.00 
 07:11.122	ID:6	  REEAD 6 4 1.00 
 07:19.282	ID:1	Process exited: Neighbor Discovery via Broadcast
-07:19.283	ID:1	REEAD 1 7 1.00 
-07:19.285	ID:1	  REEAD 1 11 1.01 
+07:19.284	ID:1	REEAD 1 2 1.04 
+07:19.286	ID:1	  REEAD 1 10 1.18 
 07:20.816	ID:7	Process exited: Neighbor Discovery via Broadcast
-07:20.818	ID:7	REEAD 7 12 1.00 
-07:20.820	ID:7	  REEAD 7 1 1.00 
+07:20.818	ID:7	REEAD 7 8 1.00 
 07:22.638	ID:4	Process exited: Neighbor Discovery via Broadcast
-07:22.640	ID:4	REEAD 4 9 1.00 
-07:22.641	ID:4	  REEAD 4 6 1.05 
+07:22.640	ID:4	REEAD 4 6 1.00 
 07:28.526	ID:2	Process exited: Neighbor Discovery via Broadcast
-07:28.528	ID:2	REEAD 2 10 1.00 
-07:28.529	ID:2	  REEAD 2 8 1.00 
-07:44.177	ID:12	  unicast message sent to 3.0: status 0 num_tx 1
+07:28.527	ID:2	REEAD 2 1 1.00 
+07:28.529	ID:2	  REEAD 2 11 1.00 
+07:42.786	ID:10	  unicast message sent to 1.0: status 0 num_tx 1
+07:42.787	ID:1	  unicast ping received from 10.0 with avg_seqno_gap = 1.00 
+07:44.091	ID:12	  unicast message sent to 11.0: status 0 num_tx 1
+07:44.093	ID:11	  unicast ping received from 12.0 with avg_seqno_gap = 1.00 
+07:44.177	ID:12	unicast message sent to 3.0: status 0 num_tx 1
 07:44.178	ID:3	  unicast ping received from 12.0 with avg_seqno_gap = 1.00 
-07:44.305	ID:12	unicast message sent to 7.0: status 0 num_tx 1
-07:44.306	ID:7	  unicast ping received from 12.0 with avg_seqno_gap = 1.00 
-07:44.404	ID:5	  unicast message sent to 6.0: status 0 num_tx 1
-07:44.405	ID:6	  unicast ping received from 5.0 with avg_seqno_gap = 1.10 
-07:44.458	ID:5	unicast message sent to 10.0: status 0 num_tx 1
-07:44.460	ID:10	  unicast ping received from 5.0 with avg_seqno_gap = 1.00 
-07:51.909	ID:11	  unicast message sent to 1.0: status 0 num_tx 1
-07:51.911	ID:1	  unicast ping received from 11.0 with avg_seqno_gap = 1.00 
-07:51.985	ID:11	unicast message sent to 9.0: status 0 num_tx 1
-07:51.986	ID:9	  unicast ping received from 11.0 with avg_seqno_gap = 1.00 
-07:53.226	ID:3	unicast message sent to 8.0: status 0 num_tx 1
-07:53.227	ID:8	  unicast ping received from 3.0 with avg_seqno_gap = 1.04 
-07:53.247	ID:3	unicast message sent to 12.0: status 0 num_tx 1
-07:53.248	ID:12	unicast ping received from 3.0 with avg_seqno_gap = 1.00 
-07:56.051	ID:8	unicast message sent to 3.0: status 0 num_tx 1
-07:56.053	ID:3	unicast ping received from 8.0 with avg_seqno_gap = 1.07 
-07:56.139	ID:8	unicast message sent to 2.0: status 0 num_tx 1
-07:56.140	ID:2	  unicast ping received from 8.0 with avg_seqno_gap = 1.07 
-07:56.388	ID:10	unicast message sent to 2.0: status 0 num_tx 1
-07:56.390	ID:2	unicast ping received from 10.0 with avg_seqno_gap = 1.00 
-07:56.493	ID:10	unicast message sent to 5.0: status 0 num_tx 1
-07:56.494	ID:5	unicast ping received from 10.0 with avg_seqno_gap = 1.00 
-08:04.968	ID:9	unicast message sent to 11.0: status 0 num_tx 1
-08:04.969	ID:11	unicast ping received from 9.0 with avg_seqno_gap = 1.00 
-08:05.000	ID:9	unicast message sent to 4.0: status 0 num_tx 1
-08:05.002	ID:4	  unicast ping received from 9.0 with avg_seqno_gap = 1.00 
+07:44.342	ID:5	  unicast message sent to 11.0: status 0 num_tx 1
+07:44.344	ID:11	unicast ping received from 5.0 with avg_seqno_gap = 1.00 
+07:44.404	ID:5	unicast message sent to 6.0: status 0 num_tx 1
+07:44.405	ID:6	  unicast ping received from 5.0 with avg_seqno_gap = 1.00 
+07:51.849	ID:11	unicast message sent to 12.0: status 4 num_tx 1
+07:51.853	ID:11	unicast message sent to 2.0: status 4 num_tx 1
+07:51.974	ID:11	unicast message sent to 8.0: status 0 num_tx 1
+07:51.976	ID:8	  unicast ping received from 11.0 with avg_seqno_gap = 1.00 
+07:51.993	ID:11	unicast message sent to 5.0: status 0 num_tx 1
+07:51.994	ID:5	unicast ping received from 11.0 with avg_seqno_gap = 1.00 
+07:53.485	ID:3	unicast message sent to 9.0: status 0 num_tx 1
+07:53.486	ID:9	  unicast ping received from 3.0 with avg_seqno_gap = 1.15 
+07:53.623	ID:3	unicast message sent to 12.0: status 0 num_tx 1
+07:53.624	ID:12	unicast ping received from 3.0 with avg_seqno_gap = 1.00 
+07:56.054	ID:8	unicast message sent to 7.0: status 0 num_tx 1
+07:56.055	ID:7	  unicast ping received from 8.0 with avg_seqno_gap = 1.05 
+07:56.095	ID:11	unicast ping received from 8.0 with avg_seqno_gap = 1.00 
+07:56.095	ID:8	unicast message sent to 11.0: status 0 num_tx 1
+08:04.926	ID:9	unicast message sent to 3.0: status 0 num_tx 1
+08:04.928	ID:3	unicast ping received from 9.0 with avg_seqno_gap = 1.15 
 08:11.250	ID:6	unicast message sent to 4.0: status 0 num_tx 1
-08:11.251	ID:4	unicast ping received from 6.0 with avg_seqno_gap = 1.00 
+08:11.251	ID:4	  unicast ping received from 6.0 with avg_seqno_gap = 1.00 
 08:11.368	ID:6	unicast message sent to 5.0: status 0 num_tx 1
-08:11.370	ID:5	unicast ping received from 6.0 with avg_seqno_gap = 1.10 
-08:19.341	ID:1	unicast message sent to 11.0: status 0 num_tx 1
-08:19.342	ID:11	unicast ping received from 1.0 with avg_seqno_gap = 1.01 
-08:19.429	ID:1	unicast message sent to 7.0: status 0 num_tx 1
-08:19.431	ID:7	unicast ping received from 1.0 with avg_seqno_gap = 1.00 
-08:20.910	ID:7	unicast message sent to 1.0: status 0 num_tx 1
-08:20.911	ID:1	unicast ping received from 7.0 with avg_seqno_gap = 1.00 
-08:20.997	ID:7	unicast message sent to 12.0: status 0 num_tx 1
-08:20.998	ID:12	unicast ping received from 7.0 with avg_seqno_gap = 1.00 
-08:22.779	ID:4	unicast message sent to 6.0: status 0 num_tx 1
-08:22.780	ID:6	unicast ping received from 4.0 with avg_seqno_gap = 1.05 
-08:22.862	ID:4	unicast message sent to 9.0: status 0 num_tx 1
-08:22.863	ID:9	unicast ping received from 4.0 with avg_seqno_gap = 1.00 
-08:28.600	ID:2	unicast message sent to 8.0: status 0 num_tx 1
-08:28.601	ID:8	unicast ping received from 2.0 with avg_seqno_gap = 1.07 
-08:28.709	ID:2	unicast message sent to 10.0: status 0 num_tx 1
-08:28.710	ID:10	unicast ping received from 2.0 with avg_seqno_gap = 1.00 
-08:45.690	ID:5	READ 5 10 1.00 
-08:45.692	ID:5	  READ 5 6 1.10 
-08:49.937	ID:12	READ 12 7 1.00 
-08:49.939	ID:12	  READ 12 3 1.00 
-08:53.250	ID:3	READ 3 12 1.00 
-08:53.251	ID:3	  READ 3 8 1.07 
-08:55.830	ID:11	READ 11 9 1.00 
-08:55.832	ID:11	  READ 11 1 1.01 
-09:01.118	ID:10	READ 10 5 1.00 
-09:01.120	ID:10	  READ 10 2 1.00 
-09:02.181	ID:8	READ 8 2 1.07 
-09:02.182	ID:8	  READ 8 3 1.07 
-09:06.996	ID:9	READ 9 4 1.00 
-09:06.998	ID:9	  READ 9 11 1.00 
-09:12.624	ID:6	READ 6 5 1.10 
-09:12.626	ID:6	  READ 6 4 1.05 
-09:23.580	ID:7	READ 7 12 1.00 
-09:23.582	ID:7	  READ 7 1 1.00 
-09:24.183	ID:4	READ 4 9 1.00 
-09:24.185	ID:4	  READ 4 6 1.05 
-09:24.436	ID:1	READ 1 7 1.00 
-09:24.437	ID:1	  READ 1 11 1.01 
-09:29.665	ID:2	READ 2 10 1.00 
-09:29.666	ID:2	  READ 2 8 1.07 
+08:11.370	ID:5	unicast ping received from 6.0 with avg_seqno_gap = 1.00 
+08:19.334	ID:1	unicast message sent to 10.0: status 0 num_tx 1
+08:19.335	ID:10	unicast ping received from 1.0 with avg_seqno_gap = 1.18 
+08:19.388	ID:1	unicast message sent to 2.0: status 0 num_tx 1
+08:19.390	ID:2	  unicast ping received from 1.0 with avg_seqno_gap = 1.04 
+08:20.851	ID:7	unicast message sent to 8.0: status 0 num_tx 1
+08:20.852	ID:8	unicast ping received from 7.0 with avg_seqno_gap = 1.05 
+08:22.654	ID:4	unicast message sent to 6.0: status 0 num_tx 1
+08:22.655	ID:6	unicast ping received from 4.0 with avg_seqno_gap = 1.00 
+08:28.593	ID:2	unicast message sent to 11.0: status 0 num_tx 1
+08:28.594	ID:11	unicast ping received from 2.0 with avg_seqno_gap = 1.00 
+08:28.659	ID:2	unicast message sent to 1.0: status 0 num_tx 1
+08:28.661	ID:1	unicast ping received from 2.0 with avg_seqno_gap = 1.04 
+08:45.682	ID:5	READ 5 6 1.00 
+08:45.684	ID:5	  READ 5 11 1.00 
+08:46.375	ID:10	READ 10 1 1.18 
+08:49.937	ID:12	READ 12 3 1.00 
+08:49.939	ID:12	  READ 12 11 1.00 
+08:55.672	ID:3	READ 3 12 1.00 
+08:55.674	ID:3	  READ 3 9 1.15 
+08:55.830	ID:11	READ 11 5 1.00 
+08:55.832	ID:11	  READ 11 8 1.00 
+08:55.834	ID:11	  READ 11 12 1.00 
+08:55.837	ID:11	  READ 11 2 1.07 
+09:02.181	ID:8	READ 8 11 1.00 
+09:02.182	ID:8	  READ 8 7 1.05 
+09:06.988	ID:9	READ 9 3 1.15 
+09:12.624	ID:6	READ 6 5 1.00 
+09:12.626	ID:6	  READ 6 4 1.00 
+09:23.572	ID:7	READ 7 8 1.05 
+09:24.175	ID:4	READ 4 6 1.00 
+09:24.436	ID:1	READ 1 2 1.04 
+09:24.437	ID:1	  READ 1 10 1.18 
+09:29.664	ID:2	READ 2 1 1.04 
+09:29.666	ID:2	  READ 2 11 1.00 
