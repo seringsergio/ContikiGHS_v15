@@ -32,24 +32,18 @@
 
 /**
  * \file
- *         Demonstrates how to use broadcast and unicast
+ *         Gallagher-Humblet-Spira (GHS) Algorithm
  * \author
- *         Adam Dunkels <adam@sics.se>
+ *         Sergio Diaz <diaz-sergio@javeriana.edu.co>
  *
- *         This example shows how to send broadcast and unicast, as
- *         well as how to use the Contiki memory block manager (MEMB)
- *         and the Contiki list library (LIST) to keep track of
- *         neighbors. The program consists of two processes, one that
- *         periodically sends broadcast messages and one that
- *         periodically sends unicast messages to random neighbors. A
- *         list of neighbors is maintained. The list is populated from
- *         the reception of broadcast messages from neighbors. The
- *         neighbor list keeps a simple set of quality metrics for
- *         each neighbor: a moving average of sequence number gaps,
- *         which indicates the number of broadcast packets that have
- *         been lost; a the last RSSI received; and the last LQI
- *         received.
+ *         This example implements the GHS algorithm. It
+ *         includes:
+ *         1. /home/sergiodiaz/Desktop/contiki/core/net/rime/ghs_neigh.h.c
+ *
+ *
+ *
  */
+
 
  /*------------------------------------------------------------------- */
  /*----------- INCLUDES ------------------------------------------------ */
@@ -67,21 +61,16 @@
 /*----------GLOBAL VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
 uint8_t seqno = 0; // sequence number de los paquetes
-uint8_t flags = 0;
+uint8_t flags = 0; // Banderas del proceso
 
-/* This MEMB() definition defines a memory pool from which we allocate
-   neighbor entries. */
-MEMB(neighbors_memb, struct neighbor, MAX_NEIGHBORS);
-
-/* The neighbors_list is a Contiki list that holds the neighbors we
-   have seen thus far. */
-LIST(neighbors_list);
+MEMB(neighbors_memb, struct neighbor, MAX_NEIGHBORS); // Defines a memory pool for neighbors
+LIST(neighbors_list); // List that holds the neighbors we have seen thus far
 
 /*------------------------------------------------------------------- */
 /*----------STATIC VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
-static struct broadcast_conn n_broadcast; // These hold the broadcast structure.
-static struct unicast_conn n_uc; // These hold the unicast structure.
+static struct broadcast_conn n_broadcast; // Es la conexion broadcast.
+static struct unicast_conn n_uc; // Es la conexion unicast.
 
 /*------------------------------------------------------------------- */
 /*----------PROCESSES------- -----------------------------------------*/
@@ -89,37 +78,51 @@ static struct unicast_conn n_uc; // These hold the unicast structure.
 
 PROCESS(broadcast_neighbor_discovery, "Neighbor Discovery via Broadcast");
 PROCESS(link_weight_worst_case, "Assume Worst Weight for Link");
-PROCESS(ghs_control, "GHS Control");
+PROCESS(ghs_master, "GHS Control");
 
-AUTOSTART_PROCESSES(&broadcast_neighbor_discovery, &ghs_control, &link_weight_worst_case);
+AUTOSTART_PROCESSES(&broadcast_neighbor_discovery, &ghs_master, &link_weight_worst_case);
 
 /*---------------------------------------------------------------------------*/
+/* Funcion que recibe un mensaje de unicast: Si el avg_seqno_gap del vecino es
+*  mayor, entonces reemplazo mi avg_seqno_gap. Para tener un acuerdo entre el avg_seqno_gap
+*  de upward y downward.
+*/
 static void n_recv_uc(struct unicast_conn *c, const linkaddr_t *from)
 {
   ghs_n_recv_uc(list_head(neighbors_list), packetbuf_dataptr(), from );
 }
 /*---------------------------------------------------------------------------*/
+/* Informa que se envio un mensage de unicast
+*/
 static void n_sent_uc(struct unicast_conn *c, int status, int num_tx)
 {
   ghs_n_sent_uc(packetbuf_addr(PACKETBUF_ADDR_RECEIVER), &linkaddr_null, status, num_tx );
 }
 static const struct unicast_callbacks unicast_callbacks = {n_recv_uc, n_sent_uc};
 /*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*/
+/* Exit_Handler: Cuando el proceso de ponerse de acuerdo en los pesos de
+* upward y downward de los links finaliza, entonces imprimo la tabla de
+* vecinos final en la ronda de Neghbor Discovery.
+*/
 static void n_link_weight_worst_exit_handler(void)
 {
     unicast_close(&n_uc); // Cierro la conexion unicast
     ghs_n_link_weight_worst_exit_handler(list_head(neighbors_list), &linkaddr_node_addr);
 }
 /*---------------------------------------------------------------------------*/
+/* Cuando se termina el proceso de conocer a los vecinos por broadcast, entonces
+*  se organiza la lista de menor a mayor y se imprime
+*/
 static void n_broadcast_neighbor_discovery_exit_handler(void)
 {
   broadcast_close(&n_broadcast); // Cierro la conexion de broadcast
   ghs_n_broadcast_neighbor_discovery_exit_handler(list_head(neighbors_list), &linkaddr_node_addr);
 }
 /*---------------------------------------------------------------------------*/
-
-/* This function is called whenever a broadcast message is received. */
+/* Cada vez que llega un broadcast, se evalua si el vecino ya existe, si no existe
+*  se crea y se agrega a la lista de vecinos, para el vecino se actualiza: rssi, lqi y seqno;
+*  tambien se calcula el nuevo avg_seqno_gap.
+*/
 static void n_broadcast_recv(struct broadcast_conn *c, const linkaddr_t *from)
 {
 
@@ -128,15 +131,20 @@ static void n_broadcast_recv(struct broadcast_conn *c, const linkaddr_t *from)
                        packetbuf_attr(PACKETBUF_ATTR_LINK_QUALITY),
                        &neighbors_memb, neighbors_list );
 }
-/* This is where we define what function to be called when a broadcast
-   is received. We pass a pointer to this structure in the
-   broadcast_open() call below. */
 static const struct broadcast_callbacks broadcast_call = {n_broadcast_recv};
 
+/*------------------------------------------------------------------- */
+/*-----------PROCESOS------------------------------------------------*/
+/*------------------------------------------------------------------- */
+
 /*---------------------------------------------------------------------------*/
-PROCESS_THREAD(ghs_control, ev, data)
+/* Este es el proceso MASTER. Este proceso controla a los otros procesos esclavos.
+*  Los puede controlar con start, stop, exit, continue, etc. Es decir, este proceso
+*  le indica a los otros cuando correr y cuando detenerse
+*/
+PROCESS_THREAD(ghs_master, ev, data)
 {
-  static struct etimer et;
+  static struct etimer et; // Evento de timer del proceso master
   PROCESS_BEGIN();
 
   while(1)
@@ -146,12 +154,14 @@ PROCESS_THREAD(ghs_control, ev, data)
 
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
+    // Si ya envie todos los broadcast  y no hay acuerdo en el peso de los links
     if ((seqno > STOP_BROADCAST) && !(flags & LINK_WEIGHT_AGREEMENT) )
     {
         process_exit(&broadcast_neighbor_discovery);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
         process_post(&link_weight_worst_case,PROCESS_EVENT_CONTINUE, NULL); //Inicio el proceso de unicast
     }
 
+    // Si ya hay acuerdo en el peso de los links
     if(flags & LINK_WEIGHT_AGREEMENT)
     {
         etimer_set(&et, CLOCK_SECOND * 60); //Espero a que otros acaben unicast
@@ -185,6 +195,7 @@ PROCESS_THREAD(link_weight_worst_case, ev, data)
     etimer_set(&et, CLOCK_SECOND * 60); // Espero 60 segundos a q otros acaben broadcast
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
+    /*Envio mensaje de unicast a todos mis vecinos informando mi peso = avg_seqno_gap*/
     for(n_aux = list_head(neighbors_list); n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
     {
         msg.avg_seqno_gap = n_aux -> avg_seqno_gap;
@@ -192,11 +203,12 @@ PROCESS_THREAD(link_weight_worst_case, ev, data)
         unicast_send(&n_uc, &n_aux->addr);
     }
     flags |= LINK_WEIGHT_AGREEMENT; // Termine de enviar unicast a todos mis vecinos
-    //PROCESS_EXIT(); //Termino con el proceso una vez se halla enviado el msg unicast
   }
   PROCESS_END();
 }
 /*---------------------------------------------------------------------------*/
+/* Envio mensaje de broadcast para conocer a mis vecinos.
+*/
 PROCESS_THREAD(broadcast_neighbor_discovery, ev, data)
 {
   static struct etimer et;
@@ -215,14 +227,14 @@ PROCESS_THREAD(broadcast_neighbor_discovery, ev, data)
 
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
+    /* En msg incluye el secuence number para saber cuantos msg se
+    *  pierden en promedio (exponentially-weighted moving average)
+    */
     msg.seqno = seqno;
     packetbuf_copyfrom(&msg, sizeof(struct broadcast_message));
     broadcast_send(&n_broadcast);
     seqno++;
   }
-
   PROCESS_END();
 }
-
-
 /*---------------------------------------------------------------------------*/

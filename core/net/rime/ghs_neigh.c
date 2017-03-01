@@ -1,12 +1,17 @@
 /*-------------------------------------------------------------------*/
 /*---------------- INCLUDES -----------------------------------------*/
 /*-------------------------------------------------------------------*/
+
 #include <stdio.h>
 #include "ghs_neigh.h"
 
 /*-------------------------------------------------------------------*/
 /*---------------- FUNCIONES ----------------------------------------*/
 /*-------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------*/
+/* Se copian los datos de un vecino a otro.
+*/
 void ghs_n_copy_data( struct neighbor *dest, struct neighbor *source  )
 {
  linkaddr_copy(&dest->addr,  &source->addr);
@@ -16,17 +21,24 @@ void ghs_n_copy_data( struct neighbor *dest, struct neighbor *source  )
  dest->avg_seqno_gap = source->avg_seqno_gap;
 }
 
-
+/*---------------------------------------------------------------------------*/
+/* Funcion que recibe un mensaje de unicast: Si el avg_seqno_gap del vecino es
+*  mayor, entonces reemplazo mi avg_seqno_gap.
+*/
 void ghs_n_recv_uc(struct neighbor *list_head, struct unicast_message *msg, const linkaddr_t *from )
 {
   struct neighbor *n_aux;
 
+  //Recibo un mensaje de unicast
   printf("unicast ping received from %d.%d with avg_seqno_gap = %d.%02d \n",
          from->u8[0], from->u8[1],
          (int)(msg->avg_seqno_gap / SEQNO_EWMA_UNITY),
          (int)(((100UL * msg->avg_seqno_gap) / SEQNO_EWMA_UNITY) % 100));
 
-  //Escoger el peor caso del avg_seqno_gap (Mio con respecto a vecino)
+  /* Evaluo el avg_seqno_gap del mensaje recibido, si es mayor que el mio con respecto a
+  * ese vecino, entonces reemplazo el avg_seqno_gap. Esto se hace para tener un acuerdo
+  * entre el avg_seqno_gap hacia y desde el vecino.
+  */
   for( n_aux = list_head ; n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
   {
       if(linkaddr_cmp(from, &n_aux->addr)) //Si las direcciones son iguales
@@ -40,7 +52,9 @@ void ghs_n_recv_uc(struct neighbor *list_head, struct unicast_message *msg, cons
   }
 
 }
-
+/*---------------------------------------------------------------------------*/
+/* Informa que se envio un mensage de unicast
+*/
 void ghs_n_sent_uc(const linkaddr_t *dest, const linkaddr_t *linkaddr_null, int status, int num_tx)
 {
   if(linkaddr_cmp(dest, linkaddr_null)) {
@@ -50,26 +64,28 @@ void ghs_n_sent_uc(const linkaddr_t *dest, const linkaddr_t *linkaddr_null, int 
     dest->u8[0], dest->u8[1], status, num_tx);
 }
 
-
+/*---------------------------------------------------------------------------*/
+/* Exit_Handler: Cuando el proceso de ponerse de acuerdo en los pesos de
+* upward y downward de los links finaliza, entonces imprimo la tabla de
+* vecinos final en la ronda de Neghbor Discovery.
+*/
 void ghs_n_link_weight_worst_exit_handler(struct neighbor *list_head, const linkaddr_t *node_addr)
 {
-    struct neighbor *n_aux;
-
+    char string[] = "READ";
     /* Show the whole list */
-    for( n_aux = list_head ; n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
-    {
-      printf("READ %d %d %d.%02d \n  ",
-        node_addr->u8[0],
-        n_aux->addr.u8[0],
-        (int)(n_aux->avg_seqno_gap / SEQNO_EWMA_UNITY),
-        (int)(((100UL * n_aux->avg_seqno_gap) / SEQNO_EWMA_UNITY) % 100));
-    }
+    print_neighbor_list(list_head, string, node_addr );
 }
-
-void ghs_n_broadcast_neighbor_discovery_exit_handler(struct neighbor *list_head, const linkaddr_t *node_addr)
+/*---------------------------------------------------------------------------*/
+/* Cuando se termina el proceso de conocer a los vecinos por broadcast, entonces
+*  se organiza la lista de menor a mayor y se imprime
+*/
+void ghs_n_broadcast_neighbor_discovery_exit_handler(struct neighbor *list_head,
+                                                     const linkaddr_t *node_addr)
 {
     struct neighbor *n_aux, *first_position, *lowest_node = NULL, temp_node;
     uint32_t lowest_avg_seqno_gap;
+    char string[] = "REEAD";
+
     printf("Process exited: Neighbor Discovery via Broadcast\n\r");
 
     /* Sort Linked List in Ascending Order:
@@ -100,28 +116,21 @@ void ghs_n_broadcast_neighbor_discovery_exit_handler(struct neighbor *list_head,
    }
 
    /* Show the whole list */
-   for(n_aux = list_head; n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
-   {
-     printf("REEAD %d %d %d.%02d \n  ",
-      node_addr->u8[0],
- 	  n_aux->addr.u8[0],
- 	  (int)(n_aux->avg_seqno_gap / SEQNO_EWMA_UNITY),
- 	  (int)(((100UL * n_aux->avg_seqno_gap) / SEQNO_EWMA_UNITY) % 100));
-   }
+   print_neighbor_list(list_head, string, node_addr );
 }
 
+/*---------------------------------------------------------------------------*/
+/* Cada vez que llega un broadcast, se evalua si el vecino ya existe, si no existe
+*  se crea y se agrega a la lista de vecinos, para el vecino se actualiza: rssi, lqi y seqno;
+*  tambien se calcula el nuevo avg_seqno_gap.
+*/
 void ghs_n_broadcast_recv(struct neighbor *list_head,
                           struct broadcast_message *m, const linkaddr_t *from,
                           uint16_t last_rssi, uint16_t last_lqi,
                           struct memb *neigh_memb, list_t neigh_list)
 {
     struct neighbor *n;
-    //struct broadcast_message *m;
     uint8_t seqno_gap;
-
-    /* The packetbuf_dataptr() returns a pointer to the first data byte
-       in the received packet. */
-    //m = packetbuf_dataptr();
 
     /* Check if we already know this neighbor. */
     for(n = list_head; n != NULL; n = list_item_next(n))
@@ -133,6 +142,7 @@ void ghs_n_broadcast_recv(struct neighbor *list_head,
         break;
       }
     }
+
 
     /* If n is NULL, this neighbor was not found in our list, and we
        allocate a new struct neighbor from the neighbors_memb memory
@@ -171,5 +181,23 @@ void ghs_n_broadcast_recv(struct neighbor *list_head,
 
     /* Remember last seqno we heard. */
     n->last_seqno = m->seqno;
+
+}
+/*---------------------------------------------------------------------------*/
+/* Imprime la lista de vecinos
+*/
+void print_neighbor_list(struct neighbor *list_head, char *string, const linkaddr_t *node_addr )
+{
+    struct neighbor *n_aux;
+    /* Show the whole list */
+    for(n_aux = list_head; n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
+    {
+      printf("%s %d %d %d.%02d \n  ",
+       string,
+       node_addr->u8[0],
+       n_aux->addr.u8[0],
+       (int)(n_aux->avg_seqno_gap / SEQNO_EWMA_UNITY),
+       (int)(((100UL * n_aux->avg_seqno_gap) / SEQNO_EWMA_UNITY) % 100));
+    }
 
 }

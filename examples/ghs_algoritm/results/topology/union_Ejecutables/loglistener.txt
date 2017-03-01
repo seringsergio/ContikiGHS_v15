@@ -1,49 +1,49 @@
 00:00.333	ID:8	Rime started with address 8.0
-00:00.341	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-05855b5 started. Node id is set to 8.
+00:00.341	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-96711d6 started. Node id is set to 8.
 00:00.350	ID:8	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.357	ID:8	Starting 'Neighbor Discovery via Broadcast' 'GHS Control' 'Assume Worst Weight for Link'
 00:00.450	ID:11	Rime started with address 11.0
-00:00.459	ID:11	MAC 0b:00:00:00:00:00:00:00 Contiki-05855b5 started. Node id is set to 11.
+00:00.459	ID:11	MAC 0b:00:00:00:00:00:00:00 Contiki-96711d6 started. Node id is set to 11.
 00:00.468	ID:11	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.475	ID:11	Starting 'Neighbor Discovery via Broadcast' 'GHS Control' 'Assume Worst Weight for Link'
 00:00.496	ID:2	Rime started with address 2.0
-00:00.504	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-05855b5 started. Node id is set to 2.
+00:00.504	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-96711d6 started. Node id is set to 2.
 00:00.510	ID:6	Rime started with address 6.0
 00:00.514	ID:2	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.519	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-05855b5 started. Node id is set to 6.
+00:00.519	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-96711d6 started. Node id is set to 6.
 00:00.520	ID:2	Starting 'Neighbor Discovery via Broadcast' 'GHS Control' 'Assume Worst Weight for Link'
 00:00.528	ID:6	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.534	ID:6	Starting 'Neighbor Discovery via Broadcast' 'GHS Control' 'Assume Worst Weight for Link'
 00:00.608	ID:4	Rime started with address 4.0
-00:00.617	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-05855b5 started. Node id is set to 4.
+00:00.617	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-96711d6 started. Node id is set to 4.
 00:00.626	ID:4	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.632	ID:4	Starting 'Neighbor Discovery via Broadcast' 'GHS Control' 'Assume Worst Weight for Link'
 00:00.642	ID:1	Rime started with address 1.0
-00:00.651	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-05855b5 started. Node id is set to 1.
+00:00.651	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-96711d6 started. Node id is set to 1.
 00:00.660	ID:1	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.662	ID:7	Rime started with address 7.0
 00:00.666	ID:1	Starting 'Neighbor Discovery via Broadcast' 'GHS Control' 'Assume Worst Weight for Link'
-00:00.670	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-05855b5 started. Node id is set to 7.
+00:00.670	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-96711d6 started. Node id is set to 7.
 00:00.679	ID:7	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.686	ID:7	Starting 'Neighbor Discovery via Broadcast' 'GHS Control' 'Assume Worst Weight for Link'
 00:00.816	ID:10	Rime started with address 10.0
-00:00.825	ID:10	MAC 0a:00:00:00:00:00:00:00 Contiki-05855b5 started. Node id is set to 10.
+00:00.825	ID:10	MAC 0a:00:00:00:00:00:00:00 Contiki-96711d6 started. Node id is set to 10.
 00:00.834	ID:10	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.841	ID:10	Starting 'Neighbor Discovery via Broadcast' 'GHS Control' 'Assume Worst Weight for Link'
 00:00.854	ID:12	Rime started with address 12.0
-00:00.863	ID:12	MAC 0c:00:00:00:00:00:00:00 Contiki-05855b5 started. Node id is set to 12.
+00:00.863	ID:12	MAC 0c:00:00:00:00:00:00:00 Contiki-96711d6 started. Node id is set to 12.
 00:00.872	ID:12	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.878	ID:12	Starting 'Neighbor Discovery via Broadcast' 'GHS Control' 'Assume Worst Weight for Link'
 00:00.968	ID:9	Rime started with address 9.0
 00:00.975	ID:5	Rime started with address 5.0
-00:00.977	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-05855b5 started. Node id is set to 9.
-00:00.983	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-05855b5 started. Node id is set to 5.
+00:00.977	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-96711d6 started. Node id is set to 9.
+00:00.983	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-96711d6 started. Node id is set to 5.
 00:00.986	ID:9	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.992	ID:9	Starting 'Neighbor Discovery via Broadcast' 'GHS Control' 'Assume Worst Weight for Link'
 00:00.993	ID:5	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.999	ID:5	Starting 'Neighbor Discovery via Broadcast' 'GHS Control' 'Assume Worst Weight for Link'
 00:01.159	ID:3	Rime started with address 3.0
-00:01.168	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-05855b5 started. Node id is set to 3.
+00:01.168	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-96711d6 started. Node id is set to 3.
 00:01.177	ID:3	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:01.183	ID:3	Starting 'Neighbor Discovery via Broadcast' 'GHS Control' 'Assume Worst Weight for Link'
 06:42.651	ID:10	Process exited: Neighbor Discovery via Broadcast
@@ -64,7 +64,7 @@
 06:53.365	ID:3	  REEAD 3 9 1.15 
 06:55.917	ID:8	Process exited: Neighbor Discovery via Broadcast
 06:55.919	ID:8	REEAD 8 11 1.00 
-06:55.920	ID:8	  REEAD 8 7 1.05 
+06:55.921	ID:8	  REEAD 8 7 1.05 
 07:04.858	ID:9	Process exited: Neighbor Discovery via Broadcast
 07:04.860	ID:9	REEAD 9 3 1.05 
 07:11.118	ID:6	Process exited: Neighbor Discovery via Broadcast
@@ -78,7 +78,7 @@
 07:22.638	ID:4	Process exited: Neighbor Discovery via Broadcast
 07:22.640	ID:4	REEAD 4 6 1.00 
 07:28.526	ID:2	Process exited: Neighbor Discovery via Broadcast
-07:28.527	ID:2	REEAD 2 1 1.00 
+07:28.528	ID:2	REEAD 2 1 1.00 
 07:28.529	ID:2	  REEAD 2 11 1.00 
 07:42.786	ID:10	  unicast message sent to 1.0: status 0 num_tx 1
 07:42.787	ID:1	  unicast ping received from 10.0 with avg_seqno_gap = 1.00 
@@ -122,9 +122,9 @@
 08:28.594	ID:11	unicast ping received from 2.0 with avg_seqno_gap = 1.00 
 08:28.659	ID:2	unicast message sent to 1.0: status 0 num_tx 1
 08:28.661	ID:1	unicast ping received from 2.0 with avg_seqno_gap = 1.04 
-08:45.682	ID:5	READ 5 6 1.00 
-08:45.684	ID:5	  READ 5 11 1.00 
-08:46.375	ID:10	READ 10 1 1.18 
+08:45.690	ID:5	READ 5 6 1.00 
+08:45.692	ID:5	  READ 5 11 1.00 
+08:46.376	ID:10	READ 10 1 1.18 
 08:49.937	ID:12	READ 12 3 1.00 
 08:49.939	ID:12	  READ 12 11 1.00 
 08:55.672	ID:3	READ 3 12 1.00 
@@ -133,14 +133,14 @@
 08:55.832	ID:11	  READ 11 12 1.00 
 08:55.834	ID:11	  READ 11 2 1.07 
 08:55.837	ID:11	  READ 11 8 1.10 
-09:02.181	ID:8	READ 8 11 1.00 
-09:02.182	ID:8	  READ 8 7 1.05 
+09:02.189	ID:8	READ 8 11 1.00 
+09:02.191	ID:8	  READ 8 7 1.05 
 09:06.988	ID:9	READ 9 3 1.15 
 09:12.624	ID:6	READ 6 5 1.00 
 09:12.626	ID:6	  READ 6 4 1.00 
 09:23.572	ID:7	READ 7 8 1.05 
 09:24.175	ID:4	READ 4 6 1.00 
 09:24.436	ID:1	READ 1 2 1.04 
-09:24.437	ID:1	  READ 1 10 1.18 
-09:29.664	ID:2	READ 2 1 1.04 
+09:24.438	ID:1	  READ 1 10 1.18 
+09:29.665	ID:2	READ 2 1 1.04 
 09:29.666	ID:2	  READ 2 11 1.00 

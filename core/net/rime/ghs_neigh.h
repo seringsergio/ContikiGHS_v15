@@ -9,7 +9,6 @@
 #include "lib/list.h"
 #include "lib/memb.h"
 
-
 /*------------------------------------------------------------------- */
 /*----------- DEFINE ------------------------------------------------ */
 /*------------------------------------------------------------------- */
@@ -18,23 +17,21 @@
 #define EXIST_LOWEST 0x01
 #define LINK_WEIGHT_AGREEMENT 0x02
 
-// This #define defines the maximum amount of neighbors we can remember.
-#define MAX_NEIGHBORS 16
-#define STOP_BROADCAST (MAX_NEIGHBORS * 1)
+#define MAX_NEIGHBORS 16 // This defines the maximum amount of neighbors we can remember.
+#define STOP_BROADCAST (MAX_NEIGHBORS * 1) // Detengo el broadcast cuando seqno sea > STOP_BROADCAST
 
-// These two defines are used for computing the moving average for the
-//   broadcast sequence number gaps.
+/* These two defines are used for computing the moving average for the
+*   broadcast sequence number gaps.
+*/
 #define SEQNO_EWMA_UNITY 0x100
 #define SEQNO_EWMA_ALPHA 0x040
-
 
 /*------------------------------------------------------------------- */
 /*----------GLOBAL VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
 
 extern uint8_t seqno; // sequence number de los paquetes
-extern uint8_t flags;
-
+extern uint8_t flags;  // Banderas del proceso
 
 /*------------------------------------------------------------------- */
 /*--------STRUCTURES---------------------------------------------------*/
@@ -50,7 +47,7 @@ struct unicast_message {
     uint32_t avg_seqno_gap;
 };
 
-// This structure holds information about neighbors.
+// This structure holds information about neighbors. Es una linked list.
 struct neighbor {
   /* The ->next pointer is needed since we are placing these on a
      Contiki list. */
@@ -78,6 +75,8 @@ struct neighbor {
 /*------------------------------------------------------------------- */
 /*-----------FUNCIONES-------------------------------------------------*/
 /*------------------------------------------------------------------- */
+
+/* Cada una de las funciones esta documentada en ghs_neigh.c  */
 void ghs_n_copy_data( struct neighbor *dest, struct neighbor *source  );
 void ghs_n_recv_uc(struct neighbor *list_head, struct unicast_message *msg, const linkaddr_t *from );
 void ghs_n_sent_uc(const linkaddr_t *dest, const linkaddr_t *linkaddr_null, int status, int num_tx);
@@ -87,5 +86,7 @@ void ghs_n_broadcast_recv(struct neighbor *list_head,
                           struct broadcast_message *m, const linkaddr_t *from,
                           uint16_t last_rssi, uint16_t last_lqi,
                           struct memb *neigh_memb, list_t neigh_list);
+void print_neighbor_list(struct neighbor *list_head, char *string, const linkaddr_t *node_addr );
+
 
 #endif /* GHS_H */
