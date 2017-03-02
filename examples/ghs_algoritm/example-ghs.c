@@ -85,7 +85,7 @@ AUTOSTART_PROCESSES(&broadcast_neighbor_discovery, &ghs_master, &link_weight_wor
 /*---------------------------------------------------------------------------*/
 /* Funcion que recibe un mensaje de unicast: Si el avg_seqno_gap del vecino es
 *  mayor, entonces reemplazo mi avg_seqno_gap. Para tener un acuerdo entre el avg_seqno_gap
-*  de upward y downward.
+*  de upward y downward. Se impone el mayor. 
 */
 static void n_recv_uc(struct unicast_conn *c, const linkaddr_t *from)
 {
