@@ -81,7 +81,7 @@ void ghs_n_link_weight_worst_exit_handler(struct neighbor *list_head, const link
 }
 /*---------------------------------------------------------------------------*/
 /* Cuando se termina el proceso de conocer a los vecinos por broadcast, entonces
-*  se imprime
+*  se imprime la lista
 */
 void ghs_n_broadcast_neighbor_discovery_exit_handler(struct neighbor *list_head,
                                                      const linkaddr_t *node_addr)

@@ -1,10 +1,8 @@
-
 CONTIKI = ../..
 
+PROJECT_SOURCEFILES += example-ghs1.c
 
-all: example-abc example-mesh example-collect example-trickle example-polite \
-     example-rudolph1 example-rudolph2 example-rucb \
-     example-runicast example-unicast example-neighbors example-ghs
+all: example-ghs
 
 CONTIKI_WITH_RIME = 1
 

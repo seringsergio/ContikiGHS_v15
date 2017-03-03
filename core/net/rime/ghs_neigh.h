@@ -13,7 +13,7 @@
 /*----------- DEFINE ------------------------------------------------ */
 /*------------------------------------------------------------------- */
 
-//States = Estados del proceso
+//States = Estados del proceso (Neighbor Discrovery)
 #define DISCOVERY_BROADCAST        0x01
 #define WAIT_NETWORK_STABILIZATION 0x02
 #define WEIGHT_WORST               0x04
