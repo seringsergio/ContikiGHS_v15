@@ -66,57 +66,32 @@ void ghs_n_sent_uc(const linkaddr_t *dest, const linkaddr_t *linkaddr_null, int 
 
 /*---------------------------------------------------------------------------*/
 /* Exit_Handler: Cuando el proceso de ponerse de acuerdo en los pesos de
-* upward y downward de los links finaliza, entonces imprimo la tabla de
-* vecinos final en la ronda de Neghbor Discovery.
+* upward y downward de los links finaliza, entonces ordeno la lista de
+* vecinos y la imprimo.
 */
 void ghs_n_link_weight_worst_exit_handler(struct neighbor *list_head, const linkaddr_t *node_addr)
 {
     char string[] = "READ";
+
+    /* Ordenar la lista de vecinos*/
+    sort_neighbor_list(list_head);
+
     /* Show the whole list */
     print_neighbor_list(list_head, string, node_addr );
 }
 /*---------------------------------------------------------------------------*/
 /* Cuando se termina el proceso de conocer a los vecinos por broadcast, entonces
-*  se organiza la lista de menor a mayor y se imprime
+*  se imprime
 */
 void ghs_n_broadcast_neighbor_discovery_exit_handler(struct neighbor *list_head,
                                                      const linkaddr_t *node_addr)
 {
-    struct neighbor *n_aux, *first_position, *lowest_node = NULL, temp_node;
-    uint32_t lowest_avg_seqno_gap;
     char string[] = "REEAD";
 
     printf("Process exited: Neighbor Discovery via Broadcast\n\r");
 
-    /* Sort Linked List in Ascending Order:
-       Encuentro el nodo con menor avg_seqno_gap de la lista,
-       lo intercambio con el primer elemento de la lista,
-       repito lo mismo comenzando del segundo elemento de la lista*/
-    for(n_aux = list_head;
-        n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
-    {
-       flags &= !EXIST_LOWEST;
-       for(first_position = n_aux, lowest_avg_seqno_gap =  first_position->avg_seqno_gap;
-        first_position != NULL; first_position = list_item_next(first_position))
-       {
-           if(first_position->avg_seqno_gap < lowest_avg_seqno_gap)
-           {
-                 lowest_avg_seqno_gap = first_position->avg_seqno_gap;
-                 lowest_node = first_position;
-                 flags |= EXIST_LOWEST;
-           }
-       }
-
-       if(flags & EXIST_LOWEST) // Si existe un nodo menor, reemplazo los datos de los nodos
-       {
-         ghs_n_copy_data(&temp_node, lowest_node);
-         ghs_n_copy_data(lowest_node, n_aux);
-         ghs_n_copy_data(n_aux, &temp_node);
-       }
-   }
-
-   /* Show the whole list */
-   print_neighbor_list(list_head, string, node_addr );
+    /* Show the whole list */
+    print_neighbor_list(list_head, string, node_addr );
 }
 
 /*---------------------------------------------------------------------------*/
@@ -200,4 +175,42 @@ void print_neighbor_list(struct neighbor *list_head, char *string, const linkadd
        (int)(((100UL * n_aux->avg_seqno_gap) / SEQNO_EWMA_UNITY) % 100));
     }
 
+}
+
+/* Ordena la lista de vecinos: Se para en la primera posicion,
+*  luego recorre (for 2) toda la lista para ver si existe un vecino con
+*  menor peso, si existe, intercambian las posiciones. Se repite
+*  el procedimiento desde el segundo vecino de la lista (for 1).
+*/
+void sort_neighbor_list(struct neighbor *list_head)
+{
+    struct neighbor *n_aux, *first_position, *lowest_node = NULL, temp_node;
+    uint32_t lowest_avg_seqno_gap;
+    /* Sort Linked List in Ascending Order:
+       Encuentro el nodo con menor avg_seqno_gap de la lista,
+       lo intercambio con el primer elemento de la lista,
+       repito lo mismo comenzando del segundo elemento de la lista*/
+    for(n_aux = list_head;
+        n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
+    {
+       flags &= !EXIST_LOWEST;
+       //Recorrer desde la segunda posicion del nodo
+       for(first_position = n_aux, lowest_avg_seqno_gap =  first_position->avg_seqno_gap;
+        first_position != NULL; first_position = list_item_next(first_position))
+       {
+           if(first_position->avg_seqno_gap < lowest_avg_seqno_gap)
+           {
+                 lowest_avg_seqno_gap = first_position->avg_seqno_gap;
+                 lowest_node = first_position;
+                 flags |= EXIST_LOWEST;
+           }
+       }
+
+       if(flags & EXIST_LOWEST) // Si existe un nodo menor, reemplazo los datos de los nodos
+       {
+         ghs_n_copy_data(&temp_node, lowest_node);
+         ghs_n_copy_data(lowest_node, n_aux);
+         ghs_n_copy_data(n_aux, &temp_node);
+       }
+    }
 }

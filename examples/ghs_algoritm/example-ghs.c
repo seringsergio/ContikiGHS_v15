@@ -60,7 +60,7 @@
 /*------------------------------------------------------------------- */
 /*----------GLOBAL VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
-uint8_t seqno = 0; // sequence number de los paquetes
+uint8_t state = DISCOVERY_BROADCAST; // Estado del proceso
 uint8_t flags = 0; // Banderas del proceso
 
 MEMB(neighbors_memb, struct neighbor, MAX_NEIGHBORS); // Defines a memory pool for neighbors
@@ -78,14 +78,16 @@ static struct unicast_conn n_uc; // Es la conexion unicast.
 
 PROCESS(broadcast_neighbor_discovery, "Neighbor Discovery via Broadcast");
 PROCESS(link_weight_worst_case, "Assume Worst Weight for Link");
+PROCESS(wait, "Wait for Network Stabilization");
 PROCESS(ghs_master, "GHS Control");
 
-AUTOSTART_PROCESSES(&broadcast_neighbor_discovery, &ghs_master, &link_weight_worst_case);
+AUTOSTART_PROCESSES(&ghs_master, &broadcast_neighbor_discovery,
+                     &wait, &link_weight_worst_case);
 
 /*---------------------------------------------------------------------------*/
 /* Funcion que recibe un mensaje de unicast: Si el avg_seqno_gap del vecino es
 *  mayor, entonces reemplazo mi avg_seqno_gap. Para tener un acuerdo entre el avg_seqno_gap
-*  de upward y downward. Se impone el mayor. 
+*  de upward y downward. Se impone el mayor.
 */
 static void n_recv_uc(struct unicast_conn *c, const linkaddr_t *from)
 {
@@ -101,8 +103,8 @@ static void n_sent_uc(struct unicast_conn *c, int status, int num_tx)
 static const struct unicast_callbacks unicast_callbacks = {n_recv_uc, n_sent_uc};
 /*---------------------------------------------------------------------------*/
 /* Exit_Handler: Cuando el proceso de ponerse de acuerdo en los pesos de
-* upward y downward de los links finaliza, entonces imprimo la tabla de
-* vecinos final en la ronda de Neghbor Discovery.
+* upward y downward de los links finaliza, entonces  ordeno la lista de
+* vecinos y la imprimo.
 */
 static void n_link_weight_worst_exit_handler(void)
 {
@@ -111,7 +113,7 @@ static void n_link_weight_worst_exit_handler(void)
 }
 /*---------------------------------------------------------------------------*/
 /* Cuando se termina el proceso de conocer a los vecinos por broadcast, entonces
-*  se organiza la lista de menor a mayor y se imprime
+*  se imprime
 */
 static void n_broadcast_neighbor_discovery_exit_handler(void)
 {
@@ -142,35 +144,102 @@ static const struct broadcast_callbacks broadcast_call = {n_broadcast_recv};
 *  Los puede controlar con start, stop, exit, continue, etc. Es decir, este proceso
 *  le indica a los otros cuando correr y cuando detenerse
 */
+
 PROCESS_THREAD(ghs_master, ev, data)
 {
-  static struct etimer et; // Evento de timer del proceso master
   PROCESS_BEGIN();
+
+  static struct process *last_process = NULL; //Ultimo proceso que se ejecuto
+  static uint8_t seconds;
 
   while(1)
   {
-    /* Delay 2-4 seconds */
-    etimer_set(&et, CLOCK_SECOND * 4 + random_rand() % (CLOCK_SECOND * 4));
 
-    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-
-    // Si ya envie todos los broadcast  y no hay acuerdo en el peso de los links
-    if ((seqno > STOP_BROADCAST) && !(flags & LINK_WEIGHT_AGREEMENT) )
+    if(state == DISCOVERY_BROADCAST)
     {
-        process_exit(&broadcast_neighbor_discovery);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
-        process_post(&link_weight_worst_case,PROCESS_EVENT_CONTINUE, NULL); //Inicio el proceso de unicast
+        process_post(&broadcast_neighbor_discovery,PROCESS_EVENT_CONTINUE, NULL);
+        PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
+        last_process = data;
+        state = WAIT_NETWORK_STABILIZATION;
+    }else
+    if(state == WAIT_NETWORK_STABILIZATION)
+    {
+        if(last_process == &broadcast_neighbor_discovery)
+        {
+            seconds = 30;
+            process_post(&wait, PROCESS_EVENT_CONTINUE, &seconds);
+            PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
+            process_exit(&broadcast_neighbor_discovery);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
+            state = WEIGHT_WORST;
+
+        }else if(last_process == &link_weight_worst_case)
+        {
+            seconds = 30;
+            process_post(&wait, PROCESS_EVENT_CONTINUE, &seconds);
+            PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
+            process_exit(&link_weight_worst_case);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
+            state = IDLE;
+        }
+    }else
+    if(state == WEIGHT_WORST)
+    {
+            process_post(&link_weight_worst_case,PROCESS_EVENT_CONTINUE, NULL); //Inicio el proceso de unicast
+            PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
+            last_process = data;
+            state = WAIT_NETWORK_STABILIZATION;
+    }else
+    if(state == IDLE)
+    {
+            PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
     }
 
-    // Si ya hay acuerdo en el peso de los links
-    if(flags & LINK_WEIGHT_AGREEMENT)
+}//End of while
+  PROCESS_END();
+}
+
+/*---------------------------------------------------------------------------*/
+/* Envio mensaje de broadcast para conocer a mis vecinos.
+*/PROCESS_THREAD(broadcast_neighbor_discovery, ev, data)
+{
+
+  PROCESS_EXITHANDLER(n_broadcast_neighbor_discovery_exit_handler());
+  PROCESS_BEGIN();
+
+  static struct etimer et;
+  static uint8_t seqno;
+  struct broadcast_message msg;
+
+
+  broadcast_open(&n_broadcast, 129, &broadcast_call);
+
+  PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
+
+  while(1)
+  {
+
+    /* Delay 2-4 seconds */
+    etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
+    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
+    /* En msg incluye el secuence number para saber cuantos msg se
+    *  pierden en promedio (exponentially-weighted moving average)
+    */
+    msg.seqno = seqno;
+    packetbuf_copyfrom(&msg, sizeof(struct broadcast_message));
+    broadcast_send(&n_broadcast);
+    seqno++;
+
+    if(seqno > STOP_BROADCAST)
     {
-        etimer_set(&et, CLOCK_SECOND * 60); //Espero a que otros acaben unicast
-        PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-        process_exit(&link_weight_worst_case);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
+        process_post(&ghs_master,PROCESS_EVENT_CONTINUE, PROCESS_CURRENT()); //Inicio el proceso de unicast
+        //PROCESS_YIELD(); // Entrego el control al scheduler
+        PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE); //Nunca debe llegar este evento
+        printf("NUNCA DEBE IMPRIMIRSE ESTO \n");
     }
   }
   PROCESS_END();
 }
+
 /*---------------------------------------------------------------------------*/
 /* Este proceso envia mensajes de unicast a los vecinos para
 *  ponerse de acuerdo en el peso del link. Se toma el peor caso,
@@ -183,58 +252,56 @@ PROCESS_THREAD(link_weight_worst_case, ev, data)
 
   PROCESS_EXITHANDLER(n_link_weight_worst_exit_handler());
   PROCESS_BEGIN();
+
   unicast_open(&n_uc, 146, &unicast_callbacks);
+
+  PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
 
   while(1)
   {
     static struct etimer et;
-    struct neighbor *n_aux;
+    static struct neighbor *n_aux = NULL;
     struct unicast_message msg;
-
-    PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
-    etimer_set(&et, CLOCK_SECOND * 60); // Espero 60 segundos a q otros acaben broadcast
-    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
     /*Envio mensaje de unicast a todos mis vecinos informando mi peso = avg_seqno_gap*/
     for(n_aux = list_head(neighbors_list); n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
     {
-        msg.avg_seqno_gap = n_aux -> avg_seqno_gap;
+        /* Delay 2-4 seconds */
+        etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
+        PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+        msg.avg_seqno_gap = n_aux->avg_seqno_gap;
         packetbuf_copyfrom(&msg, sizeof(msg));
         unicast_send(&n_uc, &n_aux->addr);
     }
-    flags |= LINK_WEIGHT_AGREEMENT; // Termine de enviar unicast a todos mis vecinos
+
+    process_post(&ghs_master,PROCESS_EVENT_CONTINUE, PROCESS_CURRENT()); //Inicio el proceso de unicast
+    PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE); //Nunca debe llegar este evento
+    //PROCESS_YIELD(); // Entrego el control al scheduler
+    printf("NUNCA DEBE IMPRIMIRSE ESTO \n");
+
   }
   PROCESS_END();
 }
 /*---------------------------------------------------------------------------*/
-/* Envio mensaje de broadcast para conocer a mis vecinos.
+/* Espero por X seconds
 */
-PROCESS_THREAD(broadcast_neighbor_discovery, ev, data)
+PROCESS_THREAD(wait, ev, data)
 {
-  static struct etimer et;
-  struct broadcast_message msg;
+    PROCESS_BEGIN();
 
-  PROCESS_EXITHANDLER(n_broadcast_neighbor_discovery_exit_handler());
+    static struct etimer et;
+    static uint8_t *seconds;
 
-  PROCESS_BEGIN();
+    while(1)
+    {
+      PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
+      seconds = data;
 
-  broadcast_open(&n_broadcast, 129, &broadcast_call);
+      etimer_set(&et, CLOCK_SECOND * (*seconds) );
+      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
-  while(1) {
+      process_post(&ghs_master,PROCESS_EVENT_CONTINUE, NULL); //Inicio el proceso de unicast
+    }
+    PROCESS_END();
 
-    /* Send a broadcast every 16 - 32 seconds */
-    etimer_set(&et, CLOCK_SECOND * 16 + random_rand() % (CLOCK_SECOND * 16));
-
-    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-
-    /* En msg incluye el secuence number para saber cuantos msg se
-    *  pierden en promedio (exponentially-weighted moving average)
-    */
-    msg.seqno = seqno;
-    packetbuf_copyfrom(&msg, sizeof(struct broadcast_message));
-    broadcast_send(&n_broadcast);
-    seqno++;
-  }
-  PROCESS_END();
 }
-/*---------------------------------------------------------------------------*/

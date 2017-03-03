@@ -13,10 +13,16 @@
 /*----------- DEFINE ------------------------------------------------ */
 /*------------------------------------------------------------------- */
 
-//Banderas (flags)
-#define EXIST_LOWEST 0x01
-#define LINK_WEIGHT_AGREEMENT 0x02
+//States = Estados del proceso
+#define DISCOVERY_BROADCAST        0x01
+#define WAIT_NETWORK_STABILIZATION 0x02
+#define WEIGHT_WORST               0x04
+#define IDLE                       0x10
 
+//Banderas (flags)
+#define EXIST_LOWEST               0x01
+
+// Definicion de constantes
 #define MAX_NEIGHBORS 16 // This defines the maximum amount of neighbors we can remember.
 #define STOP_BROADCAST (MAX_NEIGHBORS * 1) // Detengo el broadcast cuando seqno sea > STOP_BROADCAST
 
@@ -30,7 +36,7 @@
 /*----------GLOBAL VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
 
-extern uint8_t seqno; // sequence number de los paquetes
+extern uint8_t state;  // Estado del proceso
 extern uint8_t flags;  // Banderas del proceso
 
 /*------------------------------------------------------------------- */
@@ -71,7 +77,6 @@ struct neighbor {
   uint32_t avg_seqno_gap;
 
 };
-
 /*------------------------------------------------------------------- */
 /*-----------FUNCIONES-------------------------------------------------*/
 /*------------------------------------------------------------------- */
@@ -87,6 +92,7 @@ void ghs_n_broadcast_recv(struct neighbor *list_head,
                           uint16_t last_rssi, uint16_t last_lqi,
                           struct memb *neigh_memb, list_t neigh_list);
 void print_neighbor_list(struct neighbor *list_head, char *string, const linkaddr_t *node_addr );
+void sort_neighbor_list(struct neighbor *list_head);
 
 
 #endif /* GHS_H */
