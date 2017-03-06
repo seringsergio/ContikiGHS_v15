@@ -4,7 +4,7 @@
 /*------------------------------------------------------------------- */
 /*----------- INCLUDES ------------------------------------------------ */
 /*------------------------------------------------------------------- */
-
+#include "contiki.h"
 #include "net/linkaddr.h"
 #include "lib/list.h"
 #include "lib/memb.h"
@@ -14,12 +14,6 @@
 /*------------------------------------------------------------------- */
 /*----------- DEFINE ------------------------------------------------ */
 /*------------------------------------------------------------------- */
-
-//States = Estados del proceso (Neighbor Discrovery)
-#define DISCOVERY_BROADCAST        0x01
-#define WAIT_NETWORK_STABILIZATION 0x02
-#define WEIGHT_WORST               0x04
-#define IDLE                       0x10
 
 //Banderas (flags)
 #define EXIST_LOWEST               0x01
@@ -38,10 +32,18 @@
 #define SEQNO_EWMA_ALPHA 0x040
 
 /*------------------------------------------------------------------- */
+/*----------EVENTOS -------- -----------------------------------------*/
+/*------------------------------------------------------------------- */
+process_event_t e_discovery_broadcast;
+process_event_t e_wait_stabilization; //WAIT_NETWORK_STABILIZATION
+process_event_t e_weight_worst; //WEIGHT_WORST
+process_event_t e_weight_worst; //WEIGHT_WORST
+process_event_t e_idle;
+
+/*------------------------------------------------------------------- */
 /*----------GLOBAL VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
 
-extern uint8_t state;  // Estado del proceso
 extern uint8_t flags;  // Banderas del proceso
 
 /*------------------------------------------------------------------- */

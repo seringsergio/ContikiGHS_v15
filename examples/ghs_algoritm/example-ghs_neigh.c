@@ -53,7 +53,7 @@
 #include "lib/list.h"
 #include "lib/memb.h"
 #include "lib/random.h"
-#include "net/rime/rime.h" //Aca esta ghs.h
+#include "net/rime/rime.h" //Aca esta ghs_neigh.h
 #include "ghs_algorithm.h"
 #include <stdio.h>
 
@@ -61,17 +61,19 @@
 /*------------------------------------------------------------------- */
 /*----------GLOBAL VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
-uint8_t state = DISCOVERY_BROADCAST; // Estado del proceso
 uint8_t flags = 0; // Banderas del proceso
 
 MEMB(neighbors_memb, struct neighbor, MAX_NEIGHBORS); // Defines a memory pool for neighbors
 LIST(neighbors_list); // List that holds the neighbors we have seen thus far
 
+MEMB(history_mem, struct history_entry, NUM_HISTORY_ENTRIES);
+LIST(history_list);
+
 /*------------------------------------------------------------------- */
 /*----------STATIC VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
 static struct broadcast_conn n_broadcast; // Es la conexion broadcast.
-static struct unicast_conn n_uc; // Es la conexion unicast.
+static struct runicast_conn runicast; //Es la conexion de runicast
 
 /*------------------------------------------------------------------- */
 /*----------PROCESSES------- -----------------------------------------*/
@@ -87,23 +89,32 @@ PROCESS(master_neighbor_discovery, "GHS Control");
 AUTOSTART_PROCESSES(&master_neighbor_discovery, &n_broadcast_neighbor_discovery,
                      &wait, &n_link_weight_worst_case,&idle_mio);
 
+/*------------------------------------------------------------------- */
+/*-----------FUNCIONES-------------------------------------------------*/
+/*------------------------------------------------------------------- */
 /*---------------------------------------------------------------------------*/
-/* Funcion que recibe un mensaje de unicast: Si el avg_seqno_gap del vecino es
+/* Funcion que recibe un mensaje de runicast: Si el avg_seqno_gap del vecino es
 *  mayor, entonces reemplazo mi avg_seqno_gap. Para tener un acuerdo entre el avg_seqno_gap
 *  de upward y downward. Se impone el mayor.
 */
-static void n_recv_uc(struct unicast_conn *c, const linkaddr_t *from)
+static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 {
-  ghs_n_recv_uc(list_head(neighbors_list), packetbuf_dataptr(), from );
+  ghs_n_recv_ruc(list_head(history_list) ,list_head(neighbors_list), packetbuf_dataptr(), from,
+                 &history_mem, history_list, seqno);
 }
-/*---------------------------------------------------------------------------*/
-/* Informa que se envio un mensage de unicast
-*/
-static void n_sent_uc(struct unicast_conn *c, int status, int num_tx)
+static void sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-  ghs_n_sent_uc(packetbuf_addr(PACKETBUF_ADDR_RECEIVER), &linkaddr_null, status, num_tx );
+  ghs_n_send_ruc(to, retransmissions);
 }
-static const struct unicast_callbacks unicast_callbacks = {n_recv_uc, n_sent_uc};
+static void
+timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
+{
+  ghs_n_timedout_ruc(to, retransmissions);
+
+}
+static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
+							     sent_runicast,
+							     timedout_runicast};
 /*---------------------------------------------------------------------------*/
 /* Exit_Handler: Cuando el proceso de ponerse de acuerdo en los pesos de
 * upward y downward de los links finaliza, entonces  ordeno la lista de
@@ -111,7 +122,7 @@ static const struct unicast_callbacks unicast_callbacks = {n_recv_uc, n_sent_uc}
 */
 static void n_link_weight_worst_exit_handler(void)
 {
-    unicast_close(&n_uc); // Cierro la conexion unicast
+    runicast_close(&runicast);
     ghs_n_link_weight_worst_exit_handler(list_head(neighbors_list), &linkaddr_node_addr);
 }
 /*---------------------------------------------------------------------------*/
@@ -155,46 +166,54 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
   static struct process *last_process = NULL; //Ultimo proceso que se ejecuto
   static uint8_t seconds;
 
+  e_discovery_broadcast = process_alloc_event(); // Darle un numero al evento
+  e_wait_stabilization = process_alloc_event(); // Darle un numero al evento
+  e_weight_worst = process_alloc_event(); // Darle un numero al evento
+  e_idle = process_alloc_event(); // Darle un numero al evento
+
+  process_post(&master_neighbor_discovery, e_discovery_broadcast, NULL);
+
   while(1)
   {
 
-    if(state == DISCOVERY_BROADCAST)
+    PROCESS_WAIT_EVENT(); // Wait for any event.
+    if(ev == e_discovery_broadcast)
     {
         process_post(&n_broadcast_neighbor_discovery,PROCESS_EVENT_CONTINUE, NULL);
         PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
         last_process = data;
-        state = WAIT_NETWORK_STABILIZATION;
+        process_post(&master_neighbor_discovery, e_wait_stabilization, NULL);
     }else
-    if(state == WAIT_NETWORK_STABILIZATION)
+    if(ev == e_wait_stabilization)
     {
         if(last_process == &n_broadcast_neighbor_discovery)
         {
-            seconds = 30;
+            seconds = 50;
             process_post(&wait, PROCESS_EVENT_CONTINUE, &seconds);
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
             process_exit(&n_broadcast_neighbor_discovery);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
-            state = WEIGHT_WORST;
+            process_post(&master_neighbor_discovery, e_weight_worst, NULL);
 
         }else if(last_process == &n_link_weight_worst_case)
         {
-            seconds = 30;
+            seconds = 50;
             process_post(&wait, PROCESS_EVENT_CONTINUE, &seconds);
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
             process_exit(&n_link_weight_worst_case);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
-            state = IDLE;
+            process_post(&master_neighbor_discovery, e_idle, NULL);
         }
     }else
-    if(state == WEIGHT_WORST)
+    if(ev == e_weight_worst)
     {
-        process_post(&n_link_weight_worst_case,PROCESS_EVENT_CONTINUE, NULL); //Inicio el proceso de unicast
+        process_post(&n_link_weight_worst_case,PROCESS_EVENT_CONTINUE, NULL); //Inicio el proceso de runicast
         PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
         last_process = data;
-        state = WAIT_NETWORK_STABILIZATION;
+        process_post(&master_neighbor_discovery, e_wait_stabilization, NULL);
     }else
-    if(state == IDLE)
+    if(ev == e_idle)
     {
         //PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
-        process_post(&idle_mio,PROCESS_EVENT_CONTINUE, NULL); //Inicio el proceso de unicast
+        process_post(&idle_mio,PROCESS_EVENT_CONTINUE, NULL);
         printf("LLAMO0000 a idle_mio \n");
         PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
         printf("NUNCA DEBE IMPRIMIRSE ESTO \n");
@@ -236,7 +255,7 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
 
     if(seqno > STOP_BROADCAST)
     {
-        process_post(&master_neighbor_discovery,PROCESS_EVENT_CONTINUE, PROCESS_CURRENT()); //Inicio el proceso de unicast
+        process_post(&master_neighbor_discovery,PROCESS_EVENT_CONTINUE, PROCESS_CURRENT());
         PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE); //Nunca debe llegar este evento
         printf("NUNCA DEBE IMPRIMIRSE ESTO \n");
     }
@@ -245,10 +264,10 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
 }
 
 /*---------------------------------------------------------------------------*/
-/* Este proceso envia mensajes de unicast a los vecinos para
+/* Este proceso envia mensajes de runicast a los vecinos para
 *  ponerse de acuerdo en el peso del link. Se toma el peor caso,
 *  es decir, si el peso de A->B es de 1.00 y el peso de B->A es de
-*  1.25 entonces B le informa (unicast msg) a A que peso 1.25 debe imponerse
+*  1.25 entonces B le informa (runicast msg) a A que peso 1.25 debe imponerse
 * , entonces A cambia su peso A->B a 1.25
 */
 PROCESS_THREAD(n_link_weight_worst_case, ev, data)
@@ -257,7 +276,12 @@ PROCESS_THREAD(n_link_weight_worst_case, ev, data)
   PROCESS_EXITHANDLER(n_link_weight_worst_exit_handler());
   PROCESS_BEGIN();
 
-  unicast_open(&n_uc, 146, &unicast_callbacks);
+  runicast_open(&runicast, 144, &runicast_callbacks);
+
+  /* OPTIONAL: Sender history */
+  list_init(history_list);
+  memb_init(&history_mem);
+
 
   PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
 
@@ -265,26 +289,35 @@ PROCESS_THREAD(n_link_weight_worst_case, ev, data)
   {
     static struct etimer et;
     static struct neighbor *n_aux = NULL;
-    struct unicast_message msg;
+    struct runicast_message msg;
 
-    /*Envio mensaje de unicast a todos mis vecinos informando mi peso = avg_seqno_gap*/
+    /*Envio mensaje de runicast a todos mis vecinos informando mi peso = avg_seqno_gap*/
     for(n_aux = list_head(neighbors_list); n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
     {
         /* Delay 2-4 seconds */
         etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
         PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-        msg.avg_seqno_gap = n_aux->avg_seqno_gap;
-        packetbuf_copyfrom(&msg, sizeof(msg));
-        unicast_send(&n_uc, &n_aux->addr);
+        if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+        {
+            msg.avg_seqno_gap = n_aux->avg_seqno_gap;
+            packetbuf_copyfrom(&msg, sizeof(msg));
+            printf("%u.%u: sending runicast to address %u.%u\n",
+               linkaddr_node_addr.u8[0],
+               linkaddr_node_addr.u8[1],
+               n_aux->addr.u8[0],
+               n_aux->addr.u8[1]);
+            runicast_send(&runicast, &n_aux->addr, MAX_RETRANSMISSIONS);
+        }
     }
 
-    process_post(&master_neighbor_discovery,PROCESS_EVENT_CONTINUE, PROCESS_CURRENT()); //Inicio el proceso de unicast
+    process_post(&master_neighbor_discovery,PROCESS_EVENT_CONTINUE, PROCESS_CURRENT());
     PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE); //Nunca debe llegar este evento
     printf("NUNCA DEBE IMPRIMIRSE ESTO \n");
 
   }
   PROCESS_END();
 }
+
 /*---------------------------------------------------------------------------*/
 /* Espero por X seconds
 */
@@ -303,8 +336,7 @@ PROCESS_THREAD(wait, ev, data)
       etimer_set(&et, CLOCK_SECOND * (*seconds) );
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
-      process_post(&master_neighbor_discovery,PROCESS_EVENT_CONTINUE, NULL); //Inicio el proceso de unicast
+      process_post(&master_neighbor_discovery,PROCESS_EVENT_CONTINUE, NULL);
     }
     PROCESS_END();
-
 }
