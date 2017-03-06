@@ -65,7 +65,9 @@
 #include "net/rime/runicast.h"
 #include "net/rime/timesynch.h"
 #include "net/rime/trickle.h"
-#include "net/rime/ghs_neigh.h" //GHS algorithm - Es la parte de neighbor discovery
+#include "net/rime/ghs_neigh.h" //GHS_neigh algorithm - Es la parte de neighbor discovery
+#include "net/rime/ghs_find_found.h" //GHS_find_found algorithm - Es la parte donde los nodos
+                                //cambian entre los dos estados (find and found)
 
 
 #include "net/mac/mac.h"

@@ -61,22 +61,21 @@
 /*----------PROCESSES------- -----------------------------------------*/
 /*------------------------------------------------------------------- */
 
-PROCESS(idle_mio, "Idle process");
-
-//AUTOSTART_PROCESSES(&idle_mio);
+PROCESS(master_find_found, "Proceso master del Find Found");
 
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS------------------------------------------------*/
 /*------------------------------------------------------------------- */
-PROCESS_THREAD(idle_mio, ev, data){
-
+PROCESS_THREAD(master_find_found, ev, data){
     PROCESS_BEGIN();
 
     while(1)
     {
-        PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
-        //PROCESS_WAIT_EVENT();
-        printf("LLegue al otro proceso \n");
+        PROCESS_WAIT_EVENT(); // Wait for any event.
+        if (ev == e_init_find_found)
+        {
+            printf("Inicializar find found \n");
+        }
     }
     PROCESS_END();
 

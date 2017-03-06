@@ -1,5 +1,5 @@
-#ifndef GHS_H
-#define GHS_H
+#ifndef GHS_NEIGH_H
+#define GHS_NEIGH_H
 
 /*------------------------------------------------------------------- */
 /*----------- INCLUDES ------------------------------------------------ */
@@ -34,16 +34,19 @@
 /*------------------------------------------------------------------- */
 /*----------EVENTOS -------- -----------------------------------------*/
 /*------------------------------------------------------------------- */
-process_event_t e_discovery_broadcast;
+
+//Comunes a todos los procesos
 process_event_t e_wait_stabilization; //WAIT_NETWORK_STABILIZATION
+process_event_t e_infinite_wait; //Nunca se debe postear este evento
+
+//neighbor discovery
+process_event_t e_discovery_broadcast;
 process_event_t e_weight_worst; //WEIGHT_WORST
-process_event_t e_weight_worst; //WEIGHT_WORST
-process_event_t e_idle;
+process_event_t e_init_find_found;
 
 /*------------------------------------------------------------------- */
 /*----------GLOBAL VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
-
 extern uint8_t flags;  // Banderas del proceso
 
 /*------------------------------------------------------------------- */
@@ -117,4 +120,4 @@ void sort_neighbor_list(struct neighbor *n_list_head);
 void imponer_avg_seqno_gap(struct neighbor *n_list_head, struct runicast_message *msg, const linkaddr_t *from);
 
 
-#endif /* GHS_H */
+#endif /* GHS_NEIGH_H */

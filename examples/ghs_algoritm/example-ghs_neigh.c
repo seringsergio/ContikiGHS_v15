@@ -87,7 +87,7 @@ PROCESS(master_neighbor_discovery, "GHS Control");
 //PROCESS(idle, "Idle process");
 
 AUTOSTART_PROCESSES(&master_neighbor_discovery, &n_broadcast_neighbor_discovery,
-                     &wait, &n_link_weight_worst_case,&idle_mio);
+                     &wait, &n_link_weight_worst_case,&master_find_found);
 
 /*------------------------------------------------------------------- */
 /*-----------FUNCIONES-------------------------------------------------*/
@@ -166,23 +166,26 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
   static struct process *last_process = NULL; //Ultimo proceso que se ejecuto
   static uint8_t seconds;
 
-  e_discovery_broadcast = process_alloc_event(); // Darle un numero al evento
+  //Definir eventos: Comunes a todos los procesos
   e_wait_stabilization = process_alloc_event(); // Darle un numero al evento
-  e_weight_worst = process_alloc_event(); // Darle un numero al evento
-  e_idle = process_alloc_event(); // Darle un numero al evento
+  e_infinite_wait = process_alloc_event(); // Darle un numero al evento
 
-  process_post(&master_neighbor_discovery, e_discovery_broadcast, NULL);
+  //Definir eventos: neighbor discovery
+  e_discovery_broadcast = process_alloc_event(); // Darle un numero al evento
+  e_weight_worst = process_alloc_event(); // Darle un numero al evento
+  e_init_find_found = process_alloc_event(); // Darle un numero al evento
+
+  process_post(PROCESS_CURRENT(), e_discovery_broadcast, NULL);
 
   while(1)
   {
-
     PROCESS_WAIT_EVENT(); // Wait for any event.
     if(ev == e_discovery_broadcast)
     {
         process_post(&n_broadcast_neighbor_discovery,PROCESS_EVENT_CONTINUE, NULL);
         PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
         last_process = data;
-        process_post(&master_neighbor_discovery, e_wait_stabilization, NULL);
+        process_post(PROCESS_CURRENT(), e_wait_stabilization, NULL);
     }else
     if(ev == e_wait_stabilization)
     {
@@ -192,7 +195,7 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
             process_post(&wait, PROCESS_EVENT_CONTINUE, &seconds);
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
             process_exit(&n_broadcast_neighbor_discovery);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
-            process_post(&master_neighbor_discovery, e_weight_worst, NULL);
+            process_post(PROCESS_CURRENT(), e_weight_worst, NULL);
 
         }else if(last_process == &n_link_weight_worst_case)
         {
@@ -200,7 +203,7 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
             process_post(&wait, PROCESS_EVENT_CONTINUE, &seconds);
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
             process_exit(&n_link_weight_worst_case);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
-            process_post(&master_neighbor_discovery, e_idle, NULL);
+            process_post(PROCESS_CURRENT(), e_init_find_found, NULL);
         }
     }else
     if(ev == e_weight_worst)
@@ -208,14 +211,12 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
         process_post(&n_link_weight_worst_case,PROCESS_EVENT_CONTINUE, NULL); //Inicio el proceso de runicast
         PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
         last_process = data;
-        process_post(&master_neighbor_discovery, e_wait_stabilization, NULL);
+        process_post(PROCESS_CURRENT(), e_wait_stabilization, NULL);
     }else
-    if(ev == e_idle)
+    if(ev == e_init_find_found)
     {
-        //PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
-        process_post(&idle_mio,PROCESS_EVENT_CONTINUE, NULL);
-        printf("LLAMO0000 a idle_mio \n");
-        PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
+        process_post(&master_find_found, e_init_find_found, NULL);
+        PROCESS_WAIT_EVENT_UNTIL(ev == e_infinite_wait);
         printf("NUNCA DEBE IMPRIMIRSE ESTO \n");
     }
 }//End of while
@@ -256,7 +257,7 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
     if(seqno > STOP_BROADCAST)
     {
         process_post(&master_neighbor_discovery,PROCESS_EVENT_CONTINUE, PROCESS_CURRENT());
-        PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE); //Nunca debe llegar este evento
+        PROCESS_WAIT_EVENT_UNTIL(ev == e_infinite_wait); //Nunca debe llegar este evento
         printf("NUNCA DEBE IMPRIMIRSE ESTO \n");
     }
   }
@@ -311,7 +312,7 @@ PROCESS_THREAD(n_link_weight_worst_case, ev, data)
     }
 
     process_post(&master_neighbor_discovery,PROCESS_EVENT_CONTINUE, PROCESS_CURRENT());
-    PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE); //Nunca debe llegar este evento
+    PROCESS_WAIT_EVENT_UNTIL(ev == e_infinite_wait); //Nunca debe llegar este evento
     printf("NUNCA DEBE IMPRIMIRSE ESTO \n");
 
   }
