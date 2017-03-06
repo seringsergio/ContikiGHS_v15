@@ -8,6 +8,8 @@
 #include "net/linkaddr.h"
 #include "lib/list.h"
 #include "lib/memb.h"
+#include "sys/node-id.h" //Set node id
+
 
 /*------------------------------------------------------------------- */
 /*----------- DEFINE ------------------------------------------------ */
@@ -23,6 +25,9 @@
 #define EXIST_LOWEST               0x01
 
 // Definicion de constantes
+#define MAX_RETRANSMISSIONS 4
+#define NUM_HISTORY_ENTRIES MAX_NEIGHBORS //Numero de entradas los 16 vecinos posibles
+
 #define MAX_NEIGHBORS 16 // This defines the maximum amount of neighbors we can remember.
 #define STOP_BROADCAST (MAX_NEIGHBORS * 1) // Detengo el broadcast cuando seqno sea > STOP_BROADCAST
 
@@ -43,15 +48,26 @@ extern uint8_t flags;  // Banderas del proceso
 /*--------STRUCTURES---------------------------------------------------*/
 /*------------------------------------------------------------------- */
 
+// Estructura para saber si ya recibi ese paquete o no.
+// Runicast en proceso n_link_weight_worst_case
+struct history_entry {
+  struct history_entry *next;
+  linkaddr_t addr;
+  uint8_t seq;
+};
+
+
 // This is the structure of broadcast messages.
 struct broadcast_message {
   uint8_t seqno;
 };
 
-// This is the structure of unicast messages.
-struct unicast_message {
+
+// This is the structure of runicast messages.
+struct runicast_message {
     uint32_t avg_seqno_gap;
 };
+
 
 // This structure holds information about neighbors. Es una linked list.
 struct neighbor {
@@ -83,16 +99,20 @@ struct neighbor {
 
 /* Cada una de las funciones esta documentada en ghs_neigh.c  */
 void ghs_n_copy_data( struct neighbor *dest, struct neighbor *source  );
-void ghs_n_recv_uc(struct neighbor *list_head, struct unicast_message *msg, const linkaddr_t *from );
-void ghs_n_sent_uc(const linkaddr_t *dest, const linkaddr_t *linkaddr_null, int status, int num_tx);
-void ghs_n_link_weight_worst_exit_handler(struct neighbor *list_head, const linkaddr_t *node_addr);
-void ghs_n_broadcast_neighbor_discovery_exit_handler(struct neighbor *list_head, const linkaddr_t *node_addr);
-void ghs_n_broadcast_recv(struct neighbor *list_head,
+void ghs_n_recv_ruc(struct history_entry *h_list_head, struct neighbor *n_list_head,
+                    struct runicast_message *msg, const linkaddr_t *from,
+                    struct memb *history_mem, list_t history_list, uint8_t seqno );
+void ghs_n_send_ruc(const linkaddr_t *to, uint8_t retransmissions);
+void ghs_n_timedout_ruc(const linkaddr_t *to, uint8_t retransmissions);
+void ghs_n_link_weight_worst_exit_handler(struct neighbor *n_list_head, const linkaddr_t *node_addr);
+void ghs_n_broadcast_neighbor_discovery_exit_handler(struct neighbor *n_list_head, const linkaddr_t *node_addr);
+void ghs_n_broadcast_recv(struct neighbor *n_list_head,
                           struct broadcast_message *m, const linkaddr_t *from,
                           uint16_t last_rssi, uint16_t last_lqi,
                           struct memb *neigh_memb, list_t neigh_list);
-void print_neighbor_list(struct neighbor *list_head, char *string, const linkaddr_t *node_addr );
-void sort_neighbor_list(struct neighbor *list_head);
+void print_neighbor_list(struct neighbor *n_list_head, char *string, const linkaddr_t *node_addr );
+void sort_neighbor_list(struct neighbor *n_list_head);
+void imponer_avg_seqno_gap(struct neighbor *n_list_head, struct runicast_message *msg, const linkaddr_t *from);
 
 
 #endif /* GHS_H */

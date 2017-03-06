@@ -45,8 +45,8 @@
 #include "lib/list.h"
 #include "lib/memb.h"
 
-#include "dev/button-sensor.h"
-#include "dev/leds.h"
+//#include "dev/button-sensor.h"
+//#include "dev/leds.h"
 
 #include "sys/node-id.h" //Set node id
 
