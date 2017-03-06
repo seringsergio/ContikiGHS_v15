@@ -78,9 +78,9 @@ sent_by_stunicast(struct stunicast_conn *stunicast, int status, int num_tx)
 
   /* Only process data packets, not ACKs. */
   if(packetbuf_attr(PACKETBUF_ATTR_PACKET_TYPE) == PACKETBUF_ATTR_PACKET_TYPE_DATA) {
-    
+
     c->rxmit += 1;
-    
+
     if(c->rxmit != 0) {
       RIMESTATS_ADD(rexmit);
       PRINTF("%d.%d: runicast: sent_by_stunicast packet %u (%u) resent %u\n",
@@ -102,7 +102,7 @@ sent_by_stunicast(struct stunicast_conn *stunicast, int status, int num_tx)
       c->sndnxt = (c->sndnxt + 1) % (1 << RUNICAST_PACKET_ID_BITS);
     } else {
 //      int shift;
-      
+
 //      shift = c->rxmit > 4? 4: c->rxmit;
 //      stunicast_set_timer(&c->c, (REXMIT_TIME) << shift);
     }
@@ -122,13 +122,15 @@ recv_from_stunicast(struct stunicast_conn *stunicast, const linkaddr_t *from)
 	 packetbuf_attr(PACKETBUF_ATTR_PACKET_ID));
 
   if(packetbuf_attr(PACKETBUF_ATTR_PACKET_TYPE) ==
-     PACKETBUF_ATTR_PACKET_TYPE_ACK) {
+     PACKETBUF_ATTR_PACKET_TYPE_ACK)
+   {
       PRINTF("%d.%d: runicast: got ACK from %d.%d, seqno %d (%d)\n",
 	     linkaddr_node_addr.u8[0], linkaddr_node_addr.u8[1],
 	     from->u8[0], from->u8[1],
 	     packetbuf_attr(PACKETBUF_ATTR_PACKET_ID),
 	     c->sndnxt);
-    if(packetbuf_attr(PACKETBUF_ATTR_PACKET_ID) == c->sndnxt) {
+    if(packetbuf_attr(PACKETBUF_ATTR_PACKET_ID) == c->sndnxt)
+    {
       RIMESTATS_ADD(ackrx);
       PRINTF("%d.%d: runicast: ACKed %d\n",
 	     linkaddr_node_addr.u8[0], linkaddr_node_addr.u8[1],

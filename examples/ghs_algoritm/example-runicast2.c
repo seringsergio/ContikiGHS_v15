@@ -48,6 +48,8 @@
 #include "dev/button-sensor.h"
 #include "dev/leds.h"
 
+#include "sys/node-id.h" //Set node id
+
 #define MAX_RETRANSMISSIONS 4
 #define NUM_HISTORY_ENTRIES 4
 
@@ -119,8 +121,11 @@ static struct runicast_conn runicast;
 PROCESS_THREAD(test_runicast_process, ev, data)
 {
   PROCESS_EXITHANDLER(runicast_close(&runicast);)
-
   PROCESS_BEGIN();
+
+  unsigned short id = 2; // This is the ID which will be set in your sky mote
+
+  node_id_burn(id); // Call this function to burn the defined id
 
   runicast_open(&runicast, 144, &runicast_callbacks);
 

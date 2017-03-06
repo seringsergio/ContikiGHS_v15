@@ -195,9 +195,9 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
     {
         //PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
         process_post(&idle_mio,PROCESS_EVENT_CONTINUE, NULL); //Inicio el proceso de unicast
-        printf("LLAMO a idle_mio \n");
+        printf("LLAMO0000 a idle_mio \n");
         PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
-
+        printf("NUNCA DEBE IMPRIMIRSE ESTO \n");
     }
 }//End of while
   PROCESS_END();
