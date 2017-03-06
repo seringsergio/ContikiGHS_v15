@@ -10,7 +10,16 @@
 #include "ghs_find_found.h"
 #include "net/rime/rime.h" //Aca esta ghs_neigh.h
 
+/*-------------------------------------------------------------------*/
+/*---------------- Definiciones ------------------------------------------*/
+/*-------------------------------------------------------------------*/
+#define MAX_NUM_EDGES MAX_NEIGHBORS
 
+//Estados de los edges
+#define BASIC      0x01
+#define BRANCH     0x02
+#define E_REJECTED 0x04
+#define E_ACCEPTED 0x08
 /*-------------------------------------------------------------------*/
 /*---------------- TYPEDEF ------------------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -20,7 +29,7 @@ typedef struct LWOE_type LWOE_type;
 typedef struct LWOE LWOE;
 typedef struct reports reports;
 typedef struct test_msg test_msg;
-
+typedef struct edges edges;
 /*-------------------------------------------------------------------*/
 /*---------------- ESTRUCTURAS---------------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -35,7 +44,7 @@ struct fragment
 struct LWOE
 {
     linkaddr_t neighbor;
-    uint8_t weight;
+    uint32_t weight;
 };
 
 struct LWOE_type
@@ -48,7 +57,7 @@ struct reports
 {
     linkaddr_t sender;
     linkaddr_t neighbor;
-    uint8_t weight;
+    uint32_t weight;
     uint16_t num_reports;
 };
 
@@ -73,9 +82,27 @@ struct node
 
 };
 
+// Es una lista con la informacion de los edges
+struct edges {
+
+  struct edges *next;   // The ->next pointer is needed since we are placing these on a Contiki list.
+  uint8_t state; // Estado del edge
+  linkaddr_t addr;   // The ->addr field holds the Rime address of the neighbor.
+  uint32_t weight; //Este es el peso del nodo
+};
+
 /*-------------------------------------------------------------------*/
 /*---------------- Variables globales--------------------------------*/
 /*-------------------------------------------------------------------*/
 node n;
+
+/*-------------------------------------------------------------------*/
+/*---------------- FUNCIONES ----------------------------------------*/
+/*-------------------------------------------------------------------*/
+void fill_edges_list(list_t edges_list, struct memb *edges_memb, struct neighbor *n_list_head);
+void print_edges_list(edges *e_list_head, char *string,  const linkaddr_t *node_addr);
+
+
+
 
 #endif /* GHS_FIND_FOUND_H */

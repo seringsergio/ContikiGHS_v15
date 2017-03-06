@@ -148,7 +148,12 @@ static void n_broadcast_recv(struct broadcast_conn *c, const linkaddr_t *from)
                        &neighbors_memb, neighbors_list );
 }
 static const struct broadcast_callbacks broadcast_call = {n_broadcast_recv};
-
+/* Exit handler del proceso master_neighbor_discovery
+*/
+static void master_neighbor_discovery_exit_handler(void)
+{
+    printf("Process Exit: master_neighbor_discovery \n");
+}
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS------------------------------------------------*/
 /*------------------------------------------------------------------- */
@@ -161,6 +166,7 @@ static const struct broadcast_callbacks broadcast_call = {n_broadcast_recv};
 
 PROCESS_THREAD(master_neighbor_discovery, ev, data)
 {
+  PROCESS_EXITHANDLER(master_neighbor_discovery_exit_handler());
   PROCESS_BEGIN();
 
   static struct process *last_process = NULL; //Ultimo proceso que se ejecuto
@@ -215,7 +221,7 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
     }else
     if(ev == e_init_find_found)
     {
-        process_post(&master_find_found, e_init_find_found, NULL);
+        process_post(&master_find_found, e_init_find_found, list_head(neighbors_list));
         PROCESS_WAIT_EVENT_UNTIL(ev == e_infinite_wait);
         printf("NUNCA DEBE IMPRIMIRSE ESTO \n");
     }

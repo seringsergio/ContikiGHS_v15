@@ -293,35 +293,9 @@
     </plugin_config>
     <width>701</width>
     <z>0</z>
-    <height>359</height>
+    <height>523</height>
     <location_x>400</location_x>
     <location_y>160</location_y>
-  </plugin>
-  <plugin>
-    org.contikios.cooja.plugins.TimeLine
-    <plugin_config>
-      <mote>0</mote>
-      <mote>1</mote>
-      <mote>2</mote>
-      <mote>3</mote>
-      <mote>4</mote>
-      <mote>5</mote>
-      <mote>6</mote>
-      <mote>7</mote>
-      <mote>8</mote>
-      <mote>9</mote>
-      <mote>10</mote>
-      <mote>11</mote>
-      <showRadioRXTX />
-      <showRadioHW />
-      <showLEDs />
-      <zoomfactor>500.0</zoomfactor>
-    </plugin_config>
-    <width>1101</width>
-    <z>4</z>
-    <height>166</height>
-    <location_x>0</location_x>
-    <location_y>517</location_y>
   </plugin>
   <plugin>
     org.contikios.cooja.plugins.Notes

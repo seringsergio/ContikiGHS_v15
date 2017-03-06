@@ -58,6 +58,12 @@
 #include <stdio.h>
 
 /*------------------------------------------------------------------- */
+/*----------GLOBAL VARIABLES -----------------------------------------*/
+/*------------------------------------------------------------------- */
+MEMB(edges_memb, edges, MAX_NUM_EDGES); // Defines a memory pool for edges
+LIST(edges_list); // List that holds the neighbors we have seen thus far
+
+/*------------------------------------------------------------------- */
 /*----------PROCESSES------- -----------------------------------------*/
 /*------------------------------------------------------------------- */
 
@@ -69,12 +75,26 @@ PROCESS(master_find_found, "Proceso master del Find Found");
 PROCESS_THREAD(master_find_found, ev, data){
     PROCESS_BEGIN();
 
+    /* OPTIONAL: Sender history */
+    list_init(edges_list);
+    memb_init(&edges_memb);
+
     while(1)
     {
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if (ev == e_init_find_found)
         {
-            printf("Inicializar find found \n");
+            printf("Process Init: master_find_found \n");
+
+            struct neighbor *n_list_head = data;
+            char string[] = "READ";
+
+            process_exit(&master_neighbor_discovery);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
+
+            fill_edges_list(edges_list, &edges_memb, n_list_head );
+            print_edges_list(list_head(edges_list), string, &linkaddr_node_addr);
+
+
         }
     }
     PROCESS_END();

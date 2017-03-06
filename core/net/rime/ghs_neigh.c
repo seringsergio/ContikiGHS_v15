@@ -116,13 +116,13 @@ void imponer_avg_seqno_gap(struct neighbor *n_list_head, struct runicast_message
 */
 void ghs_n_link_weight_worst_exit_handler(struct neighbor *n_list_head, const linkaddr_t *node_addr)
 {
-    char string[] = "READ";
 
     /* Ordenar la lista de vecinos*/
     sort_neighbor_list(n_list_head);
 
     /* Show the whole list */
-    print_neighbor_list(n_list_head, string, node_addr );
+    //char string[] = "REEAD";
+    //print_neighbor_list(n_list_head, string, node_addr );
 }
 /*---------------------------------------------------------------------------*/
 /* Cuando se termina el proceso de conocer a los vecinos por broadcast, entonces
@@ -131,12 +131,11 @@ void ghs_n_link_weight_worst_exit_handler(struct neighbor *n_list_head, const li
 void ghs_n_broadcast_neighbor_discovery_exit_handler(struct neighbor *n_list_head,
                                                      const linkaddr_t *node_addr)
 {
-    char string[] = "REEAD";
-
     printf("Process exited: Neighbor Discovery via Broadcast\n\r");
 
     /* Show the whole list */
-    print_neighbor_list(n_list_head, string, node_addr );
+    //char string[] = "REEEAD";
+    //print_neighbor_list(n_list_head, string, node_addr );
 }
 
 /*---------------------------------------------------------------------------*/
