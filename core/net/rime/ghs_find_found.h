@@ -67,6 +67,7 @@ struct test_msg
     linkaddr_t sender;
     fragment f;
 };
+
 struct node
 {
     uint8_t state;
@@ -101,8 +102,8 @@ node n;
 /*-------------------------------------------------------------------*/
 void fill_edges_list(list_t edges_list, struct memb *edges_memb, struct neighbor *n_list_head);
 void print_edges_list(edges *e_list_head, char *string,  const linkaddr_t *node_addr);
-
-
+void become_branch(edges *e_list_head, linkaddr_t *node_addr);
+linkaddr_t* least_basic_edge(edges *e_list_head);
 
 
 #endif /* GHS_FIND_FOUND_H */

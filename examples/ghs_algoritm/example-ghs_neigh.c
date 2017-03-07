@@ -163,7 +163,6 @@ static void master_neighbor_discovery_exit_handler(void)
 *  Los puede controlar con start, stop, exit, continue, etc. Es decir, este proceso
 *  le indica a los otros cuando correr y cuando detenerse
 */
-
 PROCESS_THREAD(master_neighbor_discovery, ev, data)
 {
   PROCESS_EXITHANDLER(master_neighbor_discovery_exit_handler());

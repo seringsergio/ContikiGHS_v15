@@ -119,5 +119,4 @@ void print_neighbor_list(struct neighbor *n_list_head, char *string, const linka
 void sort_neighbor_list(struct neighbor *n_list_head);
 void imponer_avg_seqno_gap(struct neighbor *n_list_head, struct runicast_message *msg, const linkaddr_t *from);
 
-
 #endif /* GHS_NEIGH_H */

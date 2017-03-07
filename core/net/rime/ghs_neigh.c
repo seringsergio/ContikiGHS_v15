@@ -162,7 +162,6 @@ void ghs_n_broadcast_recv(struct neighbor *n_list_head,
       }
     }
 
-
     /* If n is NULL, this neighbor was not found in our list, and we
        allocate a new struct neighbor from the neighbors_memb memory
        pool. */

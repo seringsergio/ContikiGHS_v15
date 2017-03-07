@@ -92,9 +92,12 @@ PROCESS_THREAD(master_find_found, ev, data){
             process_exit(&master_neighbor_discovery);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
 
             fill_edges_list(edges_list, &edges_memb, n_list_head );
+
+            // become_branch = Vuelve branch un edge
+            // least_basic_edge = Encuentra el basic edge de menor peso (Lista ya ordenada en master_neighbor_discovery)
+            become_branch(list_head(edges_list), least_basic_edge(list_head(edges_list))  );
+
             print_edges_list(list_head(edges_list), string, &linkaddr_node_addr);
-
-
         }
     }
     PROCESS_END();
