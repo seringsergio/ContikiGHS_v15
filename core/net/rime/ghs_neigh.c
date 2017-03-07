@@ -40,14 +40,14 @@ void ghs_n_send_ruc(const linkaddr_t *to, uint8_t retransmissions)
 * han enviado msg y su seq. Si el avg_seqno_gap del vecino es
 *  mayor, entonces reemplazo mi avg_seqno_gap.
 */
-void ghs_n_recv_ruc(struct history_entry *h_list_head, struct neighbor *n_list_head,
+void ghs_n_recv_ruc(struct neighbor *n_list_head,
                     struct runicast_message *msg, const linkaddr_t *from,
                     struct memb *history_mem, list_t history_list, uint8_t seqno )
 {
     // OPTIONAL: Sender history
     struct history_entry *e = NULL;
 
-    for(e = h_list_head; e != NULL; e = e->next) {
+    for(e = list_head(history_list); e != NULL; e = e->next) {
       if(linkaddr_cmp(&e->addr, from)) { // Si las dir son iguales entra
         break;
       }

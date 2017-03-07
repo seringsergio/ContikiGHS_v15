@@ -66,6 +66,9 @@ uint8_t flags = 0; // Banderas del proceso
 MEMB(neighbors_memb, struct neighbor, MAX_NEIGHBORS); // Defines a memory pool for neighbors
 LIST(neighbors_list); // List that holds the neighbors we have seen thus far
 
+/*Listas de runicast para saber cual seq ha llegado. Si ha llegado
+* duplicado o no
+*/
 MEMB(history_mem, struct history_entry, NUM_HISTORY_ENTRIES);
 LIST(history_list);
 
@@ -87,7 +90,7 @@ PROCESS(master_neighbor_discovery, "GHS Control");
 //PROCESS(idle, "Idle process");
 
 AUTOSTART_PROCESSES(&master_neighbor_discovery, &n_broadcast_neighbor_discovery,
-                     &wait, &n_link_weight_worst_case,&master_find_found);
+                     &wait, &n_link_weight_worst_case, &master_find_found);
 
 /*------------------------------------------------------------------- */
 /*-----------FUNCIONES-------------------------------------------------*/
@@ -99,7 +102,7 @@ AUTOSTART_PROCESSES(&master_neighbor_discovery, &n_broadcast_neighbor_discovery,
 */
 static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 {
-  ghs_n_recv_ruc(list_head(history_list) ,list_head(neighbors_list), packetbuf_dataptr(), from,
+  ghs_n_recv_ruc(list_head(neighbors_list), packetbuf_dataptr(), from,
                  &history_mem, history_list, seqno);
 }
 static void sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
@@ -157,7 +160,6 @@ static void master_neighbor_discovery_exit_handler(void)
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS------------------------------------------------*/
 /*------------------------------------------------------------------- */
-
 /*---------------------------------------------------------------------------*/
 /* Este es el proceso MASTER. Este proceso controla a los otros procesos esclavos.
 *  Los puede controlar con start, stop, exit, continue, etc. Es decir, este proceso
@@ -169,7 +171,7 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
   PROCESS_BEGIN();
 
   static struct process *last_process = NULL; //Ultimo proceso que se ejecuto
-  static uint8_t seconds;
+  static s_wait str_wait;
 
   //Definir eventos: Comunes a todos los procesos
   e_wait_stabilization = process_alloc_event(); // Darle un numero al evento
@@ -196,16 +198,18 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
     {
         if(last_process == &n_broadcast_neighbor_discovery)
         {
-            seconds = 50;
-            process_post(&wait, PROCESS_EVENT_CONTINUE, &seconds);
+            str_wait.seconds = 50;
+            str_wait.return_process = PROCESS_CURRENT();
+            process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
             process_exit(&n_broadcast_neighbor_discovery);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
             process_post(PROCESS_CURRENT(), e_weight_worst, NULL);
 
         }else if(last_process == &n_link_weight_worst_case)
         {
-            seconds = 50;
-            process_post(&wait, PROCESS_EVENT_CONTINUE, &seconds);
+            str_wait.seconds = 50;
+            str_wait.return_process = PROCESS_CURRENT();
+            process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
             process_exit(&n_link_weight_worst_case);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
             process_post(PROCESS_CURRENT(), e_init_find_found, NULL);
@@ -288,7 +292,6 @@ PROCESS_THREAD(n_link_weight_worst_case, ev, data)
   list_init(history_list);
   memb_init(&history_mem);
 
-
   PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
 
   while(1)
@@ -332,17 +335,17 @@ PROCESS_THREAD(wait, ev, data)
     PROCESS_BEGIN();
 
     static struct etimer et;
-    static uint8_t *seconds;
+    static s_wait *str_wait;
 
     while(1)
     {
       PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
-      seconds = data;
+      str_wait = data;
 
-      etimer_set(&et, CLOCK_SECOND * (*seconds) );
+      etimer_set(&et, CLOCK_SECOND * str_wait->seconds );
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
-      process_post(&master_neighbor_discovery,PROCESS_EVENT_CONTINUE, NULL);
+      process_post(str_wait->return_process,PROCESS_EVENT_CONTINUE, NULL);
     }
     PROCESS_END();
 }

@@ -20,6 +20,16 @@
 #define BRANCH     0x02
 #define E_REJECTED 0x04
 #define E_ACCEPTED 0x08
+
+//Tipos de mensajes
+#define CONNECT      0x01
+#define INITIATE     0x02
+#define TEST         0x04
+#define M_REJECT     0x08
+#define M_ACCEPT     0x10
+#define REPORT       0x20
+#define CHANGE_ROOT  0x40
+
 /*-------------------------------------------------------------------*/
 /*---------------- TYPEDEF ------------------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -30,6 +40,26 @@ typedef struct LWOE LWOE;
 typedef struct reports reports;
 typedef struct test_msg test_msg;
 typedef struct edges edges;
+typedef struct connect_msg connect_msg;
+/*-------------------------------------------------------------------*/
+/*---------------- EVENTOS ------------------------------------------*/
+/*-------------------------------------------------------------------*/
+process_event_t e_found;
+process_event_t e_msg_connect;
+process_event_t e_msg_initiate;
+process_event_t e_msg_test;
+process_event_t e_msg_reject;
+process_event_t e_msg_accept;
+process_event_t e_msg_report;
+process_event_t e_msg_change_root;
+
+/*-------------------------------------------------------------------*/
+/*---------------- ESTRUCTURAS MSG-----------------------------------*/
+/*-------------------------------------------------------------------*/
+struct connect_msg
+{
+    uint8_t level;
+};
 /*-------------------------------------------------------------------*/
 /*---------------- ESTRUCTURAS---------------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -74,7 +104,7 @@ struct node
     uint8_t flags;
     fragment f;
     linkaddr_t parent; //Para enviar msg en la downward direction
-    LWOE_type lwoe_type;
+    LWOE_type lwoe;
     reports r;
     uint8_t num_children;
     linkaddr_t downroute; //Para enviar msg en la downward direction
@@ -95,7 +125,7 @@ struct edges {
 /*-------------------------------------------------------------------*/
 /*---------------- Variables globales--------------------------------*/
 /*-------------------------------------------------------------------*/
-node n;
+extern node nd; //nd es node....n es neighbor
 
 /*-------------------------------------------------------------------*/
 /*---------------- FUNCIONES ----------------------------------------*/
@@ -104,6 +134,12 @@ void fill_edges_list(list_t edges_list, struct memb *edges_memb, struct neighbor
 void print_edges_list(edges *e_list_head, char *string,  const linkaddr_t *node_addr);
 void become_branch(edges *e_list_head, linkaddr_t *node_addr);
 linkaddr_t* least_basic_edge(edges *e_list_head);
+
+void ghs_ff_recv_ruc(struct runicast_message *msg, const linkaddr_t *from,
+                    struct memb *history_mem, list_t history_list, uint8_t seqno );
+void ghs_ff_send_ruc(const linkaddr_t *to, uint8_t retransmissions);
+void ghs_ff_timedout_ruc(const linkaddr_t *to, uint8_t retransmissions);
+
 
 
 #endif /* GHS_FIND_FOUND_H */

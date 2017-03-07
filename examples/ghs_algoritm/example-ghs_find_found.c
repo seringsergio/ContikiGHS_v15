@@ -60,24 +60,78 @@
 /*------------------------------------------------------------------- */
 /*----------GLOBAL VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
+node nd;
+
 MEMB(edges_memb, edges, MAX_NUM_EDGES); // Defines a memory pool for edges
 LIST(edges_list); // List that holds the neighbors we have seen thus far
+
+/*Listas de runicast para saber cual seq ha llegado. Si ha llegado
+* duplicado o no
+*/
+MEMB(history_mem, struct history_entry, NUM_HISTORY_ENTRIES);
+LIST(history_list);
+
+/*------------------------------------------------------------------- */
+/*----------STATIC VARIABLES -----------------------------------------*/
+/*------------------------------------------------------------------- */
+static struct runicast_conn runicast; //Es la conexion de runicast
+/*------------------------------------------------------------------- */
+/*-----------FUNCIONES-------------------------------------------------*/
+/*------------------------------------------------------------------- */
+
+/* Funcion que recibe un mensaje de runicast: Si el avg_seqno_gap del vecino es
+*  mayor, entonces reemplazo mi avg_seqno_gap. Para tener un acuerdo entre el avg_seqno_gap
+*  de upward y downward. Se impone el mayor.
+*/
+static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
+{
+  ghs_ff_recv_ruc(packetbuf_dataptr(), from, &history_mem, history_list, seqno);
+}
+static void sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
+{
+  ghs_ff_send_ruc(to, retransmissions);
+}
+static void
+timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
+{
+  ghs_ff_timedout_ruc(to, retransmissions);
+
+}
+static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
+							     sent_runicast,
+							     timedout_runicast};
 
 /*------------------------------------------------------------------- */
 /*----------PROCESSES------- -----------------------------------------*/
 /*------------------------------------------------------------------- */
 
 PROCESS(master_find_found, "Proceso master del Find Found");
+PROCESS(send_message, "Enviar msg de connect");
 
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS------------------------------------------------*/
 /*------------------------------------------------------------------- */
+
+/* Proceso master que controla el find y el found
+*/
 PROCESS_THREAD(master_find_found, ev, data){
     PROCESS_BEGIN();
 
     /* OPTIONAL: Sender history */
     list_init(edges_list);
     memb_init(&edges_memb);
+
+    //Definir eventos: master find found
+    e_found = process_alloc_event(); // Darle un numero al evento
+    e_msg_connect = process_alloc_event(); // Darle un numero al evento
+    e_msg_initiate = process_alloc_event();  // Darle un numero al evento
+    e_msg_test = process_alloc_event(); // Darle un numero al evento
+    e_msg_reject = process_alloc_event(); // Darle un numero al evento
+    e_msg_accept = process_alloc_event(); // Darle un numero al evento
+    e_msg_report = process_alloc_event(); // Darle un numero al evento
+    e_msg_change_root = process_alloc_event(); // Darle un numero al evento
+
+    static s_wait str_wait;
 
     while(1)
     {
@@ -89,19 +143,113 @@ PROCESS_THREAD(master_find_found, ev, data){
             struct neighbor *n_list_head = data;
             char string[] = "READ";
 
+            //Terminar procesos
             process_exit(&master_neighbor_discovery);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
 
+            //Iniciar procesos
+            process_start(&send_message, NULL);
+
+            //Inicializacion de Variables
+            nd.f.name = 0;
+            nd.f.level = 0;
+
+            //Tomar info de master_neighbor_discovery
             fill_edges_list(edges_list, &edges_memb, n_list_head );
 
-            // become_branch = Vuelve branch un edge
-            // least_basic_edge = Encuentra el basic edge de menor peso (Lista ya ordenada en master_neighbor_discovery)
+            //Imprimir
+            print_edges_list(list_head(edges_list), string, &linkaddr_node_addr);
+
+            // Vuelve Branch el basic edge con menor peso
             become_branch(list_head(edges_list), least_basic_edge(list_head(edges_list))  );
 
-            print_edges_list(list_head(edges_list), string, &linkaddr_node_addr);
+            //Setear LWOE del nodo
+            nd.lwoe.node.neighbor = *least_basic_edge(list_head(edges_list));
+
+            //Si no espero la lista se imprime mal. Raro
+            str_wait.seconds = 20;
+            str_wait.return_process = PROCESS_CURRENT();
+            process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
+            PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
+            printf("Ya espere 20 seg desde impresion REEEAD \n");
+
+            process_post(&send_message,  e_msg_connect, &nd.f.level);
+
+            process_post(PROCESS_CURRENT(), e_found, NULL);
+
+        }else
+        if (ev == e_found){
+            printf("Estoy en FOUND \n");
         }
     }
     PROCESS_END();
 
+}
+/* Proceso para enviar mensajes
+*/
+PROCESS_THREAD(send_message, ev, data)
+{
+    PROCESS_BEGIN();
+    runicast_open(&runicast, 144, &runicast_callbacks); //Open la conexion
 
+
+    /* OPTIONAL: Sender history */
+    list_init(history_list);
+    memb_init(&history_mem);
+
+    while(1)
+    {
+        static struct etimer et;
+        static uint8_t *level;
+
+        PROCESS_WAIT_EVENT(); // Wait for any event.
+        if(ev == e_msg_connect)
+        {
+            level = data;
+            connect_msg msg;
+
+            /* Delay 2-4 seconds */
+            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
+            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+            {
+                msg.level = *level;
+                packetbuf_copyfrom(&msg, sizeof(msg));
+                runicast_send(&runicast, &nd.lwoe.node.neighbor, MAX_RETRANSMISSIONS);
+
+            }
+
+            //to nd.lwoe.node.neighbor
+            //printf("El level es %d \n", *level);
+        }else
+        if(ev == e_msg_initiate)
+        {
+
+        }else
+        if(ev == e_msg_test)
+        {
+
+        }else
+        if(ev == e_msg_reject)
+        {
+
+        }else
+        if(ev == e_msg_accept)
+        {
+
+        }else
+        if(ev == e_msg_report)
+        {
+
+        }else
+        if(ev == e_msg_change_root)
+        {
+
+        }
+
+    }
+
+
+    PROCESS_END();
 
 }

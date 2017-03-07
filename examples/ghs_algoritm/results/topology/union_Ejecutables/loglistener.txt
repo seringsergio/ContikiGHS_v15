@@ -1,181 +1,231 @@
-00:00.334	ID:8	Rime started with address 8.0
-00:00.343	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-72a879d started. Node id is set to 8.
-00:00.352	ID:8	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.363	ID:8	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:00.452	ID:11	Rime started with address 11.0
-00:00.461	ID:11	MAC 0b:00:00:00:00:00:00:00 Contiki-72a879d started. Node id is set to 11.
-00:00.470	ID:11	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.481	ID:11	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:00.498	ID:2	Rime started with address 2.0
-00:00.506	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-72a879d started. Node id is set to 2.
-00:00.512	ID:6	Rime started with address 6.0
+00:00.335	ID:8	Rime started with address 8.0
+00:00.344	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-14db450 started. Node id is set to 8.
+00:00.353	ID:8	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.364	ID:8	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
+00:00.453	ID:11	Rime started with address 11.0
+00:00.462	ID:11	MAC 0b:00:00:00:00:00:00:00 Contiki-14db450 started. Node id is set to 11.
+00:00.471	ID:11	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.482	ID:11	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
+00:00.499	ID:2	Rime started with address 2.0
+00:00.507	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-14db450 started. Node id is set to 2.
+00:00.513	ID:6	Rime started with address 6.0
 00:00.516	ID:2	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.521	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-72a879d started. Node id is set to 6.
-00:00.526	ID:2	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:00.530	ID:6	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.541	ID:6	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:00.610	ID:4	Rime started with address 4.0
-00:00.619	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-72a879d started. Node id is set to 4.
-00:00.628	ID:4	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.639	ID:4	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:00.644	ID:1	Rime started with address 1.0
-00:00.652	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-72a879d started. Node id is set to 1.
-00:00.662	ID:1	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.663	ID:7	Rime started with address 7.0
-00:00.672	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-72a879d started. Node id is set to 7.
-00:00.672	ID:1	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:00.681	ID:7	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.692	ID:7	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:00.818	ID:10	Rime started with address 10.0
-00:00.827	ID:10	MAC 0a:00:00:00:00:00:00:00 Contiki-72a879d started. Node id is set to 10.
-00:00.836	ID:10	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.847	ID:10	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:00.856	ID:12	Rime started with address 12.0
-00:00.865	ID:12	MAC 0c:00:00:00:00:00:00:00 Contiki-72a879d started. Node id is set to 12.
-00:00.874	ID:12	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.885	ID:12	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:00.970	ID:9	Rime started with address 9.0
-00:00.977	ID:5	Rime started with address 5.0
-00:00.979	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-72a879d started. Node id is set to 9.
-00:00.985	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-72a879d started. Node id is set to 5.
-00:00.988	ID:9	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.522	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-14db450 started. Node id is set to 6.
+00:00.527	ID:2	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
+00:00.531	ID:6	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.542	ID:6	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
+00:00.611	ID:4	Rime started with address 4.0
+00:00.620	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-14db450 started. Node id is set to 4.
+00:00.629	ID:4	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.640	ID:4	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
+00:00.645	ID:1	Rime started with address 1.0
+00:00.653	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-14db450 started. Node id is set to 1.
+00:00.663	ID:1	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.664	ID:7	Rime started with address 7.0
+00:00.673	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-14db450 started. Node id is set to 7.
+00:00.673	ID:1	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
+00:00.682	ID:7	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.693	ID:7	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
+00:00.819	ID:10	Rime started with address 10.0
+00:00.828	ID:10	MAC 0a:00:00:00:00:00:00:00 Contiki-14db450 started. Node id is set to 10.
+00:00.837	ID:10	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.848	ID:10	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
+00:00.857	ID:12	Rime started with address 12.0
+00:00.866	ID:12	MAC 0c:00:00:00:00:00:00:00 Contiki-14db450 started. Node id is set to 12.
+00:00.875	ID:12	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.886	ID:12	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
+00:00.971	ID:9	Rime started with address 9.0
+00:00.978	ID:5	Rime started with address 5.0
+00:00.980	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-14db450 started. Node id is set to 9.
+00:00.986	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-14db450 started. Node id is set to 5.
+00:00.989	ID:9	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.995	ID:5	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.999	ID:9	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:01.005	ID:5	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:01.161	ID:3	Rime started with address 3.0
-00:01.170	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-72a879d started. Node id is set to 3.
-00:01.179	ID:3	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:01.190	ID:3	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-01:34.550	ID:12	Process exited: Neighbor Discovery via Broadcast
-01:37.457	ID:2	Process exited: Neighbor Discovery via Broadcast
-01:38.206	ID:12	12.0: sending runicast to address 10.0
-01:38.339	ID:10	runicast message received from 12.0,with avg_seqno_gap = 1.03, seqno 0
-01:38.375	ID:12	runicast message sent to 10.0, retransmissions 1
-01:38.523	ID:9	Process exited: Neighbor Discovery via Broadcast
-01:40.460	ID:5	Process exited: Neighbor Discovery via Broadcast
-01:40.585	ID:4	Process exited: Neighbor Discovery via Broadcast
-01:40.984	ID:9	9.0: sending runicast to address 1.0
-01:41.042	ID:1	runicast message received from 9.0,with avg_seqno_gap = 1.05, seqno 0
-01:41.113	ID:9	runicast message sent to 1.0, retransmissions 1
-01:41.182	ID:12	12.0: sending runicast to address 6.0
-01:41.282	ID:6	runicast message received from 12.0,with avg_seqno_gap = 1.24, seqno 1
-01:41.372	ID:12	runicast message sent to 6.0, retransmissions 1
-01:41.441	ID:2	2.0: sending runicast to address 5.0
-01:41.498	ID:5	runicast message received from 2.0,with avg_seqno_gap = 1.38, seqno 0
-01:41.517	ID:2	runicast message sent to 5.0, retransmissions 1
-01:42.096	ID:1	Process exited: Neighbor Discovery via Broadcast
-01:42.200	ID:8	Process exited: Neighbor Discovery via Broadcast
-01:42.560	ID:11	Process exited: Neighbor Discovery via Broadcast
-01:43.325	ID:10	Process exited: Neighbor Discovery via Broadcast
-01:43.671	ID:9	9.0: sending runicast to address 11.0
-01:43.724	ID:11	runicast message received from 9.0,with avg_seqno_gap = 1.00, seqno 1
-01:43.834	ID:4	4.0: sending runicast to address 7.0
-01:43.864	ID:9	runicast message sent to 11.0, retransmissions 1
-01:44.060	ID:7	runicast message received from 4.0,with avg_seqno_gap = 1.00, seqno 0
+00:01.000	ID:9	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
+00:01.006	ID:5	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
+00:01.162	ID:3	Rime started with address 3.0
+00:01.171	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-14db450 started. Node id is set to 3.
+00:01.180	ID:3	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:01.191	ID:3	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
+01:34.551	ID:12	Process exited: Neighbor Discovery via Broadcast
+01:37.458	ID:2	Process exited: Neighbor Discovery via Broadcast
+01:38.207	ID:12	12.0: sending runicast to address 10.0
+01:38.340	ID:10	runicast message received from 12.0,with avg_seqno_gap = 1.03, seqno 0
+01:38.376	ID:12	runicast message sent to 10.0, retransmissions 1
+01:38.524	ID:9	Process exited: Neighbor Discovery via Broadcast
+01:40.461	ID:5	Process exited: Neighbor Discovery via Broadcast
+01:40.586	ID:4	Process exited: Neighbor Discovery via Broadcast
+01:40.985	ID:9	9.0: sending runicast to address 1.0
+01:41.043	ID:1	runicast message received from 9.0,with avg_seqno_gap = 1.05, seqno 0
+01:41.114	ID:9	runicast message sent to 1.0, retransmissions 1
+01:41.183	ID:12	12.0: sending runicast to address 6.0
+01:41.283	ID:6	runicast message received from 12.0,with avg_seqno_gap = 1.24, seqno 1
+01:41.376	ID:12	runicast message sent to 6.0, retransmissions 1
+01:41.442	ID:2	2.0: sending runicast to address 5.0
+01:41.499	ID:5	runicast message received from 2.0,with avg_seqno_gap = 1.38, seqno 0
+01:41.518	ID:2	runicast message sent to 5.0, retransmissions 1
+01:42.097	ID:1	Process exited: Neighbor Discovery via Broadcast
+01:42.201	ID:8	Process exited: Neighbor Discovery via Broadcast
+01:42.561	ID:11	Process exited: Neighbor Discovery via Broadcast
+01:43.326	ID:10	Process exited: Neighbor Discovery via Broadcast
+01:43.672	ID:9	9.0: sending runicast to address 11.0
+01:43.725	ID:11	runicast message received from 9.0,with avg_seqno_gap = 1.00, seqno 1
+01:43.835	ID:4	4.0: sending runicast to address 7.0
+01:43.865	ID:9	runicast message sent to 11.0, retransmissions 1
+01:44.061	ID:7	runicast message received from 4.0,with avg_seqno_gap = 1.00, seqno 0
 01:44.129	ID:4	runicast message sent to 7.0, retransmissions 1
-01:44.183	ID:2	2.0: sending runicast to address 1.0
-01:44.215	ID:8	8.0: sending runicast to address 7.0
-01:44.342	ID:5	5.0: sending runicast to address 2.0
-01:44.538	ID:1	runicast message received from 2.0,with avg_seqno_gap = 1.60, seqno 1
-01:44.628	ID:6	Process exited: Neighbor Discovery via Broadcast
-01:45.006	ID:7	Process exited: Neighbor Discovery via Broadcast
-01:45.267	ID:2	runicast message sent to 1.0, retransmissions 1
-01:45.310	ID:7	runicast message received from 8.0,with avg_seqno_gap = 1.08, seqno 0
-01:45.352	ID:8	runicast message sent to 7.0, retransmissions 2
-01:45.415	ID:1	runicast message received from 2.0, seqno 1 (DUPLICATE)
-01:45.694	ID:1	1.0: sending runicast to address 2.0
-01:45.879	ID:10	10.0: sending runicast to address 8.0
-01:45.911	ID:11	11.0: sending runicast to address 3.0
-01:45.981	ID:8	runicast message received from 10.0,with avg_seqno_gap = 1.03, seqno 0
-01:46.086	ID:10	runicast message sent to 8.0, retransmissions 1
-01:46.364	ID:8	8.0: sending runicast to address 10.0
-01:46.393	ID:2	runicast message received from 5.0,with avg_seqno_gap = 1.38, seqno 0
-01:46.466	ID:10	runicast message received from 8.0,with avg_seqno_gap = 1.03, seqno 1
-01:46.496	ID:5	runicast message sent to 2.0, retransmissions 3
-01:46.530	ID:4	4.0: sending runicast to address 3.0
-01:46.558	ID:3	runicast message received from 4.0,with avg_seqno_gap = 1.00, seqno 1
-01:46.627	ID:4	runicast message sent to 3.0, retransmissions 1
-01:46.727	ID:8	runicast message sent to 10.0, retransmissions 1
-01:46.770	ID:2	runicast message received from 1.0,with avg_seqno_gap = 1.60, seqno 0
-01:46.789	ID:1	runicast message sent to 2.0, retransmissions 2
-01:46.932	ID:3	runicast message received from 11.0,with avg_seqno_gap = 1.12, seqno 0
-01:46.970	ID:11	runicast message sent to 3.0, retransmissions 2
-01:47.027	ID:3	Process exited: Neighbor Discovery via Broadcast
-01:48.014	ID:5	5.0: sending runicast to address 6.0
-01:48.096	ID:6	6.0: sending runicast to address 5.0
-01:48.159	ID:6	runicast message received from 5.0,with avg_seqno_gap = 1.04, seqno 1
-01:48.286	ID:11	11.0: sending runicast to address 9.0
+01:44.184	ID:2	2.0: sending runicast to address 1.0
+01:44.216	ID:8	8.0: sending runicast to address 7.0
+01:44.343	ID:5	5.0: sending runicast to address 2.0
+01:44.542	ID:1	runicast message received from 2.0,with avg_seqno_gap = 1.60, seqno 1
+01:44.629	ID:6	Process exited: Neighbor Discovery via Broadcast
+01:45.007	ID:7	Process exited: Neighbor Discovery via Broadcast
+01:45.266	ID:2	runicast message sent to 1.0, retransmissions 1
+01:45.311	ID:7	runicast message received from 8.0,with avg_seqno_gap = 1.08, seqno 0
+01:45.353	ID:8	runicast message sent to 7.0, retransmissions 2
+01:45.416	ID:1	runicast message received from 2.0, seqno 1 (DUPLICATE)
+01:45.695	ID:1	1.0: sending runicast to address 2.0
+01:45.880	ID:10	10.0: sending runicast to address 8.0
+01:45.912	ID:11	11.0: sending runicast to address 3.0
+01:45.982	ID:8	runicast message received from 10.0,with avg_seqno_gap = 1.03, seqno 0
+01:46.087	ID:10	runicast message sent to 8.0, retransmissions 1
+01:46.365	ID:8	8.0: sending runicast to address 10.0
+01:46.394	ID:2	runicast message received from 5.0,with avg_seqno_gap = 1.38, seqno 0
+01:46.467	ID:10	runicast message received from 8.0,with avg_seqno_gap = 1.03, seqno 1
+01:46.497	ID:5	runicast message sent to 2.0, retransmissions 3
+01:46.531	ID:4	4.0: sending runicast to address 3.0
+01:46.559	ID:3	runicast message received from 4.0,with avg_seqno_gap = 1.00, seqno 1
+01:46.628	ID:4	runicast message sent to 3.0, retransmissions 1
+01:46.728	ID:8	runicast message sent to 10.0, retransmissions 1
+01:46.771	ID:2	runicast message received from 1.0,with avg_seqno_gap = 1.60, seqno 0
+01:46.790	ID:1	runicast message sent to 2.0, retransmissions 2
+01:46.933	ID:3	runicast message received from 11.0,with avg_seqno_gap = 1.12, seqno 0
+01:46.971	ID:11	runicast message sent to 3.0, retransmissions 2
+01:47.028	ID:3	Process exited: Neighbor Discovery via Broadcast
+01:48.015	ID:5	5.0: sending runicast to address 6.0
+01:48.097	ID:6	6.0: sending runicast to address 5.0
+01:48.160	ID:6	runicast message received from 5.0,with avg_seqno_gap = 1.04, seqno 1
+01:48.287	ID:11	11.0: sending runicast to address 9.0
 01:48.368	ID:9	runicast message received from 11.0,with avg_seqno_gap = 1.10, seqno 1
-01:48.369	ID:5	runicast message sent to 6.0, retransmissions 1
-01:48.379	ID:5	runicast message received from 6.0,with avg_seqno_gap = 1.38, seqno 0
-01:48.405	ID:6	runicast message sent to 5.0, retransmissions 1
-01:48.470	ID:11	runicast message sent to 9.0, retransmissions 1
-01:48.575	ID:7	7.0: sending runicast to address 8.0
-01:48.606	ID:8	runicast message received from 7.0,with avg_seqno_gap = 1.15, seqno 0
-01:48.682	ID:7	runicast message sent to 8.0, retransmissions 1
-01:48.785	ID:10	10.0: sending runicast to address 12.0
-01:48.878	ID:12	runicast message received from 10.0,with avg_seqno_gap = 1.18, seqno 1
-01:48.961	ID:10	runicast message sent to 12.0, retransmissions 1
-01:49.462	ID:1	1.0: sending runicast to address 9.0
-01:49.493	ID:9	runicast message received from 1.0,with avg_seqno_gap = 1.12, seqno 1
-01:49.538	ID:1	runicast message sent to 9.0, retransmissions 1
-01:49.862	ID:3	3.0: sending runicast to address 11.0
-01:49.974	ID:11	runicast message received from 3.0,with avg_seqno_gap = 1.12, seqno 0
-01:50.055	ID:3	runicast message sent to 11.0, retransmissions 1
+01:48.370	ID:5	runicast message sent to 6.0, retransmissions 1
+01:48.380	ID:5	runicast message received from 6.0,with avg_seqno_gap = 1.38, seqno 0
+01:48.406	ID:6	runicast message sent to 5.0, retransmissions 1
+01:48.471	ID:11	runicast message sent to 9.0, retransmissions 1
+01:48.576	ID:7	7.0: sending runicast to address 8.0
+01:48.607	ID:8	runicast message received from 7.0,with avg_seqno_gap = 1.15, seqno 0
+01:48.683	ID:7	runicast message sent to 8.0, retransmissions 1
+01:48.786	ID:10	10.0: sending runicast to address 12.0
+01:48.879	ID:12	runicast message received from 10.0,with avg_seqno_gap = 1.18, seqno 1
+01:48.962	ID:10	runicast message sent to 12.0, retransmissions 1
+01:49.463	ID:1	1.0: sending runicast to address 9.0
+01:49.494	ID:9	runicast message received from 1.0,with avg_seqno_gap = 1.12, seqno 1
+01:49.539	ID:1	runicast message sent to 9.0, retransmissions 1
+01:49.863	ID:3	3.0: sending runicast to address 11.0
+01:49.975	ID:11	runicast message received from 3.0,with avg_seqno_gap = 1.12, seqno 0
+01:50.056	ID:3	runicast message sent to 11.0, retransmissions 1
 01:50.636	ID:6	6.0: sending runicast to address 12.0
-01:50.752	ID:12	runicast message received from 6.0,with avg_seqno_gap = 1.24, seqno 1
-01:50.781	ID:6	runicast message sent to 12.0, retransmissions 1
-01:52.185	ID:7	7.0: sending runicast to address 4.0
-01:52.256	ID:4	runicast message received from 7.0,with avg_seqno_gap = 1.00, seqno 1
-01:52.306	ID:7	runicast message sent to 4.0, retransmissions 1
-01:53.425	ID:3	3.0: sending runicast to address 4.0
-01:53.506	ID:4	runicast message received from 3.0,with avg_seqno_gap = 1.04, seqno 1
+01:50.753	ID:12	runicast message received from 6.0,with avg_seqno_gap = 1.24, seqno 1
+01:50.782	ID:6	runicast message sent to 12.0, retransmissions 1
+01:52.186	ID:7	7.0: sending runicast to address 4.0
+01:52.257	ID:4	runicast message received from 7.0,with avg_seqno_gap = 1.00, seqno 1
+01:52.307	ID:7	runicast message sent to 4.0, retransmissions 1
+01:53.426	ID:3	3.0: sending runicast to address 4.0
+01:53.507	ID:4	runicast message received from 3.0,with avg_seqno_gap = 1.04, seqno 1
 01:53.554	ID:3	runicast message sent to 4.0, retransmissions 1
-02:31.275	ID:12	Process Init: master_find_found 
-02:31.278	ID:12	Process Exit: master_neighbor_discovery 
-02:31.281	ID:12	READ 12 10 1.18 2
-02:31.283	ID:12	READ 12 6 1.24 1
-02:33.718	ID:9	Process Init: master_find_found 
-02:33.721	ID:9	Process Exit: master_neighbor_discovery 
-02:33.723	ID:9	READ 9 11 1.10 2
-02:33.725	ID:9	READ 9 1 1.12 1
-02:34.456	ID:2	Process Init: master_find_found 
-02:34.459	ID:2	Process Exit: master_neighbor_discovery 
-02:34.461	ID:2	READ 2 5 1.38 2
-02:34.463	ID:2	READ 2 1 1.60 1
-02:36.457	ID:8	Process Init: master_find_found 
-02:36.460	ID:8	Process Exit: master_neighbor_discovery 
-02:36.462	ID:8	READ 8 10 1.03 2
-02:36.464	ID:8	READ 8 7 1.15 1
-02:36.553	ID:4	Process Init: master_find_found 
-02:36.556	ID:4	Process Exit: master_neighbor_discovery 
-02:36.558	ID:4	READ 4 7 1.00 2
-02:36.560	ID:4	READ 4 3 1.04 1
-02:38.154	ID:5	Process Init: master_find_found 
-02:38.157	ID:5	Process Exit: master_neighbor_discovery 
-02:38.159	ID:5	READ 5 2 1.38 2
-02:38.161	ID:5	READ 5 6 1.38 1
-02:38.364	ID:11	Process Init: master_find_found 
-02:38.367	ID:11	Process Exit: master_neighbor_discovery 
-02:38.369	ID:11	READ 11 9 1.10 2
-02:38.371	ID:11	READ 11 3 1.12 1
-02:38.871	ID:10	Process Init: master_find_found 
-02:38.874	ID:10	Process Exit: master_neighbor_discovery 
-02:38.876	ID:10	READ 10 8 1.03 2
-02:38.878	ID:10	READ 10 12 1.18 1
-02:39.485	ID:1	Process Init: master_find_found 
-02:39.488	ID:1	Process Exit: master_neighbor_discovery 
-02:39.490	ID:1	READ 1 9 1.12 2
-02:39.492	ID:1	READ 1 2 1.60 1
-02:40.745	ID:6	Process Init: master_find_found 
-02:40.747	ID:6	Process Exit: master_neighbor_discovery 
-02:40.750	ID:6	READ 6 12 1.24 2
-02:40.752	ID:6	READ 6 5 1.38 1
-02:42.247	ID:7	Process Init: master_find_found 
-02:42.250	ID:7	Process Exit: master_neighbor_discovery 
-02:42.252	ID:7	READ 7 4 1.00 2
-02:42.254	ID:7	READ 7 8 1.15 1
-02:43.503	ID:3	Process Init: master_find_found 
+02:31.276	ID:12	Process Init: master_find_found 
+02:31.279	ID:12	Process Exit: master_neighbor_discovery 
+02:31.282	ID:12	READ 12 10 1.18 1
+02:31.284	ID:12	READ 12 6 1.24 1
+02:33.719	ID:9	Process Init: master_find_found 
+02:33.722	ID:9	Process Exit: master_neighbor_discovery 
+02:33.724	ID:9	READ 9 11 1.10 1
+02:33.726	ID:9	READ 9 1 1.12 1
+02:34.457	ID:2	Process Init: master_find_found 
+02:34.460	ID:2	Process Exit: master_neighbor_discovery 
+02:34.463	ID:2	READ 2 5 1.38 1
+02:34.464	ID:2	READ 2 1 1.60 1
+02:36.458	ID:8	Process Init: master_find_found 
+02:36.461	ID:8	Process Exit: master_neighbor_discovery 
+02:36.464	ID:8	READ 8 10 1.03 1
+02:36.466	ID:8	READ 8 7 1.15 1
+02:36.554	ID:4	Process Init: master_find_found 
+02:36.557	ID:4	Process Exit: master_neighbor_discovery 
+02:36.559	ID:4	READ 4 7 1.00 1
+02:36.561	ID:4	READ 4 3 1.04 1
+02:38.155	ID:5	Process Init: master_find_found 
+02:38.158	ID:5	Process Exit: master_neighbor_discovery 
+02:38.160	ID:5	READ 5 2 1.38 1
+02:38.162	ID:5	READ 5 6 1.38 1
+02:38.365	ID:11	Process Init: master_find_found 
+02:38.368	ID:11	Process Exit: master_neighbor_discovery 
+02:38.371	ID:11	READ 11 9 1.10 1
+02:38.372	ID:11	READ 11 3 1.12 1
+02:38.872	ID:10	Process Init: master_find_found 
+02:38.875	ID:10	Process Exit: master_neighbor_discovery 
+02:38.877	ID:10	READ 10 8 1.03 1
+02:38.879	ID:10	READ 10 12 1.18 1
+02:39.486	ID:1	Process Init: master_find_found 
+02:39.489	ID:1	Process Exit: master_neighbor_discovery 
+02:39.492	ID:1	READ 1 9 1.12 1
+02:39.494	ID:1	READ 1 2 1.60 1
+02:40.746	ID:6	Process Init: master_find_found 
+02:40.748	ID:6	Process Exit: master_neighbor_discovery 
+02:40.751	ID:6	READ 6 12 1.24 1
+02:40.753	ID:6	READ 6 5 1.38 1
+02:42.248	ID:7	Process Init: master_find_found 
+02:42.251	ID:7	Process Exit: master_neighbor_discovery 
+02:42.253	ID:7	READ 7 4 1.00 1
+02:42.255	ID:7	READ 7 8 1.15 1
+02:43.504	ID:3	Process Init: master_find_found 
 02:43.506	ID:3	Process Exit: master_neighbor_discovery 
-02:43.508	ID:3	READ 3 4 1.04 2
-02:43.509	ID:3	READ 3 11 1.12 1
+02:43.509	ID:3	READ 3 4 1.04 1
+02:43.511	ID:3	READ 3 11 1.12 1
+02:51.284	ID:12	Ya espere 20 seg desde impresion REEEAD 
+02:51.286	ID:12	Estoy en FOUND 
+02:53.726	ID:9	Ya espere 20 seg desde impresion REEEAD 
+02:53.728	ID:9	Estoy en FOUND 
+02:54.282	ID:6	runicast message received from 12.0, seqno 0
+02:54.375	ID:12	runicast message sent to 6.0, retransmissions 1
+02:54.465	ID:2	Ya espere 20 seg desde impresion REEEAD 
+02:54.467	ID:2	Estoy en FOUND 
+02:56.466	ID:8	Ya espere 20 seg desde impresion REEEAD 
+02:56.467	ID:8	Estoy en FOUND 
+02:56.562	ID:4	Ya espere 20 seg desde impresion REEEAD 
+02:56.563	ID:4	Estoy en FOUND 
+02:57.164	ID:1	runicast message received from 9.0, seqno 0
+02:57.240	ID:9	runicast message sent to 1.0, retransmissions 1
+02:57.414	ID:1	runicast message received from 2.0, seqno 0
+02:57.517	ID:2	runicast message sent to 1.0, retransmissions 1
+02:58.163	ID:5	Ya espere 20 seg desde impresion REEEAD 
+02:58.164	ID:5	Estoy en FOUND 
+02:58.372	ID:11	Ya espere 20 seg desde impresion REEEAD 
+02:58.374	ID:11	Estoy en FOUND 
+02:58.879	ID:10	Ya espere 20 seg desde impresion REEEAD 
+02:58.881	ID:10	Estoy en FOUND 
+02:58.929	ID:3	runicast message received from 4.0, seqno 0
+02:59.005	ID:4	runicast message sent to 3.0, retransmissions 1
+02:59.183	ID:7	runicast message received from 8.0, seqno 0
+02:59.228	ID:8	runicast message sent to 7.0, retransmissions 1
+02:59.494	ID:1	Ya espere 20 seg desde impresion REEEAD 
+02:59.495	ID:1	Estoy en FOUND 
+03:00.753	ID:6	Ya espere 20 seg desde impresion REEEAD 
+03:00.754	ID:6	Estoy en FOUND 
+03:01.031	ID:6	runicast message received from 5.0, seqno 0
+03:01.121	ID:5	runicast message sent to 6.0, retransmissions 1
+03:01.807	ID:3	runicast message received from 11.0, seqno 0
+03:01.848	ID:11	runicast message sent to 3.0, retransmissions 1
+03:02.125	ID:12	runicast message received from 10.0, seqno 0
+03:02.213	ID:10	runicast message sent to 12.0, retransmissions 1
+03:02.256	ID:7	Ya espere 20 seg desde impresion REEEAD 
+03:02.257	ID:7	Estoy en FOUND 
+03:02.516	ID:2	runicast message received from 1.0, seqno 0
+03:02.537	ID:1	runicast message sent to 2.0, retransmissions 1
+03:03.511	ID:3	Ya espere 20 seg desde impresion REEEAD 
+03:03.512	ID:3	Estoy en FOUND 
+03:04.122	ID:5	runicast message received from 6.0, seqno 0
+03:04.158	ID:6	runicast message sent to 5.0, retransmissions 1
+03:06.230	ID:8	runicast message received from 7.0, seqno 0
+03:06.347	ID:11	runicast message received from 3.0, seqno 0
+03:07.183	ID:7	runicast message sent to 8.0, retransmissions 1
+03:07.355	ID:8	runicast message received from 7.0, seqno 0 (DUPLICATE)
+03:07.598	ID:11	runicast message received from 3.0, seqno 0 (DUPLICATE)
+03:08.055	ID:3	runicast message sent to 11.0, retransmissions 1
