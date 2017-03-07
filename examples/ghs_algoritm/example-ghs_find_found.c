@@ -138,39 +138,16 @@ PROCESS_THREAD(master_find_found, ev, data){
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if (ev == e_init_find_found)
         {
-            printf("Process Init: master_find_found \n");
-
-            struct neighbor *n_list_head = data;
-            char string[] = "READ";
-
-            //Terminar procesos
-            process_exit(&master_neighbor_discovery);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
-
-            //Iniciar procesos
-            process_start(&send_message, NULL);
-
-            //Inicializacion de Variables
-            nd.f.name = 0;
-            nd.f.level = 0;
-
-            //Tomar info de master_neighbor_discovery
-            fill_edges_list(edges_list, &edges_memb, n_list_head );
-
-            //Imprimir
-            print_edges_list(list_head(edges_list), string, &linkaddr_node_addr);
-
-            // Vuelve Branch el basic edge con menor peso
-            become_branch(list_head(edges_list), least_basic_edge(list_head(edges_list))  );
-
-            //Setear LWOE del nodo
-            nd.lwoe.node.neighbor = *least_basic_edge(list_head(edges_list));
+            //printf("Process Init: master_find_found \n");
+            init_m_find_found(data, &master_neighbor_discovery,
+                              &send_message, &nd,
+                              &edges_memb, edges_list, &linkaddr_node_addr );
 
             //Si no espero la lista se imprime mal. Raro
             str_wait.seconds = 20;
             str_wait.return_process = PROCESS_CURRENT();
             process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
-            printf("Ya espere 20 seg desde impresion REEEAD \n");
 
             process_post(&send_message,  e_msg_connect, &nd.f.level);
 
@@ -214,9 +191,10 @@ PROCESS_THREAD(send_message, ev, data)
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
                 msg.level = *level;
+                msg.type  = CONNECT;  
                 packetbuf_copyfrom(&msg, sizeof(msg));
                 runicast_send(&runicast, &nd.lwoe.node.neighbor, MAX_RETRANSMISSIONS);
-
+                printf("LWOE = %d - El level es %d \n", nd.lwoe.node.neighbor.u8[0], *level );
             }
 
             //to nd.lwoe.node.neighbor

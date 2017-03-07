@@ -6,9 +6,11 @@
 /*---------------- INCLUDES -----------------------------------------*/
 /*-------------------------------------------------------------------*/
 
-#include <stdio.h>
-#include "ghs_find_found.h"
+#include "contiki.h"
+#include "ghs_algorithm.h"
 #include "net/rime/rime.h" //Aca esta ghs_neigh.h
+
+#include <stdio.h>
 
 /*-------------------------------------------------------------------*/
 /*---------------- Definiciones ------------------------------------------*/
@@ -58,6 +60,7 @@ process_event_t e_msg_change_root;
 /*-------------------------------------------------------------------*/
 struct connect_msg
 {
+    uint8_t type; //El tipo de msg siempre va a ser CONNECT aca
     uint8_t level;
 };
 /*-------------------------------------------------------------------*/
@@ -135,11 +138,13 @@ void print_edges_list(edges *e_list_head, char *string,  const linkaddr_t *node_
 void become_branch(edges *e_list_head, linkaddr_t *node_addr);
 linkaddr_t* least_basic_edge(edges *e_list_head);
 
-void ghs_ff_recv_ruc(struct runicast_message *msg, const linkaddr_t *from,
+void ghs_ff_recv_ruc(connect_msg *msg, const linkaddr_t *from,
                     struct memb *history_mem, list_t history_list, uint8_t seqno );
 void ghs_ff_send_ruc(const linkaddr_t *to, uint8_t retransmissions);
 void ghs_ff_timedout_ruc(const linkaddr_t *to, uint8_t retransmissions);
-
+void init_m_find_found(struct neighbor *n_list_head, struct process *master_neighbor_discovery,
+                        struct process *send_message, node *nd,
+                        struct memb *edges_memb, list_t edges_list, const linkaddr_t *node_addr);
 
 
 #endif /* GHS_FIND_FOUND_H */

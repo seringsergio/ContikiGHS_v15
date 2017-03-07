@@ -98,15 +98,15 @@ void ghs_ff_timedout_ruc(const linkaddr_t *to, uint8_t retransmissions)
 */
 void ghs_ff_send_ruc(const linkaddr_t *to, uint8_t retransmissions)
 {
-    printf("runicast message sent to %d.%d, retransmissions %d\n",
-       to->u8[0], to->u8[1], retransmissions);
+    /*printf("runicast message sent to %d.%d, retransmissions %d\n",
+       to->u8[0], to->u8[1], retransmissions);*/
 }
 /*---------------------------------------------------------------------------*/
 /* Funcion que recibe un mensaje de runicast: Guarda en history_list los vecinos que
 * han enviado msg y su seq. Si el avg_seqno_gap del vecino es
 *  mayor, entonces reemplazo mi avg_seqno_gap.
 */
-void ghs_ff_recv_ruc(struct runicast_message *msg, const linkaddr_t *from,
+void ghs_ff_recv_ruc(connect_msg *msg, const linkaddr_t *from,
                     struct memb *history_mem, list_t history_list, uint8_t seqno )
 {
     // OPTIONAL: Sender history
@@ -137,8 +137,52 @@ void ghs_ff_recv_ruc(struct runicast_message *msg, const linkaddr_t *from,
       e->seq = seqno;
     }
 
-    printf("runicast message received from %d.%d, seqno %d\n",
+    /*printf("runicast message received from %d.%d, seqno %d\n",
   	 from->u8[0], from->u8[1],
-       seqno);
+       seqno);*/
+
+    // Evaluo el tipo de msg que llego
+    if(msg->type == CONNECT)
+    {
+        printf("llego un msg de connect from %d.%d \n", from->u8[0], from->u8[1]);
+    }
+
+}
+
+/* Hace la inicializacion del proceso master_find_found
+*/
+void init_m_find_found(struct neighbor *n_list_head, struct process *master_neighbor_discovery,
+                        struct process *send_message, node *nd,
+                        struct memb *edges_memb, list_t edges_list, const linkaddr_t *node_addr)
+{
+    //Variables locales
+    linkaddr_t *lwoe_init; //LWOE inicial. Es el edge con menor weight
+    char string[] = "READ";
+
+    //Inicializacion de Variables globales
+    nd->f.name = 0;
+    nd->f.level = 0;
+
+    printf("Process Init: master_find_found \n");
+
+    //Terminar procesos
+    process_exit(master_neighbor_discovery);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
+
+    //Iniciar procesos nuevos
+    process_start(send_message, NULL);
+
+    //Tomar info de master_neighbor_discovery
+    fill_edges_list(edges_list, edges_memb, n_list_head );
+
+    // Vuelve Branch el basic edge con menor peso
+    lwoe_init = least_basic_edge(list_head(edges_list));
+    become_branch(list_head(edges_list),  lwoe_init );
+
+    //Setear LWOE del nodo
+    nd->lwoe.node.neighbor = *lwoe_init;
+
+    //imprimir la info que tome de fill_edges_list y guarde en edges_list
+    print_edges_list(list_head(edges_list), string, node_addr);
+
 
 }
