@@ -85,7 +85,8 @@ static struct runicast_conn runicast; //Es la conexion de runicast
 */
 static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 {
-  ghs_ff_recv_ruc(packetbuf_dataptr(), from, &history_mem, history_list, seqno);
+  ghs_ff_recv_ruc(packetbuf_dataptr(), from, &history_mem, history_list, seqno, &nd,
+                  list_head(edges_list), &send_message);
 }
 static void sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
@@ -201,6 +202,10 @@ PROCESS_THREAD(send_message, ev, data)
         }else
         if(ev == e_msg_initiate)
         {
+            initiate_msg *msg;
+            msg = data;
+
+            printf("quiero mandar un msg de INITIATE a %d \n", msg->sender.u8[0]);
 
         }else
         if(ev == e_msg_test)

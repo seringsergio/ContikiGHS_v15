@@ -17,6 +17,17 @@
 /*-------------------------------------------------------------------*/
 #define MAX_NUM_EDGES MAX_NEIGHBORS
 
+//Estados de los nodos
+#define FIND  0x01
+#define FOUND 0x02
+#define END   0x04
+
+//Banderas de lor nodos
+#define INITIATIOR  0x01
+#define P_LWOE      0x02
+#define C_LWOE      0x04
+#define CORE_NODE   0x08
+
 //Estados de los edges
 #define BASIC      0x01
 #define BRANCH     0x02
@@ -44,6 +55,7 @@ typedef struct reports reports;
 typedef struct test_msg test_msg;
 typedef struct edges edges;
 typedef struct connect_msg connect_msg;
+typedef struct initiate_msg initiate_msg;
 /*-------------------------------------------------------------------*/
 /*---------------- EVENTOS ------------------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -56,13 +68,7 @@ process_event_t e_msg_accept;
 process_event_t e_msg_report;
 process_event_t e_msg_change_root;
 
-/*-------------------------------------------------------------------*/
-/*---------------- ESTRUCTURAS MSG-----------------------------------*/
-/*-------------------------------------------------------------------*/
-struct connect_msg
-{
-    uint8_t level;
-};
+
 /*-------------------------------------------------------------------*/
 /*---------------- ESTRUCTURAS---------------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -126,6 +132,22 @@ struct edges {
 };
 
 /*-------------------------------------------------------------------*/
+/*---------------- ESTRUCTURAS MSG-----------------------------------*/
+/*-------------------------------------------------------------------*/
+
+struct initiate_msg
+{
+    uint8_t core_edge;
+    fragment f;
+    uint8_t nd_state;
+    linkaddr_t sender;
+};
+
+struct connect_msg
+{
+    uint8_t level;
+};
+/*-------------------------------------------------------------------*/
 /*---------------- Variables globales--------------------------------*/
 /*-------------------------------------------------------------------*/
 extern node nd; //nd es node....n es neighbor
@@ -139,12 +161,16 @@ void become_branch(edges *e_list_head, linkaddr_t *node_addr);
 linkaddr_t* least_basic_edge(edges *e_list_head);
 
 void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
-                    struct memb *history_mem, list_t history_list, uint8_t seqno );
+                    struct memb *history_mem, list_t history_list, uint8_t seqno,
+                    node *nd,  edges *e_list_head, struct process *send_message);
+
 void ghs_ff_send_ruc(const linkaddr_t *to, uint8_t retransmissions);
 void ghs_ff_timedout_ruc(const linkaddr_t *to, uint8_t retransmissions);
 void init_m_find_found(struct neighbor *n_list_head, struct process *master_neighbor_discovery,
                         struct process *send_message, node *nd,
                         struct memb *edges_memb, list_t edges_list, const linkaddr_t *node_addr);
+uint8_t state_is_branch( const linkaddr_t *addr,  edges *e_list_head);
+uint32_t weight_with_edge( const linkaddr_t *addr,  edges *e_list_head);
 
 
 #endif /* GHS_FIND_FOUND_H */

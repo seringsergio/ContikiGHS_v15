@@ -1,49 +1,49 @@
 00:00.336	ID:8	Rime started with address 8.0
-00:00.344	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-985f9d5 started. Node id is set to 8.
+00:00.344	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 8.
 00:00.353	ID:8	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.364	ID:8	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
 00:00.453	ID:11	Rime started with address 11.0
-00:00.462	ID:11	MAC 0b:00:00:00:00:00:00:00 Contiki-985f9d5 started. Node id is set to 11.
+00:00.462	ID:11	MAC 0b:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 11.
 00:00.471	ID:11	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.482	ID:11	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
 00:00.499	ID:2	Rime started with address 2.0
-00:00.508	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-985f9d5 started. Node id is set to 2.
+00:00.508	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 2.
 00:00.513	ID:6	Rime started with address 6.0
 00:00.517	ID:2	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.522	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-985f9d5 started. Node id is set to 6.
+00:00.522	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 6.
 00:00.527	ID:2	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
 00:00.531	ID:6	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.542	ID:6	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
 00:00.611	ID:4	Rime started with address 4.0
-00:00.620	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-985f9d5 started. Node id is set to 4.
+00:00.620	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 4.
 00:00.629	ID:4	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.640	ID:4	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
 00:00.645	ID:1	Rime started with address 1.0
-00:00.654	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-985f9d5 started. Node id is set to 1.
+00:00.654	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 1.
 00:00.663	ID:1	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.665	ID:7	Rime started with address 7.0
-00:00.673	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-985f9d5 started. Node id is set to 7.
+00:00.673	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 7.
 00:00.674	ID:1	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
 00:00.682	ID:7	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.693	ID:7	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
 00:00.819	ID:10	Rime started with address 10.0
-00:00.828	ID:10	MAC 0a:00:00:00:00:00:00:00 Contiki-985f9d5 started. Node id is set to 10.
+00:00.828	ID:10	MAC 0a:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 10.
 00:00.837	ID:10	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.848	ID:10	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
 00:00.857	ID:12	Rime started with address 12.0
-00:00.866	ID:12	MAC 0c:00:00:00:00:00:00:00 Contiki-985f9d5 started. Node id is set to 12.
+00:00.866	ID:12	MAC 0c:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 12.
 00:00.875	ID:12	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.886	ID:12	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
 00:00.971	ID:9	Rime started with address 9.0
 00:00.978	ID:5	Rime started with address 5.0
-00:00.980	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-985f9d5 started. Node id is set to 9.
-00:00.986	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-985f9d5 started. Node id is set to 5.
+00:00.980	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 9.
+00:00.986	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 5.
 00:00.989	ID:9	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.996	ID:5	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:01.000	ID:9	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
 00:01.006	ID:5	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
 00:01.162	ID:3	Rime started with address 3.0
-00:01.171	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-985f9d5 started. Node id is set to 3.
+00:01.171	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 3.
 00:01.180	ID:3	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:01.191	ID:3	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
 01:34.551	ID:12	Process exited: Neighbor Discovery via Broadcast
@@ -186,20 +186,28 @@
 02:56.465	ID:8	Estoy en FOUND 
 02:56.561	ID:4	Estoy en FOUND 
 02:57.222	ID:11	llego un msg de connect from 9.0 con level = 0
+02:57.225	ID:11	quiero mandar un msg de INITIATE a 9 
 02:57.498	ID:5	llego un msg de connect from 2.0 con level = 0
+02:57.501	ID:5	quiero mandar un msg de INITIATE a 2 
 02:58.162	ID:5	Estoy en FOUND 
 02:58.371	ID:11	Estoy en FOUND 
 02:58.618	ID:1	Estoy en FOUND 
 02:58.935	ID:7	llego un msg de connect from 4.0 con level = 0
+02:58.937	ID:7	quiero mandar un msg de INITIATE a 4 
 02:59.212	ID:10	llego un msg de connect from 8.0 con level = 0
+02:59.215	ID:10	quiero mandar un msg de INITIATE a 8 
 02:59.480	ID:10	Estoy en FOUND 
 03:00.752	ID:6	Estoy en FOUND 
 03:01.116	ID:9	llego un msg de connect from 1.0 con level = 0
 03:01.741	ID:9	llego un msg de connect from 11.0 con level = 0
-03:02.016	ID:2	llego un msg de connect from 5.0 con level = 0
+03:01.744	ID:9	quiero mandar un msg de INITIATE a 11 
+03:02.017	ID:2	llego un msg de connect from 5.0 con level = 0
+03:02.019	ID:2	quiero mandar un msg de INITIATE a 5 
 03:02.255	ID:7	Estoy en FOUND 
 03:02.480	ID:8	llego un msg de connect from 10.0 con level = 0
+03:02.483	ID:8	quiero mandar un msg de INITIATE a 10 
 03:03.510	ID:3	Estoy en FOUND 
 03:04.125	ID:12	llego un msg de connect from 6.0 con level = 0
 03:06.254	ID:4	llego un msg de connect from 7.0 con level = 0
+03:06.257	ID:4	quiero mandar un msg de INITIATE a 7 
 03:06.380	ID:4	llego un msg de connect from 3.0 con level = 0

@@ -107,7 +107,8 @@ void ghs_ff_send_ruc(const linkaddr_t *to, uint8_t retransmissions)
 *  mayor, entonces reemplazo mi avg_seqno_gap.
 */
 void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
-                    struct memb *history_mem, list_t history_list, uint8_t seqno )
+                    struct memb *history_mem, list_t history_list, uint8_t seqno,
+                    node *nd,  edges *e_list_head, struct process *send_message)
 {
     // OPTIONAL: Sender history
     struct history_entry *e = NULL;
@@ -147,14 +148,72 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
     // Evaluo el tipo de msg que llego
     if(msg_type == CONNECT)
     {
-        connect_msg *c_msg = (connect_msg *) msg;
+        initiate_msg i_msg;
+        connect_msg *co_msg = (connect_msg *) msg;
+
+        if(co_msg->level == nd->f.level) //Si los dos fragmentos tienen el mismo nivel
+        {
+
+            if(state_is_branch(from, e_list_head))
+            {
+                nd->num_children = nd->num_children + 1;
+
+                i_msg.core_edge = 1;
+                i_msg.f.name    = weight_with_edge(from, e_list_head);
+                i_msg.f.level   = nd->f.level + 1;
+                i_msg.nd_state  = FIND;
+                linkaddr_copy(&i_msg.sender , from);
+
+                process_post(send_message,  e_msg_initiate, &i_msg);
+
+                nd->flags |= CORE_NODE;
+            }
+        }
 
         printf("llego un msg de connect from %d.%d con level = %d\n",
               from->u8[0], from->u8[1],
-              c_msg->level);
+              co_msg->level);
     }
 
 }
+
+/*Funcion para retornar el peso del edge
+*/
+uint32_t weight_with_edge(const linkaddr_t *addr,  edges *e_list_head)
+{
+    edges *e_aux;
+    for(e_aux = e_list_head; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
+    {
+        if(linkaddr_cmp(addr, &e_aux->addr )) //Entra si las direcciones son iguales
+        {
+            break;
+        }
+    }
+
+    return e_aux->weight;
+}
+/*Funcion para saber si el estado de un edge es branch. Se busca por addr
+*/
+uint8_t state_is_branch(const linkaddr_t *addr,  edges *e_list_head)
+{
+    edges *e_aux;
+    for(e_aux = e_list_head; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
+    {
+        if(linkaddr_cmp(addr, &e_aux->addr )) //Entra si las direcciones son iguales
+        {
+            break;
+        }
+    }
+
+    if(e_aux->state == BRANCH)
+    {
+        return 1;
+    }else
+    {
+        return 0;
+    }
+}
+
 
 /* Hace la inicializacion del proceso master_find_found
 */
