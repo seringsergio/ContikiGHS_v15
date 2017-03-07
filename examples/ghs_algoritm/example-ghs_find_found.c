@@ -191,10 +191,9 @@ PROCESS_THREAD(send_message, ev, data)
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
                 msg.level = *level;
-                msg.type  = CONNECT;  
                 packetbuf_copyfrom(&msg, sizeof(msg));
+                packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, CONNECT);
                 runicast_send(&runicast, &nd.lwoe.node.neighbor, MAX_RETRANSMISSIONS);
-                printf("LWOE = %d - El level es %d \n", nd.lwoe.node.neighbor.u8[0], *level );
             }
 
             //to nd.lwoe.node.neighbor

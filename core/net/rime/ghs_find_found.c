@@ -106,7 +106,7 @@ void ghs_ff_send_ruc(const linkaddr_t *to, uint8_t retransmissions)
 * han enviado msg y su seq. Si el avg_seqno_gap del vecino es
 *  mayor, entonces reemplazo mi avg_seqno_gap.
 */
-void ghs_ff_recv_ruc(connect_msg *msg, const linkaddr_t *from,
+void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
                     struct memb *history_mem, list_t history_list, uint8_t seqno )
 {
     // OPTIONAL: Sender history
@@ -141,10 +141,17 @@ void ghs_ff_recv_ruc(connect_msg *msg, const linkaddr_t *from,
   	 from->u8[0], from->u8[1],
        seqno);*/
 
+    //Leer el packet buffer attribute: Especificamente el tipo de mensaje
+    packetbuf_attr_t msg_type = packetbuf_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG);
+
     // Evaluo el tipo de msg que llego
-    if(msg->type == CONNECT)
+    if(msg_type == CONNECT)
     {
-        printf("llego un msg de connect from %d.%d \n", from->u8[0], from->u8[1]);
+        connect_msg *c_msg = (connect_msg *) msg;
+
+        printf("llego un msg de connect from %d.%d con level = %d\n",
+              from->u8[0], from->u8[1],
+              c_msg->level);
     }
 
 }

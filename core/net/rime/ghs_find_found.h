@@ -32,6 +32,7 @@
 #define REPORT       0x20
 #define CHANGE_ROOT  0x40
 
+
 /*-------------------------------------------------------------------*/
 /*---------------- TYPEDEF ------------------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -60,7 +61,6 @@ process_event_t e_msg_change_root;
 /*-------------------------------------------------------------------*/
 struct connect_msg
 {
-    uint8_t type; //El tipo de msg siempre va a ser CONNECT aca
     uint8_t level;
 };
 /*-------------------------------------------------------------------*/
@@ -138,7 +138,7 @@ void print_edges_list(edges *e_list_head, char *string,  const linkaddr_t *node_
 void become_branch(edges *e_list_head, linkaddr_t *node_addr);
 linkaddr_t* least_basic_edge(edges *e_list_head);
 
-void ghs_ff_recv_ruc(connect_msg *msg, const linkaddr_t *from,
+void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
                     struct memb *history_mem, list_t history_list, uint8_t seqno );
 void ghs_ff_send_ruc(const linkaddr_t *to, uint8_t retransmissions);
 void ghs_ff_timedout_ruc(const linkaddr_t *to, uint8_t retransmissions);
