@@ -202,15 +202,31 @@ PROCESS_THREAD(send_message, ev, data)
         }else
         if(ev == e_msg_initiate)
         {
-            initiate_msg *msg;
-            msg = data;
+            static initiate_msg *msg_d;
+            msg_d = data;
+            static initiate_msg  msg;
 
-            printf("quiero mandar un msg de INITIATE a %d \n", msg->sender.u8[0]);
+            msg.core_edge = msg_d->core_edge;
+            msg.f.name    = msg_d->f.name;
+            msg.f.level   = msg_d->f.level;
+            msg.nd_state  = msg_d->nd_state;
+            linkaddr_copy(&msg.sender , &msg_d->sender);
+
+            /* Delay 2-4 seconds */
+            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
+            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+            {
+                packetbuf_copyfrom(&msg, sizeof(msg));
+                packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INITIATE);
+                runicast_send(&runicast, &msg.sender, MAX_RETRANSMISSIONS);
+                printf("Envio initiate a %d \n", msg.sender.u8[0]);
+            }
 
         }else
         if(ev == e_msg_test)
         {
-
         }else
         if(ev == e_msg_reject)
         {

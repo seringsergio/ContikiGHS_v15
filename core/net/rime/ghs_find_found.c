@@ -154,7 +154,7 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
         if(co_msg->level == nd->f.level) //Si los dos fragmentos tienen el mismo nivel
         {
 
-            if(state_is_branch(from, e_list_head))
+            if(state_is_branch(from, e_list_head)) // Caso inicial. Fragmentos con 1 nodo
             {
                 nd->num_children = nd->num_children + 1;
 
@@ -173,6 +173,24 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
         printf("llego un msg de connect from %d.%d con level = %d\n",
               from->u8[0], from->u8[1],
               co_msg->level);
+    }else
+    if(msg_type == INITIATE)
+    {
+        initiate_msg *i_msg = (initiate_msg *) msg;
+
+
+        nd->f.name  = i_msg->f.name;
+        nd->f.level = i_msg->f.level;
+        nd->state   = i_msg->nd_state;
+        linkaddr_copy(&nd->parent , &i_msg->sender);
+
+        printf("llego INITIATE from %d.%d name=%d level=%d state=%d parent=%d\n",
+              from->u8[0], from->u8[1],
+              nd->f.name,
+              nd->f.level,
+              nd->state,
+              nd->parent.u8[0]);
+
     }
 
 }
