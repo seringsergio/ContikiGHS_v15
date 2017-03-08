@@ -140,7 +140,7 @@ struct initiate_msg
     uint8_t core_edge;
     fragment f;
     uint8_t nd_state;
-    linkaddr_t sender;
+    linkaddr_t destination;
 };
 
 struct connect_msg

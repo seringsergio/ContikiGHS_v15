@@ -157,16 +157,16 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
             if(state_is_branch(from, e_list_head)) // Caso inicial. Fragmentos con 1 nodo
             {
                 nd->num_children = nd->num_children + 1;
+                nd->flags |= CORE_NODE;
 
                 i_msg.core_edge = 1;
                 i_msg.f.name    = weight_with_edge(from, e_list_head);
                 i_msg.f.level   = nd->f.level + 1;
                 i_msg.nd_state  = FIND;
-                linkaddr_copy(&i_msg.sender , from);
+                linkaddr_copy(&i_msg.destination , from);
 
                 process_post(send_message,  e_msg_initiate, &i_msg);
 
-                nd->flags |= CORE_NODE;
             }
         }
 
@@ -177,16 +177,66 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
     if(msg_type == INITIATE)
     {
         initiate_msg *i_msg = (initiate_msg *) msg;
+        initiate_msg i_msg_d;
 
+        /*if( (i_msg->core_edge) && !(nd->flags & CORE_NODE)) //Para enviar 1 vez el initiate de vuelta
+        {
+            nd->num_children = nd->num_children + 1;
+
+            i_msg_d.core_edge = 1;
+            i_msg_d.f.name    = weight_with_edge(from, e_list_head);
+            i_msg_d.f.level   = nd->f.level + 1;
+            i_msg_d.nd_state  = FIND;
+            linkaddr_copy(&i_msg_d.destination , from);
+
+            process_post(send_message,  e_msg_initiate, &i_msg_d);
+
+            nd->flags |= CORE_NODE;
+        }*/
 
         nd->f.name  = i_msg->f.name;
         nd->f.level = i_msg->f.level;
         nd->state   = i_msg->nd_state;
-        linkaddr_copy(&nd->parent , &i_msg->sender);
+        linkaddr_copy(&nd->parent , from);
 
-        printf("llego INITIATE from %d.%d name=%d level=%d state=%d parent=%d\n",
+        //Reenvio el msg por todas las BRANCHES
+        edges *e_aux;
+        for(e_aux = e_list_head; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
+        {
+            if(e_aux->state == BRANCH)
+            {
+                if( (i_msg->core_edge) && !(nd->flags & CORE_NODE)) //Para enviar 1 vez el initiate de vuelta
+                {
+                    nd->num_children = nd->num_children + 1;
+                    nd->flags |= CORE_NODE;
+
+                    i_msg_d.core_edge = 0;
+                    i_msg_d.f.name    = i_msg->f.name;
+                    i_msg_d.f.level   = i_msg->f.level;
+                    i_msg_d.nd_state  = i_msg->nd_state;
+                    linkaddr_copy(&i_msg_d.destination , &e_aux->addr);
+
+                    process_post(send_message,  e_msg_initiate, &i_msg_d);
+
+                }else
+                if( !(i_msg->core_edge) && !(nd->flags & CORE_NODE) )
+                {
+                    i_msg_d.core_edge = 0;
+                    i_msg_d.f.name    = i_msg->f.name;
+                    i_msg_d.f.level   = i_msg->f.level;
+                    i_msg_d.nd_state  = i_msg->nd_state;
+                    linkaddr_copy(&i_msg_d.destination , &e_aux->addr);
+
+                    process_post(send_message,  e_msg_initiate, &i_msg_d);
+
+                }
+            }
+        }
+
+        printf("llego INITIATE from %d.%d name=%d.%02d level=%d state=%d parent=%d\n",
               from->u8[0], from->u8[1],
-              nd->f.name,
+              (int)(nd->f.name / SEQNO_EWMA_UNITY),
+              (int)(((100UL * nd->f.name) / SEQNO_EWMA_UNITY) % 100),
               nd->f.level,
               nd->state,
               nd->parent.u8[0]);
@@ -244,6 +294,7 @@ void init_m_find_found(struct neighbor *n_list_head, struct process *master_neig
     char string[] = "READ";
 
     //Inicializacion de Variables globales
+    nd->flags = 0;
     nd->f.name = 0;
     nd->f.level = 0;
 
