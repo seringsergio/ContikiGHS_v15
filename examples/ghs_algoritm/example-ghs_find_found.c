@@ -213,18 +213,16 @@ PROCESS_THREAD(send_message, ev, data)
             msg_d = data;
             static initiate_msg  msg;
 
-            linkaddr_copy(&msg.destination , &msg_d->destination);
+            /*linkaddr_copy(&msg.destination , &msg_d->destination);*/
 
-            printf("quiero enviar INITIATE a %d \n", msg.destination.u8[0]);
-
-            /*msg.f.name    = msg_d->f.name;
+            msg.f.name    = msg_d->f.name;
             msg.f.level   = msg_d->f.level;
             msg.nd_state  = msg_d->nd_state;
             linkaddr_copy(&msg.destination , &msg_d->destination);
 
             // Delay 2-4 seconds
-            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
-            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+            /*etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
@@ -232,7 +230,9 @@ PROCESS_THREAD(send_message, ev, data)
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INITIATE);
                 runicast_send(&runicast, &msg.destination, MAX_RETRANSMISSIONS);
                 //printf("Envio initiate a %d \n", msg.destination.u8[0]);
-            }*/
+            }
+            printf("quiero enviar INITIATE a %d \n", msg.destination.u8[0]);
+
 
         }else
         if(ev == e_msg_test)

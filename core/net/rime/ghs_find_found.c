@@ -178,9 +178,10 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
         initiate_msg i_msg_d;
 
         nd->f.name  = i_msg->f.name;
-        nd->f.level = i_msg->f.level;
+        //nd->f.level = i_msg->f.level;
         nd->state   = i_msg->nd_state;
         linkaddr_copy(&nd->parent , from);
+
 
         //Reenvio el msg por todas las BRANCHES
         edges *e_aux;
