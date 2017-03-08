@@ -246,7 +246,6 @@ uint8_t state_is_branch(const linkaddr_t *addr,  edges *e_list_head)
         return 1;
     }else
     {
-        printf("No es branch nodo %d \n", addr->u8[0]);
         return 0;
     }
 }
