@@ -75,7 +75,7 @@ process_event_t e_msg_change_root;
 
 struct fragment
 {
-    uint8_t name;
+    uint32_t name;
     uint8_t level;
 
 };
@@ -137,7 +137,6 @@ struct edges {
 
 struct initiate_msg
 {
-    uint8_t core_edge;
     fragment f;
     uint8_t nd_state;
     linkaddr_t destination;
@@ -146,6 +145,7 @@ struct initiate_msg
 struct connect_msg
 {
     uint8_t level;
+    linkaddr_t destination;
 };
 /*-------------------------------------------------------------------*/
 /*---------------- Variables globales--------------------------------*/

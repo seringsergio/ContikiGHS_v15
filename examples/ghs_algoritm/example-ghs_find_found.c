@@ -139,6 +139,7 @@ PROCESS_THREAD(master_find_found, ev, data){
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if (ev == e_init_find_found)
         {
+            static connect_msg c_msg;
             //printf("Process Init: master_find_found \n");
             init_m_find_found(data, &master_neighbor_discovery,
                               &send_message, &nd,
@@ -150,7 +151,9 @@ PROCESS_THREAD(master_find_found, ev, data){
             process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
 
-            process_post(&send_message,  e_msg_connect, &nd.f.level);
+            c_msg.level = nd.f.level;
+            linkaddr_copy(&c_msg.destination,  &nd.lwoe.node.neighbor);
+            process_post(&send_message,  e_msg_connect, &c_msg);
 
             process_post(PROCESS_CURRENT(), e_found, NULL);
 
@@ -177,12 +180,13 @@ PROCESS_THREAD(send_message, ev, data)
     while(1)
     {
         static struct etimer et;
-        static uint8_t *level;
+        //static uint8_t *level;
 
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == e_msg_connect)
         {
-            level = data;
+            static connect_msg *c_msg_d;
+            c_msg_d = data;
             connect_msg msg;
 
             /* Delay 2-4 seconds */
@@ -191,10 +195,13 @@ PROCESS_THREAD(send_message, ev, data)
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
-                msg.level = *level;
+                msg.level = c_msg_d->level;
+                linkaddr_copy(&msg.destination,  &c_msg_d->destination);
                 packetbuf_copyfrom(&msg, sizeof(msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, CONNECT);
-                runicast_send(&runicast, &nd.lwoe.node.neighbor, MAX_RETRANSMISSIONS);
+                runicast_send(&runicast, &msg.destination, MAX_RETRANSMISSIONS);
+                printf("Envio CONECT to %d , level=%d \n", msg.destination.u8[0], msg.level);
+
             }
 
             //to nd.lwoe.node.neighbor
@@ -206,13 +213,16 @@ PROCESS_THREAD(send_message, ev, data)
             msg_d = data;
             static initiate_msg  msg;
 
-            msg.core_edge = msg_d->core_edge;
-            msg.f.name    = msg_d->f.name;
+            linkaddr_copy(&msg.destination , &msg_d->destination);
+
+            printf("quiero enviar INITIATE a %d \n", msg.destination.u8[0]);
+
+            /*msg.f.name    = msg_d->f.name;
             msg.f.level   = msg_d->f.level;
             msg.nd_state  = msg_d->nd_state;
             linkaddr_copy(&msg.destination , &msg_d->destination);
 
-            /* Delay 2-4 seconds */
+            // Delay 2-4 seconds
             etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
             PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
@@ -221,8 +231,8 @@ PROCESS_THREAD(send_message, ev, data)
                 packetbuf_copyfrom(&msg, sizeof(msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INITIATE);
                 runicast_send(&runicast, &msg.destination, MAX_RETRANSMISSIONS);
-                printf("Envio initiate a %d \n", msg.destination.u8[0]);
-            }
+                //printf("Envio initiate a %d \n", msg.destination.u8[0]);
+            }*/
 
         }else
         if(ev == e_msg_test)

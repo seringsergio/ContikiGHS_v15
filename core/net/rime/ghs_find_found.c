@@ -159,18 +159,16 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
                 nd->num_children = nd->num_children + 1;
                 nd->flags |= CORE_NODE;
 
-                i_msg.core_edge = 1;
                 i_msg.f.name    = weight_with_edge(from, e_list_head);
                 i_msg.f.level   = nd->f.level + 1;
                 i_msg.nd_state  = FIND;
                 linkaddr_copy(&i_msg.destination , from);
 
                 process_post(send_message,  e_msg_initiate, &i_msg);
-
             }
         }
 
-        printf("llego un msg de connect from %d.%d con level = %d\n",
+        printf("llego CONNECT from %d.%d con level = %d\n",
               from->u8[0], from->u8[1],
               co_msg->level);
     }else
@@ -178,21 +176,6 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
     {
         initiate_msg *i_msg = (initiate_msg *) msg;
         initiate_msg i_msg_d;
-
-        /*if( (i_msg->core_edge) && !(nd->flags & CORE_NODE)) //Para enviar 1 vez el initiate de vuelta
-        {
-            nd->num_children = nd->num_children + 1;
-
-            i_msg_d.core_edge = 1;
-            i_msg_d.f.name    = weight_with_edge(from, e_list_head);
-            i_msg_d.f.level   = nd->f.level + 1;
-            i_msg_d.nd_state  = FIND;
-            linkaddr_copy(&i_msg_d.destination , from);
-
-            process_post(send_message,  e_msg_initiate, &i_msg_d);
-
-            nd->flags |= CORE_NODE;
-        }*/
 
         nd->f.name  = i_msg->f.name;
         nd->f.level = i_msg->f.level;
@@ -203,33 +186,18 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
         edges *e_aux;
         for(e_aux = e_list_head; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
         {
-            if(e_aux->state == BRANCH)
+            //Propagar el INITIATE por las otras ramas
+            //Si es una BRANCH y no es el nodo que me envio el INITIATE (No le devuelvo el msg)
+            if( (e_aux->state == BRANCH) && !linkaddr_cmp(&e_aux->addr, from))
             {
-                if( (i_msg->core_edge) && !(nd->flags & CORE_NODE)) //Para enviar 1 vez el initiate de vuelta
-                {
-                    nd->num_children = nd->num_children + 1;
-                    nd->flags |= CORE_NODE;
+                nd->num_children = nd->num_children + 1;
 
-                    i_msg_d.core_edge = 0;
-                    i_msg_d.f.name    = i_msg->f.name;
-                    i_msg_d.f.level   = i_msg->f.level;
-                    i_msg_d.nd_state  = i_msg->nd_state;
-                    linkaddr_copy(&i_msg_d.destination , &e_aux->addr);
+                i_msg_d.f.name    = i_msg->f.name;
+                i_msg_d.f.level   = i_msg->f.level;
+                i_msg_d.nd_state  = i_msg->nd_state;
+                linkaddr_copy(&i_msg_d.destination , &e_aux->addr);
 
-                    process_post(send_message,  e_msg_initiate, &i_msg_d);
-
-                }else
-                if( !(i_msg->core_edge) && !(nd->flags & CORE_NODE) )
-                {
-                    i_msg_d.core_edge = 0;
-                    i_msg_d.f.name    = i_msg->f.name;
-                    i_msg_d.f.level   = i_msg->f.level;
-                    i_msg_d.nd_state  = i_msg->nd_state;
-                    linkaddr_copy(&i_msg_d.destination , &e_aux->addr);
-
-                    process_post(send_message,  e_msg_initiate, &i_msg_d);
-
-                }
+                process_post(send_message,  e_msg_initiate, &i_msg_d);
             }
         }
 
@@ -258,7 +226,7 @@ uint32_t weight_with_edge(const linkaddr_t *addr,  edges *e_list_head)
         }
     }
 
-    return e_aux->weight;
+    return (e_aux->weight);
 }
 /*Funcion para saber si el estado de un edge es branch. Se busca por addr
 */
@@ -278,6 +246,7 @@ uint8_t state_is_branch(const linkaddr_t *addr,  edges *e_list_head)
         return 1;
     }else
     {
+        printf("No es branch nodo %d \n", addr->u8[0]);
         return 0;
     }
 }
