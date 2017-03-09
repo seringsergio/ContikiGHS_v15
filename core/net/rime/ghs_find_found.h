@@ -188,6 +188,8 @@ uint8_t state_is_branch( const linkaddr_t *addr,  edges *e_list_head);
 uint32_t weight_with_edge( const linkaddr_t *addr,  edges *e_list_head);
 void llenar_initiate_msg(initiate_msg *i_msg, uint32_t name,
                         uint8_t level, uint8_t state, const linkaddr_t *dest);
+void llenar_connect_msg (connect_msg *msg, uint8_t level, linkaddr_t *destination);
+void llenar_pospone_connect(pospone_connect *pc, const linkaddr_t *neighbor, connect_msg co_msg);
 
 
 #endif /* GHS_FIND_FOUND_H */

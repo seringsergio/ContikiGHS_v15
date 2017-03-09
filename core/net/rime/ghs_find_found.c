@@ -183,8 +183,7 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
                         printf("ERROR: NO PUDE CREAR UNA ENTRADA PARA POSPONE CONNECT \n");
                     }else
                     {
-                        linkaddr_copy(&pc_aux->neighbor, from);
-                        pc_aux->co_msg = *co_msg;
+                        llenar_pospone_connect(pc_aux, from, *co_msg);
                         list_push(pc_list, pc_aux); //Add an item to the start of the list.
                         printf("Agregado CONECT POSPONE de  %d \n", pc_aux->neighbor.u8[0]);
                     }
@@ -193,8 +192,7 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
                     printf("Llegaron 2 mensajes de CONNECT POSPONE del nodo %d \n"
                           ,from->u8[0]);
                     //Reemplazo (update) los valores del mensaje de connect
-                    linkaddr_copy(&pc_aux->neighbor, from); //from ya es igual a neighbor (linea irrelevante)
-                    pc_aux->co_msg = *co_msg; //Reemplazo el msg de connect
+                    llenar_pospone_connect(pc_aux, from, *co_msg);
                 }
             }
         }else
@@ -220,6 +218,7 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
         nd->f.level = i_msg->f.level;
         nd->state   = i_msg->nd_state;
         linkaddr_copy(&nd->parent , from);
+
 
         //Reenvio el msg por todas las BRANCHES
         edges *e_aux;
@@ -327,7 +326,8 @@ void init_m_find_found(struct neighbor *n_list_head, struct process *master_neig
 
 
 }
-
+/* LLena un msg de initiate con los valores parametros
+*/
 void llenar_initiate_msg(initiate_msg *i_msg, uint32_t name,
                         uint8_t level, uint8_t state, const linkaddr_t *dest)
 {
@@ -335,4 +335,20 @@ void llenar_initiate_msg(initiate_msg *i_msg, uint32_t name,
     i_msg->f.level    = level;
     i_msg->nd_state   = state;
     linkaddr_copy(&i_msg->destination , dest);
+}
+/* LLena un msg de connect con los valores parametros
+*/
+void llenar_connect_msg (connect_msg *msg, uint8_t level, linkaddr_t *destination)
+{
+    msg->level = level;
+    linkaddr_copy(&msg->destination,  destination);
+
+}
+
+/* LLena un msg de pospone connect con los valores parametros
+*/
+void llenar_pospone_connect(pospone_connect *pc, const linkaddr_t *neighbor, connect_msg co_msg)
+{
+    linkaddr_copy(&pc->neighbor, neighbor);
+    pc->co_msg = co_msg;
 }

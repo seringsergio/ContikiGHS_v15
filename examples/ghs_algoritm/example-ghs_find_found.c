@@ -157,8 +157,7 @@ PROCESS_THREAD(master_find_found, ev, data){
             process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
 
-            c_msg.level = nd.f.level;
-            linkaddr_copy(&c_msg.destination,  &nd.lwoe.node.neighbor);
+            llenar_connect_msg (&c_msg, nd.f.level, &nd.lwoe.node.neighbor);
             process_post(&send_message,  e_msg_connect, &c_msg);
 
             process_post(PROCESS_CURRENT(), e_found, NULL);
@@ -276,8 +275,8 @@ PROCESS_THREAD(send_message, ev, data)
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
-                msg.level = c_msg_d->level;
-                linkaddr_copy(&msg.destination,  &c_msg_d->destination);
+
+                llenar_connect_msg (&msg, c_msg_d->level, &c_msg_d->destination);
                 packetbuf_copyfrom(&msg, sizeof(msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, CONNECT);
                 runicast_send(&runicast, &msg.destination, MAX_RETRANSMISSIONS);
