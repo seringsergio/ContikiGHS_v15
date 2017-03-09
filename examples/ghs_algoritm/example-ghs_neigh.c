@@ -90,7 +90,7 @@ PROCESS(master_neighbor_discovery, "GHS Control");
 //PROCESS(idle, "Idle process");
 
 AUTOSTART_PROCESSES(&master_neighbor_discovery, &n_broadcast_neighbor_discovery,
-                     &wait, &n_link_weight_worst_case, &master_find_found);
+                     &wait, &n_link_weight_worst_case, &master_co_i);
 
 /*------------------------------------------------------------------- */
 /*-----------FUNCIONES-------------------------------------------------*/
@@ -180,7 +180,7 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
   //Definir eventos: neighbor discovery
   e_discovery_broadcast = process_alloc_event(); // Darle un numero al evento
   e_weight_worst = process_alloc_event(); // Darle un numero al evento
-  e_init_find_found = process_alloc_event(); // Darle un numero al evento
+  e_init_master_co_i = process_alloc_event(); // Darle un numero al evento
 
   process_post(PROCESS_CURRENT(), e_discovery_broadcast, NULL);
 
@@ -212,7 +212,7 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
             process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
             process_exit(&n_link_weight_worst_case);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
-            process_post(PROCESS_CURRENT(), e_init_find_found, NULL);
+            process_post(PROCESS_CURRENT(), e_init_master_co_i, NULL);
         }
     }else
     if(ev == e_weight_worst)
@@ -222,9 +222,9 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
         last_process = data;
         process_post(PROCESS_CURRENT(), e_wait_stabilization, NULL);
     }else
-    if(ev == e_init_find_found)
+    if(ev == e_init_master_co_i)
     {
-        process_post(&master_find_found, e_init_find_found, list_head(neighbors_list));
+        process_post(&master_co_i, e_init_master_co_i, list_head(neighbors_list));
         PROCESS_WAIT_EVENT_UNTIL(ev == e_infinite_wait);
         printf("NUNCA DEBE IMPRIMIRSE ESTO \n");
     }

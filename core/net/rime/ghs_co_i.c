@@ -1,7 +1,7 @@
 /*-------------------------------------------------------------------*/
 /*---------------- INCLUDES -----------------------------------------*/
 /*-------------------------------------------------------------------*/
-#include "ghs_find_found.h"
+#include "ghs_co_i.h"
 /*-------------------------------------------------------------------*/
 /*---------------- FUNCIONES-----------------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -79,13 +79,14 @@ linkaddr_t* least_basic_edge(edges *e_list_head)
     }
     return &e_aux->addr;
 }
-
+/* Es la funcion que se llama cuando hay un timeout en el runicast
+*/
 void ghs_ff_timedout_ruc(const linkaddr_t *to, uint8_t retransmissions)
 {
     printf("runicast message timed out when sending to %d.%d, retransmissions %d\n",
   	 to->u8[0], to->u8[1], retransmissions);
 }
-/* Recibe un mensaje de runicast
+/* Send un mensaje de runicast
 */
 void ghs_ff_send_ruc(const linkaddr_t *to, uint8_t retransmissions)
 {
@@ -99,8 +100,8 @@ void ghs_ff_send_ruc(const linkaddr_t *to, uint8_t retransmissions)
 */
 void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
                     struct memb *history_mem, list_t history_list, uint8_t seqno,
-                    node *nd,  edges *e_list_head, struct process *send_message,
-                    struct memb *pc_memb  ,list_t pc_list, struct process *master_find_found)
+                    node *nd,  edges *e_list_head, struct process *send_message_co_i,
+                    struct memb *pc_memb  ,list_t pc_list, struct process *master_co_i)
 {
     // OPTIONAL: Sender history
     struct history_entry *e = NULL;
@@ -152,7 +153,7 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
 
                 llenar_initiate_msg(&i_msg, weight_with_edge(from, e_list_head),
                                     (nd->f.level + 1), FIND, from);
-                process_post(send_message,  e_msg_initiate, &i_msg);
+                process_post(send_message_co_i,  e_msg_initiate, &i_msg);
 
             }else //Si el estado NO es branch (El proceso postpones processing CONECT)
             {
@@ -190,7 +191,7 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
             become_branch(e_list_head, from);
             nd->num_children = nd->num_children + 1;
             llenar_initiate_msg(&i_msg, nd->f.name,nd->f.level, nd->state, from);
-            process_post(send_message,  e_msg_initiate, &i_msg);
+            process_post(send_message_co_i,  e_msg_initiate, &i_msg);
         }
         /*printf("llego CONNECT from %d.%d con level = %d\n",
               from->u8[0], from->u8[1],
@@ -208,8 +209,8 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
 
         if(nd->f.level == FIND) //si cambio de estado a FIND
         {
-            //Envio un mensaje al master_find_found de find
-            process_post(master_find_found,  e_find, NULL);
+            //Envio un mensaje al master_co_i de find
+            process_post(master_co_i,  e_find, NULL);
         }
         //Reenvio el msg por todas las BRANCHES
         edges *e_aux;
@@ -222,7 +223,7 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
                 nd->num_children = nd->num_children + 1;
                 llenar_initiate_msg(&i_msg_d, i_msg->f.name,i_msg->f.level,
                                    i_msg->nd_state, &e_aux->addr);
-                process_post(send_message,  e_msg_initiate, &i_msg_d);
+                process_post(send_message_co_i,  e_msg_initiate, &i_msg_d);
             }
         }
 
@@ -271,10 +272,10 @@ uint8_t state_is_branch(const linkaddr_t *addr,  edges *e_list_head)
     }
 }
 
-/* Hace la inicializacion del proceso master_find_found
+/* Hace la inicializacion del proceso master_co_i
 */
-void init_m_find_found(struct neighbor *n_list_head, struct process *master_neighbor_discovery,
-                        struct process *send_message, struct process *e_pospone_connect ,node *nd,
+void init_master_co_i(struct neighbor *n_list_head, struct process *master_neighbor_discovery,
+                        struct process *send_message_co_i, struct process *e_pospone_connect ,node *nd,
                         struct memb *edges_memb, list_t edges_list, const linkaddr_t *node_addr)
 {
     //Variables locales
@@ -286,13 +287,13 @@ void init_m_find_found(struct neighbor *n_list_head, struct process *master_neig
     nd->f.name = 0;
     nd->f.level = 0;
 
-    printf("Process Init: master_find_found \n");
+    printf("Process Init: master_co_i \n");
 
     //Terminar procesos
     process_exit(master_neighbor_discovery);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
 
     //Iniciar procesos nuevos
-    process_start(send_message, NULL);
+    process_start(send_message_co_i, NULL);
     process_start(e_pospone_connect, NULL);
 
     //Tomar info de master_neighbor_discovery

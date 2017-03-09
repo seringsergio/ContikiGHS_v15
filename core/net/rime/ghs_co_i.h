@@ -180,13 +180,13 @@ linkaddr_t* least_basic_edge(edges *e_list_head);
 
 void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
                     struct memb *history_mem, list_t history_list, uint8_t seqno,
-                    node *nd,  edges *e_list_head, struct process *send_message,
-                    struct memb *pc_memb  ,list_t pc_list, struct process *master_find_found);
+                    node *nd,  edges *e_list_head, struct process *send_message_co_i,
+                    struct memb *pc_memb  ,list_t pc_list, struct process *master_co_i);
 
 void ghs_ff_send_ruc(const linkaddr_t *to, uint8_t retransmissions);
 void ghs_ff_timedout_ruc(const linkaddr_t *to, uint8_t retransmissions);
-void init_m_find_found(struct neighbor *n_list_head, struct process *master_neighbor_discovery,
-                        struct process *send_message, struct process *e_pospone_connect, node *nd,
+void init_master_co_i(struct neighbor *n_list_head, struct process *master_neighbor_discovery,
+                        struct process *send_message_co_i, struct process *e_pospone_connect, node *nd,
                         struct memb *edges_memb, list_t edges_list, const linkaddr_t *node_addr);
 uint8_t state_is_branch( const linkaddr_t *addr,  edges *e_list_head);
 uint32_t weight_with_edge( const linkaddr_t *addr,  edges *e_list_head);

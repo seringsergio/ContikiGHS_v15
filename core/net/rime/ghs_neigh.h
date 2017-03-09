@@ -42,7 +42,7 @@ process_event_t e_infinite_wait; //Nunca se debe postear este evento
 //neighbor discovery
 process_event_t e_discovery_broadcast;
 process_event_t e_weight_worst; //WEIGHT_WORST
-process_event_t e_init_find_found;
+process_event_t e_init_master_co_i;
 
 /*------------------------------------------------------------------- */
 /*----------GLOBAL VARIABLES -----------------------------------------*/

@@ -85,7 +85,7 @@ static struct runicast_conn runicast; //Es la conexion de runicast
 static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 {
   ghs_ff_recv_ruc(packetbuf_dataptr(), from, &history_mem, history_list, seqno, &nd,
-                  list_head(edges_list), &send_message, &pc_memb, pc_list, &master_find_found );
+                  list_head(edges_list), &send_message_co_i, &pc_memb, pc_list, &master_co_i );
 }
 static void sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
@@ -103,8 +103,8 @@ static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
 /*------------------------------------------------------------------- */
 /*----------PROCESSES------- -----------------------------------------*/
 /*------------------------------------------------------------------- */
-PROCESS(master_find_found, "Proceso master del Find Found");
-PROCESS(send_message, "Enviar msg de connect");
+PROCESS(master_co_i, "Proceso master de los msg connect-initiate");
+PROCESS(send_message_co_i, "Enviar msg de connect");
 PROCESS(e_pospone_connect, "Evaluar Pospone Connect");
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS------------------------------------------------*/
@@ -112,7 +112,7 @@ PROCESS(e_pospone_connect, "Evaluar Pospone Connect");
 
 /* Proceso master que controla el find y el found
 */
-PROCESS_THREAD(master_find_found, ev, data){
+PROCESS_THREAD(master_co_i, ev, data){
     PROCESS_BEGIN();
 
     /* OPTIONAL: Sender history */
@@ -137,12 +137,12 @@ PROCESS_THREAD(master_find_found, ev, data){
     while(1)
     {
         PROCESS_WAIT_EVENT(); // Wait for any event.
-        if (ev == e_init_find_found)
+        if (ev == e_init_master_co_i)
         {
             static connect_msg c_msg;
-            //printf("Process Init: master_find_found \n");
-            init_m_find_found(data, &master_neighbor_discovery,
-                              &send_message, &e_pospone_connect, &nd,
+            //Inicializar el master_co_i
+            init_master_co_i(data, &master_neighbor_discovery,
+                              &send_message_co_i, &e_pospone_connect, &nd,
                               &edges_memb, edges_list, &linkaddr_node_addr );
 
             //Si no espero la lista se imprime mal. Raro
@@ -152,11 +152,12 @@ PROCESS_THREAD(master_find_found, ev, data){
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
 
             llenar_connect_msg (&c_msg, nd.f.level, &nd.lwoe.node.neighbor);
-            process_post(&send_message,  e_msg_connect, &c_msg);
+            process_post(&send_message_co_i,  e_msg_connect, &c_msg);
 
             process_post(PROCESS_CURRENT(), e_found, NULL);
         }else
         if (ev == e_found){
+            //Espero instrucciones de change_root o initiate
             printf("Estoy en FOUND \n");
         }else
         if (ev == e_find)
@@ -195,7 +196,7 @@ PROCESS_THREAD(e_pospone_connect, ev, data)
 
                         llenar_initiate_msg(&i_msg, weight_with_edge(&pc_aux->neighbor, list_head(edges_list)),
                                            (nd.f.level + 1), FIND, &pc_aux->neighbor);
-                        process_post(&send_message,  e_msg_initiate, &i_msg);
+                        process_post(&send_message_co_i,  e_msg_initiate, &i_msg);
 
                         //Pude procesar el pospone connect con exito.
                         //Entonces lo retiro de la lista
@@ -214,7 +215,7 @@ PROCESS_THREAD(e_pospone_connect, ev, data)
                     nd.num_children = nd.num_children + 1;
 
                     llenar_initiate_msg(&i_msg, nd.f.name, nd.f.level, nd.state, &pc_aux->neighbor);
-                    process_post(&send_message,  e_msg_initiate, &i_msg);
+                    process_post(&send_message_co_i,  e_msg_initiate, &i_msg);
 
                     //Pude procesar el pospone connect con exito.
                     //Entonces lo retiro de la lista
@@ -233,7 +234,7 @@ PROCESS_THREAD(e_pospone_connect, ev, data)
 }
 /* Proceso para enviar mensajes
 */
-PROCESS_THREAD(send_message, ev, data)
+PROCESS_THREAD(send_message_co_i, ev, data)
 {
     PROCESS_BEGIN();
     runicast_open(&runicast, 144, &runicast_callbacks); //Open la conexion
@@ -288,21 +289,6 @@ PROCESS_THREAD(send_message, ev, data)
                 runicast_send(&runicast, &msg.destination, MAX_RETRANSMISSIONS);
                 printf("Envio initiate a %d \n", msg.destination.u8[0]);
             }
-        }else
-        if(ev == e_msg_test)
-        {
-        }else
-        if(ev == e_msg_reject)
-        {
-        }else
-        if(ev == e_msg_accept)
-        {
-        }else
-        if(ev == e_msg_report)
-        {
-        }else
-        if(ev == e_msg_change_root)
-        {
         }
     }
     PROCESS_END();

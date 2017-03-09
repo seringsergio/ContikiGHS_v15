@@ -23,11 +23,11 @@ PROCESS_NAME(wait);
 PROCESS_NAME(n_broadcast_neighbor_discovery);
 PROCESS_NAME(n_link_weight_worst_case);
 PROCESS_NAME(master_neighbor_discovery);
-PROCESS_NAME(master_find_found);
+PROCESS_NAME(master_co_i);
 
 //Procesos de find found
-PROCESS_NAME(send_message);
-PROCESS_NAME(e_pospone_connect);    
+PROCESS_NAME(send_message_co_i);
+PROCESS_NAME(e_pospone_connect);
 
 /*------------------------------------------------------------------- */
 /*----------EVENTOS -------- -----------------------------------------*/
@@ -40,7 +40,7 @@ extern process_event_t e_infinite_wait;
 //neighbor discovery
 extern process_event_t e_discovery_broadcast;
 extern process_event_t e_weight_worst;
-extern process_event_t e_init_find_found;
+extern process_event_t e_init_master_co_i;
 
 // master find found
     //estados

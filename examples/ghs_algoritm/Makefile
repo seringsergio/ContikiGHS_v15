@@ -1,6 +1,6 @@
 CONTIKI = ../..
 
-PROJECT_SOURCEFILES += example-ghs_find_found.c
+PROJECT_SOURCEFILES += example-ghs_co_i.c
 
 all: example-ghs_neigh
 
