@@ -39,8 +39,8 @@
  *         This example implements the GHS algorithm. It
  *         includes:
  *         1. /home/sergiodiaz/Desktop/contiki/core/net/rime/ghs_neigh.h.c
- *
- *
+ *         2. /home/sergiodiaz/Desktop/contiki/core/net/rime/ghs_co_i.h.c
+ *         3. /home/sergiodiaz/Desktop/contiki/core/net/rime/ghs_test_ar.h.c
  *
  */
  /*------------------------------------------------------------------- */
@@ -112,7 +112,8 @@ PROCESS(e_pospone_connect, "Evaluar Pospone Connect");
 
 /* Proceso master que controla el find y el found
 */
-PROCESS_THREAD(master_co_i, ev, data){
+PROCESS_THREAD(master_co_i, ev, data)
+{
     PROCESS_BEGIN();
 
     /* OPTIONAL: Sender history */
@@ -164,6 +165,9 @@ PROCESS_THREAD(master_co_i, ev, data){
         {
             //me voy al proceso test-accep-reject
             printf("Estoy en FIND \n");
+            process_start(&master_test_ar, NULL);
+            process_post(&master_test_ar, e_init_master_test_ar, NULL);
+
         }
     }
     PROCESS_END();

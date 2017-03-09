@@ -292,6 +292,7 @@ void init_master_co_i(struct neighbor *n_list_head, struct process *master_neigh
     //Terminar procesos
     process_exit(master_neighbor_discovery);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
 
+
     //Iniciar procesos nuevos
     process_start(send_message_co_i, NULL);
     process_start(e_pospone_connect, NULL);

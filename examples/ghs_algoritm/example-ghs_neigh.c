@@ -39,12 +39,10 @@
  *         This example implements the GHS algorithm. It
  *         includes:
  *         1. /home/sergiodiaz/Desktop/contiki/core/net/rime/ghs_neigh.h.c
- *
- *
+ *         2. /home/sergiodiaz/Desktop/contiki/core/net/rime/ghs_co_i.h.c
+ *         3. /home/sergiodiaz/Desktop/contiki/core/net/rime/ghs_test_ar.h.c
  *
  */
-
-
  /*------------------------------------------------------------------- */
  /*----------- INCLUDES ------------------------------------------------ */
  /*------------------------------------------------------------------- */
@@ -90,7 +88,8 @@ PROCESS(master_neighbor_discovery, "GHS Control");
 //PROCESS(idle, "Idle process");
 
 AUTOSTART_PROCESSES(&master_neighbor_discovery, &n_broadcast_neighbor_discovery,
-                     &wait, &n_link_weight_worst_case, &master_co_i);
+                     &wait, &n_link_weight_worst_case,
+                     &master_co_i);
 
 /*------------------------------------------------------------------- */
 /*-----------FUNCIONES-------------------------------------------------*/

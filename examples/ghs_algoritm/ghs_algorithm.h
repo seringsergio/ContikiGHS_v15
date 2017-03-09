@@ -28,6 +28,7 @@ PROCESS_NAME(master_co_i);
 //Procesos de find found
 PROCESS_NAME(send_message_co_i);
 PROCESS_NAME(e_pospone_connect);
+PROCESS_NAME(master_test_ar);
 
 /*------------------------------------------------------------------- */
 /*----------EVENTOS -------- -----------------------------------------*/
@@ -54,6 +55,10 @@ extern process_event_t e_msg_reject;
 extern process_event_t e_msg_accept;
 extern process_event_t e_msg_report;
 extern process_event_t e_msg_change_root;
+
+//master_test_ar
+extern process_event_t e_init_master_test_ar;
+
 /*-------------------------------------------------------------------*/
 /*---------------- Estructuras---------------------------------------*/
 /*-------------------------------------------------------------------*/

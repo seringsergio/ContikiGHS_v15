@@ -1,19 +1,16 @@
 
-#ifndef GHS_FIND_FOUND_H
-#define GHS_FIND_FOUND_H
+#ifndef GHS_CO_I_H
+#define GHS_CO_I_H
 
 /*-------------------------------------------------------------------*/
 /*---------------- INCLUDES -----------------------------------------*/
 /*-------------------------------------------------------------------*/
-
 #include "contiki.h"
 #include "ghs_algorithm.h"
 #include "net/rime/rime.h" //Aca esta ghs_neigh.h
-
 #include <stdio.h>
-
 /*-------------------------------------------------------------------*/
-/*---------------- Definiciones ------------------------------------------*/
+/*---------------- Definiciones -------------------------------------*/
 /*-------------------------------------------------------------------*/
 //Definicion de maximos
 #define MAX_NUM_EDGES     MAX_NEIGHBORS
@@ -196,4 +193,4 @@ void llenar_connect_msg (connect_msg *msg, uint8_t level, linkaddr_t *destinatio
 void llenar_pospone_connect(pospone_connect *pc, const linkaddr_t *neighbor, connect_msg co_msg);
 
 
-#endif /* GHS_FIND_FOUND_H */
+#endif /* GHS_CO_I_H */
