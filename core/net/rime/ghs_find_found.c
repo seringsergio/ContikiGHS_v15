@@ -1,9 +1,7 @@
 /*-------------------------------------------------------------------*/
 /*---------------- INCLUDES -----------------------------------------*/
 /*-------------------------------------------------------------------*/
-
 #include "ghs_find_found.h"
-
 /*-------------------------------------------------------------------*/
 /*---------------- FUNCIONES-----------------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -24,9 +22,7 @@ void fill_edges_list(list_t edges_list, struct memb *edges_memb, struct neighbor
         e -> weight = n_aux -> avg_seqno_gap;
 
         list_add(edges_list, e); //Agregarlo a la lista
-
     }
-
 }
 
 /* Imprime la lista de edges
@@ -45,8 +41,6 @@ void print_edges_list(edges *e_list_head, char *string,  const linkaddr_t *node_
               (int)(((100UL * e_aux->weight) / SEQNO_EWMA_UNITY) % 100),
               e_aux->state);
     }
-
-
 }
 
 /* Un edge pasa de estado BASIC a BRANCH.
@@ -55,7 +49,6 @@ void print_edges_list(edges *e_list_head, char *string,  const linkaddr_t *node_
 void become_branch(edges *e_list_head, const linkaddr_t *node_addr)
 {
     edges *e_aux;
-
     for(e_aux = e_list_head; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
     {
         if(linkaddr_cmp(&e_aux->addr, node_addr)) //Entra si las direcciones son iguales
@@ -73,21 +66,19 @@ void become_branch(edges *e_list_head, const linkaddr_t *node_addr)
 linkaddr_t* least_basic_edge(edges *e_list_head)
 {
     edges *e_aux;
-
     for(e_aux = e_list_head; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
     {
-        if(e_aux->state == BASIC)//tener en cuenta que la lista de edges ya esta
-                                  //ordenada de menor a mayor desde el proceso
-                                  //master_neighbor_discovery. Entonces solo necesito
-                                  //evaluar que el edge sea basic
+        //tener en cuenta que la lista de edges ya esta
+        //ordenada de menor a mayor desde el proceso
+        //master_neighbor_discovery. Entonces solo necesito
+        //evaluar que el edge sea basic
+        if(e_aux->state == BASIC)
         {
             break;
         }
     }
-
     return &e_aux->addr;
 }
-
 
 void ghs_ff_timedout_ruc(const linkaddr_t *to, uint8_t retransmissions)
 {
@@ -154,7 +145,6 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
 
         if(co_msg->level == nd->f.level) //Si los dos fragmentos tienen el mismo nivel
         {
-
             if(state_is_branch(from, e_list_head)) // Caso inicial. Fragmentos con 1 nodo
             {
                 nd->num_children = nd->num_children + 1;
@@ -167,7 +157,6 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
             }else //Si el estado NO es branch (El proceso postpones processing CONECT)
             {
                 pospone_connect *pc_aux = NULL;
-
                 for(pc_aux = list_head(pc_list); pc_aux != NULL; pc_aux = list_item_next(pc_aux)) // Recorrer toda la lista
                 {
                     if(linkaddr_cmp(&pc_aux->neighbor, from)) { // Si las dir son iguales entra
@@ -199,9 +188,7 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
         if(co_msg->level < nd->f.level)
         {
             become_branch(e_list_head, from);
-
             nd->num_children = nd->num_children + 1;
-
             llenar_initiate_msg(&i_msg, nd->f.name,nd->f.level, nd->state, from);
             process_post(send_message,  e_msg_initiate, &i_msg);
         }
@@ -219,7 +206,6 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
         nd->state   = i_msg->nd_state;
         linkaddr_copy(&nd->parent , from);
 
-
         //Reenvio el msg por todas las BRANCHES
         edges *e_aux;
         for(e_aux = e_list_head; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
@@ -229,13 +215,11 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
             if( (e_aux->state == BRANCH) && !linkaddr_cmp(&e_aux->addr, from))
             {
                 nd->num_children = nd->num_children + 1;
-
                 llenar_initiate_msg(&i_msg_d, i_msg->f.name,i_msg->f.level,
                                    i_msg->nd_state, &e_aux->addr);
                 process_post(send_message,  e_msg_initiate, &i_msg_d);
             }
         }
-
 
         printf("llego INITIATE from %d.%d name=%d.%02d level=%d state=%d parent=%d\n",
               from->u8[0], from->u8[1],
@@ -244,9 +228,7 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
               nd->f.level,
               nd->state,
               nd->parent.u8[0]);
-
     }
-
 }
 
 /*Funcion para retornar el peso del edge
@@ -261,7 +243,6 @@ uint32_t weight_with_edge(const linkaddr_t *addr,  edges *e_list_head)
             break;
         }
     }
-
     return (e_aux->weight);
 }
 /*Funcion para saber si el estado de un edge es branch. Se busca por addr
@@ -276,7 +257,6 @@ uint8_t state_is_branch(const linkaddr_t *addr,  edges *e_list_head)
             break;
         }
     }
-
     if(e_aux->state == BRANCH)
     {
         return 1;
@@ -285,7 +265,6 @@ uint8_t state_is_branch(const linkaddr_t *addr,  edges *e_list_head)
         return 0;
     }
 }
-
 
 /* Hace la inicializacion del proceso master_find_found
 */
@@ -323,8 +302,6 @@ void init_m_find_found(struct neighbor *n_list_head, struct process *master_neig
 
     //imprimir la info que tome de fill_edges_list y guarde en edges_list
     print_edges_list(list_head(edges_list), string, node_addr);
-
-
 }
 /* LLena un msg de initiate con los valores parametros
 */
@@ -342,7 +319,6 @@ void llenar_connect_msg (connect_msg *msg, uint8_t level, linkaddr_t *destinatio
 {
     msg->level = level;
     linkaddr_copy(&msg->destination,  destination);
-
 }
 
 /* LLena un msg de pospone connect con los valores parametros

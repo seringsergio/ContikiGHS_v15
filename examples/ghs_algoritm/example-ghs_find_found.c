@@ -43,12 +43,9 @@
  *
  *
  */
-
-
  /*------------------------------------------------------------------- */
  /*----------- INCLUDES ------------------------------------------------ */
  /*------------------------------------------------------------------- */
-
 #include "contiki.h"
 #include "lib/list.h"
 #include "lib/memb.h"
@@ -56,7 +53,6 @@
 #include "net/rime/rime.h" //Aca esta ghs.h
 #include "ghs_algorithm.h"
 #include <stdio.h>
-
 /*------------------------------------------------------------------- */
 /*----------GLOBAL VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
@@ -72,10 +68,8 @@ LIST(edges_list); // List that holds the neighbors we have seen thus far
 MEMB(history_mem, struct history_entry, NUM_HISTORY_ENTRIES);
 LIST(history_list);
 
-
 MEMB(pc_memb, pospone_connect, MAX_NUM_POSPONES); // Defines a memory pool for edges
 LIST(pc_list); // List that holds the neighbors we have seen thus far
-
 /*------------------------------------------------------------------- */
 /*----------STATIC VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
@@ -106,15 +100,12 @@ timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retrans
 static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
 							     sent_runicast,
 							     timedout_runicast};
-
 /*------------------------------------------------------------------- */
 /*----------PROCESSES------- -----------------------------------------*/
 /*------------------------------------------------------------------- */
-
 PROCESS(master_find_found, "Proceso master del Find Found");
 PROCESS(send_message, "Enviar msg de connect");
 PROCESS(e_pospone_connect, "Evaluar Pospone Connect");
-
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS------------------------------------------------*/
 /*------------------------------------------------------------------- */
@@ -139,7 +130,6 @@ PROCESS_THREAD(master_find_found, ev, data){
     e_msg_change_root = process_alloc_event(); // Darle un numero al evento
 
     static s_wait str_wait;
-
     while(1)
     {
         PROCESS_WAIT_EVENT(); // Wait for any event.
@@ -161,17 +151,13 @@ PROCESS_THREAD(master_find_found, ev, data){
             process_post(&send_message,  e_msg_connect, &c_msg);
 
             process_post(PROCESS_CURRENT(), e_found, NULL);
-
         }else
         if (ev == e_found){
             //printf("Estoy en FOUND \n");
         }
     }
     PROCESS_END();
-
 }
-
-
 /* Evaluar los mensajes de pospone connect
 */
 PROCESS_THREAD(e_pospone_connect, ev, data)
@@ -184,7 +170,6 @@ PROCESS_THREAD(e_pospone_connect, ev, data)
         static pospone_connect *pc_aux = NULL;
         static initiate_msg i_msg;
 
-
         etimer_set(&et, CLOCK_SECOND * 1); //Evaluo msg de connect pendientes cada 1 seg
         PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
@@ -194,7 +179,6 @@ PROCESS_THREAD(e_pospone_connect, ev, data)
             {
                 if(pc_aux->co_msg.level == nd.f.level) //Si los dos fragmentos tienen el mismo nivel
                 {
-
                     if(state_is_branch( &pc_aux->neighbor, list_head(edges_list))) // Caso inicial. Fragmentos con 1 nodo
                     {
                         nd.num_children = nd.num_children + 1;
@@ -207,10 +191,7 @@ PROCESS_THREAD(e_pospone_connect, ev, data)
                         //Pude procesar el pospone connect con exito.
                         //Entonces lo retiro de la lista
                         list_remove (pc_list, pc_aux);
-
                         printf("Envio msg de INICIATE DESDE POSPONE a %d \n", i_msg.destination.u8[0] );
-
-
                     }else //Si el estado NO es branch (El proceso postpones processing CONECT)
                     {
                         //No lo voy a posponer otra vez!
@@ -238,20 +219,15 @@ PROCESS_THREAD(e_pospone_connect, ev, data)
             } //For cada elemento de la lista
 
         } //end if hay elementos en la lista
-
     }
-
     PROCESS_END();
 }
-
-
 /* Proceso para enviar mensajes
 */
 PROCESS_THREAD(send_message, ev, data)
 {
     PROCESS_BEGIN();
     runicast_open(&runicast, 144, &runicast_callbacks); //Open la conexion
-
 
     /* OPTIONAL: Sender history */
     list_init(history_list);
@@ -275,15 +251,12 @@ PROCESS_THREAD(send_message, ev, data)
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
-
                 llenar_connect_msg (&msg, c_msg_d->level, &c_msg_d->destination);
                 packetbuf_copyfrom(&msg, sizeof(msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, CONNECT);
                 runicast_send(&runicast, &msg.destination, MAX_RETRANSMISSIONS);
                 //printf("Envio CONECT to %d , level=%d \n", msg.destination.u8[0], msg.level);
-
             }
-
             //to nd.lwoe.node.neighbor
             //printf("El level es %d \n", *level);
         }else
@@ -299,7 +272,6 @@ PROCESS_THREAD(send_message, ev, data)
             // Delay 2-4 seconds
             /*etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
             PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
-
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
                 packetbuf_copyfrom(&msg, sizeof(msg));
@@ -307,32 +279,22 @@ PROCESS_THREAD(send_message, ev, data)
                 runicast_send(&runicast, &msg.destination, MAX_RETRANSMISSIONS);
                 printf("Envio initiate a %d \n", msg.destination.u8[0]);
             }
-
-
         }else
         if(ev == e_msg_test)
         {
         }else
         if(ev == e_msg_reject)
         {
-
         }else
         if(ev == e_msg_accept)
         {
-
         }else
         if(ev == e_msg_report)
         {
-
         }else
         if(ev == e_msg_change_root)
         {
-
         }
-
     }
-
-
     PROCESS_END();
-
 }
