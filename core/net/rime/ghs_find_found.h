@@ -15,14 +15,16 @@
 /*-------------------------------------------------------------------*/
 /*---------------- Definiciones ------------------------------------------*/
 /*-------------------------------------------------------------------*/
-#define MAX_NUM_EDGES MAX_NEIGHBORS
+//Definicion de maximos
+#define MAX_NUM_EDGES     MAX_NEIGHBORS
+#define MAX_NUM_POSPONES  MAX_NEIGHBORS
 
 //Estados de los nodos
 #define FIND  0x01
 #define FOUND 0x02
 #define END   0x04
 
-//Banderas de lor nodos
+//Banderas de los nodos
 #define INITIATIOR  0x01
 #define P_LWOE      0x02
 #define C_LWOE      0x04
@@ -56,6 +58,7 @@ typedef struct test_msg test_msg;
 typedef struct edges edges;
 typedef struct connect_msg connect_msg;
 typedef struct initiate_msg initiate_msg;
+typedef struct pospone_connect pospone_connect;
 /*-------------------------------------------------------------------*/
 /*---------------- EVENTOS ------------------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -107,6 +110,7 @@ struct test_msg
     fragment f;
 };
 
+
 struct node
 {
     uint8_t state;
@@ -147,22 +151,33 @@ struct connect_msg
     uint8_t level;
     linkaddr_t destination;
 };
+
+struct pospone_connect
+{
+    struct pospone_connect *next;
+    connect_msg c_msg;  //msg de connect
+    linkaddr_t neighbor; //Vecino que envio el msg de connect
+
+};
+
 /*-------------------------------------------------------------------*/
 /*---------------- Variables globales--------------------------------*/
 /*-------------------------------------------------------------------*/
 extern node nd; //nd es node....n es neighbor
+extern pospone_connect pc; //pc = pospone connect
 
 /*-------------------------------------------------------------------*/
 /*---------------- FUNCIONES ----------------------------------------*/
 /*-------------------------------------------------------------------*/
 void fill_edges_list(list_t edges_list, struct memb *edges_memb, struct neighbor *n_list_head);
 void print_edges_list(edges *e_list_head, char *string,  const linkaddr_t *node_addr);
-void become_branch(edges *e_list_head, linkaddr_t *node_addr);
+void become_branch(edges *e_list_head, const linkaddr_t *node_addr);
 linkaddr_t* least_basic_edge(edges *e_list_head);
 
 void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
                     struct memb *history_mem, list_t history_list, uint8_t seqno,
-                    node *nd,  edges *e_list_head, struct process *send_message);
+                    node *nd,  edges *e_list_head, struct process *send_message,
+                    struct memb *pc_memb  ,list_t pc_list);
 
 void ghs_ff_send_ruc(const linkaddr_t *to, uint8_t retransmissions);
 void ghs_ff_timedout_ruc(const linkaddr_t *to, uint8_t retransmissions);

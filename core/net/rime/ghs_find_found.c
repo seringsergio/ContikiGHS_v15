@@ -52,7 +52,7 @@ void print_edges_list(edges *e_list_head, char *string,  const linkaddr_t *node_
 /* Un edge pasa de estado BASIC a BRANCH.
 *  Become_branch = Vuelve branch un edge
 */
-void become_branch(edges *e_list_head, linkaddr_t *node_addr)
+void become_branch(edges *e_list_head, const linkaddr_t *node_addr)
 {
     edges *e_aux;
 
@@ -108,7 +108,8 @@ void ghs_ff_send_ruc(const linkaddr_t *to, uint8_t retransmissions)
 */
 void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
                     struct memb *history_mem, list_t history_list, uint8_t seqno,
-                    node *nd,  edges *e_list_head, struct process *send_message)
+                    node *nd,  edges *e_list_head, struct process *send_message,
+                    struct memb *pc_memb  ,list_t pc_list)
 {
     // OPTIONAL: Sender history
     struct history_entry *e = NULL;
@@ -159,18 +160,69 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
                 nd->num_children = nd->num_children + 1;
                 nd->flags |= CORE_NODE;
 
-                i_msg.f.name    = weight_with_edge(from, e_list_head);
-                i_msg.f.level   = nd->f.level + 1;
-                i_msg.nd_state  = FIND;
+                i_msg.f.name     = weight_with_edge(from, e_list_head);
+                i_msg.f.level    = nd->f.level + 1;
+                i_msg.nd_state   = FIND;
                 linkaddr_copy(&i_msg.destination , from);
 
                 process_post(send_message,  e_msg_initiate, &i_msg);
+            }else //Si el estado NO es branch (El proceso postpones processing CONECT)
+            {
+                pospone_connect *pc_aux = NULL;
+
+                for(pc_aux = list_head(pc_list); pc_aux != NULL; pc_aux = list_item_next(pc_aux)) // Recorrer toda la lista
+                {
+                    if(linkaddr_cmp(&pc_aux->neighbor, from)) { // Si las dir son iguales entra
+                      break;
+                    }
+                }
+
+                if(pc_aux == NULL) //SI no existe un pospone para el nodo
+                {
+                    // Create new history entry
+                    pc_aux = memb_alloc(pc_memb);
+                    if(pc_aux == NULL)
+                    {
+                        printf("ERROR: NO PUDE CREAR UNA ENTRADA PARA POSPONE CONNECT \n");
+                    }else
+                    {
+                        linkaddr_copy(&pc_aux->neighbor, from);
+                        pc_aux->c_msg = *co_msg;
+                        list_push(pc_list, pc_aux); //Add an item to the start of the list.
+                        printf("Agregado CONECT POSPONE de  %d \n", pc_aux->neighbor.u8[0]);
+
+                    }
+                }else
+                {
+                    printf("Llegaron 2 mensajes de CONNECT POSPONE del nodo %d \n"
+                          ,from->u8[0]);
+
+                    //Reemplazo (update) los valores del mensaje de connect
+                    linkaddr_copy(&pc_aux->neighbor, from); //from ya es igual a neighbor (linea irrelevante)
+                    pc_aux->c_msg = *co_msg; //Reemplazo el msg de connect
+                }
             }
+        }else
+        if(co_msg->level < nd->f.level)
+        {
+            become_branch(e_list_head, from);
+
+            nd->num_children = nd->num_children + 1;
+
+            i_msg.f.name     = nd->f.name;
+            i_msg.f.level    = nd->f.level;
+            i_msg.nd_state   = nd->state;
+            linkaddr_copy(&i_msg.destination , from);
+
+            process_post(send_message,  e_msg_initiate, &i_msg);
+
         }
 
-        printf("llego CONNECT from %d.%d con level = %d\n",
+
+
+        /*printf("llego CONNECT from %d.%d con level = %d\n",
               from->u8[0], from->u8[1],
-              co_msg->level);
+              co_msg->level);*/
     }else
     if(msg_type == INITIATE)
     {
@@ -178,10 +230,9 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
         initiate_msg i_msg_d;
 
         nd->f.name  = i_msg->f.name;
-        //nd->f.level = i_msg->f.level;
+        nd->f.level = i_msg->f.level;
         nd->state   = i_msg->nd_state;
         linkaddr_copy(&nd->parent , from);
-
 
         //Reenvio el msg por todas las BRANCHES
         edges *e_aux;
@@ -201,6 +252,7 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
                 process_post(send_message,  e_msg_initiate, &i_msg_d);
             }
         }
+
 
         printf("llego INITIATE from %d.%d name=%d.%02d level=%d state=%d parent=%d\n",
               from->u8[0], from->u8[1],

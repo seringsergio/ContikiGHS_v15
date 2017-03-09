@@ -60,7 +60,8 @@
 /*------------------------------------------------------------------- */
 /*----------GLOBAL VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
-node nd;
+node nd; //nd es node....n es neighbor
+pospone_connect pc; //pc = pospone connect
 
 MEMB(edges_memb, edges, MAX_NUM_EDGES); // Defines a memory pool for edges
 LIST(edges_list); // List that holds the neighbors we have seen thus far
@@ -70,6 +71,10 @@ LIST(edges_list); // List that holds the neighbors we have seen thus far
 */
 MEMB(history_mem, struct history_entry, NUM_HISTORY_ENTRIES);
 LIST(history_list);
+
+
+MEMB(pc_memb, pospone_connect, MAX_NUM_POSPONES); // Defines a memory pool for edges
+LIST(pc_list); // List that holds the neighbors we have seen thus far
 
 /*------------------------------------------------------------------- */
 /*----------STATIC VARIABLES -----------------------------------------*/
@@ -86,7 +91,7 @@ static struct runicast_conn runicast; //Es la conexion de runicast
 static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 {
   ghs_ff_recv_ruc(packetbuf_dataptr(), from, &history_mem, history_list, seqno, &nd,
-                  list_head(edges_list), &send_message);
+                  list_head(edges_list), &send_message, &pc_memb, pc_list);
 }
 static void sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
@@ -159,7 +164,7 @@ PROCESS_THREAD(master_find_found, ev, data){
 
         }else
         if (ev == e_found){
-            printf("Estoy en FOUND \n");
+            //printf("Estoy en FOUND \n");
         }
     }
     PROCESS_END();
@@ -200,7 +205,7 @@ PROCESS_THREAD(send_message, ev, data)
                 packetbuf_copyfrom(&msg, sizeof(msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, CONNECT);
                 runicast_send(&runicast, &msg.destination, MAX_RETRANSMISSIONS);
-                printf("Envio CONECT to %d , level=%d \n", msg.destination.u8[0], msg.level);
+                //printf("Envio CONECT to %d , level=%d \n", msg.destination.u8[0], msg.level);
 
             }
 
@@ -229,9 +234,9 @@ PROCESS_THREAD(send_message, ev, data)
                 packetbuf_copyfrom(&msg, sizeof(msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INITIATE);
                 runicast_send(&runicast, &msg.destination, MAX_RETRANSMISSIONS);
-                //printf("Envio initiate a %d \n", msg.destination.u8[0]);
+                //NO QUITAR ESTE PRINTF
+                printf("Envio initiate a %d \n", msg.destination.u8[0]);
             }
-            printf("quiero enviar INITIATE a %d \n", msg.destination.u8[0]);
 
 
         }else
