@@ -27,7 +27,7 @@ PROCESS_NAME(master_find_found);
 
 //Procesos de find found
 PROCESS_NAME(send_message);
-
+PROCESS_NAME(e_pospone_connect);    
 
 /*------------------------------------------------------------------- */
 /*----------EVENTOS -------- -----------------------------------------*/
@@ -43,9 +43,17 @@ extern process_event_t e_weight_worst;
 extern process_event_t e_init_find_found;
 
 // master find found
+    //estados
 extern process_event_t e_found;
+extern process_event_t e_find;
+    //msg
 extern process_event_t e_msg_connect;
-
+extern process_event_t e_msg_initiate;
+extern process_event_t e_msg_test;
+extern process_event_t e_msg_reject;
+extern process_event_t e_msg_accept;
+extern process_event_t e_msg_report;
+extern process_event_t e_msg_change_root;
 /*-------------------------------------------------------------------*/
 /*---------------- Estructuras---------------------------------------*/
 /*-------------------------------------------------------------------*/

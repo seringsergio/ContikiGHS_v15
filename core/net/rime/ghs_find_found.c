@@ -100,7 +100,7 @@ void ghs_ff_send_ruc(const linkaddr_t *to, uint8_t retransmissions)
 void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
                     struct memb *history_mem, list_t history_list, uint8_t seqno,
                     node *nd,  edges *e_list_head, struct process *send_message,
-                    struct memb *pc_memb  ,list_t pc_list)
+                    struct memb *pc_memb  ,list_t pc_list, struct process *master_find_found)
 {
     // OPTIONAL: Sender history
     struct history_entry *e = NULL;
@@ -206,6 +206,11 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
         nd->state   = i_msg->nd_state;
         linkaddr_copy(&nd->parent , from);
 
+        if(nd->f.level == FIND) //si cambio de estado a FIND
+        {
+            //Envio un mensaje al master_find_found de find
+            process_post(master_find_found,  e_find, NULL);
+        }
         //Reenvio el msg por todas las BRANCHES
         edges *e_aux;
         for(e_aux = e_list_head; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista

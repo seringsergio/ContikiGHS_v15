@@ -62,7 +62,11 @@ typedef struct pospone_connect pospone_connect;
 /*-------------------------------------------------------------------*/
 /*---------------- EVENTOS ------------------------------------------*/
 /*-------------------------------------------------------------------*/
+// estados
 process_event_t e_found;
+process_event_t e_find;
+
+// msg
 process_event_t e_msg_connect;
 process_event_t e_msg_initiate;
 process_event_t e_msg_test;
@@ -177,7 +181,7 @@ linkaddr_t* least_basic_edge(edges *e_list_head);
 void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
                     struct memb *history_mem, list_t history_list, uint8_t seqno,
                     node *nd,  edges *e_list_head, struct process *send_message,
-                    struct memb *pc_memb  ,list_t pc_list);
+                    struct memb *pc_memb  ,list_t pc_list, struct process *master_find_found);
 
 void ghs_ff_send_ruc(const linkaddr_t *to, uint8_t retransmissions);
 void ghs_ff_timedout_ruc(const linkaddr_t *to, uint8_t retransmissions);

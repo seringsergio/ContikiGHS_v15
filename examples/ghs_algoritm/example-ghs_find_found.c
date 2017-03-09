@@ -85,7 +85,7 @@ static struct runicast_conn runicast; //Es la conexion de runicast
 static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 {
   ghs_ff_recv_ruc(packetbuf_dataptr(), from, &history_mem, history_list, seqno, &nd,
-                  list_head(edges_list), &send_message, &pc_memb, pc_list);
+                  list_head(edges_list), &send_message, &pc_memb, pc_list, &master_find_found );
 }
 static void sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
@@ -120,7 +120,11 @@ PROCESS_THREAD(master_find_found, ev, data){
     memb_init(&edges_memb);
 
     //Definir eventos: master find found
+
+    //estados
     e_found = process_alloc_event(); // Darle un numero al evento
+    e_find = process_alloc_event(); // Darle un numero al evento
+    //msg
     e_msg_connect = process_alloc_event(); // Darle un numero al evento
     e_msg_initiate = process_alloc_event();  // Darle un numero al evento
     e_msg_test = process_alloc_event(); // Darle un numero al evento
@@ -153,7 +157,12 @@ PROCESS_THREAD(master_find_found, ev, data){
             process_post(PROCESS_CURRENT(), e_found, NULL);
         }else
         if (ev == e_found){
-            //printf("Estoy en FOUND \n");
+            printf("Estoy en FOUND \n");
+        }else
+        if (ev == e_find)
+        {
+            //me voy al proceso test-accep-reject
+            printf("Estoy en FIND \n");
         }
     }
     PROCESS_END();
