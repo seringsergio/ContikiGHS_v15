@@ -155,7 +155,7 @@ struct connect_msg
 struct pospone_connect
 {
     struct pospone_connect *next;
-    connect_msg c_msg;  //msg de connect
+    connect_msg co_msg;  //msg de connect
     linkaddr_t neighbor; //Vecino que envio el msg de connect
 
 };
@@ -182,7 +182,7 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
 void ghs_ff_send_ruc(const linkaddr_t *to, uint8_t retransmissions);
 void ghs_ff_timedout_ruc(const linkaddr_t *to, uint8_t retransmissions);
 void init_m_find_found(struct neighbor *n_list_head, struct process *master_neighbor_discovery,
-                        struct process *send_message, node *nd,
+                        struct process *send_message, struct process *e_pospone_connect, node *nd,
                         struct memb *edges_memb, list_t edges_list, const linkaddr_t *node_addr);
 uint8_t state_is_branch( const linkaddr_t *addr,  edges *e_list_head);
 uint32_t weight_with_edge( const linkaddr_t *addr,  edges *e_list_head);

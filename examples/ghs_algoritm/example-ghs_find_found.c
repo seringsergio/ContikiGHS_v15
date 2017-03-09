@@ -113,6 +113,7 @@ static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
 
 PROCESS(master_find_found, "Proceso master del Find Found");
 PROCESS(send_message, "Enviar msg de connect");
+PROCESS(e_pospone_connect, "Evaluar Pospone Connect");
 
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS------------------------------------------------*/
@@ -147,7 +148,7 @@ PROCESS_THREAD(master_find_found, ev, data){
             static connect_msg c_msg;
             //printf("Process Init: master_find_found \n");
             init_m_find_found(data, &master_neighbor_discovery,
-                              &send_message, &nd,
+                              &send_message, &e_pospone_connect, &nd,
                               &edges_memb, edges_list, &linkaddr_node_addr );
 
             //Si no espero la lista se imprime mal. Raro
@@ -170,6 +171,88 @@ PROCESS_THREAD(master_find_found, ev, data){
     PROCESS_END();
 
 }
+
+
+/* Evaluar los mensajes de pospone connect
+*/
+PROCESS_THREAD(e_pospone_connect, ev, data)
+{
+    PROCESS_BEGIN();
+
+    while(1)
+    {
+        static struct etimer et;
+        static pospone_connect *pc_aux = NULL;
+        static initiate_msg i_msg;
+
+
+        etimer_set(&et, CLOCK_SECOND * 1); //Evaluo msg de connect pendientes cada 1 seg
+        PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
+        if( list_length (pc_list) ) //Si hay elementos en la lista
+        {
+            for(pc_aux = list_head(pc_list); pc_aux != NULL; pc_aux = list_item_next(pc_aux)) // Recorrer toda la lista
+            {
+                if(pc_aux->co_msg.level == nd.f.level) //Si los dos fragmentos tienen el mismo nivel
+                {
+
+                    if(state_is_branch( &pc_aux->neighbor, list_head(edges_list))) // Caso inicial. Fragmentos con 1 nodo
+                    {
+                        nd.num_children = nd.num_children + 1;
+                        nd.flags |= CORE_NODE;
+
+                        i_msg.f.name     = weight_with_edge(&pc_aux->neighbor, list_head(edges_list));
+                        i_msg.f.level    = nd.f.level + 1;
+                        i_msg.nd_state   = FIND;
+                        linkaddr_copy(&i_msg.destination , &pc_aux->neighbor);
+
+                        process_post(&send_message,  e_msg_initiate, &i_msg);
+
+                        //Pude procesar el pospone connect con exito.
+                        //Entonces lo retiro de la lista
+                        list_remove (pc_list, pc_aux);
+
+                        printf("Envio msg de INICIATE DESDE POSPONE a %d \n", i_msg.destination.u8[0] );
+
+
+                    }else //Si el estado NO es branch (El proceso postpones processing CONECT)
+                    {
+                        //No lo voy a posponer otra vez!
+                        //Simplemente no lo renuevo de la lista pc_list
+                    }
+                }else
+                if(pc_aux->co_msg.level < nd.f.level)
+                {
+                    become_branch(list_head(edges_list), &pc_aux->neighbor);
+
+                    nd.num_children = nd.num_children + 1;
+
+                    i_msg.f.name     = nd.f.name;
+                    i_msg.f.level    = nd.f.level;
+                    i_msg.nd_state   = nd.state;
+                    linkaddr_copy(&i_msg.destination , &pc_aux->neighbor);
+
+                    process_post(&send_message,  e_msg_initiate, &i_msg);
+
+                    //Pude procesar el pospone connect con exito.
+                    //Entonces lo retiro de la lista
+                    list_remove (pc_list, pc_aux);
+
+                    printf("Envio msg de INICIATE DESDE POSPONEEE a %d.%d \n",
+                    i_msg.destination.u8[0]
+                    , i_msg.destination.u8[1]);
+
+                }
+            } //For cada elemento de la lista
+
+        } //end if hay elementos en la lista
+
+    }
+
+    PROCESS_END();
+}
+
+
 /* Proceso para enviar mensajes
 */
 PROCESS_THREAD(send_message, ev, data)

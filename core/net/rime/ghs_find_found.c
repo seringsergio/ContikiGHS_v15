@@ -176,7 +176,6 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
                       break;
                     }
                 }
-
                 if(pc_aux == NULL) //SI no existe un pospone para el nodo
                 {
                     // Create new history entry
@@ -187,19 +186,17 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
                     }else
                     {
                         linkaddr_copy(&pc_aux->neighbor, from);
-                        pc_aux->c_msg = *co_msg;
+                        pc_aux->co_msg = *co_msg;
                         list_push(pc_list, pc_aux); //Add an item to the start of the list.
                         printf("Agregado CONECT POSPONE de  %d \n", pc_aux->neighbor.u8[0]);
-
                     }
                 }else
                 {
                     printf("Llegaron 2 mensajes de CONNECT POSPONE del nodo %d \n"
                           ,from->u8[0]);
-
                     //Reemplazo (update) los valores del mensaje de connect
                     linkaddr_copy(&pc_aux->neighbor, from); //from ya es igual a neighbor (linea irrelevante)
-                    pc_aux->c_msg = *co_msg; //Reemplazo el msg de connect
+                    pc_aux->co_msg = *co_msg; //Reemplazo el msg de connect
                 }
             }
         }else
@@ -215,11 +212,7 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
             linkaddr_copy(&i_msg.destination , from);
 
             process_post(send_message,  e_msg_initiate, &i_msg);
-
         }
-
-
-
         /*printf("llego CONNECT from %d.%d con level = %d\n",
               from->u8[0], from->u8[1],
               co_msg->level);*/
@@ -307,7 +300,7 @@ uint8_t state_is_branch(const linkaddr_t *addr,  edges *e_list_head)
 /* Hace la inicializacion del proceso master_find_found
 */
 void init_m_find_found(struct neighbor *n_list_head, struct process *master_neighbor_discovery,
-                        struct process *send_message, node *nd,
+                        struct process *send_message, struct process *e_pospone_connect ,node *nd,
                         struct memb *edges_memb, list_t edges_list, const linkaddr_t *node_addr)
 {
     //Variables locales
@@ -326,6 +319,7 @@ void init_m_find_found(struct neighbor *n_list_head, struct process *master_neig
 
     //Iniciar procesos nuevos
     process_start(send_message, NULL);
+    process_start(e_pospone_connect, NULL);
 
     //Tomar info de master_neighbor_discovery
     fill_edges_list(edges_list, edges_memb, n_list_head );
