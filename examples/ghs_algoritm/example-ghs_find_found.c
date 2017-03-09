@@ -201,11 +201,8 @@ PROCESS_THREAD(e_pospone_connect, ev, data)
                         nd.num_children = nd.num_children + 1;
                         nd.flags |= CORE_NODE;
 
-                        i_msg.f.name     = weight_with_edge(&pc_aux->neighbor, list_head(edges_list));
-                        i_msg.f.level    = nd.f.level + 1;
-                        i_msg.nd_state   = FIND;
-                        linkaddr_copy(&i_msg.destination , &pc_aux->neighbor);
-
+                        llenar_initiate_msg(&i_msg, weight_with_edge(&pc_aux->neighbor, list_head(edges_list)),
+                                           (nd.f.level + 1), FIND, &pc_aux->neighbor);
                         process_post(&send_message,  e_msg_initiate, &i_msg);
 
                         //Pude procesar el pospone connect con exito.
@@ -227,11 +224,7 @@ PROCESS_THREAD(e_pospone_connect, ev, data)
 
                     nd.num_children = nd.num_children + 1;
 
-                    i_msg.f.name     = nd.f.name;
-                    i_msg.f.level    = nd.f.level;
-                    i_msg.nd_state   = nd.state;
-                    linkaddr_copy(&i_msg.destination , &pc_aux->neighbor);
-
+                    llenar_initiate_msg(&i_msg, nd.f.name, nd.f.level, nd.state, &pc_aux->neighbor);
                     process_post(&send_message,  e_msg_initiate, &i_msg);
 
                     //Pude procesar el pospone connect con exito.
@@ -301,12 +294,8 @@ PROCESS_THREAD(send_message, ev, data)
             msg_d = data;
             static initiate_msg  msg;
 
-            /*linkaddr_copy(&msg.destination , &msg_d->destination);*/
-
-            msg.f.name    = msg_d->f.name;
-            msg.f.level   = msg_d->f.level;
-            msg.nd_state  = msg_d->nd_state;
-            linkaddr_copy(&msg.destination , &msg_d->destination);
+            llenar_initiate_msg(&msg, msg_d->f.name, msg_d->f.level,
+                                msg_d->nd_state,  &msg_d->destination );
 
             // Delay 2-4 seconds
             /*etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
@@ -317,7 +306,6 @@ PROCESS_THREAD(send_message, ev, data)
                 packetbuf_copyfrom(&msg, sizeof(msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INITIATE);
                 runicast_send(&runicast, &msg.destination, MAX_RETRANSMISSIONS);
-                //NO QUITAR ESTE PRINTF
                 printf("Envio initiate a %d \n", msg.destination.u8[0]);
             }
 

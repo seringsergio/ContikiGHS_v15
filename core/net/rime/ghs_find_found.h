@@ -186,6 +186,8 @@ void init_m_find_found(struct neighbor *n_list_head, struct process *master_neig
                         struct memb *edges_memb, list_t edges_list, const linkaddr_t *node_addr);
 uint8_t state_is_branch( const linkaddr_t *addr,  edges *e_list_head);
 uint32_t weight_with_edge( const linkaddr_t *addr,  edges *e_list_head);
+void llenar_initiate_msg(initiate_msg *i_msg, uint32_t name,
+                        uint8_t level, uint8_t state, const linkaddr_t *dest);
 
 
 #endif /* GHS_FIND_FOUND_H */

@@ -160,12 +160,10 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
                 nd->num_children = nd->num_children + 1;
                 nd->flags |= CORE_NODE;
 
-                i_msg.f.name     = weight_with_edge(from, e_list_head);
-                i_msg.f.level    = nd->f.level + 1;
-                i_msg.nd_state   = FIND;
-                linkaddr_copy(&i_msg.destination , from);
-
+                llenar_initiate_msg(&i_msg, weight_with_edge(from, e_list_head),
+                                    (nd->f.level + 1), FIND, from);
                 process_post(send_message,  e_msg_initiate, &i_msg);
+
             }else //Si el estado NO es branch (El proceso postpones processing CONECT)
             {
                 pospone_connect *pc_aux = NULL;
@@ -206,11 +204,7 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
 
             nd->num_children = nd->num_children + 1;
 
-            i_msg.f.name     = nd->f.name;
-            i_msg.f.level    = nd->f.level;
-            i_msg.nd_state   = nd->state;
-            linkaddr_copy(&i_msg.destination , from);
-
+            llenar_initiate_msg(&i_msg, nd->f.name,nd->f.level, nd->state, from);
             process_post(send_message,  e_msg_initiate, &i_msg);
         }
         /*printf("llego CONNECT from %d.%d con level = %d\n",
@@ -237,11 +231,8 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
             {
                 nd->num_children = nd->num_children + 1;
 
-                i_msg_d.f.name    = i_msg->f.name;
-                i_msg_d.f.level   = i_msg->f.level;
-                i_msg_d.nd_state  = i_msg->nd_state;
-                linkaddr_copy(&i_msg_d.destination , &e_aux->addr);
-
+                llenar_initiate_msg(&i_msg_d, i_msg->f.name,i_msg->f.level,
+                                   i_msg->nd_state, &e_aux->addr);
                 process_post(send_message,  e_msg_initiate, &i_msg_d);
             }
         }
@@ -335,4 +326,13 @@ void init_m_find_found(struct neighbor *n_list_head, struct process *master_neig
     print_edges_list(list_head(edges_list), string, node_addr);
 
 
+}
+
+void llenar_initiate_msg(initiate_msg *i_msg, uint32_t name,
+                        uint8_t level, uint8_t state, const linkaddr_t *dest)
+{
+    i_msg->f.name     = name;
+    i_msg->f.level    = level;
+    i_msg->nd_state   = state;
+    linkaddr_copy(&i_msg->destination , dest);
 }
