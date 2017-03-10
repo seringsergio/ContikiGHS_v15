@@ -163,6 +163,7 @@ struct pass_info_test_ar // Estructura para enviar la informacion al proceso mas
 {
     list_t edges_list; //La direccion de inicio de la lista
     struct process *master_co_i;
+    edges *e_list_head;
 };
 /*-------------------------------------------------------------------*/
 /*---------------- Variables globales--------------------------------*/
@@ -195,7 +196,7 @@ void llenar_initiate_msg(initiate_msg *i_msg, uint32_t name,
 void llenar_connect_msg (connect_msg *msg, uint8_t level, linkaddr_t *destination);
 void llenar_pospone_connect(pospone_connect *pc, const linkaddr_t *neighbor, connect_msg co_msg);
 void llenar_str_test_ar(pass_info_test_ar *str_t_ar, list_t edges_list,
-                       struct process *master_co_i);
+                        struct process *master_co_i, edges *e_list_head);
 
 
 #endif /* GHS_CO_I_H */

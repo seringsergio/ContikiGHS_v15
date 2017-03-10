@@ -175,7 +175,7 @@ PROCESS_THREAD(master_co_i, ev, data)
             printf("Estoy en FIND \n");
             process_start(&master_test_ar, NULL);
 
-            llenar_str_test_ar(&str_t_ar, edges_list, PROCESS_CURRENT());
+            llenar_str_test_ar(&str_t_ar, edges_list, PROCESS_CURRENT(), list_head(edges_list));
             process_post(&master_test_ar, e_init_master_test_ar, &str_t_ar ) ;
 
         }

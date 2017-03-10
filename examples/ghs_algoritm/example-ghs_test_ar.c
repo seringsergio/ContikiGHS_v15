@@ -44,7 +44,7 @@
  *
  */
  /*------------------------------------------------------------------- */
- /*----------- INCLUDES ------------------------------------------------ */
+ /*----------- INCLUDES ---------------------------------------------- */
  /*------------------------------------------------------------------- */
 #include "contiki.h"
 #include "lib/list.h"
@@ -53,8 +53,9 @@
 #include "net/rime/rime.h" //Aca esta ghs.h
 #include "ghs_algorithm.h"
 #include <stdio.h>
-
-
+/*------------------------------------------------------------------- */
+/*----------- VARIABLES GLOBALES ---------------------------------------------- */
+/*------------------------------------------------------------------- */
 
 /* Exit handler de master_test_ar
 */
@@ -97,14 +98,18 @@ PROCESS_THREAD(master_test_ar, ev, data)
             static pass_info_test_ar *str_t_ar;
             str_t_ar = (pass_info_test_ar *) data;
 
-            init_master_test_ar(str_t_ar->master_co_i, &send_message_test_ar, &e_pospone_test);
+            init_master_test_ar(str_t_ar->master_co_i, &send_message_test_ar,
+                                &e_pospone_test);
 
-            edges *e_list_head = list_head(str_t_ar->edges_list);
+            edges *e_list_head = str_t_ar->e_list_head;
             edges *e_aux;
 
             for(e_aux = e_list_head; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
             {
-
+                printf("addr = %d weight = %d.%02d \n", e_aux->addr.u8[0],
+                (int)(e_aux->weight / SEQNO_EWMA_UNITY),
+                (int)(((100UL * e_aux->weight) / SEQNO_EWMA_UNITY) % 100)
+                );
             }
         }
     }

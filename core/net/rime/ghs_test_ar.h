@@ -48,4 +48,5 @@ process_event_t e_msg_accept;
 void init_master_test_ar(struct process *master_co_i, struct process *send_message_test_ar,
                          struct process *e_pospone_test);
 
+
 #endif /* GHS_NEIGH_H */
