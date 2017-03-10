@@ -22,9 +22,12 @@
 /*-------------------------------------------------------------------*/
 /*---------------- EVENTOS ------------------------------------------*/
 /*-------------------------------------------------------------------*/
-
+//estados
 process_event_t e_init_master_test_ar;
-
+//msg
+process_event_t e_msg_test;
+process_event_t e_msg_reject;
+process_event_t e_msg_accept;
 
 /*-------------------------------------------------------------------*/
 /*---------------- ESTRUCTURAS---------------------------------------*/
@@ -42,6 +45,7 @@ process_event_t e_init_master_test_ar;
 /*-------------------------------------------------------------------*/
 /*---------------- FUNCIONES ----------------------------------------*/
 /*-------------------------------------------------------------------*/
-void imprimir();
+void init_master_test_ar(struct process *master_co_i, struct process *send_message_test_ar,
+                         struct process *e_pospone_test);
 
 #endif /* GHS_NEIGH_H */

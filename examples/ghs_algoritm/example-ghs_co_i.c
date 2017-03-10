@@ -100,11 +100,18 @@ timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retrans
 static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
 							     sent_runicast,
 							     timedout_runicast};
+
+/* Exit handler de master_co_i
+*/
+static void master_co_i_exit_handler(void)
+{
+    printf("Process Exit: master_co_i \n");
+}
 /*------------------------------------------------------------------- */
 /*----------PROCESSES------- -----------------------------------------*/
 /*------------------------------------------------------------------- */
 PROCESS(master_co_i, "Proceso master de los msg connect-initiate");
-PROCESS(send_message_co_i, "Enviar msg de connect");
+PROCESS(send_message_co_i, "Enviar msg de connect - initiate");
 PROCESS(e_pospone_connect, "Evaluar Pospone Connect");
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS------------------------------------------------*/
@@ -114,6 +121,7 @@ PROCESS(e_pospone_connect, "Evaluar Pospone Connect");
 */
 PROCESS_THREAD(master_co_i, ev, data)
 {
+    PROCESS_EXITHANDLER(master_co_i_exit_handler());
     PROCESS_BEGIN();
 
     /* OPTIONAL: Sender history */
@@ -128,11 +136,9 @@ PROCESS_THREAD(master_co_i, ev, data)
     //msg
     e_msg_connect = process_alloc_event(); // Darle un numero al evento
     e_msg_initiate = process_alloc_event();  // Darle un numero al evento
-    e_msg_test = process_alloc_event(); // Darle un numero al evento
-    e_msg_reject = process_alloc_event(); // Darle un numero al evento
-    e_msg_accept = process_alloc_event(); // Darle un numero al evento
-    e_msg_report = process_alloc_event(); // Darle un numero al evento
-    e_msg_change_root = process_alloc_event(); // Darle un numero al evento
+
+    /* e_msg_report = process_alloc_event(); // Darle un numero al evento
+    e_msg_change_root = process_alloc_event(); // Darle un numero al evento*/
 
     static s_wait str_wait;
     while(1)
@@ -163,10 +169,14 @@ PROCESS_THREAD(master_co_i, ev, data)
         }else
         if (ev == e_find)
         {
+            static pass_info_test_ar str_t_ar; //Estructura para enviar info a master_test_ar
+
             //me voy al proceso test-accep-reject
             printf("Estoy en FIND \n");
             process_start(&master_test_ar, NULL);
-            process_post(&master_test_ar, e_init_master_test_ar, NULL);
+
+            llenar_str_test_ar(&str_t_ar, edges_list, PROCESS_CURRENT());
+            process_post(&master_test_ar, e_init_master_test_ar, &str_t_ar ) ;
 
         }
     }

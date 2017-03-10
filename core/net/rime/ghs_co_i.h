@@ -56,6 +56,7 @@ typedef struct edges edges;
 typedef struct connect_msg connect_msg;
 typedef struct initiate_msg initiate_msg;
 typedef struct pospone_connect pospone_connect;
+typedef struct pass_info_test_ar pass_info_test_ar;
 /*-------------------------------------------------------------------*/
 /*---------------- EVENTOS ------------------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -66,11 +67,8 @@ process_event_t e_find;
 // msg
 process_event_t e_msg_connect;
 process_event_t e_msg_initiate;
-process_event_t e_msg_test;
-process_event_t e_msg_reject;
-process_event_t e_msg_accept;
-process_event_t e_msg_report;
-process_event_t e_msg_change_root;
+/*process_event_t e_msg_report;
+process_event_t e_msg_change_root;*/
 
 
 /*-------------------------------------------------------------------*/
@@ -161,6 +159,11 @@ struct pospone_connect
 
 };
 
+struct pass_info_test_ar // Estructura para enviar la informacion al proceso master_test_ar
+{
+    list_t edges_list; //La direccion de inicio de la lista
+    struct process *master_co_i;
+};
 /*-------------------------------------------------------------------*/
 /*---------------- Variables globales--------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -191,6 +194,8 @@ void llenar_initiate_msg(initiate_msg *i_msg, uint32_t name,
                         uint8_t level, uint8_t state, const linkaddr_t *dest);
 void llenar_connect_msg (connect_msg *msg, uint8_t level, linkaddr_t *destination);
 void llenar_pospone_connect(pospone_connect *pc, const linkaddr_t *neighbor, connect_msg co_msg);
+void llenar_str_test_ar(pass_info_test_ar *str_t_ar, list_t edges_list,
+                       struct process *master_co_i);
 
 
 #endif /* GHS_CO_I_H */

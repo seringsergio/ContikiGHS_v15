@@ -335,3 +335,11 @@ void llenar_pospone_connect(pospone_connect *pc, const linkaddr_t *neighbor, con
     linkaddr_copy(&pc->neighbor, neighbor);
     pc->co_msg = co_msg;
 }
+
+/* LLenar la estructura que se le envia a master_test_ar con la info necesaria
+*/
+void llenar_str_test_ar(pass_info_test_ar *str_t_ar, list_t edges_list, struct process *master_co_i)
+{
+    str_t_ar->edges_list  = edges_list;
+    str_t_ar->master_co_i = master_co_i;
+}
