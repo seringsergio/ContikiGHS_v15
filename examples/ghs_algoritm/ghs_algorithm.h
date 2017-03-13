@@ -30,10 +30,12 @@ PROCESS_NAME(n_link_weight_worst_case);
 PROCESS_NAME(master_neighbor_discovery);
 PROCESS_NAME(master_co_i);
 
-//Procesos de find found
+//Procesos de test ar
 PROCESS_NAME(send_message_co_i);
 PROCESS_NAME(e_pospone_connect);
 PROCESS_NAME(master_test_ar);
+PROCESS_NAME(e_test);
+
 
 /*------------------------------------------------------------------- */
 /*----------EVENTOS -------- -----------------------------------------*/
@@ -63,6 +65,7 @@ extern process_event_t e_msg_change_root;
 
 //master_test_ar
 extern process_event_t e_init_master_test_ar;
+extern process_event_t e_evaluate_test;
 
 /*-------------------------------------------------------------------*/
 /*---------------- Estructuras---------------------------------------*/

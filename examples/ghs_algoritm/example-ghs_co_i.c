@@ -105,7 +105,8 @@ static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
 */
 static void master_co_i_exit_handler(void)
 {
-    printf("Process Exit: master_co_i \n");
+    //runicast_close(&runicast);//Cierro la conexion runicast
+    //printf("Process Exit: master_co_i \n");
 }
 /*------------------------------------------------------------------- */
 /*----------PROCESSES------- -----------------------------------------*/
@@ -171,8 +172,16 @@ PROCESS_THREAD(master_co_i, ev, data)
         {
             static pass_info_test_ar str_t_ar; //Estructura para enviar info a master_test_ar
 
+            str_wait.seconds = 50;
+            str_wait.return_process = PROCESS_CURRENT();
+            process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
+            PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
+            printf("FIND Coooontinue\n");
+
+
             //me voy al proceso test-accep-reject
-            printf("Estoy en FIND \n");
+            //printf("Estoy en FIND \n");
+
             process_start(&master_test_ar, NULL);
 
             llenar_str_test_ar(&str_t_ar, edges_list, PROCESS_CURRENT(), list_head(edges_list));
@@ -251,7 +260,7 @@ PROCESS_THREAD(e_pospone_connect, ev, data)
 PROCESS_THREAD(send_message_co_i, ev, data)
 {
     PROCESS_BEGIN();
-    runicast_open(&runicast, 144, &runicast_callbacks); //Open la conexion
+    runicast_open(&runicast, 144, &runicast_callbacks);
 
     /* OPTIONAL: Sender history */
     list_init(history_list);

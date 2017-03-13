@@ -9,6 +9,7 @@
 #include "ghs_algorithm.h"
 #include "net/rime/rime.h" //Aca esta ghs_neigh.h
 #include <stdio.h>
+
 /*-------------------------------------------------------------------*/
 /*---------------- Definiciones -------------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -104,8 +105,7 @@ struct reports
 
 struct test_msg
 {
-    uint8_t type;
-    linkaddr_t sender;
+    linkaddr_t destination;
     fragment f;
 };
 
