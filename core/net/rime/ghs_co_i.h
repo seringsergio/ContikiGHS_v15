@@ -60,6 +60,7 @@ typedef struct pospone_connect pospone_connect;
 typedef struct pass_info_test_ar pass_info_test_ar;
 typedef struct accept_msg accept_msg;
 typedef struct reject_msg reject_msg;
+typedef struct pospone_test pospone_test;
 
 /*-------------------------------------------------------------------*/
 /*---------------- EVENTOS ------------------------------------------*/
@@ -154,6 +155,14 @@ struct pospone_connect
     struct pospone_connect *next;
     connect_msg co_msg;  //msg de connect
     linkaddr_t neighbor; //Vecino que envio el msg de connect
+
+};
+
+struct pospone_test
+{
+    struct pospone_test *next;
+    test_msg t_msg;  //msg de connect
+    linkaddr_t neighbor; //Vecino que envio el msg de test
 
 };
 

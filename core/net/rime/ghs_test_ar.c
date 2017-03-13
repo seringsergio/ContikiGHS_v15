@@ -16,7 +16,8 @@
 */
 void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const linkaddr_t *from,
                          struct memb *history_mem, list_t history_list, uint8_t seqno,
-                         struct process *send_message_test_ar, edges *e_list_head_g)
+                         struct process *send_message_test_ar, edges *e_list_head_g,
+                         list_t pt_list, struct memb *pt_memb)
 {
 
     /* OPTIONAL: Sender history */
@@ -68,6 +69,35 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
        if(t_msg->f.level > nd.f.level)
        {
            //Pospones processing the incomming test msg, until (t_msg->f.level < nd.f.level)
+           pospone_test *pt_aux = NULL;
+           for(pt_aux = list_head(pt_list); pt_aux != NULL; pt_aux = list_item_next(pt_aux)) // Recorrer toda la lista
+           {
+               if(linkaddr_cmp(&pt_aux->neighbor, from)) { // Si las dir son iguales entra
+                 break;
+               }
+           }
+           if(pt_aux == NULL) //SI no existe un pospone para el nodo
+           {
+               // Create new history entry
+               pt_aux = memb_alloc(pt_memb);
+               if(pt_aux == NULL)
+               {
+                   printf("ERROR: NO PUDE CREAR UNA ENTRADA PARA POSPONE TEST \n");
+               }else
+               {
+
+                   llenar_pospone_test(pt_aux, from, *t_msg);
+                   list_push(pt_list, pt_aux); //Add an item to the start of the list.
+                   printf("Agregado TEST POSPONE de  %d \n", pt_aux->neighbor.u8[0]);
+               }
+           }else
+           {
+               printf("Llegaron 2 mensajes de TEST POSPONE del nodo %d \n"
+                     ,from->u8[0]);
+               //Reemplazo (update) los valores del mensaje de connect
+               llenar_pospone_test(pt_aux, from, *t_msg);
+           }
+
        }else
        if(t_msg->f.level <= nd.f.level)
        {
@@ -104,6 +134,13 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
 
 
 }
+
+void llenar_pospone_test(pospone_test *pt, const linkaddr_t *neighbor, test_msg t_msg)
+{
+    linkaddr_copy(&pt->neighbor, neighbor);
+    pt->t_msg = t_msg;
+}
+
 void become_rejected(edges *e_list_head_g, const linkaddr_t *from)
 {
     static edges *e_aux;

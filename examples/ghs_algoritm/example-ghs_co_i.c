@@ -68,6 +68,7 @@ LIST(edges_list); // List that holds the neighbors we have seen thus far
 MEMB(history_mem, struct history_entry, NUM_HISTORY_ENTRIES);
 LIST(history_list);
 
+//pc = pospone connect
 MEMB(pc_memb, pospone_connect, MAX_NUM_POSPONES); // Defines a memory pool for edges
 LIST(pc_list); // List that holds the neighbors we have seen thus far
 /*------------------------------------------------------------------- */

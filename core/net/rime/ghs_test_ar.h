@@ -23,6 +23,7 @@ typedef struct test_msg test_msg;
 typedef struct accept_msg accept_msg;
 typedef struct reject_msg reject_msg;
 typedef struct edges edges;
+typedef struct pospone_test pospone_test;
 
 
 /*-------------------------------------------------------------------*/
@@ -63,10 +64,12 @@ void llenar_accept_msg (accept_msg *a_msg, const linkaddr_t *destination);
 void llenar_reject_msg (reject_msg *r_msg, const linkaddr_t *destination);
 void become_accepted(edges *e_list_head_g, const linkaddr_t *from);
 void become_rejected(edges *e_list_head_g, const linkaddr_t *from);
+void llenar_pospone_test(pospone_test *pt, const linkaddr_t *neighbor, test_msg t_msg);
 
 void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const linkaddr_t *from,
                          struct memb *history_mem, list_t history_list, uint8_t seqno,
-                         struct process *send_message_test_ar, edges *e_list_head_g);
+                         struct process *send_message_test_ar, edges *e_list_head_g,
+                         list_t pt_list, struct memb *pt_memb);
 
 
 

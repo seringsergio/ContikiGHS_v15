@@ -72,6 +72,9 @@ edges *e_list_head_g; //Es el apuntador a la cabeza de la lista global
 MEMB(history_mem, struct history_entry, NUM_HISTORY_ENTRIES);
 LIST(history_list);
 
+//pt = pospone test
+MEMB(pt_memb, pospone_test, MAX_NUM_POSPONES); // Defines a memory pool for edges
+LIST(pt_list); // List that holds the neighbors we have seen thus far
 /*------------------------------------------------------------------- */
 /*----------STATIC VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
@@ -86,7 +89,8 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 {
 
   ghs_test_ar_recv_ruc(packetbuf_dataptr() ,list_head(history_list), from, &history_mem,
-                       history_list, seqno, &send_message_test_ar, e_list_head_g );
+                       history_list, seqno, &send_message_test_ar, e_list_head_g,
+                       pt_list, &pt_memb);
 
 
 }
@@ -313,7 +317,51 @@ PROCESS_THREAD(e_pospone_test, ev, data)
     //printf("Process Init: e_pospone_test \n");
     while(1)
     {
-        PROCESS_WAIT_EVENT(); // Wait for any event.
+        static struct etimer et;
+        static pospone_test *pt_aux = NULL;
+        static accept_msg a_msg;
+        static reject_msg r_msg;
+
+
+        etimer_set(&et, CLOCK_SECOND * 1); //Evaluo msg de test pendientes cada 1 seg
+        PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
+        if( list_length (pt_list) ) //Si hay elementos en la lista
+        {
+            for(pt_aux = list_head(pt_list); pt_aux != NULL; pt_aux = list_item_next(pt_aux)) // Recorrer toda la lista
+            {
+                if(pt_aux->t_msg.f.level > nd.f.level)
+                {
+                    //Pospones processing the incomming test msg, until (t_msg->f.level < nd.f.level)
+                    //No lo voy a posponer otra vez!
+                }else
+                if(pt_aux->t_msg.f.level <= nd.f.level)
+                {
+                    if(pt_aux->t_msg.f.name == nd.f.name)
+                    {
+                        //Enviar reject
+                        llenar_reject_msg (&r_msg, &pt_aux->neighbor);
+                        process_post(&send_message_test_ar, e_msg_reject, &r_msg);
+                        printf("Quuuiero enviar e_msg_reject a %d \n", r_msg.destination.u8[0]);
+                        //Como se soluciona el test se remueve de la lista
+                        list_remove (pt_list, pt_aux);
+
+                    }else
+                    {
+                        //Enviar accept
+                        llenar_accept_msg (&a_msg, &pt_aux->neighbor);
+                        process_post(&send_message_test_ar, e_msg_accept, &a_msg);
+                        printf("Quuuiero enviar e_msg_accept a %d \n", a_msg.destination.u8[0]);
+                        //Como se soluciona el test se remueve de la lista
+                        list_remove (pt_list, pt_aux);
+                    }
+                }
+
+
+            } //For cada elemento de la lista
+
+        }//end if hay elementos en la lista
+
     }
 
     PROCESS_END();
