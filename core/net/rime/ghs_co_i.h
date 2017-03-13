@@ -58,6 +58,9 @@ typedef struct connect_msg connect_msg;
 typedef struct initiate_msg initiate_msg;
 typedef struct pospone_connect pospone_connect;
 typedef struct pass_info_test_ar pass_info_test_ar;
+typedef struct accept_msg accept_msg;
+typedef struct reject_msg reject_msg;
+
 /*-------------------------------------------------------------------*/
 /*---------------- EVENTOS ------------------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -103,27 +106,6 @@ struct reports
     uint16_t num_reports;
 };
 
-struct test_msg
-{
-    linkaddr_t destination;
-    fragment f;
-};
-
-
-struct node
-{
-    uint8_t state;
-    uint8_t flags;
-    fragment f;
-    linkaddr_t parent; //Para enviar msg en la downward direction
-    LWOE_type lwoe;
-    reports r;
-    uint8_t num_children;
-    linkaddr_t downroute; //Para enviar msg en la downward direction
-    test_msg t_msg;
-    uint16_t num_test;
-
-};
 
 // Es una lista con la informacion de los edges
 struct edges {
@@ -151,6 +133,22 @@ struct connect_msg
     linkaddr_t destination;
 };
 
+struct test_msg
+{
+    linkaddr_t destination;
+    fragment f;
+};
+
+struct accept_msg
+{
+    linkaddr_t destination;
+};
+
+struct reject_msg
+{
+    linkaddr_t destination;
+};
+
 struct pospone_connect
 {
     struct pospone_connect *next;
@@ -164,6 +162,21 @@ struct pass_info_test_ar // Estructura para enviar la informacion al proceso mas
     list_t edges_list; //La direccion de inicio de la lista
     struct process *master_co_i;
     edges *e_list_head;
+};
+
+struct node
+{
+    uint8_t state;
+    uint8_t flags;
+    fragment f;
+    linkaddr_t parent; //Para enviar msg en la downward direction
+    LWOE_type lwoe;
+    reports r;
+    uint8_t num_children;
+    linkaddr_t downroute; //Para enviar msg en la downward direction
+    test_msg t_msg;
+    uint16_t num_test;
+
 };
 /*-------------------------------------------------------------------*/
 /*---------------- Variables globales--------------------------------*/

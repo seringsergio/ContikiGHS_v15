@@ -54,6 +54,14 @@
 #include "ghs_algorithm.h"
 #include <stdio.h>
 /*------------------------------------------------------------------- */
+/*----------PROCESSES------- -----------------------------------------*/
+/*------------------------------------------------------------------- */
+PROCESS(master_test_ar, "Proceso master de los msg test-accept-reject");
+PROCESS(send_message_test_ar, "Enviar msg de accept - reject");
+PROCESS(e_pospone_test, "Evaluar Pospone Test");
+PROCESS(e_test, "Evaluar con Test Neoghbors");
+
+/*------------------------------------------------------------------- */
 /*----------- VARIABLES GLOBALES ---------------------------------------------- */
 /*------------------------------------------------------------------- */
 edges *e_list_head_g; //Es el apuntador a la cabeza de la lista global
@@ -76,44 +84,10 @@ static struct runicast_conn runicast; //Es la conexion de runicast
 static void
 recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 {
-  /* OPTIONAL: Sender history */
-  struct history_entry *e = NULL;
-  for(e = list_head(history_list); e != NULL; e = e->next) {
-    if(linkaddr_cmp(&e->addr, from)) { // Si las dir son iguales entra
-      break;
-    }
-  }
-  if(e == NULL) {
-    /* Create new history entry */
-    e = memb_alloc(&history_mem);
-    if(e == NULL) {
-      e = list_chop(history_list); /* Remove oldest at full history */
-    }
-    linkaddr_copy(&e->addr, from);
-    e->seq = seqno;
-    list_push(history_list, e);
-  } else {
-    /* Detect duplicate callback */
-    if(e->seq == seqno) {
-      printf("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
-	     from->u8[0], from->u8[1], seqno);
-      return;
-    }
-    /* Update existing history entry */
-    e->seq = seqno;
-  }
 
-  printf("runicast TEEEST message received from %d.%d, seqno %d\n",
-	 from->u8[0], from->u8[1], seqno);
+  ghs_test_ar_recv_ruc(packetbuf_dataptr() ,list_head(history_list), from, &history_mem,
+                       history_list, seqno, &send_message_test_ar);
 
- //Leer el packet buffer attribute: Especificamente el tipo de mensaje
- packetbuf_attr_t msg_type = packetbuf_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG);
-
- // Evaluo el tipo de msg que llego
- if(msg_type == TEST)
- {
-     printf("Reeeeeecibi un TEST msg from %d\n",  from->u8[0]);
- }
 
 }
 static void
@@ -138,13 +112,6 @@ static void master_test_ar_exit_handler(void)
 {
     printf("Process Exit: master_test_ar \n");
 }
-/*------------------------------------------------------------------- */
-/*----------PROCESSES------- -----------------------------------------*/
-/*------------------------------------------------------------------- */
-PROCESS(master_test_ar, "Proceso master de los msg test-accept-reject");
-PROCESS(send_message_test_ar, "Enviar msg de accept - reject");
-PROCESS(e_pospone_test, "Evaluar Pospone Test");
-PROCESS(e_test, "Evaluar con Test Neoghbors");
 
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS------------------------------------------------*/
@@ -246,7 +213,7 @@ PROCESS_THREAD(e_test, ev, data)
 
                     llenar_test_msg(&t_msg, &e_aux->addr, nd.f );
                     process_post(&send_message_test_ar, e_msg_test, &t_msg);
-                    //break;
+                    break; //Envio msg TEST al primer BASIC. Recordar que la lista esta ordenada
                     //PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
                 }
             }
@@ -275,7 +242,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
     //printf("Process Init: send_message_test_ar \n");
     while(1)
     {
-        static struct etimer et;
+        //static struct etimer et;
 
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == e_msg_test)
@@ -285,8 +252,8 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
             test_msg t_msg;
 
             /* Delay 4-8 seconds */ //Para que no todos lo manden al tiempo
-            etimer_set(&et, CLOCK_SECOND * 4 + random_rand() % (CLOCK_SECOND * 4));
-            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+            /*etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
@@ -294,17 +261,24 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                 packetbuf_copyfrom(&t_msg, sizeof(t_msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, TEST);
                 runicast_send(&runicast, &t_msg.destination, MAX_RETRANSMISSIONS);
-                printf("Deseo enviar e_msg_test a %d\n", t_msg.destination.u8[0]);
+                //printf("Deseo enviar e_msg_test a %d\n", t_msg.destination.u8[0]);
 
             }
         }else
         if(ev == e_msg_reject)
         {
 
+            printf("Listo para enviar reject\n");
+
         }else
         if(ev == e_msg_accept)
         {
 
+            static accept_msg *a_msg;
+            a_msg = (accept_msg *) data;
+
+            printf("Listo para enviar accept a %d \n",
+                  a_msg->destination.u8[0]);
         }
     }
 
