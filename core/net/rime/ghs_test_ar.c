@@ -86,6 +86,13 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
                printf("Quuuiero enviar e_msg_accept a %d \n", a_msg.destination.u8[0]);
            }
        }
+   }else
+   if(msg_type == M_ACCEPT)
+   {
+       //accept_msg *a_msg = (accept_msg *) msg;
+
+       printf("llego accept de %d \n", from->u8[0]);
+       //become_accepted( , from );
    }
 
 

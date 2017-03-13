@@ -274,11 +274,19 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
         if(ev == e_msg_accept)
         {
 
-            static accept_msg *a_msg;
-            a_msg = (accept_msg *) data;
+            static accept_msg *a_msg_d;
+            a_msg_d = (accept_msg *) data;
+            static accept_msg a_msg;
 
-            printf("Listo para enviar accept a %d \n",
-                  a_msg->destination.u8[0]);
+            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+            {
+                llenar_accept_msg(&a_msg, &a_msg_d->destination);
+                packetbuf_copyfrom(&a_msg, sizeof(a_msg));
+                packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_ACCEPT);
+                runicast_send(&runicast, &a_msg.destination, MAX_RETRANSMISSIONS);
+                printf("Envie accept a %d \n",a_msg.destination.u8[0]);
+            }
+
         }
     }
 
