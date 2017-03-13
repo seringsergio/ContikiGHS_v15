@@ -172,7 +172,7 @@ PROCESS_THREAD(master_co_i, ev, data)
         {
             static pass_info_test_ar str_t_ar; //Estructura para enviar info a master_test_ar
 
-            str_wait.seconds = 50;
+            str_wait.seconds = 15;
             str_wait.return_process = PROCESS_CURRENT();
             process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);

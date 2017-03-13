@@ -19,7 +19,7 @@
 #define EXIST_LOWEST               0x01
 
 // Definicion de constantes
-#define MAX_RETRANSMISSIONS 8
+#define MAX_RETRANSMISSIONS 4
 #define NUM_HISTORY_ENTRIES MAX_NEIGHBORS //Numero de entradas los 16 vecinos posibles
 
 #define MAX_NEIGHBORS 16 // This defines the maximum amount of neighbors we can remember.

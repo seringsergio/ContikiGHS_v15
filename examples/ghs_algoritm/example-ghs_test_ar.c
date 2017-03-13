@@ -200,7 +200,7 @@ PROCESS_THREAD(master_test_ar, ev, data)
         {
             //Esperemos a que la red se estabilice
             //printf("Inicio Coooontinue\n");
-            str_wait.seconds = 20;
+            str_wait.seconds = 15;
             str_wait.return_process = PROCESS_CURRENT();
             process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
