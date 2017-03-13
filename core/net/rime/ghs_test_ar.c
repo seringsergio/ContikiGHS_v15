@@ -16,7 +16,7 @@
 */
 void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const linkaddr_t *from,
                          struct memb *history_mem, list_t history_list, uint8_t seqno,
-                         struct process *send_message_test_ar)
+                         struct process *send_message_test_ar, edges *e_list_head_g)
 {
 
     /* OPTIONAL: Sender history */
@@ -92,13 +92,44 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
        //accept_msg *a_msg = (accept_msg *) msg;
 
        printf("llego accept de %d \n", from->u8[0]);
-       //become_accepted( , from );
+       become_accepted(e_list_head_g, from);
+   }else
+   if(msg_type == M_REJECT)
+   {
+       //accept_msg *a_msg = (accept_msg *) msg;
+
+       printf("llego reject de %d \n", from->u8[0]);
+       become_rejected(e_list_head_g, from);
    }
 
 
 }
+void become_rejected(edges *e_list_head_g, const linkaddr_t *from)
+{
+    static edges *e_aux;
+    for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
+    {
+        if(linkaddr_cmp(&e_aux->addr, from)) //Entra si las direcciones son iguales
+        {
+            e_aux->state = E_REJECTED;
+            break;
+        }
+    }
 
+}
 
+void become_accepted(edges *e_list_head_g, const linkaddr_t *from)
+{
+    static edges *e_aux;
+    for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
+    {
+        if(linkaddr_cmp(&e_aux->addr, from)) //Entra si las direcciones son iguales
+        {
+            e_aux->state = E_ACCEPTED;
+            break;
+        }
+    }
+}
 /* Funcion para inicializar el proceso master_test_ar
 */
 void init_master_test_ar(struct process *master_co_i, struct process *send_message_test_ar,

@@ -86,7 +86,7 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 {
 
   ghs_test_ar_recv_ruc(packetbuf_dataptr() ,list_head(history_list), from, &history_mem,
-                       history_list, seqno, &send_message_test_ar);
+                       history_list, seqno, &send_message_test_ar, e_list_head_g );
 
 
 }
@@ -267,8 +267,18 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
         }else
         if(ev == e_msg_reject)
         {
+            static reject_msg *r_msg_d;
+            r_msg_d = (reject_msg *) data;
+            static reject_msg r_msg;
 
-            printf("Listo para enviar reject\n");
+            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+            {
+                llenar_reject_msg(&r_msg, &r_msg_d->destination);
+                packetbuf_copyfrom(&r_msg, sizeof(r_msg));
+                packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_REJECT);
+                runicast_send(&runicast, &r_msg.destination, MAX_RETRANSMISSIONS);
+                printf("Envie reject a %d \n",r_msg.destination.u8[0]);
+            }
 
         }else
         if(ev == e_msg_accept)
