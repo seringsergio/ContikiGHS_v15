@@ -35,6 +35,7 @@ PROCESS_NAME(send_message_co_i);
 PROCESS_NAME(e_pospone_connect);
 PROCESS_NAME(master_test_ar);
 PROCESS_NAME(e_test);
+PROCESS_NAME(e_LWOE);
 
 // master_report_ChaRoot
 PROCESS_NAME(master_report_ChaRoot);

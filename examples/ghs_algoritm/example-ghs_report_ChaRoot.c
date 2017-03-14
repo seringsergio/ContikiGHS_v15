@@ -155,38 +155,75 @@ PROCESS_THREAD(reports_completos, ev, data)
         {
             printf("A evaluar reports\n");
 
-            if(list_length(report_list) == nd.num_children)//Si el tamano de la lista es = al num de hijos
+            if(!(nd.flags & CORE_NODE))
             {
-                //Saco el nodo con menor peso de la lista
-                printf("Lista de Reports completa\n");
-
-                //Encuentro el menor de la lista
-                report_str *rp_str = NULL;
-                uint32_t lowest_weight;
-                report_str *lowest_rp = NULL;
-
-                for(rp_str = list_head(report_list), lowest_weight = rp_str->rp_msg.weight_r,
-                    lowest_rp = rp_str;
-                    rp_str != NULL; rp_str = rp_str->next)
+                if(list_length(report_list) == nd.num_children)//Si el tamano de la lista es = al num de hijos
                 {
-                    if(rp_str->rp_msg.weight_r < lowest_weight)
+                    //Saco el nodo con menor peso de la lista
+                    printf("Lista de Reports completa (no soy core_node)\n");
+
+                    //Encuentro el menor de la lista
+                    report_str *rp_str = NULL;
+                    uint32_t lowest_weight;
+                    report_str *lowest_rp = NULL;
+                    for(rp_str = list_head(report_list), lowest_weight = rp_str->rp_msg.weight_r,
+                        lowest_rp = rp_str;
+                        rp_str != NULL; rp_str = rp_str->next)
                     {
-                        lowest_weight = rp_str->rp_msg.weight_r;
-                        lowest_rp     = rp_str;
+                        if(rp_str->rp_msg.weight_r < lowest_weight)
+                        {
+                            lowest_weight = rp_str->rp_msg.weight_r;
+                            lowest_rp     = rp_str;
+                        }
                     }
-                }
 
-                linkaddr_copy( &nd.downroute , &lowest_rp->neighbor);
-                linkaddr_copy(&nd.lwoe.children.neighbor, &lowest_rp->rp_msg.neighbor_r );
-                nd.lwoe.children.weight = lowest_rp->rp_msg.weight_r;
-                nd.flags |= CH_LWOE; //Ya encontre el ND_LWOE
+                    linkaddr_copy( &nd.downroute , &lowest_rp->neighbor);
+                    linkaddr_copy(&nd.lwoe.children.neighbor, &lowest_rp->rp_msg.neighbor_r );
+                    nd.lwoe.children.weight = lowest_rp->rp_msg.weight_r;
+                    nd.flags |= CH_LWOE; //Ya encontre el ND_LWOE
 
-                printf("El menor de la lista es %d weight=%d.%02d nd.flags=%04X\n",
-                nd.lwoe.children.neighbor.u8[0],
-                (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
-                (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100),
-                nd.flags);
+                    printf("El menor de la lista es %d weight=%d.%02d nd.flags=%04X\n",
+                    nd.lwoe.children.neighbor.u8[0],
+                    (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
+                    (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100),
+                    nd.flags);
+                } // si lista == num_children
 
+            }else // Si soy core node
+            {
+                if(list_length(report_list) == (nd.num_children - 1) )//Resto 1 porque el otro
+                                                                      //CORE_NODE nunca me va a
+                                                                     // enviar un report
+                {
+                    //Saco el nodo con menor peso de la lista
+                    printf("Lista de Reports completa (soy core_node)\n");
+
+                    //Encuentro el menor de la lista
+                    report_str *rp_str = NULL;
+                    uint32_t lowest_weight;
+                    report_str *lowest_rp = NULL;
+                    for(rp_str = list_head(report_list), lowest_weight = rp_str->rp_msg.weight_r,
+                        lowest_rp = rp_str;
+                        rp_str != NULL; rp_str = rp_str->next)
+                    {
+                        if(rp_str->rp_msg.weight_r < lowest_weight)
+                        {
+                            lowest_weight = rp_str->rp_msg.weight_r;
+                            lowest_rp     = rp_str;
+                        }
+                    }
+
+                    linkaddr_copy( &nd.downroute , &lowest_rp->neighbor);
+                    linkaddr_copy(&nd.lwoe.children.neighbor, &lowest_rp->rp_msg.neighbor_r );
+                    nd.lwoe.children.weight = lowest_rp->rp_msg.weight_r;
+                    nd.flags |= CH_LWOE; //Ya encontre el ND_LWOE
+
+                    printf("El menor de la lista es %d weight=%d.%02d nd.flags=%04X\n",
+                    nd.lwoe.children.neighbor.u8[0],
+                    (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
+                    (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100),
+                    nd.flags);
+                } // si lista == num_children
 
             }
         }

@@ -65,7 +65,8 @@ process_event_t e_msg_accept;
 void init_master_test_ar(struct process *master_co_i, struct process *send_message_test_ar,
                          struct process *e_pospone_test, struct process *e_test,
                          struct process *send_message_report_ChaRoot,
-                         struct process *reports_completos);
+                         struct process *reports_completos, struct process *e_LWOE);
+
 void llenar_test_msg (test_msg *t_msg, const linkaddr_t *destination, fragment f);
 void llenar_accept_msg (accept_msg *a_msg, const linkaddr_t *destination);
 void llenar_reject_msg (reject_msg *r_msg, const linkaddr_t *destination);

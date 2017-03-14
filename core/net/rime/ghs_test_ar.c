@@ -145,7 +145,7 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
                   );
        }else
        {
-
+           //Falta esto!!
        }
 
    }else
@@ -160,11 +160,11 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
        process_post(e_test , PROCESS_EVENT_CONTINUE, NULL);
 
    }
-   else
+   /*else
    if(msg_type == REPORT)
    {
-       /*report_msg *rp_msg_d = (report_msg *) msg; //rp = report
-       report_msg  rp_msg;*/
+       //report_msg *rp_msg_d = (report_msg *) msg; //rp = report
+       //report_msg  rp_msg;
 
        if(nd.flags & CORE_NODE)// Si soy core node
        {
@@ -174,14 +174,14 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
        {
            //Guardo report en una lista
 
-           /*printf("Re-envio report de %d \n", from->u8[0]);
+           ///printf("Re-envio report de %d \n", from->u8[0]);
            //Cuando llega un report lo re-envio a mi padre.
-           llenar_report_msg(&rp_msg, &nd.parent , &rp_msg_d->neighbor_r, rp_msg_d->weight_r );
-           process_post(send_message_test_ar, e_msg_report , &rp_msg);*/
+           //llenar_report_msg(&rp_msg, &nd.parent , &rp_msg_d->neighbor_r, rp_msg_d->weight_r );
+           //process_post(send_message_test_ar, e_msg_report , &rp_msg);
 
        }
 
-   }
+   }*/
 
 
 }
@@ -253,17 +253,18 @@ void become_accepted(edges *e_list_head_g, const linkaddr_t *from)
 void init_master_test_ar(struct process *master_co_i, struct process *send_message_test_ar,
                          struct process *e_pospone_test, struct process *e_test,
                          struct process *send_message_report_ChaRoot,
-                         struct process *reports_completos)
+                         struct process *reports_completos, struct process *e_LWOE)
 {
     //printf("Process Init: master_test_ar \n");
 
     //Terminar procesos
-    process_exit(master_co_i);   //Cierro el proceso anterior para liberar memoria
+    //process_exit(master_co_i);   //Cierro el proceso anterior para liberar memoria
 
     //Iniciar procesos nuevos
     process_start(send_message_test_ar, NULL);
     process_start(e_pospone_test, NULL);
     process_start(e_test, NULL);
+    process_start(e_LWOE, NULL);
 
     //procesos de ghs_report_ChaRoot
     process_start(send_message_report_ChaRoot, NULL);

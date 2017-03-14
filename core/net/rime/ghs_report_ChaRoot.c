@@ -51,6 +51,7 @@ void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, 
 
    if(msg_type == REPORT)
    {
+
        report_msg *rp_msg_d = (report_msg *) msg; //rp = report
        /*report_msg  rp_msg;*/
 
