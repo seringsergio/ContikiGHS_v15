@@ -57,15 +57,21 @@ extern process_event_t e_find;
     //msg
 extern process_event_t e_msg_connect;
 extern process_event_t e_msg_initiate;
+extern process_event_t e_msg_change_root;
+
+//master_test_ar
+
+//estados
+extern process_event_t e_init_master_test_ar;
+extern process_event_t e_evaluate_test;
+extern process_event_t e_nd_lwoe; //Para saber si el nodo ya tiene su edge preferido
+extern process_event_t e_ch_lwoe; // Para saber si los hijos ya reportaton el edge preferido
+
+//msg
 extern process_event_t e_msg_test;
 extern process_event_t e_msg_reject;
 extern process_event_t e_msg_accept;
 extern process_event_t e_msg_report;
-extern process_event_t e_msg_change_root;
-
-//master_test_ar
-extern process_event_t e_init_master_test_ar;
-extern process_event_t e_evaluate_test;
 
 /*-------------------------------------------------------------------*/
 /*---------------- Estructuras---------------------------------------*/

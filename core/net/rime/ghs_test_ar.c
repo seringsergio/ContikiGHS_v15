@@ -17,7 +17,8 @@
 void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const linkaddr_t *from,
                          struct memb *history_mem, list_t history_list, uint8_t seqno,
                          struct process *send_message_test_ar, edges *e_list_head_g,
-                         list_t pt_list, struct memb *pt_memb)
+                         list_t pt_list, struct memb *pt_memb, struct process *master_test_ar/*,
+                         struct memb *report_memb, list_t report_list*/)
 {
 
     /* OPTIONAL: Sender history */
@@ -121,8 +122,30 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
    {
        //accept_msg *a_msg = (accept_msg *) msg;
 
-       printf("llego accept de %d \n", from->u8[0]);
+       report_msg rp_msg; //rp = report
+
+       printf("llego accept de %d. Numero Hijos = %d \n ", from->u8[0], nd.num_children);
        become_accepted(e_list_head_g, from);
+
+       //Si un edges es aceptado: Se guarda el edge como mejor opcion del Nodo
+       linkaddr_copy(&nd.lwoe.node.neighbor,  from);
+       nd.lwoe.node.weight = return_weight(e_list_head_g, from);
+
+       //Ya encontre el ND_LWOE, ahora verifico si tengo hijos o no
+       if(nd.num_children == 0) // Si no tengo hijos reporto de una!!
+       {
+           //Si no tengo hijos mi reporte es mi mejor edge
+           llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.node.neighbor, nd.lwoe.node.weight );
+           process_post(send_message_test_ar, e_msg_report , &rp_msg);
+           printf("Reporto porque hijos = %d \n", nd.num_children);
+
+       }else
+       {
+
+       }
+       process_post(master_test_ar , e_nd_lwoe, NULL); //Llamo el evento para indicar que el nodo ya encontro su best edge
+
+
    }else
    if(msg_type == M_REJECT)
    {
@@ -131,19 +154,70 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
        printf("llego reject de %d \n", from->u8[0]);
        become_rejected(e_list_head_g, from);
    }
+   else
+   if(msg_type == REPORT)
+   {
+       /*report_msg *rp_msg_d = (report_msg *) msg; //rp = report
+       report_msg  rp_msg;*/
+
+       if(nd.flags & CORE_NODE)// Si soy core node
+       {
+           //Evaluo el
+       }
+       else
+       {
+           //Guardo report en una lista
+
+           /*printf("Re-envio report de %d \n", from->u8[0]);
+           //Cuando llega un report lo re-envio a mi padre.
+           llenar_report_msg(&rp_msg, &nd.parent , &rp_msg_d->neighbor_r, rp_msg_d->weight_r );
+           process_post(send_message_test_ar, e_msg_report , &rp_msg);*/
+
+       }
+
+   }
 
 
 }
 
+/* LLenar el msg de report
+*/
+void llenar_report_msg(report_msg *rp_msg, const linkaddr_t *destination,
+                      const linkaddr_t *neighbor_r, uint32_t weight_r)
+{
+    linkaddr_copy(&rp_msg->destination, destination);
+    linkaddr_copy(&rp_msg->neighbor_r, neighbor_r);
+    rp_msg->weight_r  = weight_r;
+}
+
+
+/* Retorna el peso de un edge
+*/
+uint32_t return_weight(edges *e_list_head_g,  const linkaddr_t *from)
+{
+    edges *e_aux = NULL;
+    for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
+    {
+        if(linkaddr_cmp(&e_aux->addr, from)) //Entra si las direcciones son iguales
+        {
+            break;
+        }
+    }
+    return (e_aux->weight);
+}
+
+/* LLena la estructura de pospone test
+*/
 void llenar_pospone_test(pospone_test *pt, const linkaddr_t *neighbor, test_msg t_msg)
 {
     linkaddr_copy(&pt->neighbor, neighbor);
     pt->t_msg = t_msg;
 }
-
+/* Hace que el edge se vuelva rejected
+*/
 void become_rejected(edges *e_list_head_g, const linkaddr_t *from)
 {
-    static edges *e_aux;
+    edges *e_aux;
     for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
     {
         if(linkaddr_cmp(&e_aux->addr, from)) //Entra si las direcciones son iguales
@@ -154,10 +228,11 @@ void become_rejected(edges *e_list_head_g, const linkaddr_t *from)
     }
 
 }
-
+/* Hace que el edges se vuelva accepted
+*/
 void become_accepted(edges *e_list_head_g, const linkaddr_t *from)
 {
-    static edges *e_aux;
+    edges *e_aux;
     for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
     {
         if(linkaddr_cmp(&e_aux->addr, from)) //Entra si las direcciones son iguales

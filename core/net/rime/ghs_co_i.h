@@ -24,8 +24,8 @@
 
 //Banderas de los nodos
 #define INITIATIOR  0x01
-#define P_LWOE      0x02
-#define C_LWOE      0x04
+#define ND_LWOE     0x02 //No se usa. Se usa un evento equivalente
+#define CH_LWOE     0x04 //No se usa. Se usa un evento equivalente
 #define CORE_NODE   0x08
 
 //Estados de los edges
@@ -61,6 +61,8 @@ typedef struct pass_info_test_ar pass_info_test_ar;
 typedef struct accept_msg accept_msg;
 typedef struct reject_msg reject_msg;
 typedef struct pospone_test pospone_test;
+typedef struct report_msg report_msg;
+typedef struct report_str report_str;
 
 /*-------------------------------------------------------------------*/
 /*---------------- EVENTOS ------------------------------------------*/
@@ -72,8 +74,7 @@ process_event_t e_find;
 // msg
 process_event_t e_msg_connect;
 process_event_t e_msg_initiate;
-/*process_event_t e_msg_report;
-process_event_t e_msg_change_root;*/
+/*process_event_t e_msg_change_root;*/
 
 
 /*-------------------------------------------------------------------*/
@@ -150,6 +151,13 @@ struct reject_msg
     linkaddr_t destination;
 };
 
+struct report_msg
+{
+    linkaddr_t destination; //Hacia donde envio el msg de report
+    linkaddr_t neighbor_r; //Neighbor con menor peso. Neighbor_reportado
+    uint32_t weight_r; //Este es el peso del nodo con menor peso. Weight_reportado
+};
+
 struct pospone_connect
 {
     struct pospone_connect *next;
@@ -173,12 +181,18 @@ struct pass_info_test_ar // Estructura para enviar la informacion al proceso mas
     edges *e_list_head;
 };
 
+struct report_str
+{
+    struct report_str *next;
+    report_msg rp_msg;
+};
+
 struct node
 {
     uint8_t state;
     uint8_t flags;
     fragment f;
-    linkaddr_t parent; //Para enviar msg en la downward direction
+    linkaddr_t parent; //Para enviar msg en la upward direction
     LWOE_type lwoe;
     reports r;
     uint8_t num_children;

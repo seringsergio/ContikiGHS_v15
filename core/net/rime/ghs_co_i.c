@@ -153,7 +153,7 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
 
                 llenar_initiate_msg(&i_msg, weight_with_edge(from, e_list_head),
                                     (nd->f.level + 1), FIND, from);
-                process_post(send_message_co_i,  e_msg_initiate, &i_msg);
+                process_post(send_message_co_i,  e_msg_initiate, &i_msg); //Hijo + 1 !!
 
             }else //Si el estado NO es branch (El proceso postpones processing CONECT)
             {
@@ -191,7 +191,7 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
             become_branch(e_list_head, from);
             nd->num_children = nd->num_children + 1;
             llenar_initiate_msg(&i_msg, nd->f.name,nd->f.level, nd->state, from);
-            process_post(send_message_co_i,  e_msg_initiate, &i_msg);
+            process_post(send_message_co_i,  e_msg_initiate, &i_msg); //Hijo + 1 !!
         }
         /*printf("llego CONNECT from %d.%d con level = %d\n",
               from->u8[0], from->u8[1],
@@ -223,7 +223,7 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
                 nd->num_children = nd->num_children + 1;
                 llenar_initiate_msg(&i_msg_d, i_msg->f.name,i_msg->f.level,
                                    i_msg->nd_state, &e_aux->addr);
-                process_post(send_message_co_i,  e_msg_initiate, &i_msg_d);
+                process_post(send_message_co_i,  e_msg_initiate, &i_msg_d); //Hijo + 1 !!
             }
         }
 

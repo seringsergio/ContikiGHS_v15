@@ -75,6 +75,9 @@ LIST(history_list);
 //pt = pospone test
 MEMB(pt_memb, pospone_test, MAX_NUM_POSPONES); // Defines a memory pool for edges
 LIST(pt_list); // List that holds the neighbors we have seen thus far
+
+/*MEMB(report_memb, report_str, MAX_NUM_REPORTS); // Defines a memory pool for edges
+LIST(report_list); // List that holds the neighbors we have seen thus far*/
 /*------------------------------------------------------------------- */
 /*----------STATIC VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
@@ -90,7 +93,7 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 
   ghs_test_ar_recv_ruc(packetbuf_dataptr() ,list_head(history_list), from, &history_mem,
                        history_list, seqno, &send_message_test_ar, e_list_head_g,
-                       pt_list, &pt_memb);
+                       pt_list, &pt_memb, &master_test_ar/*, &report_memb, report_list*/);
 
 
 }
@@ -130,12 +133,15 @@ PROCESS_THREAD(master_test_ar, ev, data)
 
     //estados
     e_init_master_test_ar = process_alloc_event(); // Darle un numero al evento
-    e_evaluate_test = process_alloc_event(); // Darle un numero al evento
+    e_evaluate_test       = process_alloc_event(); // Darle un numero al evento
+    e_nd_lwoe             = process_alloc_event(); // Darle un numero al evento
+    e_ch_lwoe             = process_alloc_event(); // Darle un numero al evento
 
     //msg
-    e_msg_test = process_alloc_event(); // Darle un numero al evento
-    e_msg_reject = process_alloc_event(); // Darle un numero al evento
-    e_msg_accept = process_alloc_event(); // Darle un numero al evento
+    e_msg_test            = process_alloc_event(); // Darle un numero al evento
+    e_msg_reject          = process_alloc_event(); // Darle un numero al evento
+    e_msg_accept          = process_alloc_event(); // Darle un numero al evento
+    e_msg_report          = process_alloc_event(); // Darle un numero al evento
 
     static s_wait str_wait;
 
@@ -183,6 +189,16 @@ PROCESS_THREAD(master_test_ar, ev, data)
         if(ev == e_evaluate_test)
         {
             process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
+
+        }else
+        if(ev == e_nd_lwoe) //El nodo ya encontro su LWOE. Espero el de mis hijos
+        {
+            //Significa que ya encontre el LWOE del nodo. Espero el de los hijos
+
+            printf("Estoy esperando a que mis hijos reporten el edge con < peso para ellos\n");
+            PROCESS_WAIT_EVENT_UNTIL(ev == e_ch_lwoe);
+
+            //En este punto los hijos ya enviaron su edge preferido. Voy al archivo de report
 
         }
     }
@@ -299,6 +315,23 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_ACCEPT);
                 runicast_send(&runicast, &a_msg.destination, MAX_RETRANSMISSIONS);
                 printf("Envie accept a %d \n",a_msg.destination.u8[0]);
+            }
+        }else
+        if(ev == e_msg_report)
+        {
+            static report_msg *rp_msg_d; //rp = report
+            rp_msg_d = (report_msg *) data;
+            static report_msg rp_msg;
+
+            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+            {
+                llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->neighbor_r,
+                                  rp_msg_d->weight_r);
+                packetbuf_copyfrom(&rp_msg, sizeof(rp_msg));
+                packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, REPORT);
+                runicast_send(&runicast, &rp_msg.destination, MAX_RETRANSMISSIONS);
+                printf("Envie report a %d \n",rp_msg.destination.u8[0]);
+
             }
 
         }
