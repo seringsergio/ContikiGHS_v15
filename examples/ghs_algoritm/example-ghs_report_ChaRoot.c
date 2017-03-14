@@ -159,6 +159,37 @@ PROCESS_THREAD(reports_completos, ev, data)
             {
                 //Saco el nodo con menor peso de la lista
                 printf("Lista de Reports completa\n");
+
+                //Encuentro el menor de la lista
+                report_str *rp_str = NULL;
+                uint32_t lowest_weight;
+                report_str *lowest_rp = NULL;
+
+                for(rp_str = list_head(report_list), lowest_weight = rp_str->rp_msg.weight_r,
+                    lowest_rp = rp_str;
+                    rp_str != NULL; rp_str = rp_str->next)
+                {
+                    if(rp_str->rp_msg.weight_r < lowest_weight)
+                    {
+                        lowest_weight = rp_str->rp_msg.weight_r;
+                        lowest_rp     = rp_str;
+                    }
+                }
+
+                linkaddr_copy( &nd.downroute , &lowest_rp->neighbor);
+                linkaddr_copy(&nd.lwoe.children.neighbor, &lowest_rp->rp_msg.neighbor_r );
+                nd.lwoe.children.weight = lowest_rp->rp_msg.weight_r;
+
+                printf("El menor de la lista es %d weight=%d.%02d \n",
+                nd.lwoe.children.neighbor.u8[0],
+                (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
+                (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100)   );
+
+
+                if(nd.flags & ND_LWOE) //Si ya encontre mi mejor edges y el de mis vecinos
+                {
+                    //reporto el < entre edge mio y de mis vecinos
+                }
             }
         }
     }

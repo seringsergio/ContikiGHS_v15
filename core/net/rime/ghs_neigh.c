@@ -238,8 +238,9 @@ void sort_neighbor_list(struct neighbor *n_list_head)
     {
        flags &= !EXIST_LOWEST;
        //Recorrer desde la segunda posicion del nodo
-       for(first_position = n_aux, lowest_avg_seqno_gap =  first_position->avg_seqno_gap;
-        first_position != NULL; first_position = list_item_next(first_position))
+       for(first_position = n_aux, lowest_avg_seqno_gap =  first_position->avg_seqno_gap,
+           lowest_node = first_position;
+           first_position != NULL; first_position = list_item_next(first_position))
        {
            if(first_position->avg_seqno_gap < lowest_avg_seqno_gap)
            {

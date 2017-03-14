@@ -132,7 +132,7 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
        linkaddr_copy(&nd.lwoe.node.neighbor,  from);
        nd.lwoe.node.weight = return_weight(e_list_head_g, from);
 
-       //process_post(master_test_ar , e_msg_accept, NULL); //Indico que un edge fue ACEPTADO
+       nd.flags |= ND_LWOE; //Ya encontre el ND_LWOE
 
        //Ya encontre el ND_LWOE, ahora verifico si tengo hijos o no
        if(nd.num_children == 0) // Si no tengo hijos reporto de una!!
@@ -144,18 +144,10 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
                     (int)(nd.lwoe.node.weight / SEQNO_EWMA_UNITY),
                     (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100)
                   );
-
-
-           /*//Si no tengo hijos mi reporte es mi mejor edge
-           process_post(send_message_test_ar, e_msg_report , &rp_msg);
-           printf("Reporto porque hijos = %d \n", nd.num_children);*/
-
        }else
        {
 
        }
-       /*process_post(master_test_ar , e_nd_lwoe, NULL); //Llamo el evento para indicar que el nodo ya encontro su best edge
-       */
 
    }else
    if(msg_type == M_REJECT)
