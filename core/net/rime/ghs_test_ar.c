@@ -17,8 +17,9 @@
 void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const linkaddr_t *from,
                          struct memb *history_mem, list_t history_list, uint8_t seqno,
                          struct process *send_message_test_ar, edges *e_list_head_g,
-                         list_t pt_list, struct memb *pt_memb, struct process *master_test_ar/*,
-                         struct memb *report_memb, list_t report_list*/)
+                         list_t pt_list, struct memb *pt_memb, struct process *master_test_ar,
+                         struct process *e_test, struct process *send_message_report_ChaRoot
+                         )
 {
 
     /* OPTIONAL: Sender history */
@@ -131,20 +132,30 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
        linkaddr_copy(&nd.lwoe.node.neighbor,  from);
        nd.lwoe.node.weight = return_weight(e_list_head_g, from);
 
+       //process_post(master_test_ar , e_msg_accept, NULL); //Indico que un edge fue ACEPTADO
+
        //Ya encontre el ND_LWOE, ahora verifico si tengo hijos o no
        if(nd.num_children == 0) // Si no tengo hijos reporto de una!!
        {
-           //Si no tengo hijos mi reporte es mi mejor edge
            llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.node.neighbor, nd.lwoe.node.weight );
+           process_post(send_message_report_ChaRoot, e_msg_report , &rp_msg);
+           printf("Deeeseo Reportar Neigh=%d Weight=%d.%02d\n",
+                    nd.lwoe.node.neighbor.u8[0],
+                    (int)(nd.lwoe.node.weight / SEQNO_EWMA_UNITY),
+                    (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100)
+                  );
+
+
+           /*//Si no tengo hijos mi reporte es mi mejor edge
            process_post(send_message_test_ar, e_msg_report , &rp_msg);
-           printf("Reporto porque hijos = %d \n", nd.num_children);
+           printf("Reporto porque hijos = %d \n", nd.num_children);*/
 
        }else
        {
 
        }
-       process_post(master_test_ar , e_nd_lwoe, NULL); //Llamo el evento para indicar que el nodo ya encontro su best edge
-
+       /*process_post(master_test_ar , e_nd_lwoe, NULL); //Llamo el evento para indicar que el nodo ya encontro su best edge
+       */
 
    }else
    if(msg_type == M_REJECT)
@@ -153,6 +164,10 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
 
        printf("llego reject de %d \n", from->u8[0]);
        become_rejected(e_list_head_g, from);
+
+       //Si el edge es rechazado, entonces testeo uno nuevo.
+       process_post(e_test , PROCESS_EVENT_CONTINUE, NULL);
+
    }
    else
    if(msg_type == REPORT)
@@ -245,7 +260,9 @@ void become_accepted(edges *e_list_head_g, const linkaddr_t *from)
 /* Funcion para inicializar el proceso master_test_ar
 */
 void init_master_test_ar(struct process *master_co_i, struct process *send_message_test_ar,
-                         struct process *e_pospone_test, struct process *e_test)
+                         struct process *e_pospone_test, struct process *e_test,
+                         struct process *send_message_report_ChaRoot,
+                         struct process *reports_completos)
 {
     //printf("Process Init: master_test_ar \n");
 
@@ -256,6 +273,10 @@ void init_master_test_ar(struct process *master_co_i, struct process *send_messa
     process_start(send_message_test_ar, NULL);
     process_start(e_pospone_test, NULL);
     process_start(e_test, NULL);
+
+    //procesos de ghs_report_ChaRoot
+    process_start(send_message_report_ChaRoot, NULL);
+    process_start(reports_completos, NULL);
 }
 
 /* Funcion para llenar el msg test

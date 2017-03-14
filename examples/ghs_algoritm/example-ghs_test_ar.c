@@ -41,7 +41,7 @@
  *         1. /home/sergiodiaz/Desktop/contiki/core/net/rime/ghs_neigh.h.c
  *         2. /home/sergiodiaz/Desktop/contiki/core/net/rime/ghs_co_i.h.c
  *         3. /home/sergiodiaz/Desktop/contiki/core/net/rime/ghs_test_ar.h.c
- *
+ *         4. /home/sergiodiaz/Desktop/contiki/core/net/rime/ghs_report_ChaRoot.h
  */
  /*------------------------------------------------------------------- */
  /*----------- INCLUDES ---------------------------------------------- */
@@ -57,7 +57,7 @@
 /*----------PROCESSES------- -----------------------------------------*/
 /*------------------------------------------------------------------- */
 PROCESS(master_test_ar, "Proceso master de los msg test-accept-reject");
-PROCESS(send_message_test_ar, "Enviar msg de accept - reject");
+PROCESS(send_message_test_ar, "Enviar msg de test-accept-reject");
 PROCESS(e_pospone_test, "Evaluar Pospone Test");
 PROCESS(e_test, "Evaluar con Test Neoghbors");
 
@@ -76,8 +76,7 @@ LIST(history_list);
 MEMB(pt_memb, pospone_test, MAX_NUM_POSPONES); // Defines a memory pool for edges
 LIST(pt_list); // List that holds the neighbors we have seen thus far
 
-/*MEMB(report_memb, report_str, MAX_NUM_REPORTS); // Defines a memory pool for edges
-LIST(report_list); // List that holds the neighbors we have seen thus far*/
+
 /*------------------------------------------------------------------- */
 /*----------STATIC VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
@@ -93,7 +92,8 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 
   ghs_test_ar_recv_ruc(packetbuf_dataptr() ,list_head(history_list), from, &history_mem,
                        history_list, seqno, &send_message_test_ar, e_list_head_g,
-                       pt_list, &pt_memb, &master_test_ar/*, &report_memb, report_list*/);
+                       pt_list, &pt_memb, &master_test_ar, &e_test, &send_message_report_ChaRoot
+                       );
 
 
 }
@@ -141,7 +141,7 @@ PROCESS_THREAD(master_test_ar, ev, data)
     e_msg_test            = process_alloc_event(); // Darle un numero al evento
     e_msg_reject          = process_alloc_event(); // Darle un numero al evento
     e_msg_accept          = process_alloc_event(); // Darle un numero al evento
-    e_msg_report          = process_alloc_event(); // Darle un numero al evento
+    //e_msg_report          = process_alloc_event(); // Darle un numero al evento
 
     static s_wait str_wait;
 
@@ -156,7 +156,8 @@ PROCESS_THREAD(master_test_ar, ev, data)
             str_t_ar = (pass_info_test_ar *) data;
 
             init_master_test_ar(str_t_ar->master_co_i, &send_message_test_ar,
-                                &e_pospone_test, &e_test);
+                                &e_pospone_test, &e_test, &send_message_report_ChaRoot,
+                                &reports_completos);
 
             e_list_head_g = str_t_ar->e_list_head;
 
@@ -191,14 +192,11 @@ PROCESS_THREAD(master_test_ar, ev, data)
             process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
 
         }else
-        if(ev == e_nd_lwoe) //El nodo ya encontro su LWOE. Espero el de mis hijos
+        if(ev == e_msg_accept) //El nodo ya encontro su LWOE. Espero el de mis hijos
         {
-            //Significa que ya encontre el LWOE del nodo. Espero el de los hijos
-
-            printf("Estoy esperando a que mis hijos reporten el edge con < peso para ellos\n");
-            PROCESS_WAIT_EVENT_UNTIL(ev == e_ch_lwoe);
-
-            //En este punto los hijos ya enviaron su edge preferido. Voy al archivo de report
+            //Si al master le llega un msg de accept me voy al Proceso master_report_ChaRoot
+            process_start(&master_report_ChaRoot, NULL);
+            process_post(&master_report_ChaRoot, e_init_master_report_ChaRoot, NULL);
 
         }
     }
@@ -221,8 +219,8 @@ PROCESS_THREAD(e_test, ev, data)
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if (ev == PROCESS_EVENT_CONTINUE)
         {
-            static edges *e_aux;
-            static test_msg t_msg;
+            edges *e_aux;
+            test_msg t_msg;
             for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
             {
                 if(e_aux->state == BASIC)
@@ -316,7 +314,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                 runicast_send(&runicast, &a_msg.destination, MAX_RETRANSMISSIONS);
                 printf("Envie accept a %d \n",a_msg.destination.u8[0]);
             }
-        }else
+        }/*else
         if(ev == e_msg_report)
         {
             static report_msg *rp_msg_d; //rp = report
@@ -334,7 +332,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
 
             }
 
-        }
+        }*/
     }
 
     PROCESS_END();

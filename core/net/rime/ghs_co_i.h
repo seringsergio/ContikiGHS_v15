@@ -62,7 +62,7 @@ typedef struct accept_msg accept_msg;
 typedef struct reject_msg reject_msg;
 typedef struct pospone_test pospone_test;
 typedef struct report_msg report_msg;
-typedef struct report_str report_str;
+//typedef struct report_str report_str;
 
 /*-------------------------------------------------------------------*/
 /*---------------- EVENTOS ------------------------------------------*/
@@ -151,12 +151,12 @@ struct reject_msg
     linkaddr_t destination;
 };
 
-struct report_msg
+/*struct report_msg
 {
     linkaddr_t destination; //Hacia donde envio el msg de report
     linkaddr_t neighbor_r; //Neighbor con menor peso. Neighbor_reportado
     uint32_t weight_r; //Este es el peso del nodo con menor peso. Weight_reportado
-};
+};*/
 
 struct pospone_connect
 {
@@ -181,11 +181,11 @@ struct pass_info_test_ar // Estructura para enviar la informacion al proceso mas
     edges *e_list_head;
 };
 
-struct report_str
+/*struct report_str
 {
     struct report_str *next;
     report_msg rp_msg;
-};
+};*/
 
 struct node
 {

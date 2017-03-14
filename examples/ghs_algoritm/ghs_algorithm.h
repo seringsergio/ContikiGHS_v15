@@ -36,6 +36,10 @@ PROCESS_NAME(e_pospone_connect);
 PROCESS_NAME(master_test_ar);
 PROCESS_NAME(e_test);
 
+// master_report_ChaRoot
+PROCESS_NAME(master_report_ChaRoot);
+PROCESS_NAME(send_message_report_ChaRoot);
+PROCESS_NAME(reports_completos);
 
 /*------------------------------------------------------------------- */
 /*----------EVENTOS -------- -----------------------------------------*/
@@ -71,7 +75,14 @@ extern process_event_t e_ch_lwoe; // Para saber si los hijos ya reportaton el ed
 extern process_event_t e_msg_test;
 extern process_event_t e_msg_reject;
 extern process_event_t e_msg_accept;
+
+
+// master_report_ChaRoot
+    //Estados
+extern process_event_t e_init_master_report_ChaRoot;
+    //msg
 extern process_event_t e_msg_report;
+
 
 /*-------------------------------------------------------------------*/
 /*---------------- Estructuras---------------------------------------*/
