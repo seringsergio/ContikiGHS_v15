@@ -219,6 +219,7 @@ PROCESS_THREAD(e_test, ev, data)
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if (ev == PROCESS_EVENT_CONTINUE)
         {
+            uint8_t tengo_edges_de_salida = 0;
             edges *e_aux;
             test_msg t_msg;
             for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
@@ -231,9 +232,19 @@ PROCESS_THREAD(e_test, ev, data)
 
                     llenar_test_msg(&t_msg, &e_aux->addr, nd.f );
                     process_post(&send_message_test_ar, e_msg_test, &t_msg);
+                    tengo_edges_de_salida = 1;
                     break; //Envio msg TEST al primer BASIC. Recordar que la lista esta ordenada
                     //PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
                 }
+            }
+
+            if(tengo_edges_de_salida == 0)
+            {
+                //NO BORRAR!
+                //printf("No tengo_edges_de_salida. INFINITO = %" PRIu32 "\n", INFINITO);
+                printf("No tengo edge de salida \n");
+                nd.lwoe.node.weight = INFINITO;
+                nd.flags |= ND_LWOE; //Ya encontre el ND_LWOE. Porque no tengo edges de salida
             }
 
         }

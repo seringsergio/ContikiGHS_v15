@@ -131,7 +131,6 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
        //Si un edges es aceptado: Se guarda el edge como mejor opcion del Nodo
        linkaddr_copy(&nd.lwoe.node.neighbor,  from);
        nd.lwoe.node.weight = return_weight(e_list_head_g, from);
-
        nd.flags |= ND_LWOE; //Ya encontre el ND_LWOE
 
        //Ya encontre el ND_LWOE, ahora verifico si tengo hijos o no

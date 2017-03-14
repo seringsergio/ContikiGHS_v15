@@ -24,8 +24,8 @@
 
 //Banderas de los nodos
 #define INITIATIOR  0x01
-#define ND_LWOE     0x02 //No se usa. Se usa un evento equivalente
-#define CH_LWOE     0x04 //No se usa. Se usa un evento equivalente
+#define ND_LWOE     0x02
+#define CH_LWOE     0x04 
 #define CORE_NODE   0x08
 
 //Estados de los edges
