@@ -68,7 +68,7 @@ void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, 
        //---------------------------------------------------------------
 
        // OPTIONAL: Sender history
-       report_str *rp_str = NULL;
+       /*report_str *rp_str = NULL;
        for(rp_str = list_head(report_list) ; rp_str != NULL; rp_str = rp_str->next)
        {
          if(linkaddr_cmp(&rp_str->neighbor, from)) // Si las dir son iguales entra
@@ -102,7 +102,7 @@ void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, 
 
        //evaluo si la lista ya esta completa
        printf("Tamano lista=%d \n", list_length(report_list) );
-       process_post(reports_completos, PROCESS_EVENT_CONTINUE, NULL);
+       process_post(reports_completos, PROCESS_EVENT_CONTINUE, NULL);*/
 
 
 

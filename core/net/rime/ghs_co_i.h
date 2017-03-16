@@ -25,8 +25,11 @@
 //Banderas de los nodos
 #define INITIATIOR  0x01
 #define ND_LWOE     0x02
-#define CH_LWOE     0x04 
+#define CH_LWOE     0x04
 #define CORE_NODE   0x08
+
+//Banderas de initiate_msg
+#define BECOME_CORE_NODE 0x01
 
 //Estados de los edges
 #define BASIC      0x01
@@ -51,7 +54,7 @@ typedef struct node node;
 typedef struct fragment fragment;
 typedef struct LWOE_type LWOE_type;
 typedef struct LWOE LWOE;
-typedef struct reports reports;
+//typedef struct reports reports;
 typedef struct test_msg test_msg;
 typedef struct edges edges;
 typedef struct connect_msg connect_msg;
@@ -100,13 +103,13 @@ struct LWOE_type
     LWOE children;
 };
 
-struct reports
+/*struct reports
 {
     linkaddr_t sender;
     linkaddr_t neighbor;
     uint32_t weight;
     uint16_t num_reports;
-};
+};*/
 
 
 // Es una lista con la informacion de los edges
@@ -125,6 +128,7 @@ struct edges {
 struct initiate_msg
 {
     fragment f;
+    uint8_t flags;
     uint8_t nd_state;
     linkaddr_t destination;
 };
@@ -194,7 +198,7 @@ struct node
     fragment f;
     linkaddr_t parent; //Para enviar msg en la upward direction
     LWOE_type lwoe;
-    reports r;
+    //reports r;
     uint8_t num_children;
     linkaddr_t downroute; //Para enviar msg en la downward direction
     test_msg t_msg;
@@ -228,7 +232,7 @@ void init_master_co_i(struct neighbor *n_list_head, struct process *master_neigh
 uint8_t state_is_branch( const linkaddr_t *addr,  edges *e_list_head);
 uint32_t weight_with_edge( const linkaddr_t *addr,  edges *e_list_head);
 void llenar_initiate_msg(initiate_msg *i_msg, uint32_t name,
-                        uint8_t level, uint8_t state, const linkaddr_t *dest);
+                        uint8_t level, uint8_t state, const linkaddr_t *dest, uint8_t flags);
 void llenar_connect_msg (connect_msg *msg, uint8_t level, linkaddr_t *destination);
 void llenar_pospone_connect(pospone_connect *pc, const linkaddr_t *neighbor, connect_msg co_msg);
 void llenar_str_test_ar(pass_info_test_ar *str_t_ar, list_t edges_list,

@@ -152,8 +152,9 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
                 nd->flags |= CORE_NODE;
 
                 llenar_initiate_msg(&i_msg, weight_with_edge(from, e_list_head),
-                                    (nd->f.level + 1), FIND, from);
+                                    (nd->f.level + 1), FIND, from, BECOME_CORE_NODE);
                 process_post(send_message_co_i,  e_msg_initiate, &i_msg); //Hijo + 1 !!
+                printf("Soy CORE_NORE 3\n");
 
             }else //Si el estado NO es branch (El proceso postpones processing CONECT)
             {
@@ -190,7 +191,7 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
         {
             become_branch(e_list_head, from);
             nd->num_children = nd->num_children + 1;
-            llenar_initiate_msg(&i_msg, nd->f.name,nd->f.level, nd->state, from);
+            llenar_initiate_msg(&i_msg, nd->f.name,nd->f.level, nd->state, from, ~BECOME_CORE_NODE);
             process_post(send_message_co_i,  e_msg_initiate, &i_msg); //Hijo + 1 !!
         }
         /*printf("llego CONNECT from %d.%d con level = %d\n",
@@ -207,6 +208,12 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
         nd->state   = i_msg->nd_state;
         linkaddr_copy(&nd->parent , from);
 
+        if(i_msg->flags & BECOME_CORE_NODE)
+        {
+            nd->flags |= CORE_NODE;
+            printf("Soy CORE_NORE 2\n");
+        }
+
         if(nd->f.level == FIND) //si cambio de estado a FIND
         {
             //Envio un mensaje al master_co_i de find
@@ -222,7 +229,7 @@ void ghs_ff_recv_ruc(void *msg, const linkaddr_t *from,
             {
                 nd->num_children = nd->num_children + 1;
                 llenar_initiate_msg(&i_msg_d, i_msg->f.name,i_msg->f.level,
-                                   i_msg->nd_state, &e_aux->addr);
+                                   i_msg->nd_state, &e_aux->addr, ~BECOME_CORE_NODE);
                 process_post(send_message_co_i,  e_msg_initiate, &i_msg_d); //Hijo + 1 !!
             }
         }
@@ -313,12 +320,21 @@ void init_master_co_i(struct neighbor *n_list_head, struct process *master_neigh
 /* LLena un msg de initiate con los valores parametros
 */
 void llenar_initiate_msg(initiate_msg *i_msg, uint32_t name,
-                        uint8_t level, uint8_t state, const linkaddr_t *dest)
+                        uint8_t level, uint8_t state, const linkaddr_t *dest, uint8_t flags)
 {
     i_msg->f.name     = name;
     i_msg->f.level    = level;
     i_msg->nd_state   = state;
     linkaddr_copy(&i_msg->destination , dest);
+    
+    if( !(flags & BECOME_CORE_NODE))
+    {
+        i_msg->flags     &= ~BECOME_CORE_NODE;
+    }else
+    if(flags & BECOME_CORE_NODE)
+    {
+        i_msg->flags     |= BECOME_CORE_NODE;
+    }
 }
 /* LLena un msg de connect con los valores parametros
 */

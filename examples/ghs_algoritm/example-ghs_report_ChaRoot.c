@@ -155,12 +155,13 @@ PROCESS_THREAD(reports_completos, ev, data)
         {
             printf("A evaluar reports\n");
 
-            if(!(nd.flags & CORE_NODE))
-            {
+            //if(!(nd.flags & CORE_NODE))
+            //{
+                //Si la lista de reports ya esta completa
                 if(list_length(report_list) == nd.num_children)//Si el tamano de la lista es = al num de hijos
                 {
                     //Saco el nodo con menor peso de la lista
-                    printf("Lista de Reports completa (no soy core_node)\n");
+                    printf("Lista de Reports completa \n");
 
                     //Encuentro el menor de la lista
                     report_str *rp_str = NULL;
@@ -189,7 +190,7 @@ PROCESS_THREAD(reports_completos, ev, data)
                     nd.flags);
                 } // si lista == num_children
 
-            }else // Si soy core node
+            /*}else // Si soy core node
             {
                 if(list_length(report_list) == (nd.num_children - 1) )//Resto 1 porque el otro
                                                                       //CORE_NODE nunca me va a
@@ -225,7 +226,7 @@ PROCESS_THREAD(reports_completos, ev, data)
                     nd.flags);
                 } // si lista == num_children
 
-            }
+            }*/
         }
     }
 
@@ -248,7 +249,7 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
 
     while(1)
     {
-        //static struct etimer et;
+        static struct etimer et;
 
         PROCESS_WAIT_EVENT(); // Wait for any event.
 
@@ -258,6 +259,10 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
             rp_msg_d = (report_msg *) data;
             static report_msg rp_msg;
 
+            //Delay 2-4 seconds  //Para que no todos lo manden al tiempo
+            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
                 llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->neighbor_r,
@@ -265,7 +270,11 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
                 packetbuf_copyfrom(&rp_msg, sizeof(rp_msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, REPORT);
                 runicast_send(&runicast, &rp_msg.destination, MAX_RETRANSMISSIONS);
-                printf("Envie report a %d \n",rp_msg.destination.u8[0]);
+                printf("Envie report a %d Neigh=%d Weight=%d.%02d \n",
+                        rp_msg.destination.u8[0],
+                        rp_msg.neighbor_r.u8[0],
+                        (int)( rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                        (int)(((100UL * rp_msg.weight_r ) / SEQNO_EWMA_UNITY) % 100) );
             }
 
 

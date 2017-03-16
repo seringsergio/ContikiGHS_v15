@@ -170,7 +170,6 @@ PROCESS_THREAD(master_test_ar, ev, data)
                        (int)(e_aux->weight / SEQNO_EWMA_UNITY),
                        (int)(((100UL * e_aux->weight) / SEQNO_EWMA_UNITY) % 100),
                        e_aux->state);
-
             }
 
             process_post(PROCESS_CURRENT(), e_wait_stabilization, NULL);
@@ -357,7 +356,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                 packetbuf_copyfrom(&t_msg, sizeof(t_msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, TEST);
                 runicast_send(&runicast, &t_msg.destination, MAX_RETRANSMISSIONS);
-                //printf("Deseo enviar e_msg_test a %d\n", t_msg.destination.u8[0]);
+                printf("Deseo enviar e_msg_test a %d\n", t_msg.destination.u8[0]);
 
             }
         }else

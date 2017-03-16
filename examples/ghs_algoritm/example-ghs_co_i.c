@@ -219,8 +219,9 @@ PROCESS_THREAD(e_pospone_connect, ev, data)
                         nd.flags |= CORE_NODE;
 
                         llenar_initiate_msg(&i_msg, weight_with_edge(&pc_aux->neighbor, list_head(edges_list)),
-                                           (nd.f.level + 1), FIND, &pc_aux->neighbor);
+                                           (nd.f.level + 1), FIND, &pc_aux->neighbor, BECOME_CORE_NODE);
                         process_post(&send_message_co_i,  e_msg_initiate, &i_msg);
+                        printf("Soy CORE_NORE 1\n");
 
                         //Pude procesar el pospone connect con exito.
                         //Entonces lo retiro de la lista
@@ -238,7 +239,7 @@ PROCESS_THREAD(e_pospone_connect, ev, data)
 
                     nd.num_children = nd.num_children + 1;
 
-                    llenar_initiate_msg(&i_msg, nd.f.name, nd.f.level, nd.state, &pc_aux->neighbor);
+                    llenar_initiate_msg(&i_msg, nd.f.name, nd.f.level, nd.state, &pc_aux->neighbor,~BECOME_CORE_NODE);
                     process_post(&send_message_co_i,  e_msg_initiate, &i_msg);
 
                     //Pude procesar el pospone connect con exito.
@@ -301,7 +302,7 @@ PROCESS_THREAD(send_message_co_i, ev, data)
             static initiate_msg  msg;
 
             llenar_initiate_msg(&msg, msg_d->f.name, msg_d->f.level,
-                                msg_d->nd_state,  &msg_d->destination );
+                                msg_d->nd_state,  &msg_d->destination, msg_d->flags );
 
             // Delay 2-4 seconds
             /*etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
