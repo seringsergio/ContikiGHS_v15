@@ -135,8 +135,6 @@ void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, 
            printf("REEEnvie  CHANGE_ROOT a next_hop=%d final_destination=%d\n",
            cr_msg.next_hop.u8[0],
            cr_msg.final_destination.u8[0]);
-
-
        }
 
    }
