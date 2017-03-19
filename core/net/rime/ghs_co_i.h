@@ -77,7 +77,6 @@ process_event_t e_find;
 // msg
 process_event_t e_msg_connect;
 process_event_t e_msg_initiate;
-/*process_event_t e_msg_change_root;*/
 
 
 /*-------------------------------------------------------------------*/

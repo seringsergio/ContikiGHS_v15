@@ -18,8 +18,8 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
                          struct memb *history_mem, list_t history_list, uint8_t seqno,
                          struct process *send_message_test_ar, edges *e_list_head_g,
                          list_t pt_list, struct memb *pt_memb, struct process *master_test_ar,
-                         struct process *e_test, struct process *send_message_report_ChaRoot
-                         )
+                         struct process *e_test, struct process *send_message_report_ChaRoot,
+                         struct process *master_co_i)
 {
 
     /* OPTIONAL: Sender history */
@@ -151,6 +151,8 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
                         rp_msg.neighbor_r.u8[0],
                         (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
                         (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
+                //paso a FOUND
+                process_post(master_co_i, e_found, NULL);
 
 
            }else
@@ -170,6 +172,9 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
                         (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
                         (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100),
                         nd.flags);
+               //paso a FOUND
+               process_post(master_co_i, e_found, NULL);
+
 
            }else
            {//Falta esto!!

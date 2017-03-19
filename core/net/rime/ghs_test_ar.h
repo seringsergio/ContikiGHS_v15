@@ -43,6 +43,8 @@ process_event_t e_ch_lwoe; // Para saber si los hijos ya reportaton el edge pref
 process_event_t e_msg_test;
 process_event_t e_msg_reject;
 process_event_t e_msg_accept;
+process_event_t e_msg_ch_root;
+
 /*-------------------------------------------------------------------*/
 /*---------------- ESTRUCTURAS---------------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -78,11 +80,11 @@ void llenar_report_msg(report_msg *rp_msg, const linkaddr_t *destination,
                       const linkaddr_t *neighbor_r, uint32_t weight_r);
 
 void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const linkaddr_t *from,
-                       struct memb *history_mem, list_t history_list, uint8_t seqno,
-                       struct process *send_message_test_ar, edges *e_list_head_g,
-                       list_t pt_list, struct memb *pt_memb, struct process *master_test_ar,
-                       struct process *e_test, struct process *send_message_report_ChaRoot);
-
+                         struct memb *history_mem, list_t history_list, uint8_t seqno,
+                         struct process *send_message_test_ar, edges *e_list_head_g,
+                         list_t pt_list, struct memb *pt_memb, struct process *master_test_ar,
+                         struct process *e_test, struct process *send_message_report_ChaRoot,
+                         struct process *master_co_i);
 
 
 #endif /* GHS_NEIGH_H */

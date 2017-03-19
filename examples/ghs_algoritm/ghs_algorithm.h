@@ -56,14 +56,13 @@ extern process_event_t e_discovery_broadcast;
 extern process_event_t e_weight_worst;
 extern process_event_t e_init_master_co_i;
 
-// master find found
+// master co_i
     //estados
 extern process_event_t e_found;
 extern process_event_t e_find;
     //msg
 extern process_event_t e_msg_connect;
 extern process_event_t e_msg_initiate;
-extern process_event_t e_msg_change_root;
 
 //master_test_ar
 
@@ -77,11 +76,12 @@ extern process_event_t e_ch_lwoe; // Para saber si los hijos ya reportaton el ed
 extern process_event_t e_msg_test;
 extern process_event_t e_msg_reject;
 extern process_event_t e_msg_accept;
+extern process_event_t e_msg_ch_root;
 
 
 // master_report_ChaRoot
     //Estados
-extern process_event_t e_init_master_report_ChaRoot;
+//extern process_event_t e_init_master_report_ChaRoot;
     //msg
 extern process_event_t e_msg_report;
 

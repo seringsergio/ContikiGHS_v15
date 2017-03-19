@@ -112,3 +112,13 @@ void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, 
 
 
 }//End recibir mensajes de unicast
+
+/* Funcion para llenar el msg de change root
+*/
+void llenar_change_root(change_root_msg *cr_msg, const linkaddr_t *next_hop,
+                        const linkaddr_t *final_destination)
+{
+    linkaddr_copy(&cr_msg->next_hop, next_hop);
+    linkaddr_copy(&cr_msg->final_destination, final_destination);
+
+}

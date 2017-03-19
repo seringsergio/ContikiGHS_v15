@@ -125,18 +125,20 @@
     PROCESS_EXITHANDLER(master_report_ChaRoot_exit_handler());
     PROCESS_BEGIN();
 
-    e_init_master_report_ChaRoot = process_alloc_event(); // Darle un numero al evento
-    e_msg_report                 = process_alloc_event(); // Darle un numero al evento
+    //e_init_master_report_ChaRoot = process_alloc_event(); // Darle un numero al evento
+
+    //e_msg_ch_root  = process_alloc_event(); // Darle un numero al evento
+    e_msg_report   = process_alloc_event(); // Darle un numero al evento
 
     //process_start(&reports_completos, NULL);
 
     while(1)
     {
         PROCESS_WAIT_EVENT(); // Wait for any event.
-        if(ev == e_init_master_report_ChaRoot)
-        {
+        //if(ev == e_init_master_report_ChaRoot)
+        //{
             printf("Estoy en el master_report_ChaRoot \n  ");
-        }
+        //}
 
     }//end of infinite while
 
@@ -242,6 +244,10 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
             }
 
 
+        }else
+        if(ev == e_msg_ch_root)
+        {
+            printf("llegue a send e_msg_ch_root \n");
         }
     }//end of infinite while
 
@@ -260,6 +266,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
     {
         static struct etimer et;
         static report_msg rp_msg; //rp = report
+        static change_root_msg cr_msg; //cr = change root
 
         etimer_set(&et, CLOCK_SECOND * 1); //Cada segundo evaluo si ya se cual es el LWOE
         PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
@@ -271,6 +278,15 @@ PROCESS_THREAD(e_LWOE, ev, data)
                 if(nd.flags & CORE_NODE)
                 {
                     //send change_root y dejo de ser CORE_NODE
+                    nd.flags &= ~CORE_NODE;
+                    llenar_change_root(&cr_msg, &nd.lwoe.node.neighbor, &nd.lwoe.node.neighbor);
+                    process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
+                    printf("EEEnvie CHANGE_ROOT a next_hop=%d final_destination=%d\n",
+                    cr_msg.next_hop.u8[0],
+                    cr_msg.final_destination.u8[0]);
+                    //paso a FOUND
+                    process_post(&master_co_i, e_found, NULL);
+
                 }else
                 {
                     //send_report y paso a estado FOUND
@@ -290,6 +306,15 @@ PROCESS_THREAD(e_LWOE, ev, data)
                 if(nd.flags & CORE_NODE)
                 {
                     //send change_root y dejo de ser CORE_NODE
+                    nd.flags &= ~CORE_NODE;
+                    llenar_change_root(&cr_msg, &nd.downroute, &nd.lwoe.children.neighbor);
+                    process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
+                    printf("EEEnvie CHANGE_ROOT a next_hop=%d final_destination=%d\n",
+                    cr_msg.next_hop.u8[0],
+                    cr_msg.final_destination.u8[0]);
+                    //paso a FOUND
+                    process_post(&master_co_i, e_found, NULL);
+
                 }else
                 {
 

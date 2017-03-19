@@ -92,8 +92,8 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 
   ghs_test_ar_recv_ruc(packetbuf_dataptr() ,list_head(history_list), from, &history_mem,
                        history_list, seqno, &send_message_test_ar, e_list_head_g,
-                       pt_list, &pt_memb, &master_test_ar, &e_test, &send_message_report_ChaRoot
-                       );
+                       pt_list, &pt_memb, &master_test_ar, &e_test, &send_message_report_ChaRoot,
+                       &master_co_i    );
 
 
 }
@@ -141,6 +141,8 @@ PROCESS_THREAD(master_test_ar, ev, data)
     e_msg_test            = process_alloc_event(); // Darle un numero al evento
     e_msg_reject          = process_alloc_event(); // Darle un numero al evento
     e_msg_accept          = process_alloc_event(); // Darle un numero al evento
+    e_msg_ch_root         = process_alloc_event(); // Darle un numero al evento
+
     //e_msg_report          = process_alloc_event(); // Darle un numero al evento
 
     static s_wait str_wait;
