@@ -13,7 +13,8 @@
 */
 void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, const linkaddr_t *from,
                          struct memb *history_mem, list_t history_list, uint8_t seqno,
-                         struct memb *report_memb, list_t report_list, struct process *reports_completos )
+                         struct memb *report_memb, list_t report_list, struct process *reports_completos
+                         )
 {
 
     /* OPTIONAL: Sender history */
@@ -55,12 +56,13 @@ void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, 
        report_msg *rp_msg_d = (report_msg *) msg; //rp = report
        /*report_msg  rp_msg;*/
 
-       printf("LLLego report de %d Neigh=%d Weight=%d.%02d Hj=%d\n",
+       printf("LLLego report de %d Neigh=%d Weight=%d.%02d Hj=%d flags=%04X\n",
              from->u8[0],
              rp_msg_d->neighbor_r.u8[0],
              (int)(rp_msg_d->weight_r / SEQNO_EWMA_UNITY),
              (int)(((100UL * rp_msg_d->weight_r) / SEQNO_EWMA_UNITY) % 100),
-              nd.num_children
+              nd.num_children,
+              nd.flags
               );
 
        //---------------------------------------------------------------
@@ -68,7 +70,7 @@ void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, 
        //---------------------------------------------------------------
 
        // OPTIONAL: Sender history
-       /*report_str *rp_str = NULL;
+       report_str *rp_str = NULL;
        for(rp_str = list_head(report_list) ; rp_str != NULL; rp_str = rp_str->next)
        {
          if(linkaddr_cmp(&rp_str->neighbor, from)) // Si las dir son iguales entra
@@ -102,7 +104,7 @@ void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, 
 
        //evaluo si la lista ya esta completa
        printf("Tamano lista=%d \n", list_length(report_list) );
-       process_post(reports_completos, PROCESS_EVENT_CONTINUE, NULL);*/
+       process_post(reports_completos, PROCESS_EVENT_CONTINUE, NULL);
 
 
 

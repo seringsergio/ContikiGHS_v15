@@ -11,6 +11,8 @@
 #include "ghs_algorithm.h"
 #include "net/rime/rime.h" //Aca esta ghs_neigh.h
 #include <stdio.h>
+#include "ghs_algorithm.h"
+
 
 
 /*-------------------------------------------------------------------*/
@@ -68,7 +70,7 @@ struct report_str
 
 void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, const linkaddr_t *from,
                          struct memb *history_mem, list_t history_list, uint8_t seqno,
-                         struct memb *report_memb, list_t report_list, struct process *reports_completos );
+                         struct memb *report_memb, list_t report_list, struct process *reports_completos);
 
 
 

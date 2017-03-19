@@ -89,13 +89,13 @@
  static void
  sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
  {
-   printf("runicast TEEEST message sent to %d.%d, retransmissions %d\n",
- 	 to->u8[0], to->u8[1], retransmissions);
+   printf("runicast REPORT  message sent to %d.%d, retransmissions %d flags=%04X\n",
+ 	 to->u8[0], to->u8[1], retransmissions, nd.flags);
  }
  static void
  timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
  {
-   printf("runicast TEEEST message timed out when sending to %d.%d, retransmissions %d\n",
+   printf("runicast REPORT message timed out when sending to %d.%d, retransmissions %d\n",
  	 to->u8[0], to->u8[1], retransmissions);
  }
  static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
@@ -117,6 +117,7 @@
  PROCESS(master_report_ChaRoot, "Proceso master de los msg report-ChangeRoot");
  PROCESS(send_message_report_ChaRoot, "Enviar msg de report-ChangeRoot");
  PROCESS(reports_completos, "Evalua silos hijos ya enviaron los msg de report");
+ PROCESS(e_LWOE, "Evaluar si ya tengo LWOE propio y de los vecinos");
 
 
  PROCESS_THREAD(master_report_ChaRoot, ev, data)
@@ -155,8 +156,6 @@ PROCESS_THREAD(reports_completos, ev, data)
         {
             printf("A evaluar reports\n");
 
-            //if(!(nd.flags & CORE_NODE))
-            //{
                 //Si la lista de reports ya esta completa
                 if(list_length(report_list) == nd.num_children)//Si el tamano de la lista es = al num de hijos
                 {
@@ -183,50 +182,13 @@ PROCESS_THREAD(reports_completos, ev, data)
                     nd.lwoe.children.weight = lowest_rp->rp_msg.weight_r;
                     nd.flags |= CH_LWOE; //Ya encontre el ND_LWOE
 
-                    printf("El menor de la lista es %d weight=%d.%02d nd.flags=%04X\n",
+                    printf("El menor de la lista es %d weight=%d.%02d flags=%04X \n",
                     nd.lwoe.children.neighbor.u8[0],
                     (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
                     (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100),
                     nd.flags);
                 } // si lista == num_children
 
-            /*}else // Si soy core node
-            {
-                if(list_length(report_list) == (nd.num_children - 1) )//Resto 1 porque el otro
-                                                                      //CORE_NODE nunca me va a
-                                                                     // enviar un report
-                {
-                    //Saco el nodo con menor peso de la lista
-                    printf("Lista de Reports completa (soy core_node)\n");
-
-                    //Encuentro el menor de la lista
-                    report_str *rp_str = NULL;
-                    uint32_t lowest_weight;
-                    report_str *lowest_rp = NULL;
-                    for(rp_str = list_head(report_list), lowest_weight = rp_str->rp_msg.weight_r,
-                        lowest_rp = rp_str;
-                        rp_str != NULL; rp_str = rp_str->next)
-                    {
-                        if(rp_str->rp_msg.weight_r < lowest_weight)
-                        {
-                            lowest_weight = rp_str->rp_msg.weight_r;
-                            lowest_rp     = rp_str;
-                        }
-                    }
-
-                    linkaddr_copy( &nd.downroute , &lowest_rp->neighbor);
-                    linkaddr_copy(&nd.lwoe.children.neighbor, &lowest_rp->rp_msg.neighbor_r );
-                    nd.lwoe.children.weight = lowest_rp->rp_msg.weight_r;
-                    nd.flags |= CH_LWOE; //Ya encontre el ND_LWOE
-
-                    printf("El menor de la lista es %d weight=%d.%02d nd.flags=%04X\n",
-                    nd.lwoe.children.neighbor.u8[0],
-                    (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
-                    (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100),
-                    nd.flags);
-                } // si lista == num_children
-
-            }*/
         }
     }
 
@@ -259,27 +221,93 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
             rp_msg_d = (report_msg *) data;
             static report_msg rp_msg;
 
+            llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->neighbor_r,
+                              rp_msg_d->weight_r);
+
             //Delay 2-4 seconds  //Para que no todos lo manden al tiempo
             etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
             PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
-                llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->neighbor_r,
-                                  rp_msg_d->weight_r);
                 packetbuf_copyfrom(&rp_msg, sizeof(rp_msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, REPORT);
                 runicast_send(&runicast, &rp_msg.destination, MAX_RETRANSMISSIONS);
-                printf("Envie report a %d Neigh=%d Weight=%d.%02d \n",
+                printf("Envie report a %d Neigh=%d Weight=%d.%02d flags=%04X\n",
                         rp_msg.destination.u8[0],
                         rp_msg.neighbor_r.u8[0],
                         (int)( rp_msg.weight_r / SEQNO_EWMA_UNITY),
-                        (int)(((100UL * rp_msg.weight_r ) / SEQNO_EWMA_UNITY) % 100) );
+                        (int)(((100UL * rp_msg.weight_r ) / SEQNO_EWMA_UNITY) % 100),
+                        nd.flags );
             }
 
 
         }
     }//end of infinite while
+
+    PROCESS_END();
+
+}
+
+/* Proceso para evaluar si ya tengo LWOE propio (ND_LWOE) y de los vecinos (CH_LWOE)
+*/
+PROCESS_THREAD(e_LWOE, ev, data)
+{
+    PROCESS_EXITHANDLER();
+    PROCESS_BEGIN();
+
+    while(1)
+    {
+        static struct etimer et;
+        static report_msg rp_msg; //rp = report
+
+        etimer_set(&et, CLOCK_SECOND * 1); //Cada segundo evaluo si ya se cual es el LWOE
+        PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
+        if( (nd.flags & ND_LWOE) && (nd.flags & CH_LWOE))
+        {
+            if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
+            {
+                if(nd.flags & CORE_NODE)
+                {
+                    //send change_root y dejo de ser CORE_NODE
+                }else
+                {
+                    //send_report y paso a estado FOUND
+                    llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.node.neighbor, nd.lwoe.node.weight );
+                    process_post(&send_message_report_ChaRoot, e_msg_report, &rp_msg);
+                    printf("nd y ch: Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                             nd.lwoe.node.neighbor.u8[0],
+                             (int)(nd.lwoe.node.weight / SEQNO_EWMA_UNITY),
+                             (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100)  );
+                    //paso a FOUND
+                    process_post(&master_co_i, e_found, NULL);
+
+
+                }
+            }else //Si es mejor el edge de un vecino
+            {
+                if(nd.flags & CORE_NODE)
+                {
+                    //send change_root y dejo de ser CORE_NODE
+                }else
+                {
+
+                    //send_report y paso a estado FOUND
+                    llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.children.neighbor, nd.lwoe.children.weight );
+                    process_post(&send_message_report_ChaRoot, e_msg_report, &rp_msg);
+                    printf("nd y ch: Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                             nd.lwoe.children.neighbor.u8[0],
+                             (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
+                             (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100)  );
+                    //paso a FOUND
+                    process_post(&master_co_i, e_found, NULL);
+
+                }
+            }
+        }
+
+    }
 
     PROCESS_END();
 

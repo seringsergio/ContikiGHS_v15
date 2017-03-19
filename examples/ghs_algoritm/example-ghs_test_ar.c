@@ -60,7 +60,6 @@ PROCESS(master_test_ar, "Proceso master de los msg test-accept-reject");
 PROCESS(send_message_test_ar, "Enviar msg de test-accept-reject");
 PROCESS(e_pospone_test, "Evaluar Pospone Test");
 PROCESS(e_test, "Evaluar con Test Neoghbors");
-PROCESS(e_LWOE, "Evaluar si ya tengo LWOE propio y de los vecinos");
 
 /*------------------------------------------------------------------- */
 /*----------- VARIABLES GLOBALES ---------------------------------------------- */
@@ -204,69 +203,6 @@ PROCESS_THREAD(master_test_ar, ev, data)
 
 }
 
-/* Proceso para evaluar si ya tengo LWOE propio (ND_LWOE) y de los vecinos (CH_LWOE)
-*/
-PROCESS_THREAD(e_LWOE, ev, data)
-{
-    PROCESS_EXITHANDLER();
-    PROCESS_BEGIN();
-
-    while(1)
-    {
-        static struct etimer et;
-        static report_msg rp_msg; //rp = report
-
-        etimer_set(&et, CLOCK_SECOND * 1); //Cada segundo evaluo si ya se cual es el LWOE
-        PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-
-        if( (nd.flags & ND_LWOE) && (nd.flags & CH_LWOE))
-        {
-            if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
-            {
-                if(nd.flags & CORE_NODE)
-                {
-                    //send change_root y dejo de ser CORE_NODE
-                }else
-                {
-                    //send_report y paso a estado FOUND
-                    llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.node.neighbor, nd.lwoe.node.weight );
-                    process_post(&send_message_report_ChaRoot, e_msg_report, &rp_msg);
-                    printf("nd y ch: Deseo Reportar Neigh=%d Weight=%d.%02d\n",
-                             nd.lwoe.node.neighbor.u8[0],
-                             (int)(nd.lwoe.node.weight / SEQNO_EWMA_UNITY),
-                             (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100)  );
-                    //paso a FOUND
-                    process_post(&master_co_i, e_found, NULL);
-
-
-                }
-            }else //Si es mejor el edge de un vecino
-            {
-                if(nd.flags & CORE_NODE)
-                {
-                    //send change_root y dejo de ser CORE_NODE
-                }else
-                {
-
-                    //send_report y paso a estado FOUND
-                    llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.children.neighbor, nd.lwoe.children.weight );
-                    process_post(&send_message_report_ChaRoot, e_msg_report, &rp_msg);
-                    printf("nd y ch: Deseo Reportar Neigh=%d Weight=%d.%02d\n",
-                             nd.lwoe.children.neighbor.u8[0],
-                             (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
-                             (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100)  );
-                    //paso a FOUND
-                    process_post(&master_co_i, e_found, NULL);
-
-                }
-            }
-        }
-
-    }
-
-    PROCESS_END();
-
-}
 
 
 /* Proceso para testear los vecinos con msg de TEST

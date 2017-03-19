@@ -9,6 +9,7 @@
 #include "lib/list.h"
 #include "lib/memb.h"
 #include "sys/node-id.h" //Set node id
+#include "ghs_algorithm.h"
 
 
 /*------------------------------------------------------------------- */

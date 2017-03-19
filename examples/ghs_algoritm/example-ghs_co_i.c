@@ -51,12 +51,11 @@
 #include "lib/memb.h"
 #include "lib/random.h"
 #include "net/rime/rime.h" //Aca esta ghs.h
-#include "ghs_algorithm.h"
 #include <stdio.h>
 /*------------------------------------------------------------------- */
 /*----------GLOBAL VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
-node nd; //nd es node....n es neighbor
+//node nd; //nd es node....n es neighbor
 pospone_connect pc; //pc = pospone connect
 
 MEMB(edges_memb, edges, MAX_NUM_EDGES); // Defines a memory pool for edges
@@ -168,6 +167,8 @@ PROCESS_THREAD(master_co_i, ev, data)
         if (ev == e_found){
             //Espero instrucciones de change_root o initiate
             printf("Estoy en FOUND \n");
+
+            //Reinicio variables
             nd.flags &= ~ND_LWOE;
             nd.flags &= ~CH_LWOE;
 

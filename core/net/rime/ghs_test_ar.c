@@ -125,7 +125,7 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
 
        report_msg rp_msg; //rp = report
 
-       printf("llego accept de %d. Numero Hijos = %d FLAGS=%d \n ", from->u8[0], nd.num_children,
+       printf("llego accept de %d. Numero Hijos = %d flags=%04X \n ", from->u8[0], nd.num_children,
                                                                   nd.flags);
        become_accepted(e_list_head_g, from);
 
@@ -133,6 +133,9 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
        linkaddr_copy(&nd.lwoe.node.neighbor,  from);
        nd.lwoe.node.weight = return_weight(e_list_head_g, from);
        nd.flags |= ND_LWOE; //Ya encontre el ND_LWOE
+
+       printf("llego2 accept de %d. Numero Hijos = %d flags=%04X \n ", from->u8[0], nd.num_children,
+                                                                  nd.flags);
 
        if( !(nd.flags & CORE_NODE) ) // Si no soy core node
        {
@@ -142,9 +145,14 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
                llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.node.neighbor, nd.lwoe.node.weight );
                process_post(send_message_report_ChaRoot, e_msg_report , &rp_msg);
                printf("no_CN: Deeeseo Reportar Neigh=%d Weight=%d.%02d\n",
-                        nd.lwoe.node.neighbor.u8[0],
+                        /*nd.lwoe.node.neighbor.u8[0],
                         (int)(nd.lwoe.node.weight / SEQNO_EWMA_UNITY),
-                        (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100));
+                        (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100));*/
+                        rp_msg.neighbor_r.u8[0],
+                        (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                        (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
+
+
            }else
            {//Falta esto!!
            }
@@ -154,10 +162,15 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
            {
                llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.node.neighbor, nd.lwoe.node.weight );
                process_post(send_message_report_ChaRoot, e_msg_report , &rp_msg);
-               printf("CN:Deeeseo Reportar Neigh=%d Weight=%d.%02d\n",
-                        nd.lwoe.node.neighbor.u8[0],
+               printf("CN:Deeeseo Reportar Neigh=%d Weight=%d.%02d flags=%04X\n",
+                        /*nd.lwoe.node.neighbor.u8[0],
                         (int)(nd.lwoe.node.weight / SEQNO_EWMA_UNITY),
-                        (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100));
+                        (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100));*/
+                        rp_msg.neighbor_r.u8[0],
+                        (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                        (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100),
+                        nd.flags);
+
            }else
            {//Falta esto!!
            }
