@@ -93,7 +93,7 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
   ghs_test_ar_recv_ruc(packetbuf_dataptr() ,list_head(history_list), from, &history_mem,
                        history_list, seqno, &send_message_test_ar, e_list_head_g,
                        pt_list, &pt_memb, &master_test_ar, &e_test, &send_message_report_ChaRoot,
-                       &master_co_i    );
+                       &master_co_i, &e_LWOE    );
 
 
 }
@@ -249,6 +249,8 @@ PROCESS_THREAD(e_test, ev, data)
                 printf("No tengo edge de salida \n");
                 nd.lwoe.node.weight = INFINITO;
                 nd.flags |= ND_LWOE; //Ya encontre el ND_LWOE. Porque no tengo edges de salida
+                process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+
             }
 
         }

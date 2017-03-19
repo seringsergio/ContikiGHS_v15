@@ -77,7 +77,8 @@ struct report_str
 
 void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, const linkaddr_t *from,
                          struct memb *history_mem, list_t history_list, uint8_t seqno,
-                         struct memb *report_memb, list_t report_list, struct process *reports_completos);
+                         struct memb *report_memb, list_t report_list, struct process *reports_completos,
+                         struct process *send_message_co_i, struct process *send_message_report_ChaRoot);
 
 void llenar_change_root(change_root_msg *cr_msg, const linkaddr_t *next_hop,
                         const linkaddr_t *final_destination);

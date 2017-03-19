@@ -84,7 +84,6 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
                          struct process *send_message_test_ar, edges *e_list_head_g,
                          list_t pt_list, struct memb *pt_memb, struct process *master_test_ar,
                          struct process *e_test, struct process *send_message_report_ChaRoot,
-                         struct process *master_co_i);
-
+                         struct process *master_co_i, struct process *e_LWOE);
 
 #endif /* GHS_NEIGH_H */

@@ -19,7 +19,7 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
                          struct process *send_message_test_ar, edges *e_list_head_g,
                          list_t pt_list, struct memb *pt_memb, struct process *master_test_ar,
                          struct process *e_test, struct process *send_message_report_ChaRoot,
-                         struct process *master_co_i)
+                         struct process *master_co_i, struct process *e_LWOE)
 {
 
     /* OPTIONAL: Sender history */
@@ -133,6 +133,7 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
        linkaddr_copy(&nd.lwoe.node.neighbor,  from);
        nd.lwoe.node.weight = return_weight(e_list_head_g, from);
        nd.flags |= ND_LWOE; //Ya encontre el ND_LWOE
+       process_post(e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
 
        printf("llego2 accept de %d. Numero Hijos = %d flags=%04X \n ", from->u8[0], nd.num_children,
                                                                   nd.flags);
@@ -142,6 +143,10 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
            //Ya encontre el ND_LWOE, ahora verifico si tengo hijos o no
            if(nd.num_children == 0) // Si no tengo hijos reporto de una!!
            {
+               linkaddr_copy( &nd.downroute , &nd.lwoe.node.neighbor) ;
+               nd.flags |= CH_LWOE; //Ya encontre el CH_LWOE
+               process_post(e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+
                llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.node.neighbor, nd.lwoe.node.weight );
                process_post(send_message_report_ChaRoot, e_msg_report , &rp_msg);
                printf("no_CN: Deeeseo Reportar Neigh=%d Weight=%d.%02d\n",
@@ -162,6 +167,10 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
        {
            if( (nd.num_children-1) == 0) // Si no tengo hijos reporto de una!!
            {
+               linkaddr_copy( &nd.downroute , &nd.lwoe.node.neighbor) ;
+               nd.flags |= CH_LWOE; //Ya encontre el CH_LWOE
+               process_post(e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+
                llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.node.neighbor, nd.lwoe.node.weight );
                process_post(send_message_report_ChaRoot, e_msg_report , &rp_msg);
                printf("CN:Deeeseo Reportar Neigh=%d Weight=%d.%02d flags=%04X\n",

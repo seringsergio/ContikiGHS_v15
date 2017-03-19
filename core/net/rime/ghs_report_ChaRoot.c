@@ -13,8 +13,8 @@
 */
 void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, const linkaddr_t *from,
                          struct memb *history_mem, list_t history_list, uint8_t seqno,
-                         struct memb *report_memb, list_t report_list, struct process *reports_completos
-                         )
+                         struct memb *report_memb, list_t report_list, struct process *reports_completos,
+                         struct process *send_message_co_i, struct process *send_message_report_ChaRoot)
 {
 
     /* OPTIONAL: Sender history */
@@ -108,8 +108,38 @@ void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, 
 
 
 
-   }//end IF REPORT
+   }else //end IF REPORT
+   if(msg_type == CHANGE_ROOT)
+   {
+       change_root_msg *cr_msg_d = (change_root_msg *) msg; //rp = report
+       static connect_msg c_msg;
+       change_root_msg cr_msg;
 
+       //Si el change_root es para mi
+       if(linkaddr_cmp(&cr_msg_d->final_destination, &linkaddr_node_addr)) //Entra si las direcciones son iguales
+       {
+           //El msg de CHANGE_ROOT ES PARA MI
+           printf("El msg de ChangeRooot es para mi\n");
+           become_branch(e_list_head_g,from);
+
+           llenar_connect_msg (&c_msg, nd.f.level, &nd.lwoe.node.neighbor);
+           process_post(send_message_co_i,  e_msg_connect, &c_msg);
+           printf("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
+
+       }else//Si el change_root NO es para mi
+       {
+           printf("El msg de ChangeRooot NO es para mi\n");
+
+           llenar_change_root(&cr_msg, &nd.downroute, &cr_msg_d->final_destination);
+           process_post_synch(send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
+           printf("REEEnvie  CHANGE_ROOT a next_hop=%d final_destination=%d\n",
+           cr_msg.next_hop.u8[0],
+           cr_msg.final_destination.u8[0]);
+
+
+       }
+
+   }
 
 }//End recibir mensajes de unicast
 
