@@ -169,12 +169,9 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
   PROCESS_EXITHANDLER(master_neighbor_discovery_exit_handler());
   PROCESS_BEGIN();
 
-  static struct process *last_process = NULL; //Ultimo proceso que se ejecuto
-  static s_wait str_wait;
-
   //Definir eventos: Comunes a todos los procesos
   e_wait_stabilization = process_alloc_event(); // Darle un numero al evento
-  e_infinite_wait = process_alloc_event(); // Darle un numero al evento
+  //e_infinite_wait = process_alloc_event(); // Darle un numero al evento
 
   //Definir eventos: neighbor discovery
   e_discovery_broadcast = process_alloc_event(); // Darle un numero al evento
@@ -183,22 +180,23 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
 
   process_post(PROCESS_CURRENT(), e_discovery_broadcast, NULL);
 
+  static struct process *last_process = NULL; //Ultimo proceso que se ejecuto
+  static s_wait str_wait;
+
   while(1)
   {
+
     PROCESS_WAIT_EVENT(); // Wait for any event.
     if(ev == e_discovery_broadcast)
     {
         process_post(&n_broadcast_neighbor_discovery,PROCESS_EVENT_CONTINUE, NULL);
-        PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
-        last_process = data;
-        process_post(PROCESS_CURRENT(), e_wait_stabilization, NULL);
     }else
     if(ev == e_wait_stabilization)
     {
+        last_process = (struct process *) data;
         if(last_process == &n_broadcast_neighbor_discovery)
         {
-            str_wait.seconds = 50;
-            str_wait.return_process = PROCESS_CURRENT();
+            llenar_wait_struct(&str_wait, WAIT_NETWORK_STABILIZATION, PROCESS_CURRENT()  );
             process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
             process_exit(&n_broadcast_neighbor_discovery);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
@@ -206,8 +204,7 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
 
         }else if(last_process == &n_link_weight_worst_case)
         {
-            str_wait.seconds = 50;
-            str_wait.return_process = PROCESS_CURRENT();
+            llenar_wait_struct(&str_wait, WAIT_NETWORK_STABILIZATION, PROCESS_CURRENT()  );
             process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
             process_exit(&n_link_weight_worst_case);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
@@ -217,15 +214,10 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
     if(ev == e_weight_worst)
     {
         process_post(&n_link_weight_worst_case,PROCESS_EVENT_CONTINUE, NULL); //Inicio el proceso de runicast
-        PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
-        last_process = data;
-        process_post(PROCESS_CURRENT(), e_wait_stabilization, NULL);
     }else
     if(ev == e_init_master_co_i)
     {
         process_post(&master_co_i, e_init_master_co_i, list_head(neighbors_list));
-        PROCESS_WAIT_EVENT_UNTIL(ev == e_infinite_wait);
-        printf("NUNCA DEBE IMPRIMIRSE ESTO \n");
     }
 }//End of while
   PROCESS_END();
@@ -233,42 +225,43 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
 
 /*---------------------------------------------------------------------------*/
 /* Envio mensaje de broadcast para conocer a mis vecinos.
-*/PROCESS_THREAD(n_broadcast_neighbor_discovery, ev, data)
+*/
+PROCESS_THREAD(n_broadcast_neighbor_discovery, ev, data)
 {
   PROCESS_EXITHANDLER(n_broadcast_neighbor_discovery_exit_handler());
   PROCESS_BEGIN();
 
-  static struct etimer et;
-  static uint8_t seqno;
-  struct broadcast_message msg;
-
-
   broadcast_open(&n_broadcast, 129, &broadcast_call);
-
-  PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
 
   while(1)
   {
+      static struct etimer et;
+      static uint8_t seqno;
+      struct broadcast_message msg;
 
-    /* Delay 2-4 seconds */
-    etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
-    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+      PROCESS_WAIT_EVENT(); // Wait for any event.
+      if(ev == PROCESS_EVENT_CONTINUE)
+      {
+          seqno = 0;
+          while(seqno <= STOP_BROADCAST)
+          {
+            /* Delay 2-4 seconds */
+            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
-    /* En msg incluye el secuence number para saber cuantos msg se
-    *  pierden en promedio (exponentially-weighted moving average)
-    */
-    msg.seqno = seqno;
-    packetbuf_copyfrom(&msg, sizeof(struct broadcast_message));
-    broadcast_send(&n_broadcast);
-    seqno++;
+            /* En msg incluye el secuence number para saber cuantos msg se
+            *  pierden en promedio (exponentially-weighted moving average)
+            */
+            msg.seqno = seqno;
+            packetbuf_copyfrom(&msg, sizeof(struct broadcast_message));
+            broadcast_send(&n_broadcast);
+            printf("Este es broadcast vecinos\n");
+            seqno++;
+          }
+          process_post(&master_neighbor_discovery,e_wait_stabilization, PROCESS_CURRENT());
+      }//END IF CONTINUE
+  }//END of whie
 
-    if(seqno > STOP_BROADCAST)
-    {
-        process_post(&master_neighbor_discovery,PROCESS_EVENT_CONTINUE, PROCESS_CURRENT());
-        PROCESS_WAIT_EVENT_UNTIL(ev == e_infinite_wait); //Nunca debe llegar este evento
-        printf("NUNCA DEBE IMPRIMIRSE ESTO \n");
-    }
-  }
   PROCESS_END();
 }
 
@@ -291,38 +284,37 @@ PROCESS_THREAD(n_link_weight_worst_case, ev, data)
   list_init(history_list);
   memb_init(&history_mem);
 
-  PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
-
   while(1)
   {
     static struct etimer et;
     static struct neighbor *n_aux = NULL;
     struct runicast_message msg;
 
-    /*Envio mensaje de runicast a todos mis vecinos informando mi peso = avg_seqno_gap*/
-    for(n_aux = list_head(neighbors_list); n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
+    PROCESS_WAIT_EVENT(); // Wait for any event.
+    if(ev == PROCESS_EVENT_CONTINUE)
     {
-        /* Delay 2-4 seconds */
-        etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
-        PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-        if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+        /*Envio mensaje de runicast a todos mis vecinos informando mi peso = avg_seqno_gap*/
+        for(n_aux = list_head(neighbors_list); n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
         {
-            msg.avg_seqno_gap = n_aux->avg_seqno_gap;
-            packetbuf_copyfrom(&msg, sizeof(msg));
-            printf("%u.%u: sending runicast to address %u.%u\n",
-               linkaddr_node_addr.u8[0],
-               linkaddr_node_addr.u8[1],
-               n_aux->addr.u8[0],
-               n_aux->addr.u8[1]);
-            runicast_send(&runicast, &n_aux->addr, MAX_RETRANSMISSIONS);
+            /* Delay 2-4 seconds */
+            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
+            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+            {
+                msg.avg_seqno_gap = n_aux->avg_seqno_gap;
+                packetbuf_copyfrom(&msg, sizeof(msg));
+                printf("%u.%u: sending runicast to address %u.%u\n",
+                   linkaddr_node_addr.u8[0],
+                   linkaddr_node_addr.u8[1],
+                   n_aux->addr.u8[0],
+                   n_aux->addr.u8[1]);
+                runicast_send(&runicast, &n_aux->addr, MAX_RETRANSMISSIONS);
+            }
         }
-    }
-
-    process_post(&master_neighbor_discovery,PROCESS_EVENT_CONTINUE, PROCESS_CURRENT());
-    PROCESS_WAIT_EVENT_UNTIL(ev == e_infinite_wait); //Nunca debe llegar este evento
-    printf("NUNCA DEBE IMPRIMIRSE ESTO \n");
-
-  }
+        process_post(&master_neighbor_discovery,e_wait_stabilization, PROCESS_CURRENT());
+    }//END if ev == CONTINUE
+}//END of while
   PROCESS_END();
 }
 
@@ -338,13 +330,16 @@ PROCESS_THREAD(wait, ev, data)
 
     while(1)
     {
-      PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
-      str_wait = data;
+          PROCESS_WAIT_EVENT(); // Wait for any event.
+          if(ev == PROCESS_EVENT_CONTINUE)
+          {
+              str_wait = (s_wait *) data;
 
-      etimer_set(&et, CLOCK_SECOND * str_wait->seconds );
-      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+              etimer_set(&et, CLOCK_SECOND * str_wait->seconds );
+              PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
-      process_post(str_wait->return_process,PROCESS_EVENT_CONTINUE, NULL);
+              process_post(str_wait->return_process,PROCESS_EVENT_CONTINUE, NULL);
+          }
     }
     PROCESS_END();
 }

@@ -11,7 +11,11 @@
 #include "sys/node-id.h" //Set node id
 #include "ghs_algorithm.h"
 
+/*------------------------------------------------------------------- */
+/*----------- TYPEDEF ------------------------------------------------ */
+/*------------------------------------------------------------------- */
 
+typedef struct wait s_wait;
 /*------------------------------------------------------------------- */
 /*----------- DEFINE ------------------------------------------------ */
 /*------------------------------------------------------------------- */
@@ -22,6 +26,7 @@
 // Definicion de constantes
 #define MAX_RETRANSMISSIONS 4
 #define NUM_HISTORY_ENTRIES MAX_NEIGHBORS //Numero de entradas los 16 vecinos posibles
+#define WAIT_NETWORK_STABILIZATION 50
 
 #define MAX_NEIGHBORS 16 // This defines the maximum amount of neighbors we can remember.
 #define STOP_BROADCAST (MAX_NEIGHBORS * 1) // Detengo el broadcast cuando seqno sea > STOP_BROADCAST
@@ -38,7 +43,7 @@
 
 //Comunes a todos los procesos
 process_event_t e_wait_stabilization; //WAIT_NETWORK_STABILIZATION
-process_event_t e_infinite_wait; //Nunca se debe postear este evento
+//process_event_t e_infinite_wait; //Nunca se debe postear este evento
 
 //neighbor discovery
 process_event_t e_discovery_broadcast;
@@ -74,6 +79,11 @@ struct runicast_message {
     uint32_t avg_seqno_gap;
 };
 
+struct wait
+{
+    uint8_t seconds;
+    struct process *return_process;
+};
 
 // This structure holds information about neighbors. Es una linked list.
 struct neighbor {
@@ -119,5 +129,8 @@ void ghs_n_broadcast_recv(struct neighbor *n_list_head,
 void print_neighbor_list(struct neighbor *n_list_head, char *string, const linkaddr_t *node_addr );
 void sort_neighbor_list(struct neighbor *n_list_head);
 void imponer_avg_seqno_gap(struct neighbor *n_list_head, struct runicast_message *msg, const linkaddr_t *from);
+
+void llenar_wait_struct(s_wait *str_wait, uint8_t seconds, struct process *return_process  );
+
 
 #endif /* GHS_NEIGH_H */

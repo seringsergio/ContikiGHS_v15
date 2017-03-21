@@ -12,7 +12,7 @@
 /*------------------------------------------------------------------- */
 /*-----------TYPEDEF-------------------------------------------------*/
 /*------------------------------------------------------------------- */
-typedef struct wait s_wait;
+//typedef struct wait s_wait;
 typedef struct node node;
 typedef struct edges edges;
 /*------------------------------------------------------------------- */
@@ -33,17 +33,20 @@ PROCESS_NAME(n_link_weight_worst_case);
 PROCESS_NAME(master_neighbor_discovery);
 PROCESS_NAME(master_co_i);
 
-//Procesos de test ar
+//Procesos de co i
 PROCESS_NAME(send_message_co_i);
 PROCESS_NAME(e_pospone_connect);
 PROCESS_NAME(master_test_ar);
+
+//Procesos de test ar
 PROCESS_NAME(e_test);
-PROCESS_NAME(e_LWOE);
+PROCESS_NAME(e_pospone_test);
 
 // master_report_ChaRoot
-PROCESS_NAME(master_report_ChaRoot);
+//PROCESS_NAME(master_report_ChaRoot);
 PROCESS_NAME(send_message_report_ChaRoot);
 PROCESS_NAME(reports_completos);
+PROCESS_NAME(e_LWOE);
 
 /*------------------------------------------------------------------- */
 /*----------EVENTOS -------- -----------------------------------------*/
@@ -51,7 +54,7 @@ PROCESS_NAME(reports_completos);
 
 //Comunes a todos los procesos
 extern process_event_t e_wait_stabilization;
-extern process_event_t e_infinite_wait;
+//extern process_event_t e_infinite_wait;
 
 //neighbor discovery
 extern process_event_t e_discovery_broadcast;
@@ -92,11 +95,11 @@ extern process_event_t e_msg_report;
 /*---------------- Estructuras---------------------------------------*/
 /*-------------------------------------------------------------------*/
 
-struct wait
+/*struct wait
 {
     uint8_t seconds;
     struct process *return_process;
-};
+};*/
 
 
 

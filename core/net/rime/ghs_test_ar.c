@@ -12,6 +12,117 @@
 /*---------------- FUNCIONES ----------------------------------------*/
 /*-------------------------------------------------------------------*/
 
+
+/* LLenar el msg de report
+*/
+void llenar_report_msg(report_msg *rp_msg, const linkaddr_t *destination,
+                      const linkaddr_t *neighbor_r, uint32_t weight_r)
+{
+    linkaddr_copy(&rp_msg->destination, destination);
+    linkaddr_copy(&rp_msg->neighbor_r, neighbor_r);
+    rp_msg->weight_r  = weight_r;
+}
+
+
+/* Retorna el peso de un edge
+*/
+uint32_t return_weight(edges *e_list_head_g,  const linkaddr_t *from)
+{
+    edges *e_aux = NULL;
+    for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
+    {
+        if(linkaddr_cmp(&e_aux->addr, from)) //Entra si las direcciones son iguales
+        {
+            break;
+        }
+    }
+    return (e_aux->weight);
+}
+
+/* LLena la estructura de pospone test
+*/
+void llenar_pospone_test(pospone_test *pt, const linkaddr_t *neighbor, test_msg t_msg)
+{
+    linkaddr_copy(&pt->neighbor, neighbor);
+    pt->t_msg = t_msg;
+}
+/* Hace que el edge se vuelva rejected
+*/
+void become_rejected(edges *e_list_head_g, const linkaddr_t *from)
+{
+    edges *e_aux;
+    for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
+    {
+        if(linkaddr_cmp(&e_aux->addr, from)) //Entra si las direcciones son iguales
+        {
+            e_aux->state = E_REJECTED;
+            break;
+        }
+    }
+
+}
+/* Hace que el edges se vuelva accepted
+*/
+void become_accepted(edges *e_list_head_g, const linkaddr_t *from)
+{
+    edges *e_aux;
+    for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
+    {
+        if(linkaddr_cmp(&e_aux->addr, from)) //Entra si las direcciones son iguales
+        {
+            e_aux->state = E_ACCEPTED;
+            break;
+        }
+    }
+}
+/* Funcion para inicializar el proceso master_test_ar
+*/
+void init_master_test_ar(struct process *send_message_test_ar,
+                         struct process *e_pospone_test, struct process *e_test,
+                         struct process *send_message_report_ChaRoot,
+                         struct process *reports_completos, struct process *e_LWOE)
+{
+    //printf("Process Init: master_test_ar \n");
+
+    //Terminar procesos
+    //process_exit(master_co_i);   //Cierro el proceso anterior para liberar memoria
+
+    //Iniciar procesos nuevos
+    process_start(send_message_test_ar, NULL);
+    process_start(e_pospone_test, NULL);
+    process_start(e_test, NULL);
+
+    //procesos de ghs_report_ChaRoot
+    process_start(send_message_report_ChaRoot, NULL);
+    process_start(reports_completos, NULL);
+    process_start(e_LWOE, NULL);
+
+}
+
+/* Funcion para llenar el msg test
+*/
+void llenar_test_msg (test_msg *t_msg, const linkaddr_t *destination, fragment f)
+{
+    linkaddr_copy(&t_msg->destination,  destination);
+    t_msg->f.name      = f.name;
+    t_msg->f.level     = f.level;
+}
+
+
+/* Funcion para llenar el msg de accept
+*/
+void llenar_accept_msg (accept_msg *a_msg, const linkaddr_t *destination)
+{
+    linkaddr_copy(&a_msg->destination,  destination);
+}
+
+/* Funcion para llenar el msg de reject
+*/
+void llenar_reject_msg (reject_msg *r_msg, const linkaddr_t *destination)
+{
+    linkaddr_copy(&r_msg->destination,  destination);
+}
+
 /* Funcion que recibe los msg de runicast
 */
 void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const linkaddr_t *from,
@@ -135,9 +246,6 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
        nd.flags |= ND_LWOE; //Ya encontre el ND_LWOE
        process_post(e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
 
-       printf("llego2 accept de %d. Numero Hijos = %d flags=%04X \n ", from->u8[0], nd.num_children,
-                                                                  nd.flags);
-
        if( !(nd.flags & CORE_NODE) ) // Si no soy core node
        {
            //Ya encontre el ND_LWOE, ahora verifico si tengo hijos o no
@@ -150,18 +258,11 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
                llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.node.neighbor, nd.lwoe.node.weight );
                process_post(send_message_report_ChaRoot, e_msg_report , &rp_msg);
                printf("no_CN: Deeeseo Reportar Neigh=%d Weight=%d.%02d\n",
-                        /*nd.lwoe.node.neighbor.u8[0],
-                        (int)(nd.lwoe.node.weight / SEQNO_EWMA_UNITY),
-                        (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100));*/
                         rp_msg.neighbor_r.u8[0],
                         (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
                         (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                 //paso a FOUND
                 process_post(master_co_i, e_found, NULL);
-
-
-           }else
-           {//Falta esto!!
            }
        }else //SI Soy CORE_NODE
        {
@@ -174,19 +275,12 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
                llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.node.neighbor, nd.lwoe.node.weight );
                process_post(send_message_report_ChaRoot, e_msg_report , &rp_msg);
                printf("CN:Deeeseo Reportar Neigh=%d Weight=%d.%02d flags=%04X\n",
-                        /*nd.lwoe.node.neighbor.u8[0],
-                        (int)(nd.lwoe.node.weight / SEQNO_EWMA_UNITY),
-                        (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100));*/
                         rp_msg.neighbor_r.u8[0],
                         (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
                         (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100),
                         nd.flags);
                //paso a FOUND
                process_post(master_co_i, e_found, NULL);
-
-
-           }else
-           {//Falta esto!!
            }
        }
 
@@ -202,137 +296,4 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
        process_post(e_test , PROCESS_EVENT_CONTINUE, NULL);
 
    }
-   /*else
-   if(msg_type == REPORT)
-   {
-       //report_msg *rp_msg_d = (report_msg *) msg; //rp = report
-       //report_msg  rp_msg;
-
-       if(nd.flags & CORE_NODE)// Si soy core node
-       {
-           //Evaluo el
-       }
-       else
-       {
-           //Guardo report en una lista
-
-           ///printf("Re-envio report de %d \n", from->u8[0]);
-           //Cuando llega un report lo re-envio a mi padre.
-           //llenar_report_msg(&rp_msg, &nd.parent , &rp_msg_d->neighbor_r, rp_msg_d->weight_r );
-           //process_post(send_message_test_ar, e_msg_report , &rp_msg);
-
-       }
-
-   }*/
-
-
-}
-
-/* LLenar el msg de report
-*/
-void llenar_report_msg(report_msg *rp_msg, const linkaddr_t *destination,
-                      const linkaddr_t *neighbor_r, uint32_t weight_r)
-{
-    linkaddr_copy(&rp_msg->destination, destination);
-    linkaddr_copy(&rp_msg->neighbor_r, neighbor_r);
-    rp_msg->weight_r  = weight_r;
-}
-
-
-/* Retorna el peso de un edge
-*/
-uint32_t return_weight(edges *e_list_head_g,  const linkaddr_t *from)
-{
-    edges *e_aux = NULL;
-    for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
-    {
-        if(linkaddr_cmp(&e_aux->addr, from)) //Entra si las direcciones son iguales
-        {
-            break;
-        }
-    }
-    return (e_aux->weight);
-}
-
-/* LLena la estructura de pospone test
-*/
-void llenar_pospone_test(pospone_test *pt, const linkaddr_t *neighbor, test_msg t_msg)
-{
-    linkaddr_copy(&pt->neighbor, neighbor);
-    pt->t_msg = t_msg;
-}
-/* Hace que el edge se vuelva rejected
-*/
-void become_rejected(edges *e_list_head_g, const linkaddr_t *from)
-{
-    edges *e_aux;
-    for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
-    {
-        if(linkaddr_cmp(&e_aux->addr, from)) //Entra si las direcciones son iguales
-        {
-            e_aux->state = E_REJECTED;
-            break;
-        }
-    }
-
-}
-/* Hace que el edges se vuelva accepted
-*/
-void become_accepted(edges *e_list_head_g, const linkaddr_t *from)
-{
-    edges *e_aux;
-    for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
-    {
-        if(linkaddr_cmp(&e_aux->addr, from)) //Entra si las direcciones son iguales
-        {
-            e_aux->state = E_ACCEPTED;
-            break;
-        }
-    }
-}
-/* Funcion para inicializar el proceso master_test_ar
-*/
-void init_master_test_ar(struct process *master_co_i, struct process *send_message_test_ar,
-                         struct process *e_pospone_test, struct process *e_test,
-                         struct process *send_message_report_ChaRoot,
-                         struct process *reports_completos, struct process *e_LWOE)
-{
-    //printf("Process Init: master_test_ar \n");
-
-    //Terminar procesos
-    //process_exit(master_co_i);   //Cierro el proceso anterior para liberar memoria
-
-    //Iniciar procesos nuevos
-    process_start(send_message_test_ar, NULL);
-    process_start(e_pospone_test, NULL);
-    process_start(e_test, NULL);
-    process_start(e_LWOE, NULL);
-
-    //procesos de ghs_report_ChaRoot
-    process_start(send_message_report_ChaRoot, NULL);
-    process_start(reports_completos, NULL);
-}
-
-/* Funcion para llenar el msg test
-*/
-void llenar_test_msg (test_msg *t_msg, const linkaddr_t *destination, fragment f)
-{
-    linkaddr_copy(&t_msg->destination,  destination);
-    t_msg->f.name      = f.name;
-    t_msg->f.level     = f.level;
-}
-
-
-/* Funcion para llenar el msg de accept
-*/
-void llenar_accept_msg (accept_msg *a_msg, const linkaddr_t *destination)
-{
-    linkaddr_copy(&a_msg->destination,  destination);
-}
-
-/* Funcion para llenar el msg de reject
-*/
-void llenar_reject_msg (reject_msg *r_msg, const linkaddr_t *destination)
-{
-    linkaddr_copy(&r_msg->destination,  destination);
-}
+ }

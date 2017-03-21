@@ -105,23 +105,23 @@
 
  /* Exit handler de master_test_ar
  */
- static void master_report_ChaRoot_exit_handler(void)
+ /*static void master_report_ChaRoot_exit_handler(void)
  {
      printf("Process Exit: master_report_ChaRoot \n");
- }
+ }*/
 
  /*------------------------------------------------------------------- */
  /*-----------PROCESOS------------------------------------------------*/
  /*------------------------------------------------------------------- */
 
 
- PROCESS(master_report_ChaRoot, "Proceso master de los msg report-ChangeRoot");
+ //PROCESS(master_report_ChaRoot, "Proceso master de los msg report-ChangeRoot");
  PROCESS(send_message_report_ChaRoot, "Enviar msg de report-ChangeRoot");
  PROCESS(reports_completos, "Evalua silos hijos ya enviaron los msg de report");
  PROCESS(e_LWOE, "Evaluar si ya tengo LWOE propio y de los vecinos");
 
 
- PROCESS_THREAD(master_report_ChaRoot, ev, data)
+ /*PROCESS_THREAD(master_report_ChaRoot, ev, data)
 {
     PROCESS_EXITHANDLER(master_report_ChaRoot_exit_handler());
     PROCESS_BEGIN();
@@ -144,7 +144,7 @@
     }//end of infinite while
 
     PROCESS_END();
-}
+}*/
 
 PROCESS_THREAD(reports_completos, ev, data)
 {
@@ -157,7 +157,7 @@ PROCESS_THREAD(reports_completos, ev, data)
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
-            printf("A evaluar reports\n");
+                printf("A evaluar reports\n");
 
                 //Si la lista de reports ya esta completa
                 if(list_length(report_list) == nd.num_children)//Si el tamano de la lista es = al num de hijos
@@ -180,6 +180,7 @@ PROCESS_THREAD(reports_completos, ev, data)
                         }
                     }
 
+                    //guardo el menor hijo comoel mejor edge
                     linkaddr_copy( &nd.downroute , &lowest_rp->neighbor);
                     linkaddr_copy(&nd.lwoe.children.neighbor, &lowest_rp->rp_msg.neighbor_r );
                     nd.lwoe.children.weight = lowest_rp->rp_msg.weight_r;
@@ -193,12 +194,9 @@ PROCESS_THREAD(reports_completos, ev, data)
                     nd.flags,
                     nd.downroute.u8[0]);
                 } // si lista == num_children
-
-        }
-    }
-
+        } //IF EV == CONTINUE
+    } //END OF WHILE
     PROCESS_END();
-
 }
 
 
@@ -216,7 +214,7 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
 
     while(1)
     {
-        static struct etimer et;
+        //static struct etimer et;
 
         PROCESS_WAIT_EVENT(); // Wait for any event.
 
@@ -226,15 +224,17 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
             rp_msg_d = (report_msg *) data;
             static report_msg rp_msg;
 
-            llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->neighbor_r,
-                              rp_msg_d->weight_r);
+            /*llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->neighbor_r,
+                              rp_msg_d->weight_r);*/
 
             //Delay 2-4 seconds  //Para que no todos lo manden al tiempo
-            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
-            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+            /*etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
+                llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->neighbor_r,
+                                  rp_msg_d->weight_r);
                 packetbuf_copyfrom(&rp_msg, sizeof(rp_msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, REPORT);
                 runicast_send(&runicast, &rp_msg.destination, MAX_RETRANSMISSIONS);
@@ -245,8 +245,6 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
                         (int)(((100UL * rp_msg.weight_r ) / SEQNO_EWMA_UNITY) % 100),
                         nd.flags );
             }
-
-
         }else
         if(ev == e_msg_ch_root)
         {
@@ -254,14 +252,15 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
             cr_msg_d = (change_root_msg *) data;
             static change_root_msg cr_msg;
 
-            llenar_change_root(&cr_msg, &cr_msg_d->next_hop, &cr_msg_d->final_destination);
+            //llenar_change_root(&cr_msg, &cr_msg_d->next_hop, &cr_msg_d->final_destination);
 
             //Delay 2-4 seconds  //Para que no todos lo manden al tiempo
-            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
-            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+            /*etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
+                llenar_change_root(&cr_msg, &cr_msg_d->next_hop, &cr_msg_d->final_destination);
                 packetbuf_copyfrom(&cr_msg, sizeof(cr_msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, CHANGE_ROOT);
                 runicast_send(&runicast, &cr_msg.next_hop, MAX_RETRANSMISSIONS);
@@ -270,12 +269,9 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
                         cr_msg.final_destination.u8[0]
                         );
             }
-
         }
-    }//end of infinite while
-
+    } //end of infinite while
     PROCESS_END();
-
 }
 
 /* Proceso para evaluar si ya tengo LWOE propio (ND_LWOE) y de los vecinos (CH_LWOE)
@@ -358,7 +354,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                 }
             } //End IF las dos banderas estan arriba
         } //IF ev == CONTINUE
-    }
+    } //end of while
 
     PROCESS_END();
 

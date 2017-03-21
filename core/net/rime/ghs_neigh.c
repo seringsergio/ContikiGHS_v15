@@ -258,3 +258,9 @@ void sort_neighbor_list(struct neighbor *n_list_head)
        }
     }
 }
+
+void llenar_wait_struct(s_wait *str_wait, uint8_t seconds, struct process *return_process  )
+{
+    str_wait->seconds = seconds;
+    str_wait->return_process = return_process;
+}

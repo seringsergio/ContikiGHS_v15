@@ -59,7 +59,7 @@
 PROCESS(master_test_ar, "Proceso master de los msg test-accept-reject");
 PROCESS(send_message_test_ar, "Enviar msg de test-accept-reject");
 PROCESS(e_pospone_test, "Evaluar Pospone Test");
-PROCESS(e_test, "Evaluar con Test Neoghbors");
+PROCESS(e_test, "Evaluar con Test Neighbors");
 
 /*------------------------------------------------------------------- */
 /*----------- VARIABLES GLOBALES ---------------------------------------------- */
@@ -147,6 +147,9 @@ PROCESS_THREAD(master_test_ar, ev, data)
 
     static s_wait str_wait;
 
+    init_master_test_ar(&send_message_test_ar,
+                        &e_pospone_test, &e_test, &send_message_report_ChaRoot,
+                        &reports_completos, &e_LWOE);
 
     while(1)
     {
@@ -156,10 +159,6 @@ PROCESS_THREAD(master_test_ar, ev, data)
         {
             static pass_info_test_ar *str_t_ar;
             str_t_ar = (pass_info_test_ar *) data;
-
-            init_master_test_ar(str_t_ar->master_co_i, &send_message_test_ar,
-                                &e_pospone_test, &e_test, &send_message_report_ChaRoot,
-                                &reports_completos, &e_LWOE);
 
             e_list_head_g = str_t_ar->e_list_head;
 
@@ -173,26 +172,30 @@ PROCESS_THREAD(master_test_ar, ev, data)
                        e_aux->state);
             }
 
+            //verificar porque es necesario este wait ¿?
             process_post(PROCESS_CURRENT(), e_wait_stabilization, NULL);
+            //process_post(PROCESS_CURRENT(), e_evaluate_test, NULL);
+            //process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
+
         }else
         if (ev == e_wait_stabilization)
         {
             //Esperemos a que la red se estabilice
             //printf("Inicio Coooontinue\n");
-            str_wait.seconds = 15;
-            str_wait.return_process = PROCESS_CURRENT();
+            llenar_wait_struct(&str_wait, 15, PROCESS_CURRENT()  );
             process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
             printf("Final Coooontinue\n");
 
-            process_post(PROCESS_CURRENT(), e_evaluate_test, NULL);
+            //process_post(PROCESS_CURRENT(), e_evaluate_test, NULL);
+            process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
 
-        }else
+        }/*else
         if(ev == e_evaluate_test)
         {
             process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
 
-        }/*else
+        }*//*else
         if(ev == e_msg_accept) //El nodo ya encontro su LWOE. Espero el de mis hijos
         {
             //Si al master le llega un msg de accept me voy al Proceso master_report_ChaRoot
@@ -200,7 +203,7 @@ PROCESS_THREAD(master_test_ar, ev, data)
             process_post(&master_report_ChaRoot, e_init_master_report_ChaRoot, NULL);
             printf("NNNunca paso por aca\n");
         }*/
-    }
+    } //END of while
     PROCESS_END();
 
 }
@@ -253,8 +256,8 @@ PROCESS_THREAD(e_test, ev, data)
 
             }
 
-        }
-    }
+        } //end IF CONTINUE
+    } //end of while
 
     PROCESS_END();
 }
@@ -286,10 +289,6 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
             t_msg_d = (test_msg *) data;
             test_msg t_msg;
 
-            /* Delay 4-8 seconds */ //Para que no todos lo manden al tiempo
-            /*etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
-            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
-
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
                 llenar_test_msg(&t_msg, &t_msg_d->destination, t_msg_d->f);
@@ -309,6 +308,9 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
                 llenar_reject_msg(&r_msg, &r_msg_d->destination);
+
+                become_rejected(e_list_head_g, &r_msg.destination);
+
                 packetbuf_copyfrom(&r_msg, sizeof(r_msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_REJECT);
                 runicast_send(&runicast, &r_msg.destination, MAX_RETRANSMISSIONS);
@@ -331,26 +333,8 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                 runicast_send(&runicast, &a_msg.destination, MAX_RETRANSMISSIONS);
                 printf("Envie accept a %d \n",a_msg.destination.u8[0]);
             }
-        }/*else
-        if(ev == e_msg_report)
-        {
-            static report_msg *rp_msg_d; //rp = report
-            rp_msg_d = (report_msg *) data;
-            static report_msg rp_msg;
-
-            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
-            {
-                llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->neighbor_r,
-                                  rp_msg_d->weight_r);
-                packetbuf_copyfrom(&rp_msg, sizeof(rp_msg));
-                packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, REPORT);
-                runicast_send(&runicast, &rp_msg.destination, MAX_RETRANSMISSIONS);
-                printf("Envie report a %d \n",rp_msg.destination.u8[0]);
-
-            }
-
-        }*/
-    }
+        }
+    } //end of while
 
     PROCESS_END();
 }
@@ -365,52 +349,51 @@ PROCESS_THREAD(e_pospone_test, ev, data)
     //printf("Process Init: e_pospone_test \n");
     while(1)
     {
-        static struct etimer et;
+        //static struct etimer et;
         static pospone_test *pt_aux = NULL;
         static accept_msg a_msg;
         static reject_msg r_msg;
 
 
-        etimer_set(&et, CLOCK_SECOND * 1); //Evaluo msg de test pendientes cada 1 seg
-        PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+        /*etimer_set(&et, CLOCK_SECOND * 1); //Evaluo msg de test pendientes cada 1 seg
+        PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
-        if( list_length (pt_list) ) //Si hay elementos en la lista
+        PROCESS_WAIT_EVENT(); // Wait for any event.
+        if(ev == PROCESS_EVENT_CONTINUE)
         {
-            for(pt_aux = list_head(pt_list); pt_aux != NULL; pt_aux = list_item_next(pt_aux)) // Recorrer toda la lista
+            if( list_length (pt_list) ) //Si hay elementos en la lista
             {
-                if(pt_aux->t_msg.f.level > nd.f.level)
+                for(pt_aux = list_head(pt_list); pt_aux != NULL; pt_aux = list_item_next(pt_aux)) // Recorrer toda la lista
                 {
-                    //Pospones processing the incomming test msg, until (t_msg->f.level < nd.f.level)
-                    //No lo voy a posponer otra vez!
-                }else
-                if(pt_aux->t_msg.f.level <= nd.f.level)
-                {
-                    if(pt_aux->t_msg.f.name == nd.f.name)
+                    if(pt_aux->t_msg.f.level > nd.f.level)
                     {
-                        //Enviar reject
-                        llenar_reject_msg (&r_msg, &pt_aux->neighbor);
-                        process_post(&send_message_test_ar, e_msg_reject, &r_msg);
-                        printf("Quuuiero enviar e_msg_reject a %d \n", r_msg.destination.u8[0]);
-                        //Como se soluciona el test se remueve de la lista
-                        list_remove (pt_list, pt_aux);
-
+                        //Pospones processing the incomming test msg, until (t_msg->f.level < nd.f.level)
+                        //No lo voy a posponer otra vez!
                     }else
+                    if(pt_aux->t_msg.f.level <= nd.f.level)
                     {
-                        //Enviar accept
-                        llenar_accept_msg (&a_msg, &pt_aux->neighbor);
-                        process_post(&send_message_test_ar, e_msg_accept, &a_msg);
-                        printf("Quuuiero enviar e_msg_accept a %d \n", a_msg.destination.u8[0]);
-                        //Como se soluciona el test se remueve de la lista
-                        list_remove (pt_list, pt_aux);
+                        if(pt_aux->t_msg.f.name == nd.f.name)
+                        {
+                            //Enviar reject
+                            llenar_reject_msg (&r_msg, &pt_aux->neighbor);
+                            process_post(&send_message_test_ar, e_msg_reject, &r_msg);
+                            printf("Quuuiero enviar e_msg_reject a %d \n", r_msg.destination.u8[0]);
+                            //Como se soluciona el test se remueve de la lista
+                            list_remove (pt_list, pt_aux);
+
+                        }else
+                        {
+                            //Enviar accept
+                            llenar_accept_msg (&a_msg, &pt_aux->neighbor);
+                            process_post(&send_message_test_ar, e_msg_accept, &a_msg);
+                            printf("Quuuiero enviar e_msg_accept a %d \n", a_msg.destination.u8[0]);
+                            //Como se soluciona el test se remueve de la lista
+                            list_remove (pt_list, pt_aux);
+                        }
                     }
-                }
-
-
-            } //For cada elemento de la lista
-
-        }//end if hay elementos en la lista
-
-    }
-
+                } //For cada elemento de la lista
+            }//end if hay elementos en la lista
+        } //END IF CONTINUE
+    } //end of while
     PROCESS_END();
 }
