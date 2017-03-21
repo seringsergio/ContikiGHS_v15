@@ -62,6 +62,8 @@ pospone_connect pc; //pc = pospone connect
 MEMB(edges_memb, edges, MAX_NUM_EDGES); // Defines a memory pool for edges
 LIST(edges_list); // List that holds the neighbors we have seen thus far
 
+edges *e_list_head_g; //Es el apuntador a la cabeza de la lista global
+
 /*Listas de runicast para saber cual seq ha llegado. Si ha llegado
 * duplicado o no
 */
@@ -140,6 +142,8 @@ PROCESS_THREAD(master_co_i, ev, data)
     e_msg_connect = process_alloc_event(); // Darle un numero al evento
     e_msg_initiate = process_alloc_event();  // Darle un numero al evento
 
+    e_list_head_g = list_head(edges_list);
+
     static s_wait str_wait;
 
     while(1)
@@ -152,7 +156,8 @@ PROCESS_THREAD(master_co_i, ev, data)
             init_master_co_i(data, &master_neighbor_discovery,
                               &send_message_co_i, &e_pospone_connect,
                               &edges_memb, edges_list, &master_test_ar,
-                              &reports_completos);
+                              &reports_completos, &e_LWOE, &send_message_report_ChaRoot,
+                              &e_test, &send_message_test_ar, &e_pospone_test);
 
             //Espero a que todos hayan inicializado la conexion del connect antes de seguir
             //Ademas, SI NO ESPERO LA LISTA SE IMPRIME MAL: RARO X 2
@@ -181,26 +186,28 @@ PROCESS_THREAD(master_co_i, ev, data)
             nd.flags &= ~CH_LWOE;
             //nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
 
-
         }else
         if (ev == e_find)
         {
-            static pass_info_test_ar str_t_ar; //Estructura para enviar info a master_test_ar
+            printf("Estoy en FIND \n");
+
+            //static pass_info_test_ar str_t_ar; //Estructura para enviar info a master_test_ar
 
             //nd.state = FIND;  //Para saber en que estado estoy en cualquier parte
 
             //verificar porque es necesario este wait ¿?
-            llenar_wait_struct(&str_wait, 15, PROCESS_CURRENT()  );
+            /*llenar_wait_struct(&str_wait, 15, PROCESS_CURRENT()  );
             process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
-            PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
+            PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);*/
 
-            printf("FIND Coooontinue\n");
             //me voy al proceso test-accep-reject
             //printf("Estoy en FIND \n");
             //process_start(&master_test_ar, NULL);
-            llenar_str_test_ar(&str_t_ar, edges_list, PROCESS_CURRENT(), list_head(edges_list));
-            process_post(&master_test_ar, e_init_master_test_ar, &str_t_ar ) ;
 
+            //llenar_str_test_ar(&str_t_ar, edges_list, PROCESS_CURRENT(), list_head(edges_list));
+            //process_post(&master_test_ar, e_init_master_test_ar, &str_t_ar ) ;
+
+            process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
         }
     }//END OF WHILE
     PROCESS_END();

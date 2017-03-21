@@ -64,7 +64,7 @@ PROCESS(e_test, "Evaluar con Test Neighbors");
 /*------------------------------------------------------------------- */
 /*----------- VARIABLES GLOBALES ---------------------------------------------- */
 /*------------------------------------------------------------------- */
-edges *e_list_head_g; //Es el apuntador a la cabeza de la lista global
+//edges *e_list_head_g; //Es el apuntador a la cabeza de la lista global
 
 /*Listas de runicast para saber cual seq ha llegado. Si ha llegado
 * duplicado o no
@@ -160,9 +160,9 @@ PROCESS_THREAD(master_test_ar, ev, data)
             static pass_info_test_ar *str_t_ar;
             str_t_ar = (pass_info_test_ar *) data;
 
-            e_list_head_g = str_t_ar->e_list_head;
+            //e_list_head_g = str_t_ar->e_list_head;
 
-            static edges *e_aux;
+            /*static edges *e_aux;
             for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
             {
                 printf("addr=%d weight=%d.%02d state=%d \n",
@@ -170,11 +170,10 @@ PROCESS_THREAD(master_test_ar, ev, data)
                        (int)(e_aux->weight / SEQNO_EWMA_UNITY),
                        (int)(((100UL * e_aux->weight) / SEQNO_EWMA_UNITY) % 100),
                        e_aux->state);
-            }
+            }*/
 
             //verificar porque es necesario este wait ¿?
-            process_post(PROCESS_CURRENT(), e_wait_stabilization, NULL);
-            //process_post(PROCESS_CURRENT(), e_evaluate_test, NULL);
+            //process_post(PROCESS_CURRENT(), e_wait_stabilization, NULL);
             //process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
 
         }else
@@ -182,10 +181,11 @@ PROCESS_THREAD(master_test_ar, ev, data)
         {
             //Esperemos a que la red se estabilice
             //printf("Inicio Coooontinue\n");
-            llenar_wait_struct(&str_wait, 15, PROCESS_CURRENT()  );
+            //llenar_wait_struct(&str_wait, 15, PROCESS_CURRENT()  );
+            llenar_wait_struct(&str_wait, 1, PROCESS_CURRENT()  );
             process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
-            printf("Final Coooontinue\n");
+            //printf("Final Coooontinue\n");
 
             //process_post(PROCESS_CURRENT(), e_evaluate_test, NULL);
             process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
@@ -226,6 +226,7 @@ PROCESS_THREAD(e_test, ev, data)
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if (ev == PROCESS_EVENT_CONTINUE)
         {
+            printf("CONTINUE e_test level=%d\n ", nd.f.level);
             uint8_t tengo_edges_de_salida = 0;
             edges *e_aux;
             test_msg t_msg;

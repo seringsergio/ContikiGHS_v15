@@ -43,6 +43,8 @@ PROCESS_NAME(master_test_ar);
 //Procesos de test ar
 PROCESS_NAME(e_test);
 PROCESS_NAME(e_pospone_test);
+PROCESS_NAME(send_message_test_ar);
+
 
 // master_report_ChaRoot
 //PROCESS_NAME(master_report_ChaRoot);

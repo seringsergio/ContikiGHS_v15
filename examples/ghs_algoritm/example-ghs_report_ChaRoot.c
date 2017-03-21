@@ -308,7 +308,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                     {
                         //send change_root y dejo de ser CORE_NODE
                         nd.flags &= ~CORE_NODE;
-                        //become_branch(e_list_head_g, &nd.lwoe.node.neighbor);
+                        become_branch(e_list_head_g, &nd.lwoe.node.neighbor);
                         llenar_change_root(&cr_msg, &nd.lwoe.node.neighbor, &nd.lwoe.node.neighbor);
                         process_post_synch(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
                         printf("EEEnvie 1 CHANGE_ROOT a next_hop=%d final_destination=%d\n",
@@ -339,7 +339,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                     {
                         //send change_root y dejo de ser CORE_NODE
                         nd.flags &= ~CORE_NODE;
-                        //become_branch(e_list_head_g, &nd.lwoe.children.neighbor);
+                        become_branch(e_list_head_g, &nd.lwoe.children.neighbor);
                         llenar_change_root(&cr_msg, &nd.downroute, &nd.lwoe.children.neighbor);
                         process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
                         printf("EEEnvie 2 CHANGE_ROOT a next_hop=%d final_destination=%d\n",

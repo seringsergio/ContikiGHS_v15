@@ -233,7 +233,9 @@ void ghs_co_i_timedout_ruc(const linkaddr_t *to, uint8_t retransmissions);
 void init_master_co_i(struct neighbor *n_list_head, struct process *master_neighbor_discovery,
                         struct process *send_message_co_i, struct process *e_pospone_connect ,
                         struct memb *edges_memb, list_t edges_list, struct process *master_test_ar,
-                        struct process *reports_completos);
+                        struct process *reports_completos, struct process *e_LWOE,
+                        struct process *send_message_report_ChaRoot, struct process *e_test,
+                        struct process *send_message_test_ar, struct process *e_pospone_test);
 
 uint8_t state_is_branch( const linkaddr_t *addr,  edges *e_list_head);
 uint32_t weight_with_edge( const linkaddr_t *addr,  edges *e_list_head);
