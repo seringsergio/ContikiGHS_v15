@@ -38,7 +38,6 @@ PROCESS_NAME(master_co_i);
 //Procesos de co i
 PROCESS_NAME(send_message_co_i);
 PROCESS_NAME(e_pospone_connect);
-PROCESS_NAME(master_test_ar);
 
 //Procesos de test ar
 PROCESS_NAME(e_test);
@@ -73,10 +72,9 @@ extern process_event_t e_find;
 extern process_event_t e_msg_connect;
 extern process_event_t e_msg_initiate;
 
-//master_test_ar
+//test_ar
 
 //estados
-extern process_event_t e_init_master_test_ar;
 extern process_event_t e_evaluate_test;
 extern process_event_t e_nd_lwoe; //Para saber si el nodo ya tiene su edge preferido
 extern process_event_t e_ch_lwoe; // Para saber si los hijos ya reportaton el edge preferido

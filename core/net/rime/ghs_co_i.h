@@ -62,7 +62,6 @@ typedef struct edges edges;
 typedef struct connect_msg connect_msg;
 typedef struct initiate_msg initiate_msg;
 typedef struct pospone_connect pospone_connect;
-typedef struct pass_info_test_ar pass_info_test_ar;
 typedef struct accept_msg accept_msg;
 typedef struct reject_msg reject_msg;
 typedef struct pospone_test pospone_test;
@@ -180,18 +179,6 @@ struct pospone_test
 
 };
 
-struct pass_info_test_ar // Estructura para enviar la informacion al proceso master_test_ar
-{
-    list_t edges_list; //La direccion de inicio de la lista
-    struct process *master_co_i;
-    edges *e_list_head;
-};
-
-/*struct report_str
-{
-    struct report_str *next;
-    report_msg rp_msg;
-};*/
 
 struct node
 {
@@ -232,7 +219,7 @@ void ghs_co_i_timedout_ruc(const linkaddr_t *to, uint8_t retransmissions);
 
 void init_master_co_i(struct neighbor *n_list_head, struct process *master_neighbor_discovery,
                         struct process *send_message_co_i, struct process *e_pospone_connect ,
-                        struct memb *edges_memb, list_t edges_list, struct process *master_test_ar,
+                        struct memb *edges_memb, list_t edges_list,
                         struct process *reports_completos, struct process *e_LWOE,
                         struct process *send_message_report_ChaRoot, struct process *e_test,
                         struct process *send_message_test_ar, struct process *e_pospone_test);
@@ -243,8 +230,7 @@ void llenar_initiate_msg(initiate_msg *i_msg, uint32_t name,
                         uint8_t level, uint8_t state, const linkaddr_t *dest, uint8_t flags);
 void llenar_connect_msg (connect_msg *msg, uint8_t level, linkaddr_t *destination);
 void llenar_pospone_connect(pospone_connect *pc, const linkaddr_t *neighbor, connect_msg co_msg);
-void llenar_str_test_ar(pass_info_test_ar *str_t_ar, list_t edges_list,
-                        struct process *master_co_i, edges *e_list_head);
+
 
 
 #endif /* GHS_CO_I_H */

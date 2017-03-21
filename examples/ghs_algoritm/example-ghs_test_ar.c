@@ -56,7 +56,6 @@
 /*------------------------------------------------------------------- */
 /*----------PROCESSES------- -----------------------------------------*/
 /*------------------------------------------------------------------- */
-PROCESS(master_test_ar, "Proceso master de los msg test-accept-reject");
 PROCESS(send_message_test_ar, "Enviar msg de test-accept-reject");
 PROCESS(e_pospone_test, "Evaluar Pospone Test");
 PROCESS(e_test, "Evaluar con Test Neighbors");
@@ -92,7 +91,7 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 
   ghs_test_ar_recv_ruc(packetbuf_dataptr() ,list_head(history_list), from, &history_mem,
                        history_list, seqno, &send_message_test_ar, e_list_head_g,
-                       pt_list, &pt_memb, &master_test_ar, &e_test, &send_message_report_ChaRoot,
+                       pt_list, &pt_memb, &e_test, &send_message_report_ChaRoot,
                        &master_co_i, &e_LWOE    );
 
 
@@ -113,102 +112,11 @@ static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
 							     sent_runicast,
 							     timedout_runicast};
 
-/* Exit handler de master_test_ar
-*/
-static void master_test_ar_exit_handler(void)
-{
-    printf("Process Exit: master_test_ar \n");
-}
+
 
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS------------------------------------------------*/
 /*------------------------------------------------------------------- */
-
-/* Proceso master que controla el envio de msg de test - accept - reject
-*/
-PROCESS_THREAD(master_test_ar, ev, data)
-{
-    PROCESS_EXITHANDLER(master_test_ar_exit_handler());
-    PROCESS_BEGIN();
-
-    //estados
-    e_init_master_test_ar = process_alloc_event(); // Darle un numero al evento
-    e_evaluate_test       = process_alloc_event(); // Darle un numero al evento
-    e_nd_lwoe             = process_alloc_event(); // Darle un numero al evento
-    e_ch_lwoe             = process_alloc_event(); // Darle un numero al evento
-
-    //msg
-    e_msg_test            = process_alloc_event(); // Darle un numero al evento
-    e_msg_reject          = process_alloc_event(); // Darle un numero al evento
-    e_msg_accept          = process_alloc_event(); // Darle un numero al evento
-    e_msg_ch_root         = process_alloc_event(); // Darle un numero al evento
-
-    //e_msg_report          = process_alloc_event(); // Darle un numero al evento
-
-    static s_wait str_wait;
-
-    init_master_test_ar(&send_message_test_ar,
-                        &e_pospone_test, &e_test, &send_message_report_ChaRoot,
-                        &reports_completos, &e_LWOE);
-
-    while(1)
-    {
-
-        PROCESS_WAIT_EVENT(); // Wait for any event.
-        if(ev == e_init_master_test_ar)
-        {
-            static pass_info_test_ar *str_t_ar;
-            str_t_ar = (pass_info_test_ar *) data;
-
-            //e_list_head_g = str_t_ar->e_list_head;
-
-            /*static edges *e_aux;
-            for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
-            {
-                printf("addr=%d weight=%d.%02d state=%d \n",
-                       e_aux->addr.u8[0],
-                       (int)(e_aux->weight / SEQNO_EWMA_UNITY),
-                       (int)(((100UL * e_aux->weight) / SEQNO_EWMA_UNITY) % 100),
-                       e_aux->state);
-            }*/
-
-            //verificar porque es necesario este wait ¿?
-            //process_post(PROCESS_CURRENT(), e_wait_stabilization, NULL);
-            //process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
-
-        }else
-        if (ev == e_wait_stabilization)
-        {
-            //Esperemos a que la red se estabilice
-            //printf("Inicio Coooontinue\n");
-            //llenar_wait_struct(&str_wait, 15, PROCESS_CURRENT()  );
-            llenar_wait_struct(&str_wait, 1, PROCESS_CURRENT()  );
-            process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
-            PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
-            //printf("Final Coooontinue\n");
-
-            //process_post(PROCESS_CURRENT(), e_evaluate_test, NULL);
-            process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
-
-        }/*else
-        if(ev == e_evaluate_test)
-        {
-            process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
-
-        }*//*else
-        if(ev == e_msg_accept) //El nodo ya encontro su LWOE. Espero el de mis hijos
-        {
-            //Si al master le llega un msg de accept me voy al Proceso master_report_ChaRoot
-            process_start(&master_report_ChaRoot, NULL);
-            process_post(&master_report_ChaRoot, e_init_master_report_ChaRoot, NULL);
-            printf("NNNunca paso por aca\n");
-        }*/
-    } //END of while
-    PROCESS_END();
-
-}
-
-
 
 /* Proceso para testear los vecinos con msg de TEST
 */

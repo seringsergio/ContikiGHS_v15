@@ -136,7 +136,7 @@ uint8_t state_is_branch(const linkaddr_t *addr,  edges *e_list_head)
 */
 void init_master_co_i(struct neighbor *n_list_head, struct process *master_neighbor_discovery,
                         struct process *send_message_co_i, struct process *e_pospone_connect ,
-                        struct memb *edges_memb, list_t edges_list, struct process *master_test_ar,
+                        struct memb *edges_memb, list_t edges_list,
                         struct process *reports_completos, struct process *e_LWOE,
                         struct process *send_message_report_ChaRoot, struct process *e_test,
                         struct process *send_message_test_ar, struct process *e_pospone_test)
@@ -160,7 +160,6 @@ void init_master_co_i(struct neighbor *n_list_head, struct process *master_neigh
     //Iniciar procesos nuevos
     process_start(send_message_co_i, NULL);
     process_start(e_pospone_connect, NULL);
-    process_start(master_test_ar, NULL);
 
     //Procesos de test ar
     process_start(send_message_test_ar, NULL);
@@ -224,15 +223,6 @@ void llenar_pospone_connect(pospone_connect *pc, const linkaddr_t *neighbor, con
     pc->co_msg = co_msg;
 }
 
-/* LLenar la estructura que se le envia a master_test_ar con la info necesaria
-*/
-void llenar_str_test_ar(pass_info_test_ar *str_t_ar, list_t edges_list,
-                        struct process *master_co_i, edges *e_list_head)
-{
-    str_t_ar->edges_list  = edges_list;
-    str_t_ar->master_co_i = master_co_i;
-    str_t_ar->e_list_head = e_list_head;
-}
 
 /*---------------------------------------------------------------------------*/
 /* Funcion que recibe un mensaje de runicast: Guarda en history_list los vecinos que

@@ -107,7 +107,7 @@
  							     sent_runicast,
  							     timedout_runicast};
 
- /* Exit handler de master_test_ar
+ /* Exit handler 
  */
  /*static void master_report_ChaRoot_exit_handler(void)
  {

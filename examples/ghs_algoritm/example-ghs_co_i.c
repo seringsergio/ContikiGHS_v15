@@ -135,17 +135,28 @@ PROCESS_THREAD(master_co_i, ev, data)
 
     //Definir eventos: master find found
 
-    //estados
-    e_found = process_alloc_event(); // Darle un numero al evento
-    e_find = process_alloc_event(); // Darle un numero al evento
-    //msg
-    e_msg_connect = process_alloc_event(); // Darle un numero al evento
-    e_msg_initiate = process_alloc_event();  // Darle un numero al evento
+    //Proceso co_i
+        //estados
+        e_found = process_alloc_event(); // Darle un numero al evento
+        e_find = process_alloc_event(); // Darle un numero al evento
+        //msg
+        e_msg_connect = process_alloc_event(); // Darle un numero al evento
+        e_msg_initiate = process_alloc_event();  // Darle un numero al evento
+
+    //proceso test_ar
+        //estados
+        e_evaluate_test       = process_alloc_event(); // Darle un numero al evento
+        e_nd_lwoe             = process_alloc_event(); // Darle un numero al evento
+        e_ch_lwoe             = process_alloc_event(); // Darle un numero al evento
+        //msg
+        e_msg_test            = process_alloc_event(); // Darle un numero al evento
+        e_msg_reject          = process_alloc_event(); // Darle un numero al evento
+        e_msg_accept          = process_alloc_event(); // Darle un numero al evento
+        e_msg_ch_root         = process_alloc_event(); // Darle un numero al evento
+
 
     e_list_head_g = list_head(edges_list);
-
     static s_wait str_wait;
-
     while(1)
     {
         PROCESS_WAIT_EVENT(); // Wait for any event.
@@ -155,7 +166,7 @@ PROCESS_THREAD(master_co_i, ev, data)
             //Inicializar el master_co_i
             init_master_co_i(data, &master_neighbor_discovery,
                               &send_message_co_i, &e_pospone_connect,
-                              &edges_memb, edges_list, &master_test_ar,
+                              &edges_memb, edges_list,
                               &reports_completos, &e_LWOE, &send_message_report_ChaRoot,
                               &e_test, &send_message_test_ar, &e_pospone_test);
 
@@ -190,23 +201,6 @@ PROCESS_THREAD(master_co_i, ev, data)
         if (ev == e_find)
         {
             printf("Estoy en FIND \n");
-
-            //static pass_info_test_ar str_t_ar; //Estructura para enviar info a master_test_ar
-
-            //nd.state = FIND;  //Para saber en que estado estoy en cualquier parte
-
-            //verificar porque es necesario este wait ¿?
-            /*llenar_wait_struct(&str_wait, 15, PROCESS_CURRENT()  );
-            process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
-            PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);*/
-
-            //me voy al proceso test-accep-reject
-            //printf("Estoy en FIND \n");
-            //process_start(&master_test_ar, NULL);
-
-            //llenar_str_test_ar(&str_t_ar, edges_list, PROCESS_CURRENT(), list_head(edges_list));
-            //process_post(&master_test_ar, e_init_master_test_ar, &str_t_ar ) ;
-
             process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
         }
     }//END OF WHILE

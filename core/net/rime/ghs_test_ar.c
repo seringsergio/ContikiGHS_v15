@@ -75,30 +75,6 @@ void become_accepted(edges *e_list_head_g, const linkaddr_t *from)
         }
     }
 }
-/* Funcion para inicializar el proceso master_test_ar
-*/
-void init_master_test_ar(struct process *send_message_test_ar,
-                         struct process *e_pospone_test, struct process *e_test,
-                         struct process *send_message_report_ChaRoot,
-                         struct process *reports_completos, struct process *e_LWOE)
-{
-    //printf("Process Init: master_test_ar \n");
-
-    //Terminar procesos
-    //process_exit(master_co_i);   //Cierro el proceso anterior para liberar memoria
-
-    //Iniciar procesos nuevos
-
-    //process_start(send_message_test_ar, NULL); //Se inicia en init_master_co_i
-    //process_start(e_pospone_test, NULL); //Se inicia en init_master_co_i
-    //process_start(e_test, NULL); //Se inicia en init_master_co_i
-
-    //procesos de ghs_report_ChaRoot
-    //process_start(send_message_report_ChaRoot, NULL); //Se inicia en init_master_co_i
-    //process_start(reports_completos, NULL); //Se inicia en init_master_co_i
-    //process_start(e_LWOE, NULL); //Se inicia en init_master_co_i
-
-}
 
 /* Funcion para llenar el msg test
 */
@@ -129,7 +105,7 @@ void llenar_reject_msg (reject_msg *r_msg, const linkaddr_t *destination)
 void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const linkaddr_t *from,
                          struct memb *history_mem, list_t history_list, uint8_t seqno,
                          struct process *send_message_test_ar, edges *e_list_head_g,
-                         list_t pt_list, struct memb *pt_memb, struct process *master_test_ar,
+                         list_t pt_list, struct memb *pt_memb,
                          struct process *e_test, struct process *send_message_report_ChaRoot,
                          struct process *master_co_i, struct process *e_LWOE)
 {
