@@ -129,7 +129,6 @@ PROCESS_THREAD(e_test, ev, data)
     while(1)
     {
         //static struct etimer et;
-
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if (ev == PROCESS_EVENT_CONTINUE)
         {
