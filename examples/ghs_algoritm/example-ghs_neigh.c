@@ -41,7 +41,7 @@
  *         1. /home/sergiodiaz/Desktop/contiki/core/net/rime/ghs_neigh.h.c
  *         2. /home/sergiodiaz/Desktop/contiki/core/net/rime/ghs_co_i.h.c
  *         3. /home/sergiodiaz/Desktop/contiki/core/net/rime/ghs_test_ar.h.c
- *
+ *         4. /home/sergiodiaz/Desktop/contiki/core/net/rime/ghs_report_ChaRoot.h.c
  */
  /*------------------------------------------------------------------- */
  /*----------- INCLUDES ------------------------------------------------ */

@@ -94,7 +94,7 @@ void init_master_test_ar(struct process *send_message_test_ar,
 
     //procesos de ghs_report_ChaRoot
     process_start(send_message_report_ChaRoot, NULL);
-    process_start(reports_completos, NULL);
+    //process_start(reports_completos, NULL); //Se inicia en init_master_co_i
     process_start(e_LWOE, NULL);
 
 }
@@ -263,6 +263,7 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
                         (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                 //paso a FOUND
                 process_post(master_co_i, e_found, NULL);
+                nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
            }
        }else //SI Soy CORE_NODE
        {
@@ -281,6 +282,7 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
                         nd.flags);
                //paso a FOUND
                process_post(master_co_i, e_found, NULL);
+               nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
            }
        }
 

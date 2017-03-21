@@ -1,213 +1,630 @@
-00:00.336	ID:8	Rime started with address 8.0
-00:00.344	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 8.
-00:00.353	ID:8	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.364	ID:8	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:00.453	ID:11	Rime started with address 11.0
-00:00.462	ID:11	MAC 0b:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 11.
-00:00.471	ID:11	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.482	ID:11	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:00.499	ID:2	Rime started with address 2.0
-00:00.508	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 2.
-00:00.513	ID:6	Rime started with address 6.0
-00:00.517	ID:2	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.522	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 6.
-00:00.527	ID:2	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:00.531	ID:6	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.542	ID:6	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:00.611	ID:4	Rime started with address 4.0
-00:00.620	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 4.
-00:00.629	ID:4	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.640	ID:4	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:00.645	ID:1	Rime started with address 1.0
-00:00.654	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 1.
-00:00.663	ID:1	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.665	ID:7	Rime started with address 7.0
-00:00.673	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 7.
-00:00.674	ID:1	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:00.682	ID:7	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.693	ID:7	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:00.819	ID:10	Rime started with address 10.0
-00:00.828	ID:10	MAC 0a:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 10.
-00:00.837	ID:10	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.848	ID:10	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:00.857	ID:12	Rime started with address 12.0
-00:00.866	ID:12	MAC 0c:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 12.
-00:00.875	ID:12	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.886	ID:12	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:00.971	ID:9	Rime started with address 9.0
-00:00.978	ID:5	Rime started with address 5.0
-00:00.980	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 9.
-00:00.986	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 5.
-00:00.989	ID:9	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.996	ID:5	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:01.000	ID:9	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:01.006	ID:5	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-00:01.162	ID:3	Rime started with address 3.0
-00:01.171	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-06e6663 started. Node id is set to 3.
-00:01.180	ID:3	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:01.191	ID:3	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master del Find Found'
-01:34.551	ID:12	Process exited: Neighbor Discovery via Broadcast
-01:37.458	ID:2	Process exited: Neighbor Discovery via Broadcast
-01:38.207	ID:12	12.0: sending runicast to address 10.0
-01:38.340	ID:10	runicast message received from 12.0,with avg_seqno_gap = 1.03, seqno 0
-01:38.377	ID:12	runicast message sent to 10.0, retransmissions 1
-01:38.524	ID:9	Process exited: Neighbor Discovery via Broadcast
-01:40.461	ID:5	Process exited: Neighbor Discovery via Broadcast
-01:40.586	ID:4	Process exited: Neighbor Discovery via Broadcast
-01:40.986	ID:9	9.0: sending runicast to address 1.0
-01:41.043	ID:1	runicast message received from 9.0,with avg_seqno_gap = 1.05, seqno 0
-01:41.114	ID:9	runicast message sent to 1.0, retransmissions 1
-01:41.183	ID:12	12.0: sending runicast to address 6.0
-01:41.286	ID:6	runicast message received from 12.0,with avg_seqno_gap = 1.23, seqno 1
-01:41.376	ID:12	runicast message sent to 6.0, retransmissions 1
-01:41.442	ID:2	2.0: sending runicast to address 5.0
-01:41.499	ID:5	runicast message received from 2.0,with avg_seqno_gap = 1.38, seqno 0
-01:41.518	ID:2	runicast message sent to 5.0, retransmissions 1
-01:42.097	ID:1	Process exited: Neighbor Discovery via Broadcast
-01:42.201	ID:8	Process exited: Neighbor Discovery via Broadcast
-01:42.561	ID:11	Process exited: Neighbor Discovery via Broadcast
-01:43.673	ID:9	9.0: sending runicast to address 11.0
-01:43.725	ID:11	runicast message received from 9.0,with avg_seqno_gap = 1.00, seqno 1
-01:43.836	ID:4	4.0: sending runicast to address 7.0
-01:43.841	ID:10	Process exited: Neighbor Discovery via Broadcast
-01:43.865	ID:9	runicast message sent to 11.0, retransmissions 1
-01:44.061	ID:7	runicast message received from 4.0,with avg_seqno_gap = 1.00, seqno 0
-01:44.130	ID:4	runicast message sent to 7.0, retransmissions 1
-01:44.184	ID:2	2.0: sending runicast to address 1.0
-01:44.216	ID:8	8.0: sending runicast to address 7.0
-01:44.343	ID:5	5.0: sending runicast to address 2.0
-01:44.542	ID:1	runicast message received from 2.0,with avg_seqno_gap = 1.60, seqno 1
-01:44.629	ID:6	Process exited: Neighbor Discovery via Broadcast
-01:45.007	ID:7	Process exited: Neighbor Discovery via Broadcast
-01:45.267	ID:2	runicast message sent to 1.0, retransmissions 1
-01:45.311	ID:7	runicast message received from 8.0,with avg_seqno_gap = 1.08, seqno 0
-01:45.354	ID:8	runicast message sent to 7.0, retransmissions 2
-01:45.414	ID:1	runicast message received from 2.0, seqno 1 (DUPLICATE)
-01:45.693	ID:1	1.0: sending runicast to address 2.0
-01:45.912	ID:11	11.0: sending runicast to address 3.0
-01:46.311	ID:3	runicast message received from 11.0,with avg_seqno_gap = 1.12, seqno 0
-01:46.347	ID:11	runicast message sent to 3.0, retransmissions 1
-01:46.365	ID:8	8.0: sending runicast to address 10.0
-01:46.395	ID:2	runicast message received from 5.0,with avg_seqno_gap = 1.38, seqno 0
-01:46.465	ID:10	runicast message received from 8.0,with avg_seqno_gap = 1.00, seqno 1
-01:46.497	ID:5	runicast message sent to 2.0, retransmissions 3
-01:46.531	ID:4	4.0: sending runicast to address 3.0
-01:46.559	ID:3	runicast message received from 4.0,with avg_seqno_gap = 1.00, seqno 1
-01:46.629	ID:4	runicast message sent to 3.0, retransmissions 1
-01:46.729	ID:8	runicast message sent to 10.0, retransmissions 1
-01:46.770	ID:2	runicast message received from 1.0,with avg_seqno_gap = 1.60, seqno 0
-01:46.789	ID:1	runicast message sent to 2.0, retransmissions 2
-01:46.888	ID:10	10.0: sending runicast to address 12.0
-01:47.005	ID:12	runicast message received from 10.0,with avg_seqno_gap = 1.18, seqno 0
-01:47.028	ID:3	Process exited: Neighbor Discovery via Broadcast
-01:47.088	ID:10	runicast message sent to 12.0, retransmissions 1
-01:48.015	ID:5	5.0: sending runicast to address 6.0
-01:48.097	ID:6	6.0: sending runicast to address 5.0
-01:48.160	ID:6	runicast message received from 5.0,with avg_seqno_gap = 1.04, seqno 1
-01:48.287	ID:11	11.0: sending runicast to address 9.0
-01:48.369	ID:9	runicast message received from 11.0,with avg_seqno_gap = 1.10, seqno 1
-01:48.371	ID:5	runicast message sent to 6.0, retransmissions 1
-01:48.380	ID:5	runicast message received from 6.0,with avg_seqno_gap = 1.38, seqno 0
-01:48.406	ID:6	runicast message sent to 5.0, retransmissions 1
-01:48.471	ID:11	runicast message sent to 9.0, retransmissions 1
-01:48.576	ID:7	7.0: sending runicast to address 8.0
-01:48.588	ID:1	1.0: sending runicast to address 9.0
-01:48.607	ID:8	runicast message received from 7.0,with avg_seqno_gap = 1.15, seqno 0
-01:48.619	ID:9	runicast message received from 1.0,with avg_seqno_gap = 1.12, seqno 1
-01:48.664	ID:1	runicast message sent to 9.0, retransmissions 1
-01:48.684	ID:7	runicast message sent to 8.0, retransmissions 1
-01:49.442	ID:10	10.0: sending runicast to address 8.0
-01:49.480	ID:8	runicast message received from 10.0,with avg_seqno_gap = 1.03, seqno 1
-01:49.588	ID:10	runicast message sent to 8.0, retransmissions 1
-01:49.863	ID:3	3.0: sending runicast to address 11.0
-01:49.975	ID:11	runicast message received from 3.0,with avg_seqno_gap = 1.12, seqno 0
-01:50.057	ID:3	runicast message sent to 11.0, retransmissions 1
-01:50.637	ID:6	6.0: sending runicast to address 12.0
-01:50.754	ID:12	runicast message received from 6.0,with avg_seqno_gap = 1.23, seqno 1
-01:50.780	ID:6	runicast message sent to 12.0, retransmissions 1
-01:52.186	ID:7	7.0: sending runicast to address 4.0
-01:52.257	ID:4	runicast message received from 7.0,with avg_seqno_gap = 1.00, seqno 1
-01:52.307	ID:7	runicast message sent to 4.0, retransmissions 1
-01:53.426	ID:3	3.0: sending runicast to address 4.0
-01:53.507	ID:4	runicast message received from 3.0,with avg_seqno_gap = 1.04, seqno 1
-01:53.555	ID:3	runicast message sent to 4.0, retransmissions 1
-02:31.277	ID:12	Process Init: master_find_found 
-02:31.279	ID:12	Process Exit: master_neighbor_discovery 
-02:31.282	ID:12	READ 12 10 1.18 2
-02:31.284	ID:12	READ 12 6 1.23 1
-02:33.719	ID:9	Process Init: master_find_found 
-02:33.722	ID:9	Process Exit: master_neighbor_discovery 
-02:33.725	ID:9	READ 9 11 1.10 2
-02:33.727	ID:9	READ 9 1 1.12 1
-02:34.457	ID:2	Process Init: master_find_found 
-02:34.460	ID:2	Process Exit: master_neighbor_discovery 
-02:34.463	ID:2	READ 2 5 1.38 2
-02:34.465	ID:2	READ 2 1 1.60 1
-02:36.458	ID:8	Process Init: master_find_found 
-02:36.461	ID:8	Process Exit: master_neighbor_discovery 
-02:36.464	ID:8	READ 8 10 1.03 2
-02:36.466	ID:8	READ 8 7 1.15 1
-02:36.554	ID:4	Process Init: master_find_found 
-02:36.557	ID:4	Process Exit: master_neighbor_discovery 
-02:36.559	ID:4	READ 4 7 1.00 2
-02:36.561	ID:4	READ 4 3 1.04 1
-02:38.155	ID:5	Process Init: master_find_found 
-02:38.158	ID:5	Process Exit: master_neighbor_discovery 
-02:38.161	ID:5	READ 5 2 1.38 2
-02:38.162	ID:5	READ 5 6 1.38 1
-02:38.365	ID:11	Process Init: master_find_found 
-02:38.368	ID:11	Process Exit: master_neighbor_discovery 
-02:38.371	ID:11	READ 11 9 1.10 2
-02:38.373	ID:11	READ 11 3 1.12 1
-02:38.612	ID:1	Process Init: master_find_found 
-02:38.615	ID:1	Process Exit: master_neighbor_discovery 
-02:38.617	ID:1	READ 1 9 1.12 2
-02:38.619	ID:1	READ 1 2 1.60 1
-02:39.473	ID:10	Process Init: master_find_found 
-02:39.476	ID:10	Process Exit: master_neighbor_discovery 
-02:39.479	ID:10	READ 10 8 1.03 2
-02:39.481	ID:10	READ 10 12 1.18 1
-02:40.746	ID:6	Process Init: master_find_found 
-02:40.749	ID:6	Process Exit: master_neighbor_discovery 
-02:40.751	ID:6	READ 6 12 1.23 2
-02:40.753	ID:6	READ 6 5 1.38 1
-02:42.248	ID:7	Process Init: master_find_found 
-02:42.251	ID:7	Process Exit: master_neighbor_discovery 
-02:42.253	ID:7	READ 7 4 1.00 2
-02:42.255	ID:7	READ 7 8 1.15 1
-02:43.504	ID:3	Process Init: master_find_found 
-02:43.507	ID:3	Process Exit: master_neighbor_discovery 
-02:43.509	ID:3	READ 3 4 1.04 2
-02:43.511	ID:3	READ 3 11 1.12 1
-02:51.283	ID:12	Estoy en FOUND 
-02:53.725	ID:9	Estoy en FOUND 
-02:54.213	ID:10	llego un msg de connect from 12.0 con level = 0
-02:54.464	ID:2	Estoy en FOUND 
-02:56.465	ID:8	Estoy en FOUND 
-02:56.561	ID:4	Estoy en FOUND 
-02:57.222	ID:11	llego un msg de connect from 9.0 con level = 0
-02:57.225	ID:11	quiero mandar un msg de INITIATE a 9 
-02:57.498	ID:5	llego un msg de connect from 2.0 con level = 0
-02:57.501	ID:5	quiero mandar un msg de INITIATE a 2 
-02:58.162	ID:5	Estoy en FOUND 
-02:58.371	ID:11	Estoy en FOUND 
-02:58.618	ID:1	Estoy en FOUND 
-02:58.935	ID:7	llego un msg de connect from 4.0 con level = 0
-02:58.937	ID:7	quiero mandar un msg de INITIATE a 4 
-02:59.212	ID:10	llego un msg de connect from 8.0 con level = 0
-02:59.215	ID:10	quiero mandar un msg de INITIATE a 8 
-02:59.480	ID:10	Estoy en FOUND 
-03:00.752	ID:6	Estoy en FOUND 
-03:01.116	ID:9	llego un msg de connect from 1.0 con level = 0
-03:01.741	ID:9	llego un msg de connect from 11.0 con level = 0
-03:01.744	ID:9	quiero mandar un msg de INITIATE a 11 
-03:02.017	ID:2	llego un msg de connect from 5.0 con level = 0
-03:02.019	ID:2	quiero mandar un msg de INITIATE a 5 
-03:02.255	ID:7	Estoy en FOUND 
-03:02.480	ID:8	llego un msg de connect from 10.0 con level = 0
-03:02.483	ID:8	quiero mandar un msg de INITIATE a 10 
-03:03.510	ID:3	Estoy en FOUND 
-03:04.125	ID:12	llego un msg de connect from 6.0 con level = 0
-03:06.254	ID:4	llego un msg de connect from 7.0 con level = 0
-03:06.257	ID:4	quiero mandar un msg de INITIATE a 7 
-03:06.380	ID:4	llego un msg de connect from 3.0 con level = 0
+00:00.341	ID:8	Rime started with address 8.0
+00:00.349	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-d8bb8dd started. Node id is set to 8.
+00:00.358	ID:8	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.370	ID:8	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:00.458	ID:11	Rime started with address 11.0
+00:00.467	ID:11	MAC 0b:00:00:00:00:00:00:00 Contiki-d8bb8dd started. Node id is set to 11.
+00:00.476	ID:11	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.488	ID:11	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:00.504	ID:2	Rime started with address 2.0
+00:00.513	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-d8bb8dd started. Node id is set to 2.
+00:00.519	ID:6	Rime started with address 6.0
+00:00.522	ID:2	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.527	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-d8bb8dd started. Node id is set to 6.
+00:00.533	ID:2	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:00.536	ID:6	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.548	ID:6	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:00.616	ID:4	Rime started with address 4.0
+00:00.625	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-d8bb8dd started. Node id is set to 4.
+00:00.634	ID:4	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.646	ID:4	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:00.650	ID:1	Rime started with address 1.0
+00:00.659	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-d8bb8dd started. Node id is set to 1.
+00:00.668	ID:1	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.670	ID:7	Rime started with address 7.0
+00:00.678	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-d8bb8dd started. Node id is set to 7.
+00:00.680	ID:1	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:00.687	ID:7	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.699	ID:7	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:00.824	ID:10	Rime started with address 10.0
+00:00.833	ID:10	MAC 0a:00:00:00:00:00:00:00 Contiki-d8bb8dd started. Node id is set to 10.
+00:00.842	ID:10	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.854	ID:10	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:00.862	ID:12	Rime started with address 12.0
+00:00.871	ID:12	MAC 0c:00:00:00:00:00:00:00 Contiki-d8bb8dd started. Node id is set to 12.
+00:00.880	ID:12	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.892	ID:12	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:00.976	ID:9	Rime started with address 9.0
+00:00.983	ID:5	Rime started with address 5.0
+00:00.985	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-d8bb8dd started. Node id is set to 9.
+00:00.992	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-d8bb8dd started. Node id is set to 5.
+00:00.994	ID:9	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:01.001	ID:5	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:01.006	ID:9	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:01.012	ID:5	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:01.167	ID:3	Rime started with address 3.0
+00:01.176	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-d8bb8dd started. Node id is set to 3.
+00:01.185	ID:3	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:01.197	ID:3	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:02.681	ID:2	Este es broadcast vecinos
+00:03.105	ID:7	Este es broadcast vecinos
+00:03.115	ID:9	Este es broadcast vecinos
+00:03.555	ID:12	Este es broadcast vecinos
+00:03.627	ID:8	Este es broadcast vecinos
+00:03.715	ID:5	Este es broadcast vecinos
+00:03.814	ID:10	Este es broadcast vecinos
+00:03.976	ID:1	Este es broadcast vecinos
+00:04.102	ID:6	Este es broadcast vecinos
+00:04.196	ID:3	Este es broadcast vecinos
+00:04.299	ID:11	Este es broadcast vecinos
+00:04.496	ID:4	Este es broadcast vecinos
+00:05.251	ID:2	Este es broadcast vecinos
+00:05.583	ID:9	Este es broadcast vecinos
+00:06.266	ID:12	Este es broadcast vecinos
+00:06.328	ID:6	Este es broadcast vecinos
+00:06.527	ID:5	Este es broadcast vecinos
+00:06.682	ID:8	Este es broadcast vecinos
+00:06.745	ID:7	Este es broadcast vecinos
+00:07.132	ID:1	Este es broadcast vecinos
+00:07.597	ID:11	Este es broadcast vecinos
+00:07.697	ID:10	Este es broadcast vecinos
+00:07.786	ID:9	Este es broadcast vecinos
+00:07.895	ID:4	Este es broadcast vecinos
+00:08.118	ID:2	Este es broadcast vecinos
+00:08.181	ID:3	Este es broadcast vecinos
+00:08.824	ID:5	Este es broadcast vecinos
+00:09.102	ID:6	Este es broadcast vecinos
+00:09.523	ID:1	Este es broadcast vecinos
+00:09.899	ID:12	Este es broadcast vecinos
+00:09.987	ID:11	Este es broadcast vecinos
+00:09.995	ID:7	Este es broadcast vecinos
+00:10.372	ID:9	Este es broadcast vecinos
+00:10.376	ID:10	Este es broadcast vecinos
+00:10.408	ID:8	Este es broadcast vecinos
+00:11.087	ID:2	Este es broadcast vecinos
+00:11.524	ID:3	Este es broadcast vecinos
+00:11.629	ID:5	Este es broadcast vecinos
+00:11.715	ID:4	Este es broadcast vecinos
+00:12.321	ID:12	Este es broadcast vecinos
+00:12.546	ID:1	Este es broadcast vecinos
+00:12.594	ID:6	Este es broadcast vecinos
+00:12.684	ID:9	Este es broadcast vecinos
+00:12.908	ID:10	Este es broadcast vecinos
+00:13.010	ID:11	Este es broadcast vecinos
+00:13.049	ID:8	Este es broadcast vecinos
+00:13.126	ID:2	Este es broadcast vecinos
+00:13.785	ID:5	Este es broadcast vecinos
+00:13.987	ID:7	Este es broadcast vecinos
+00:14.438	ID:3	Este es broadcast vecinos
+00:14.546	ID:1	Este es broadcast vecinos
+00:14.574	ID:4	Este es broadcast vecinos
+00:14.751	ID:12	Este es broadcast vecinos
+00:15.010	ID:11	Este es broadcast vecinos
+00:15.193	ID:9	Este es broadcast vecinos
+00:15.259	ID:10	Este es broadcast vecinos
+00:15.688	ID:6	Este es broadcast vecinos
+00:15.830	ID:2	Este es broadcast vecinos
+00:16.516	ID:3	Este es broadcast vecinos
+00:16.692	ID:4	Este es broadcast vecinos
+00:16.744	ID:8	Este es broadcast vecinos
+00:16.991	ID:1	Este es broadcast vecinos
+00:17.262	ID:5	Este es broadcast vecinos
+00:17.456	ID:11	Este es broadcast vecinos
+00:17.581	ID:7	Este es broadcast vecinos
+00:18.025	ID:10	Este es broadcast vecinos
+00:18.031	ID:12	Este es broadcast vecinos
+00:18.915	ID:2	Este es broadcast vecinos
+00:18.990	ID:9	Este es broadcast vecinos
+00:19.352	ID:6	Este es broadcast vecinos
+00:19.477	ID:3	Este es broadcast vecinos
+00:19.745	ID:7	Este es broadcast vecinos
+00:19.911	ID:4	Este es broadcast vecinos
+00:19.976	ID:1	Este es broadcast vecinos
+00:19.979	ID:8	Este es broadcast vecinos
+00:20.133	ID:12	Este es broadcast vecinos
+00:20.440	ID:11	Este es broadcast vecinos
+00:20.652	ID:5	Este es broadcast vecinos
+00:21.294	ID:9	Este es broadcast vecinos
+00:21.728	ID:2	Este es broadcast vecinos
+00:21.923	ID:10	Este es broadcast vecinos
+00:22.073	ID:7	Este es broadcast vecinos
+00:22.258	ID:12	Este es broadcast vecinos
+00:22.665	ID:3	Este es broadcast vecinos
+00:22.675	ID:5	Este es broadcast vecinos
+00:22.971	ID:8	Este es broadcast vecinos
+00:23.180	ID:6	Este es broadcast vecinos
+00:23.199	ID:4	Este es broadcast vecinos
+00:23.718	ID:1	Este es broadcast vecinos
+00:24.182	ID:11	Este es broadcast vecinos
+00:24.284	ID:7	Este es broadcast vecinos
+00:24.328	ID:12	Este es broadcast vecinos
+00:24.736	ID:2	Este es broadcast vecinos
+00:24.950	ID:9	Este es broadcast vecinos
+00:25.298	ID:10	Este es broadcast vecinos
+00:25.564	ID:8	Este es broadcast vecinos
+00:25.675	ID:5	Este es broadcast vecinos
+00:26.061	ID:1	Este es broadcast vecinos
+00:26.152	ID:4	Este es broadcast vecinos
+00:26.438	ID:12	Este es broadcast vecinos
+00:26.526	ID:11	Este es broadcast vecinos
+00:26.547	ID:3	Este es broadcast vecinos
+00:26.891	ID:6	Este es broadcast vecinos
+00:27.033	ID:2	Este es broadcast vecinos
+00:27.618	ID:10	Este es broadcast vecinos
+00:27.722	ID:7	Este es broadcast vecinos
+00:27.927	ID:9	Este es broadcast vecinos
+00:28.489	ID:4	Este es broadcast vecinos
+00:28.729	ID:8	Este es broadcast vecinos
+00:28.805	ID:12	Este es broadcast vecinos
+00:29.122	ID:5	Este es broadcast vecinos
+00:29.828	ID:6	Este es broadcast vecinos
+00:29.837	ID:2	Este es broadcast vecinos
+00:29.976	ID:1	Este es broadcast vecinos
+00:30.219	ID:3	Este es broadcast vecinos
+00:30.440	ID:11	Este es broadcast vecinos
+00:30.818	ID:9	Este es broadcast vecinos
+00:30.855	ID:7	Este es broadcast vecinos
+00:30.978	ID:10	Este es broadcast vecinos
+00:31.274	ID:12	Este es broadcast vecinos
+00:31.551	ID:4	Este es broadcast vecinos
+00:31.993	ID:2	Este es broadcast vecinos
+00:32.057	ID:8	Este es broadcast vecinos
+00:32.461	ID:6	Este es broadcast vecinos
+00:32.985	ID:3	Este es broadcast vecinos
+00:33.054	ID:1	Este es broadcast vecinos
+00:33.105	ID:5	Este es broadcast vecinos
+00:33.518	ID:11	Este es broadcast vecinos
+00:33.595	ID:10	Este es broadcast vecinos
+00:33.809	ID:4	Este es broadcast vecinos
+00:34.341	ID:9	Este es broadcast vecinos
+00:34.776	ID:7	Este es broadcast vecinos
+00:34.813	ID:12	Este es broadcast vecinos
+00:35.268	ID:8	Este es broadcast vecinos
+00:35.470	ID:2	Este es broadcast vecinos
+00:35.847	ID:5	Este es broadcast vecinos
+00:35.883	ID:6	Este es broadcast vecinos
+00:36.356	ID:4	Este es broadcast vecinos
+00:36.841	ID:9	Este es broadcast vecinos
+00:36.883	ID:3	Este es broadcast vecinos
+00:37.014	ID:1	Este es broadcast vecinos
+00:37.016	ID:12	Este es broadcast vecinos
+00:37.314	ID:10	Este es broadcast vecinos
+00:37.479	ID:11	Este es broadcast vecinos
+00:37.705	ID:8	Este es broadcast vecinos
+00:38.411	ID:4	Este es broadcast vecinos
+00:38.706	ID:7	Este es broadcast vecinos
+00:38.861	ID:2	Este es broadcast vecinos
+00:39.191	ID:5	Este es broadcast vecinos
+00:39.202	ID:1	Este es broadcast vecinos
+00:39.313	ID:6	Este es broadcast vecinos
+00:39.602	ID:12	Este es broadcast vecinos
+00:39.667	ID:11	Este es broadcast vecinos
+00:39.786	ID:9	Este es broadcast vecinos
+00:39.838	ID:8	Este es broadcast vecinos
+00:40.258	ID:3	Este es broadcast vecinos
+00:40.817	ID:4	Este es broadcast vecinos
+00:40.884	ID:2	Este es broadcast vecinos
+00:41.103	ID:10	Este es broadcast vecinos
+00:41.487	ID:7	Este es broadcast vecinos
+00:41.828	ID:6	Este es broadcast vecinos
+00:41.914	ID:12	Este es broadcast vecinos
+00:42.085	ID:1	Este es broadcast vecinos
+00:42.105	ID:5	Este es broadcast vecinos
+00:42.549	ID:11	Este es broadcast vecinos
+00:42.578	ID:3	Este es broadcast vecinos
+00:42.760	ID:8	Este es broadcast vecinos
+00:43.271	ID:9	Este es broadcast vecinos
+00:43.543	ID:4	Este es broadcast vecinos
+00:43.884	ID:2	Este es broadcast vecinos
+00:44.184	ID:5	Este es broadcast vecinos
+00:44.422	ID:12	Este es broadcast vecinos
+00:44.477	ID:6	Este es broadcast vecinos
+00:44.556	ID:10	Este es broadcast vecinos
+00:44.757	ID:1	Este es broadcast vecinos
+00:45.089	ID:7	Este es broadcast vecinos
+00:45.222	ID:11	Este es broadcast vecinos
+00:45.689	ID:8	Este es broadcast vecinos
+00:45.938	ID:3	Este es broadcast vecinos
+00:46.115	ID:9	Este es broadcast vecinos
+00:47.144	ID:5	Este es broadcast vecinos
+00:47.184	ID:4	Este es broadcast vecinos
+00:47.330	ID:2	Este es broadcast vecinos
+00:47.392	ID:10	Este es broadcast vecinos
+00:47.602	ID:6	Este es broadcast vecinos
+00:48.105	ID:7	Este es broadcast vecinos
+00:48.436	ID:1	Este es broadcast vecinos
+00:48.528	ID:9	Este es broadcast vecinos
+00:48.901	ID:11	Este es broadcast vecinos
+00:49.471	ID:8	Este es broadcast vecinos
+00:49.657	ID:3	Este es broadcast vecinos
+00:50.332	ID:5	Este es broadcast vecinos
+00:50.457	ID:4	Este es broadcast vecinos
+00:50.955	ID:10	Este es broadcast vecinos
+00:50.969	ID:6	Este es broadcast vecinos
+00:51.253	ID:7	Este es broadcast vecinos
+00:51.968	ID:1	Este es broadcast vecinos
+00:52.072	ID:8	Este es broadcast vecinos
+00:52.432	ID:11	Este es broadcast vecinos
+00:53.446	ID:3	Este es broadcast vecinos
+00:53.713	ID:10	Este es broadcast vecinos
+00:54.438	ID:6	Este es broadcast vecinos
+00:54.878	ID:7	Este es broadcast vecinos
+00:56.564	ID:12	Process exited: Neighbor Discovery via Broadcast
+00:56.899	ID:3	Este es broadcast vecinos
+00:59.471	ID:2	Process exited: Neighbor Discovery via Broadcast
+01:00.220	ID:12	12.0: sending runicast to address 10.0
+01:00.346	ID:10	runicast message received from 12.0,with avg_seqno_gap = 1.29, seqno 0
+01:00.382	ID:12	runicast message sent to 10.0, retransmissions 1
+01:00.529	ID:9	Process exited: Neighbor Discovery via Broadcast
+01:02.474	ID:5	Process exited: Neighbor Discovery via Broadcast
+01:02.599	ID:4	Process exited: Neighbor Discovery via Broadcast
+01:02.991	ID:9	9.0: sending runicast to address 1.0
+01:03.048	ID:1	runicast message received from 9.0,with avg_seqno_gap = 1.05, seqno 0
+01:03.119	ID:9	runicast message sent to 1.0, retransmissions 1
+01:03.196	ID:12	12.0: sending runicast to address 6.0
+01:03.289	ID:6	runicast message received from 12.0,with avg_seqno_gap = 1.29, seqno 1
+01:03.380	ID:12	runicast message sent to 6.0, retransmissions 1
+01:03.455	ID:2	2.0: sending runicast to address 5.0
+01:03.505	ID:5	runicast message received from 2.0,with avg_seqno_gap = 1.38, seqno 0
+01:03.648	ID:2	runicast message sent to 5.0, retransmissions 1
+01:04.109	ID:1	Process exited: Neighbor Discovery via Broadcast
+01:04.214	ID:8	Process exited: Neighbor Discovery via Broadcast
+01:04.574	ID:11	Process exited: Neighbor Discovery via Broadcast
+01:05.678	ID:9	9.0: sending runicast to address 11.0
+01:05.730	ID:11	runicast message received from 9.0,with avg_seqno_gap = 1.00, seqno 1
+01:05.849	ID:4	4.0: sending runicast to address 7.0
+01:05.854	ID:10	Process exited: Neighbor Discovery via Broadcast
+01:05.870	ID:9	runicast message sent to 11.0, retransmissions 1
+01:06.067	ID:7	runicast message received from 4.0,with avg_seqno_gap = 1.00, seqno 0
+01:06.136	ID:4	runicast message sent to 7.0, retransmissions 1
+01:06.197	ID:2	2.0: sending runicast to address 1.0
+01:06.230	ID:8	8.0: sending runicast to address 7.0
+01:06.297	ID:1	runicast message received from 2.0,with avg_seqno_gap = 1.60, seqno 1
+01:06.316	ID:7	runicast message received from 8.0,with avg_seqno_gap = 1.08, seqno 0
+01:06.356	ID:5	5.0: sending runicast to address 2.0
+01:06.359	ID:8	runicast message sent to 7.0, retransmissions 1
+01:06.580	ID:6	Process exited: Neighbor Discovery via Broadcast
+01:06.898	ID:2	runicast message sent to 1.0, retransmissions 1
+01:07.012	ID:7	Process exited: Neighbor Discovery via Broadcast
+01:07.401	ID:2	runicast message received from 5.0,with avg_seqno_gap = 1.38, seqno 0
+01:07.461	ID:1	1.0: sending runicast to address 2.0
+01:07.501	ID:5	runicast message sent to 2.0, retransmissions 2
+01:07.925	ID:11	11.0: sending runicast to address 3.0
+01:08.064	ID:3	runicast message received from 11.0,with avg_seqno_gap = 1.12, seqno 0
+01:08.151	ID:2	runicast message received from 1.0,with avg_seqno_gap = 1.60, seqno 0
+01:08.378	ID:8	8.0: sending runicast to address 10.0
+01:08.471	ID:10	runicast message received from 8.0,with avg_seqno_gap = 1.25, seqno 1
+01:08.544	ID:4	4.0: sending runicast to address 3.0
+01:08.851	ID:11	runicast message sent to 3.0, retransmissions 1
+01:08.857	ID:8	runicast message sent to 10.0, retransmissions 0
+01:08.901	ID:10	10.0: sending runicast to address 12.0
+01:08.918	ID:1	runicast message sent to 2.0, retransmissions 0
+01:08.940	ID:3	runicast message received from 4.0,with avg_seqno_gap = 1.00, seqno 1
+01:09.009	ID:4	runicast message sent to 3.0, retransmissions 1
+01:09.010	ID:12	runicast message received from 10.0,with avg_seqno_gap = 1.29, seqno 0
+01:09.041	ID:3	Process exited: Neighbor Discovery via Broadcast
+01:09.093	ID:10	runicast message sent to 12.0, retransmissions 1
+01:09.118	ID:6	6.0: sending runicast to address 5.0
+01:09.650	ID:2	runicast message received from 1.0, seqno 0 (DUPLICATE)
+01:10.028	ID:5	5.0: sending runicast to address 6.0
+01:10.166	ID:6	runicast message received from 5.0,with avg_seqno_gap = 1.04, seqno 1
+01:10.251	ID:5	runicast message sent to 6.0, retransmissions 1
+01:10.260	ID:5	runicast message received from 6.0,with avg_seqno_gap = 1.38, seqno 0
+01:10.286	ID:6	runicast message sent to 5.0, retransmissions 2
+01:10.581	ID:7	7.0: sending runicast to address 8.0
+01:10.612	ID:8	runicast message received from 7.0,with avg_seqno_gap = 1.15, seqno 0
+01:10.689	ID:7	runicast message sent to 8.0, retransmissions 1
+01:10.824	ID:11	11.0: sending runicast to address 9.0
+01:10.874	ID:9	runicast message received from 11.0,with avg_seqno_gap = 1.10, seqno 1
+01:10.977	ID:11	runicast message sent to 9.0, retransmissions 1
+01:11.226	ID:1	1.0: sending runicast to address 9.0
+01:11.374	ID:9	runicast message received from 1.0,with avg_seqno_gap = 1.19, seqno 1
+01:11.419	ID:1	runicast message sent to 9.0, retransmissions 1
+01:11.876	ID:3	3.0: sending runicast to address 11.0
+01:11.981	ID:11	runicast message received from 3.0,with avg_seqno_gap = 1.12, seqno 0
+01:12.060	ID:3	runicast message sent to 11.0, retransmissions 1
+01:12.127	ID:10	10.0: sending runicast to address 8.0
+01:12.237	ID:8	runicast message received from 10.0,with avg_seqno_gap = 1.25, seqno 1
+01:12.321	ID:6	6.0: sending runicast to address 12.0
+01:12.469	ID:10	runicast message sent to 8.0, retransmissions 1
+01:12.509	ID:12	runicast message received from 6.0,with avg_seqno_gap = 1.29, seqno 1
+01:14.191	ID:7	7.0: sending runicast to address 4.0
+01:14.262	ID:4	runicast message received from 7.0,with avg_seqno_gap = 1.00, seqno 1
+01:14.312	ID:7	runicast message sent to 4.0, retransmissions 1
+01:15.281	ID:12	Process Init: master_co_i 
+01:15.284	ID:12	Process Exit: master_neighbor_discovery 
+01:15.288	ID:12	READ 12 10 1.29 2
+01:15.290	ID:12	READ 12 6 1.29 1
+01:15.438	ID:3	3.0: sending runicast to address 4.0
+01:15.512	ID:4	runicast message received from 3.0,with avg_seqno_gap = 1.04, seqno 1
+01:15.560	ID:3	runicast message sent to 4.0, retransmissions 1
+01:17.724	ID:9	Process Init: master_co_i 
+01:17.727	ID:9	Process Exit: master_neighbor_discovery 
+01:17.731	ID:9	READ 9 11 1.10 2
+01:17.733	ID:9	READ 9 1 1.19 1
+01:18.290	ID:2	Process Init: master_co_i 
+01:18.293	ID:2	Process Exit: master_neighbor_discovery 
+01:18.297	ID:2	READ 2 5 1.38 2
+01:18.299	ID:2	READ 2 1 1.60 1
+01:20.463	ID:8	Process Init: master_co_i 
+01:20.466	ID:8	Process Exit: master_neighbor_discovery 
+01:20.470	ID:8	READ 8 7 1.15 2
+01:20.472	ID:8	READ 8 10 1.25 1
+01:20.551	ID:4	Process Init: master_co_i 
+01:20.554	ID:4	Process Exit: master_neighbor_discovery 
+01:20.558	ID:4	READ 4 7 1.00 2
+01:20.560	ID:4	READ 4 3 1.04 1
+01:22.160	ID:5	Process Init: master_co_i 
+01:22.163	ID:5	Process Exit: master_neighbor_discovery 
+01:22.167	ID:5	READ 5 2 1.38 2
+01:22.168	ID:5	READ 5 6 1.38 1
+01:22.862	ID:11	Process Init: master_co_i 
+01:22.865	ID:11	Process Exit: master_neighbor_discovery 
+01:22.869	ID:11	READ 11 9 1.10 2
+01:22.871	ID:11	READ 11 3 1.12 1
+01:23.366	ID:1	Process Init: master_co_i 
+01:23.369	ID:1	Process Exit: master_neighbor_discovery 
+01:23.373	ID:1	READ 1 9 1.19 2
+01:23.375	ID:1	READ 1 2 1.60 1
+01:24.228	ID:10	Process Init: master_co_i 
+01:24.231	ID:10	Process Exit: master_neighbor_discovery 
+01:24.235	ID:10	READ 10 8 1.25 2
+01:24.237	ID:10	READ 10 12 1.29 1
+01:24.461	ID:6	Process Init: master_co_i 
+01:24.464	ID:6	Process Exit: master_neighbor_discovery 
+01:24.468	ID:6	READ 6 12 1.29 2
+01:24.470	ID:6	READ 6 5 1.38 1
+01:26.253	ID:7	Process Init: master_co_i 
+01:26.256	ID:7	Process Exit: master_neighbor_discovery 
+01:26.260	ID:7	READ 7 4 1.00 2
+01:26.261	ID:7	READ 7 8 1.15 1
+01:27.291	ID:12	Envio CONECT to 10 , level=0 
+01:27.292	ID:12	Estoy en FOUND 
+01:27.342	ID:10	LLEga ConNect de 12 con level=0 
+01:27.345	ID:10	Agregado CONECT POSPONE de  12 
+01:27.500	ID:3	Process Init: master_co_i 
+01:27.503	ID:3	Process Exit: master_neighbor_discovery 
+01:27.507	ID:3	READ 3 4 1.04 2
+01:27.509	ID:3	READ 3 11 1.12 1
+01:29.733	ID:9	Envio CONECT to 11 , level=0 
+01:29.734	ID:9	Estoy en FOUND 
+01:29.853	ID:11	LLEga ConNect de 9 con level=0 
+01:29.854	ID:11	Soy CORE_NORE 3
+01:29.857	ID:11	Envio initiate a 9 
+01:29.999	ID:9	Soy CORE_NORE 2
+01:30.005	ID:9	llego INITIATE from 11.0 name=1.10 level=1 state=1 parent=11
+01:30.299	ID:2	Envio CONECT to 5 , level=0 
+01:30.301	ID:2	Estoy en FOUND 
+01:30.377	ID:5	LLEga ConNect de 2 con level=0 
+01:30.378	ID:5	Soy CORE_NORE 3
+01:30.381	ID:5	Envio initiate a 2 
+01:30.527	ID:2	Soy CORE_NORE 2
+01:30.532	ID:2	llego INITIATE from 5.0 name=1.38 level=1 state=1 parent=5
+01:31.756	ID:6	runicast message timed out when sending to 12.0, retransmissions 4
+01:32.007	ID:12	runicast message received from 6.0, seqno 1 (DUPLICATE)
+01:32.133	ID:12	runicast message received from 6.0, seqno 1 (DUPLICATE)
+01:32.259	ID:12	runicast message received from 6.0, seqno 1 (DUPLICATE)
+01:32.382	ID:6	runicast message timed out when sending to 12.0, retransmissions 4
+01:32.383	ID:12	runicast message received from 6.0, seqno 1 (DUPLICATE)
+01:32.392	ID:12	runicast message received from 6.0, seqno 1 (DUPLICATE)
+01:32.472	ID:8	Envio CONECT to 7 , level=0 
+01:32.473	ID:8	Estoy en FOUND 
+01:32.560	ID:4	Envio CONECT to 7 , level=0 
+01:32.561	ID:4	Estoy en FOUND 
+01:32.563	ID:7	LLEga ConNect de 8 con level=0 
+01:32.565	ID:7	Agregado CONECT POSPONE de  8 
+01:32.633	ID:12	runicast message received from 6.0, seqno 1 (DUPLICATE)
+01:32.642	ID:12	runicast message received from 6.0, seqno 1 (DUPLICATE)
+01:32.816	ID:7	LLEga ConNect de 4 con level=0 
+01:32.817	ID:7	Soy CORE_NORE 3
+01:32.820	ID:7	Envio initiate a 4 
+01:33.050	ID:6	runicast message timed out when sending to 12.0, retransmissions 4
+01:33.132	ID:12	runicast message received from 6.0, seqno 1 (DUPLICATE)
+01:33.512	ID:4	Soy CORE_NORE 2
+01:33.517	ID:4	llego INITIATE from 7.0 name=1.00 level=1 state=1 parent=7
+01:33.692	ID:7	runicast message received from 8.0, seqno 0 (DUPLICATE)
+01:34.169	ID:5	Envio CONECT to 2 , level=0 
+01:34.170	ID:5	Estoy en FOUND 
+01:34.871	ID:11	Envio CONECT to 9 , level=0 
+01:34.872	ID:11	Estoy en FOUND 
+01:34.995	ID:9	LLEga ConNect de 11 con level=0 
+01:34.998	ID:9	Envio initiate a 11 
+01:35.109	ID:11	llego INITIATE from 9.0 name=1.10 level=1 state=1 parent=9
+01:35.272	ID:2	LLEga ConNect de 5 con level=0 
+01:35.275	ID:2	Envio initiate a 5 
+01:35.375	ID:1	Envio CONECT to 9 , level=0 
+01:35.376	ID:1	Estoy en FOUND 
+01:35.382	ID:5	llego INITIATE from 2.0 name=1.38 level=1 state=1 parent=2
+01:35.496	ID:9	LLEga ConNect de 1 con level=0 
+01:35.499	ID:9	Envio initiate a 1 
+01:35.676	ID:1	llego INITIATE from 9.0 name=1.10 level=1 state=1 parent=9
+01:36.002	ID:9	runicast message received from 1.0, seqno 0 (DUPLICATE)
+01:36.237	ID:10	Envio CONECT to 8 , level=0 
+01:36.238	ID:10	Estoy en FOUND 
+01:36.361	ID:8	LLEga ConNect de 10 con level=0 
+01:36.363	ID:8	Agregado CONECT POSPONE de  10 
+01:36.470	ID:6	Envio CONECT to 12 , level=0 
+01:36.472	ID:6	Estoy en FOUND 
+01:36.505	ID:12	LLEga ConNect de 6 con level=0 
+01:36.508	ID:12	Agregado CONECT POSPONE de  6 
+01:38.262	ID:7	Envio CONECT to 4 , level=0 
+01:38.263	ID:7	Estoy en FOUND 
+01:38.385	ID:4	LLEga ConNect de 7 con level=0 
+01:38.388	ID:4	Envio initiate a 7 
+01:38.445	ID:7	llego INITIATE from 4.0 name=1.00 level=1 state=1 parent=4
+01:38.449	ID:7	Envio msg de INICIATE DESDE POSPONEEE a 8.0 
+01:38.510	ID:7	Envio initiate a 8 
+01:38.613	ID:8	llego INITIATE from 7.0 name=1.00 level=1 state=1 parent=7
+01:38.616	ID:8	Envio msg de INICIATE DESDE POSPONEEE a 10.0 
+01:38.687	ID:8	Envio initiate a 10 
+01:38.721	ID:10	llego INITIATE from 8.0 name=1.00 level=1 state=1 parent=8
+01:38.725	ID:10	Envio msg de INICIATE DESDE POSPONEEE a 12.0 
+01:38.858	ID:10	Envio initiate a 12 
+01:38.883	ID:12	llego INITIATE from 10.0 name=1.00 level=1 state=1 parent=10
+01:38.887	ID:12	Envio msg de INICIATE DESDE POSPONEEE a 6.0 
+01:38.967	ID:12	Envio initiate a 6 
+01:39.039	ID:6	llego INITIATE from 12.0 name=1.00 level=1 state=1 parent=12
+01:39.510	ID:3	Envio CONECT to 4 , level=0 
+01:39.511	ID:3	Estoy en FOUND 
+01:39.633	ID:4	LLEga ConNect de 3 con level=0 
+01:39.636	ID:4	Envio initiate a 3 
+01:39.692	ID:3	llego INITIATE from 4.0 name=1.00 level=1 state=1 parent=4
+01:45.098	ID:9	FIND Coooontinue
+01:45.100	ID:9	addr=11 weight=1.10 state=2 
+01:45.103	ID:9	addr=1 weight=1.19 state=2 
+01:45.625	ID:2	FIND Coooontinue
+01:45.628	ID:2	addr=5 weight=1.38 state=2 
+01:45.630	ID:2	addr=1 weight=1.60 state=1 
+01:48.557	ID:4	FIND Coooontinue
+01:48.560	ID:4	addr=7 weight=1.00 state=2 
+01:48.562	ID:4	addr=3 weight=1.04 state=2 
+01:50.235	ID:11	FIND Coooontinue
+01:50.238	ID:11	addr=9 weight=1.10 state=2 
+01:50.240	ID:11	addr=3 weight=1.12 state=1 
+01:50.518	ID:5	FIND Coooontinue
+01:50.520	ID:5	addr=2 weight=1.38 state=2 
+01:50.523	ID:5	addr=6 weight=1.38 state=1 
+01:50.677	ID:1	FIND Coooontinue
+01:50.680	ID:1	addr=9 weight=1.19 state=2 
+01:50.682	ID:1	addr=2 weight=1.60 state=1 
+01:53.501	ID:7	FIND Coooontinue
+01:53.504	ID:7	addr=4 weight=1.00 state=2 
+01:53.506	ID:7	addr=8 weight=1.15 state=2 
+01:53.681	ID:8	FIND Coooontinue
+01:53.683	ID:8	addr=7 weight=1.15 state=2 
+01:53.686	ID:8	addr=10 weight=1.25 state=2 
+01:53.852	ID:10	FIND Coooontinue
+01:53.854	ID:10	addr=8 weight=1.25 state=2 
+01:53.857	ID:10	addr=12 weight=1.29 state=2 
+01:53.960	ID:12	FIND Coooontinue
+01:53.963	ID:12	addr=10 weight=1.29 state=2 
+01:53.965	ID:12	addr=6 weight=1.29 state=2 
+01:54.124	ID:6	FIND Coooontinue
+01:54.127	ID:6	addr=12 weight=1.29 state=2 
+01:54.129	ID:6	addr=5 weight=1.38 state=1 
+01:54.757	ID:3	FIND Coooontinue
+01:54.760	ID:3	addr=4 weight=1.04 state=2 
+01:54.762	ID:3	addr=11 weight=1.12 state=1 
+02:00.098	ID:9	Final Coooontinue
+02:00.099	ID:9	No tengo edge de salida 
+02:00.625	ID:2	Final Coooontinue
+02:00.629	ID:2	Deseo enviar e_msg_test a 1
+02:00.671	ID:1	Reeeeeecibi un TEST msg from 2 con name=1.38, level=1 
+02:00.674	ID:1	Quuuiero enviar e_msg_accept a 2 
+02:00.676	ID:1	Envie accept a 2 
+02:00.774	ID:2	runicast TEEEST message sent to 1.0, retransmissions 1
+02:00.781	ID:2	llego accept de 1. Numero Hijos = 1 flags=0008 
+02:00.785	ID:2	 CN:Deeeseo Reportar Neigh=1 Weight=1.60 flags=000E
+02:00.789	ID:2	EEEnvie 2 CHANGE_ROOT a next_hop=1 final_destination=0
+02:00.793	ID:2	nd y ch: Deseo Reportar Neigh=0 Weight=0.00
+02:00.798	ID:2	Envie report a 5 Neigh=1 Weight=1.60 flags=0006
+02:00.799	ID:2	Estoy en FOUND 
+02:00.916	ID:2	Estoy en FOUND 
+02:00.919	ID:1	runicast TEEEST message sent to 2.0, retransmissions 1
+02:01.002	ID:5	LLLego report de 2 Neigh=1 Weight=1.60 Hj=1 flags=0008
+02:01.003	ID:5	Tamano lista=1 
+02:01.004	ID:5	A evaluar reports
+02:01.006	ID:5	Lista de Reports completa 
+02:01.011	ID:5	El menor de la lista es 1 weight=1.60 flags=000C - downroute=2 
+02:01.148	ID:2	runicast REPORT  message sent to 5.0, retransmissions 1 flags=0000
+02:03.558	ID:4	Final Coooontinue
+02:03.559	ID:4	No tengo edge de salida 
+02:05.236	ID:11	Final Coooontinue
+02:05.239	ID:11	Deseo enviar e_msg_test a 3
+02:05.313	ID:3	Reeeeeecibi un TEST msg from 11 con name=1.10, level=1 
+02:05.316	ID:3	Quuuiero enviar e_msg_accept a 11 
+02:05.318	ID:3	Envie accept a 11 
+02:05.352	ID:11	runicast TEEEST message sent to 3.0, retransmissions 1
+02:05.359	ID:11	llego accept de 3. Numero Hijos = 1 flags=0008 
+02:05.363	ID:11	 CN:Deeeseo Reportar Neigh=3 Weight=1.12 flags=000E
+02:05.367	ID:11	EEEnvie 2 CHANGE_ROOT a next_hop=3 final_destination=0
+02:05.371	ID:11	nd y ch: Deseo Reportar Neigh=0 Weight=0.00
+02:05.376	ID:11	Envie report a 9 Neigh=3 Weight=1.12 flags=0006
+02:05.378	ID:11	Estoy en FOUND 
+02:05.432	ID:11	Estoy en FOUND 
+02:05.435	ID:3	runicast TEEEST message sent to 11.0, retransmissions 1
+02:05.497	ID:9	LLLego report de 11 Neigh=3 Weight=1.12 Hj=2 flags=000A
+02:05.498	ID:9	Tamano lista=1 
+02:05.499	ID:9	A evaluar reports
+02:05.518	ID:5	Final Coooontinue
+02:05.522	ID:5	Deseo enviar e_msg_test a 6
+02:05.603	ID:11	runicast REPORT  message sent to 9.0, retransmissions 1 flags=0000
+02:05.664	ID:6	Reeeeeecibi un TEST msg from 5 con name=1.38, level=1 
+02:05.667	ID:6	Quuuiero enviar e_msg_accept a 5 
+02:05.669	ID:6	Envie accept a 5 
+02:05.678	ID:1	Final Coooontinue
+02:05.681	ID:1	Deseo enviar e_msg_test a 2
+02:06.127	ID:5	runicast TEEEST message sent to 6.0, retransmissions 1
+02:06.134	ID:5	llego accept de 6. Numero Hijos = 1 flags=000C 
+02:06.139	ID:5	 CN:Deeeseo Reportar Neigh=6 Weight=1.38 flags=000E
+02:06.143	ID:5	Envie CHANGE_RooT next_hop=6 final_destination=6
+02:06.147	ID:5	EEEnvie 1 CHANGE_ROOT a next_hop=6 final_destination=6
+02:06.151	ID:5	nd y ch: Deseo Reportar Neigh=6 Weight=1.38
+02:06.152	ID:5	Estoy en FOUND 
+02:06.288	ID:6	runicast TEEEST message sent to 5.0, retransmissions 1
+02:06.289	ID:5	Estoy en FOUND 
+02:06.294	ID:6	El msg de ChangeRooot es para mi
+02:06.295	ID:6	Deseo CONNECT a 12
+02:06.299	ID:6	Envio CONECT to 12 , level=1 
+02:06.379	ID:5	runicast REPORT  message sent to 6.0, retransmissions 1 flags=0000
+02:06.507	ID:12	LLEga ConNect de 6 con level=1 
+02:06.508	ID:12	Soy CORE_NORE 3
+02:06.511	ID:12	Envio initiate a 6 
+02:06.540	ID:6	Soy CORE_NORE 2
+02:06.545	ID:6	llego INITIATE from 12.0 name=1.29 level=2 state=1 parent=12
+02:06.548	ID:6	Envio initiate a 5 
+02:06.775	ID:2	Reeeeeecibi un TEST msg from 1 con name=1.10, level=1 
+02:06.778	ID:2	Quuuiero enviar e_msg_accept a 1 
+02:06.780	ID:2	Envie accept a 1 
+02:06.918	ID:1	runicast TEEEST message sent to 2.0, retransmissions 2
+02:07.174	ID:1	llego accept de 2. Numero Hijos = 0 flags=0000 
+02:07.178	ID:1	 no_CN: Deeeseo Reportar Neigh=2 Weight=1.60
+02:07.182	ID:1	nd y ch: Deseo Reportar Neigh=0 Weight=0.00
+02:07.185	ID:1	nd y ch: Deseo Reportar Neigh=0 Weight=0.00
+02:07.191	ID:1	Envie report a 9 Neigh=2 Weight=1.60 flags=0006
+02:07.192	ID:1	Estoy en FOUND 
+02:07.268	ID:1	Estoy en FOUND 
+02:07.269	ID:1	Estoy en FOUND 
+02:07.271	ID:2	runicast TEEEST message sent to 1.0, retransmissions 1
+02:07.372	ID:9	LLLego report de 1 Neigh=2 Weight=1.60 Hj=2 flags=000A
+02:07.373	ID:9	Tamano lista=2 
+02:07.374	ID:9	A evaluar reports
+02:07.376	ID:9	Lista de Reports completa 
+02:07.381	ID:9	El menor de la lista es 3 weight=1.12 flags=000E - downroute=11 
+02:07.419	ID:9	EEEnvie 2 CHANGE_ROOT a next_hop=11 final_destination=3
+02:07.421	ID:1	runicast REPORT  message sent to 9.0, retransmissions 1 flags=0000
+02:07.425	ID:9	Envie CHANGE_RooT next_hop=11 final_destination=3
+02:07.478	ID:11	El msg de ChangeRooot NO es para mi
+02:07.482	ID:11	Envie CHANGE_RooT next_hop=3 final_destination=3
+02:07.486	ID:11	REEEnvie  CHANGE_ROOT a next_hop=3 final_destination=3
+02:07.560	ID:3	El msg de ChangeRooot es para mi
+02:07.561	ID:3	Deseo CONNECT a 4
+02:07.565	ID:3	Envio CONECT to 4 , level=1 
+02:07.622	ID:9	runicast REPORT  message sent to 11.0, retransmissions 1 flags=0006
+02:07.630	ID:5	llego INITIATE from 6.0 name=1.29 level=2 state=1 parent=6
+02:07.633	ID:5	Envio initiate a 2 
+02:07.636	ID:4	LLEga ConNect de 3 con level=1 
+02:07.637	ID:4	Soy CORE_NORE 3
+02:07.640	ID:4	Envio initiate a 3 
+02:07.690	ID:3	Soy CORE_NORE 2
+02:07.695	ID:3	llego INITIATE from 4.0 name=1.04 level=2 state=1 parent=4
+02:07.698	ID:3	Envio initiate a 11 
+02:07.775	ID:2	llego INITIATE from 5.0 name=1.29 level=2 state=1 parent=5
+02:07.978	ID:11	runicast REPORT  message sent to 3.0, retransmissions 1 flags=0000
+02:08.104	ID:11	llego INITIATE from 3.0 name=1.04 level=2 state=1 parent=3
+02:08.107	ID:11	Envio initiate a 9 
+02:08.247	ID:9	llego INITIATE from 11.0 name=1.04 level=2 state=1 parent=11
+02:08.250	ID:9	Envio initiate a 1 
+02:08.422	ID:1	llego INITIATE from 9.0 name=1.04 level=2 state=1 parent=9
+02:08.502	ID:7	Final Coooontinue
+02:08.503	ID:7	No tengo edge de salida 
+02:08.681	ID:8	Final Coooontinue
+02:08.682	ID:8	No tengo edge de salida 
+02:08.852	ID:10	Final Coooontinue
+02:08.853	ID:10	No tengo edge de salida 
+02:08.960	ID:12	Final Coooontinue
+02:08.962	ID:12	No tengo edge de salida 
+02:09.124	ID:6	Final Coooontinue
+02:09.126	ID:6	No tengo edge de salida 
+02:09.757	ID:3	Final Coooontinue
+02:09.759	ID:3	No tengo edge de salida 

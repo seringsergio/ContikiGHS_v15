@@ -14,7 +14,7 @@
 /*---------------- Definiciones -------------------------------------*/
 /*-------------------------------------------------------------------*/
 
-#define WAIT_RARO 6
+//#define WAIT_RARO 6
 //Definicion de maximos
 #define MAX_NUM_EDGES     MAX_NEIGHBORS
 #define MAX_NUM_POSPONES  MAX_NEIGHBORS
@@ -68,6 +68,7 @@ typedef struct reject_msg reject_msg;
 typedef struct pospone_test pospone_test;
 typedef struct report_msg report_msg;
 //typedef struct report_str report_str;
+typedef struct info_found info_found;
 
 /*-------------------------------------------------------------------*/
 /*---------------- EVENTOS ------------------------------------------*/
@@ -231,7 +232,8 @@ void ghs_co_i_timedout_ruc(const linkaddr_t *to, uint8_t retransmissions);
 
 void init_master_co_i(struct neighbor *n_list_head, struct process *master_neighbor_discovery,
                         struct process *send_message_co_i, struct process *e_pospone_connect ,
-                        struct memb *edges_memb, list_t edges_list, struct process *master_test_ar);
+                        struct memb *edges_memb, list_t edges_list, struct process *master_test_ar,
+                        struct process *reports_completos);
 
 uint8_t state_is_branch( const linkaddr_t *addr,  edges *e_list_head);
 uint32_t weight_with_edge( const linkaddr_t *addr,  edges *e_list_head);

@@ -28,6 +28,7 @@
 typedef struct report_str report_str;
 typedef struct report_msg report_msg;
 typedef struct change_root_msg change_root_msg;
+typedef struct info_found info_found;
 /*-------------------------------------------------------------------*/
 /*---------------- EVENTOS ------------------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -61,11 +62,12 @@ struct report_str
     report_msg rp_msg;
     linkaddr_t neighbor; //Vecino que envio el msg de report
 };
-/*-------------------------------------------------------------------*/
-/*---------------- ESTRUCTURAS MSG-----------------------------------*/
-/*-------------------------------------------------------------------*/
 
-
+struct info_found
+{
+    list_t report_list;
+    struct memb *report_memb;
+};
 /*-------------------------------------------------------------------*/
 /*---------------- Variables globales--------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -82,5 +84,6 @@ void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, 
 
 void llenar_change_root(change_root_msg *cr_msg, const linkaddr_t *next_hop,
                         const linkaddr_t *final_destination);
+
 
 #endif /* GHS_NEIGH_H */

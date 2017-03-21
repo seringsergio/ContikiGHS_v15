@@ -68,6 +68,10 @@
 
  MEMB(report_memb, report_str, MAX_NUM_REPORTS); // Defines a memory pool for edges
  LIST(report_list); // List that holds the neighbors we have seen thus far
+
+ list_t report_list_g;
+ struct memb *report_memb_g;
+
  /*------------------------------------------------------------------- */
  /*----------STATIC VARIABLES -----------------------------------------*/
  /*------------------------------------------------------------------- */
@@ -148,9 +152,12 @@
 
 PROCESS_THREAD(reports_completos, ev, data)
 {
+    //inicializo variable global
+    report_list_g = report_list;
+    report_memb_g = &report_memb;
+
     PROCESS_EXITHANDLER();
     PROCESS_BEGIN();
-
 
     while(1)
     {
@@ -301,6 +308,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                     {
                         //send change_root y dejo de ser CORE_NODE
                         nd.flags &= ~CORE_NODE;
+                        //become_branch(e_list_head_g, &nd.lwoe.node.neighbor);
                         llenar_change_root(&cr_msg, &nd.lwoe.node.neighbor, &nd.lwoe.node.neighbor);
                         process_post_synch(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
                         printf("EEEnvie 1 CHANGE_ROOT a next_hop=%d final_destination=%d\n",
@@ -318,8 +326,10 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                  nd.lwoe.node.neighbor.u8[0],
                                  (int)(nd.lwoe.node.weight / SEQNO_EWMA_UNITY),
                                  (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100)  );
+
                         //paso a FOUND
                         process_post(&master_co_i, e_found, NULL);
+                        nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
 
 
                     }
@@ -329,6 +339,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                     {
                         //send change_root y dejo de ser CORE_NODE
                         nd.flags &= ~CORE_NODE;
+                        //become_branch(e_list_head_g, &nd.lwoe.children.neighbor);
                         llenar_change_root(&cr_msg, &nd.downroute, &nd.lwoe.children.neighbor);
                         process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
                         printf("EEEnvie 2 CHANGE_ROOT a next_hop=%d final_destination=%d\n",
@@ -349,6 +360,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                  (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100)  );
                         //paso a FOUND
                         process_post(&master_co_i, e_found, NULL);
+                        nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
 
                     }
                 }

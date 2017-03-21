@@ -20,6 +20,8 @@ void llenar_change_root(change_root_msg *cr_msg, const linkaddr_t *next_hop,
 
 }
 
+
+
 /* Funcion que recibe los msg de runicast
 */
 void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, const linkaddr_t *from,
@@ -116,7 +118,7 @@ void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, 
        //evaluo si la lista ya esta completa
        printf("Tamano lista=%d \n", list_length(report_list) );
        process_post(reports_completos, PROCESS_EVENT_CONTINUE, NULL);
-       
+
    }else //end IF REPORT
    if(msg_type == CHANGE_ROOT)
    {
@@ -138,6 +140,7 @@ void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, 
        }else//Si el change_root NO es para mi
        {
            printf("El msg de ChangeRooot NO es para mi\n");
+           //become_branch(e_list_head_g, &cr_msg_d->final_destination);
 
            llenar_change_root(&cr_msg, &nd.downroute, &cr_msg_d->final_destination);
            process_post_synch(send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );

@@ -23,13 +23,15 @@ typedef struct wait s_wait;
 //Banderas (flags)
 #define EXIST_LOWEST               0x01
 
+#define MAX_NEIGHBORS 16 // This defines the maximum amount of neighbors we can remember.
+#define STOP_BROADCAST (MAX_NEIGHBORS * 1) // Detengo el broadcast cuando seqno sea > STOP_BROADCAST
+#define MAX_NODOS_EN_RED 12
+
 // Definicion de constantes
 #define MAX_RETRANSMISSIONS 4
 #define NUM_HISTORY_ENTRIES MAX_NEIGHBORS //Numero de entradas los 16 vecinos posibles
-#define WAIT_NETWORK_STABILIZATION 50
+#define WAIT_NETWORK_STABILIZATION (MAX_NODOS_EN_RED * 1) //por cada nodo espero 1 segundos
 
-#define MAX_NEIGHBORS 16 // This defines the maximum amount of neighbors we can remember.
-#define STOP_BROADCAST (MAX_NEIGHBORS * 1) // Detengo el broadcast cuando seqno sea > STOP_BROADCAST
 
 /* These two defines are used for computing the moving average for the
 *   broadcast sequence number gaps.

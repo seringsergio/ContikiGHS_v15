@@ -136,7 +136,8 @@ uint8_t state_is_branch(const linkaddr_t *addr,  edges *e_list_head)
 */
 void init_master_co_i(struct neighbor *n_list_head, struct process *master_neighbor_discovery,
                         struct process *send_message_co_i, struct process *e_pospone_connect ,
-                        struct memb *edges_memb, list_t edges_list, struct process *master_test_ar)
+                        struct memb *edges_memb, list_t edges_list, struct process *master_test_ar,
+                        struct process *reports_completos)
 {
     printf("Process Init: master_co_i \n");
 
@@ -158,6 +159,9 @@ void init_master_co_i(struct neighbor *n_list_head, struct process *master_neigh
     process_start(send_message_co_i, NULL);
     process_start(e_pospone_connect, NULL);
     process_start(master_test_ar, NULL);
+
+    //procesos de report-ChangeRoot
+    process_start(reports_completos, NULL); //para inicializar report_list_g y report_memb_g
 
     //Tomar info de master_neighbor_discovery
     fill_edges_list(edges_list, edges_memb, n_list_head );
@@ -273,6 +277,7 @@ void ghs_co_i_recv_ruc(void *msg, const linkaddr_t *from,
         initiate_msg i_msg;
         connect_msg *co_msg = (connect_msg *) msg;
 
+        printf("LLEga ConNect de %d con level=%d \n", from->u8[0], co_msg->level);
         if(co_msg->level == nd.f.level) //Si los dos fragmentos tienen el mismo nivel
         {
             if(state_is_branch(from, e_list_head)) // Caso inicial. Fragmentos con 1 nodo
@@ -343,10 +348,12 @@ void ghs_co_i_recv_ruc(void *msg, const linkaddr_t *from,
             printf("Soy CORE_NORE 2\n");
         }
 
-        if(nd.f.level == FIND) //si cambio de estado a FIND
+        if(i_msg->nd_state == FIND) //si cambio de estado a FIND
         {
             //Envio un mensaje al master_co_i de find
             process_post(master_co_i,  e_find, NULL);
+            nd.state = FIND;  //Para saber en que estado estoy en cualquier parte
+
         }
         //Reenvio el msg por todas las BRANCHES
         edges *e_aux;

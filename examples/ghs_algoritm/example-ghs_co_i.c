@@ -151,30 +151,43 @@ PROCESS_THREAD(master_co_i, ev, data)
             //Inicializar el master_co_i
             init_master_co_i(data, &master_neighbor_discovery,
                               &send_message_co_i, &e_pospone_connect,
-                              &edges_memb, edges_list, &master_test_ar);
+                              &edges_memb, edges_list, &master_test_ar,
+                              &reports_completos);
 
-            //SI NO ESPERO LA LISTA SE IMPRIME MAL: RARO X 2
-            llenar_wait_struct(&str_wait, WAIT_RARO, PROCESS_CURRENT()  );
+            //Espero a que todos hayan inicializado la conexion del connect antes de seguir
+            //Ademas, SI NO ESPERO LA LISTA SE IMPRIME MAL: RARO X 2
+            llenar_wait_struct(&str_wait, WAIT_NETWORK_STABILIZATION, PROCESS_CURRENT()  );
             process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
 
+            //Envio Connect INICIAL con level = 0
             llenar_connect_msg (&c_msg, nd.f.level, &nd.lwoe.node.neighbor);
             process_post(&send_message_co_i,  e_msg_connect, &c_msg);
 
+            //Me voy al estado found
             process_post(PROCESS_CURRENT(), e_found, NULL);
+            nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
         }else
         if (ev == e_found){
             //Espero instrucciones de change_root o initiate
             printf("Estoy en FOUND \n");
 
+            //borro la lista de reportes de vecinos
+            list_init(report_list_g); //The list will be empty after this function has been called.
+            memb_init(report_memb_g);
+
             //Reinicio variables
             nd.flags &= ~ND_LWOE;
             nd.flags &= ~CH_LWOE;
+            //nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+
 
         }else
         if (ev == e_find)
         {
             static pass_info_test_ar str_t_ar; //Estructura para enviar info a master_test_ar
+
+            //nd.state = FIND;  //Para saber en que estado estoy en cualquier parte
 
             //verificar porque es necesario este wait ¿?
             llenar_wait_struct(&str_wait, 15, PROCESS_CURRENT()  );
@@ -298,7 +311,11 @@ PROCESS_THREAD(send_message_co_i, ev, data)
                 packetbuf_copyfrom(&i_msg, sizeof(i_msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INITIATE);
                 runicast_send(&runicast, &i_msg.destination, MAX_RETRANSMISSIONS);
-                printf("Envio initiate a %d \n", i_msg.destination.u8[0]);
+                printf("Envio initiate a %d level= %d name=%d.%02d flags=%04X\n", i_msg.destination.u8[0],
+                i_msg.f.level,
+                (int)(i_msg.f.name / SEQNO_EWMA_UNITY),
+                (int)(((100UL * i_msg.f.name) / SEQNO_EWMA_UNITY) % 100),
+                 nd.flags);
             }
         }
     } //END of while
