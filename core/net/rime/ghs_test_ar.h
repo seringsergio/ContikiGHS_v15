@@ -70,12 +70,12 @@ void become_rejected(edges *e_list_head_g, const linkaddr_t *from);
 void llenar_pospone_test(pospone_test *pt, const linkaddr_t *neighbor, test_msg t_msg);
 uint32_t return_weight(edges *e_list_head_g,  const linkaddr_t *from);
 void llenar_report_msg(report_msg *rp_msg, const linkaddr_t *destination,
-                      const linkaddr_t *neighbor_r, uint32_t weight_r);
+                      const linkaddr_t *quien_reporto, uint32_t weight_r);
 
 void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const linkaddr_t *from,
                          struct memb *history_mem, list_t history_list, uint8_t seqno,
                          struct process *send_message_test_ar, edges *e_list_head_g,
-                         list_t pt_list, struct memb *pt_memb, 
+                         list_t pt_list, struct memb *pt_memb,
                          struct process *e_test, struct process *send_message_report_ChaRoot,
                          struct process *master_co_i, struct process *e_LWOE);
 

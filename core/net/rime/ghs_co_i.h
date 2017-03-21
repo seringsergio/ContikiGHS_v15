@@ -156,12 +156,6 @@ struct reject_msg
     linkaddr_t destination;
 };
 
-/*struct report_msg
-{
-    linkaddr_t destination; //Hacia donde envio el msg de report
-    linkaddr_t neighbor_r; //Neighbor con menor peso. Neighbor_reportado
-    uint32_t weight_r; //Este es el peso del nodo con menor peso. Weight_reportado
-};*/
 
 struct pospone_connect
 {

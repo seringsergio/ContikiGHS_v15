@@ -153,6 +153,10 @@ PROCESS_THREAD(master_co_i, ev, data)
         e_msg_test            = process_alloc_event(); // Darle un numero al evento
         e_msg_reject          = process_alloc_event(); // Darle un numero al evento
         e_msg_accept          = process_alloc_event(); // Darle un numero al evento
+
+    //proceso report - ChangeRoot
+
+        e_msg_report          = process_alloc_event(); // Darle un numero al evento
         e_msg_ch_root         = process_alloc_event(); // Darle un numero al evento
 
 
@@ -249,7 +253,7 @@ PROCESS_THREAD(e_pospone_connect, ev, data)
                     }else
                     if(pc_aux->co_msg.level < nd.f.level)
                     {
-                        become_branch(list_head(edges_list), &pc_aux->neighbor);
+                        become_branch(list_head(edges_list), &pc_aux->neighbor); // become branch de pospone connect
 
                         nd.num_children = nd.num_children + 1;
 

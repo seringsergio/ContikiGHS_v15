@@ -107,7 +107,7 @@
  							     sent_runicast,
  							     timedout_runicast};
 
- /* Exit handler 
+ /* Exit handler
  */
  /*static void master_report_ChaRoot_exit_handler(void)
  {
@@ -187,9 +187,9 @@ PROCESS_THREAD(reports_completos, ev, data)
                         }
                     }
 
-                    //guardo el menor hijo comoel mejor edge
+                    //guardo el menor hijo como el mejor edge
                     linkaddr_copy( &nd.downroute , &lowest_rp->neighbor);
-                    linkaddr_copy(&nd.lwoe.children.neighbor, &lowest_rp->rp_msg.neighbor_r );
+                    linkaddr_copy(&nd.lwoe.children.neighbor, &lowest_rp->rp_msg.quien_reporto );
                     nd.lwoe.children.weight = lowest_rp->rp_msg.weight_r;
                     nd.flags |= CH_LWOE; //Ya encontre el ND_LWOE
                     process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
@@ -231,23 +231,20 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
             rp_msg_d = (report_msg *) data;
             static report_msg rp_msg;
 
-            /*llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->neighbor_r,
-                              rp_msg_d->weight_r);*/
-
             //Delay 2-4 seconds  //Para que no todos lo manden al tiempo
             /*etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
             PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
-                llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->neighbor_r,
+                llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->quien_reporto,
                                   rp_msg_d->weight_r);
                 packetbuf_copyfrom(&rp_msg, sizeof(rp_msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, REPORT);
                 runicast_send(&runicast, &rp_msg.destination, MAX_RETRANSMISSIONS);
                 printf("Envie report a %d Neigh=%d Weight=%d.%02d flags=%04X\n",
                         rp_msg.destination.u8[0],
-                        rp_msg.neighbor_r.u8[0],
+                        rp_msg.quien_reporto.u8[0],
                         (int)( rp_msg.weight_r / SEQNO_EWMA_UNITY),
                         (int)(((100UL * rp_msg.weight_r ) / SEQNO_EWMA_UNITY) % 100),
                         nd.flags );
@@ -308,7 +305,6 @@ PROCESS_THREAD(e_LWOE, ev, data)
                     {
                         //send change_root y dejo de ser CORE_NODE
                         nd.flags &= ~CORE_NODE;
-                        become_branch(e_list_head_g, &nd.lwoe.node.neighbor);
                         llenar_change_root(&cr_msg, &nd.lwoe.node.neighbor, &nd.lwoe.node.neighbor);
                         process_post_synch(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
                         printf("EEEnvie 1 CHANGE_ROOT a next_hop=%d final_destination=%d\n",
@@ -320,7 +316,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                     }else
                     {
                         //send_report y paso a estado FOUND
-                        llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.node.neighbor, nd.lwoe.node.weight );
+                        llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                         process_post(&send_message_report_ChaRoot, e_msg_report, &rp_msg);
                         printf("nd y ch: Deseo Reportar Neigh=%d Weight=%d.%02d\n",
                                  nd.lwoe.node.neighbor.u8[0],
@@ -339,7 +335,6 @@ PROCESS_THREAD(e_LWOE, ev, data)
                     {
                         //send change_root y dejo de ser CORE_NODE
                         nd.flags &= ~CORE_NODE;
-                        become_branch(e_list_head_g, &nd.lwoe.children.neighbor);
                         llenar_change_root(&cr_msg, &nd.downroute, &nd.lwoe.children.neighbor);
                         process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
                         printf("EEEnvie 2 CHANGE_ROOT a next_hop=%d final_destination=%d\n",
@@ -352,6 +347,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                     {
 
                         //send_report y paso a estado FOUND
+                        // nd.lwoe.children.neighbor es quien_reporto
                         llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.children.neighbor, nd.lwoe.children.weight );
                         process_post(&send_message_report_ChaRoot, e_msg_report, &rp_msg);
                         printf("nd y ch: Deseo Reportar Neigh=%d Weight=%d.%02d\n",

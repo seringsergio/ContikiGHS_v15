@@ -179,7 +179,7 @@ void init_master_co_i(struct neighbor *n_list_head, struct process *master_neigh
 
     // Vuelve Branch el basic edge con menor peso
     lwoe_init = least_basic_edge(list_head(edges_list));
-    become_branch(list_head(edges_list),  lwoe_init );
+    become_branch(list_head(edges_list),  lwoe_init ); //become branch inicial level = 0
 
     //Setear LWOE del nodo
     linkaddr_copy(&nd.lwoe.node.neighbor, lwoe_init);
@@ -329,7 +329,7 @@ void ghs_co_i_recv_ruc(void *msg, const linkaddr_t *from,
             }else
             if(co_msg->level < nd.f.level)
             {
-                become_branch(e_list_head, from);
+                become_branch(e_list_head, from); // become branch de connect
                 nd.num_children = nd.num_children + 1;
                 llenar_initiate_msg(&i_msg, nd.f.name,nd.f.level, nd.state, from, ~BECOME_CORE_NODE);
                 process_post(send_message_co_i,  e_msg_initiate, &i_msg); //Hijo + 1 !!

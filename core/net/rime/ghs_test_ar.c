@@ -16,10 +16,10 @@
 /* LLenar el msg de report
 */
 void llenar_report_msg(report_msg *rp_msg, const linkaddr_t *destination,
-                      const linkaddr_t *neighbor_r, uint32_t weight_r)
+                      const linkaddr_t *quien_reporto, uint32_t weight_r)
 {
     linkaddr_copy(&rp_msg->destination, destination);
-    linkaddr_copy(&rp_msg->neighbor_r, neighbor_r);
+    linkaddr_copy(&rp_msg->quien_reporto, quien_reporto);
     rp_msg->weight_r  = weight_r;
 }
 
@@ -232,14 +232,14 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
                //Ya encontre el ND_LWOE, ahora verifico si tengo hijos o no
                if(nd.num_children == 0) // Si no tengo hijos reporto de una!!
                {
-                   linkaddr_copy( &nd.downroute , &nd.lwoe.node.neighbor) ;
+                   //linkaddr_copy( &nd.downroute , &nd.lwoe.node.neighbor) ; //si no tengo hijos no tengo downroute
                    nd.flags |= CH_LWOE; //Ya encontre el CH_LWOE
                    process_post(e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
 
-                   llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.node.neighbor, nd.lwoe.node.weight );
+                   llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                    process_post(send_message_report_ChaRoot, e_msg_report , &rp_msg);
                    printf("no_CN: Deeeseo Reportar Neigh=%d Weight=%d.%02d\n",
-                            rp_msg.neighbor_r.u8[0],
+                            rp_msg.quien_reporto.u8[0],
                             (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
                             (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                     //paso a FOUND
@@ -250,14 +250,14 @@ void ghs_test_ar_recv_ruc(void *msg, struct history_entry *h_entry_head, const l
            {
                if( (nd.num_children-1) == 0) // Si no tengo hijos reporto de una!!
                {
-                   linkaddr_copy( &nd.downroute , &nd.lwoe.node.neighbor) ;
+                   //linkaddr_copy( &nd.downroute , &nd.lwoe.node.neighbor) ; //si no tengo hijos no tengo downroute
                    nd.flags |= CH_LWOE; //Ya encontre el CH_LWOE
                    process_post(e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
 
-                   llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.node.neighbor, nd.lwoe.node.weight );
+                   llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                    process_post(send_message_report_ChaRoot, e_msg_report , &rp_msg);
                    printf("CN:Deeeseo Reportar Neigh=%d Weight=%d.%02d flags=%04X\n",
-                            rp_msg.neighbor_r.u8[0],
+                            rp_msg.quien_reporto.u8[0],
                             (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
                             (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100),
                             nd.flags);

@@ -74,7 +74,7 @@ void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, 
 
            printf("LLLego report de %d Neigh=%d Weight=%d.%02d Hj=%d flags=%04X\n",
                  from->u8[0],
-                 rp_msg_d->neighbor_r.u8[0],
+                 rp_msg_d->quien_reporto.u8[0],
                  (int)(rp_msg_d->weight_r / SEQNO_EWMA_UNITY),
                  (int)(((100UL * rp_msg_d->weight_r) / SEQNO_EWMA_UNITY) % 100),
                   nd.num_children,
@@ -134,7 +134,7 @@ void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, 
            {
                //El msg de CHANGE_ROOT ES PARA MI
                printf("El msg de ChangeRooot es para mi\n");
-               become_branch(e_list_head_g,from);
+               become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root
 
                llenar_connect_msg (&c_msg, nd.f.level, &nd.lwoe.node.neighbor);
                process_post(send_message_co_i,  e_msg_connect, &c_msg);
@@ -143,7 +143,6 @@ void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, 
            }else//Si el change_root NO es para mi
            {
                printf("El msg de ChangeRooot NO es para mi\n");
-               become_branch(e_list_head_g, &cr_msg_d->final_destination);
 
                llenar_change_root(&cr_msg, &nd.downroute, &cr_msg_d->final_destination);
                process_post_synch(send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );

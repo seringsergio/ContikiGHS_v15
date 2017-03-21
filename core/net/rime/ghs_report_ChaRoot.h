@@ -52,7 +52,7 @@ struct change_root_msg
 struct report_msg
 {
     linkaddr_t destination; //Hacia donde envio el msg de report
-    linkaddr_t neighbor_r; //Neighbor con menor peso. Neighbor_reportado
+    linkaddr_t quien_reporto; //Neighbor con LWOE dentro del fragmento. El nodo quien reporto
     uint32_t weight_r; //Este es el peso del nodo con menor peso. Weight_reportado
 };
 
