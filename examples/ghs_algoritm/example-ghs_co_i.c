@@ -126,6 +126,7 @@ PROCESS(e_pospone_connect, "Evaluar Pospone Connect");
 */
 PROCESS_THREAD(master_co_i, ev, data)
 {
+
     PROCESS_EXITHANDLER(master_co_i_exit_handler());
     PROCESS_BEGIN();
 
@@ -155,13 +156,13 @@ PROCESS_THREAD(master_co_i, ev, data)
         e_msg_ch_root         = process_alloc_event(); // Darle un numero al evento
 
 
-    e_list_head_g = list_head(edges_list);
     static s_wait str_wait;
     while(1)
     {
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if (ev == e_init_master_co_i)
         {
+
             static connect_msg c_msg;
             //Inicializar el master_co_i
             init_master_co_i(data, &master_neighbor_discovery,

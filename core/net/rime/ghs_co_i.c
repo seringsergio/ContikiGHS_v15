@@ -32,7 +32,7 @@ void fill_edges_list(list_t edges_list, struct memb *edges_memb, struct neighbor
 */
 void print_edges_list(edges *e_list_head, char *string,  const linkaddr_t *node_addr)
 {
-    edges *e_aux;
+    edges *e_aux = NULL;
 
     for(e_aux = e_list_head; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
     {
@@ -173,6 +173,9 @@ void init_master_co_i(struct neighbor *n_list_head, struct process *master_neigh
 
     //Tomar info de master_neighbor_discovery
     fill_edges_list(edges_list, edges_memb, n_list_head );
+
+    // llenar la variable global con la cabeza de la lista
+    e_list_head_g = list_head(edges_list);
 
     // Vuelve Branch el basic edge con menor peso
     lwoe_init = least_basic_edge(list_head(edges_list));

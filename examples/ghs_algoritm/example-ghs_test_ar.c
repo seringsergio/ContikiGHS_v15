@@ -63,7 +63,6 @@ PROCESS(e_test, "Evaluar con Test Neighbors");
 /*------------------------------------------------------------------- */
 /*----------- VARIABLES GLOBALES ---------------------------------------------- */
 /*------------------------------------------------------------------- */
-//edges *e_list_head_g; //Es el apuntador a la cabeza de la lista global
 
 /*Listas de runicast para saber cual seq ha llegado. Si ha llegado
 * duplicado o no
@@ -135,6 +134,11 @@ PROCESS_THREAD(e_test, ev, data)
         if (ev == PROCESS_EVENT_CONTINUE)
         {
             printf("CONTINUE e_test level=%d\n ", nd.f.level);
+
+            char string[] = "REAAD";
+
+            print_edges_list(e_list_head_g, string,  &linkaddr_node_addr);
+
             uint8_t tengo_edges_de_salida = 0;
             edges *e_aux;
             test_msg t_msg;
@@ -142,10 +146,6 @@ PROCESS_THREAD(e_test, ev, data)
             {
                 if(e_aux->state == BASIC)
                 {
-                    // Delay 2-4 seconds
-                    //etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
-                    //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-
                     llenar_test_msg(&t_msg, &e_aux->addr, nd.f );
                     process_post(&send_message_test_ar, e_msg_test, &t_msg);
                     tengo_edges_de_salida = 1;
