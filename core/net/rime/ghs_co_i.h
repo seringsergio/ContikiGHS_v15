@@ -7,7 +7,7 @@
 /*-------------------------------------------------------------------*/
 #include "contiki.h"
 #include "ghs_algorithm.h"
-#include "net/rime/rime.h" //Aca esta ghs_neigh.h
+#include "net/rime/rime.h"
 #include <stdio.h>
 
 /*-------------------------------------------------------------------*/
@@ -16,8 +16,9 @@
 
 //#define WAIT_RARO 6
 //Definicion de maximos
-#define MAX_NUM_EDGES     MAX_NEIGHBORS
-#define MAX_NUM_POSPONES  MAX_NEIGHBORS
+#define MAX_NUM_EDGES           MAX_NEIGHBORS
+#define MAX_NUM_POSPONES        MAX_NEIGHBORS
+#define MAX_TAMANO_LISTA_MSG    MAX_NEIGHBORS //lista donde guardo msgs (co-i-test-ar-report-Chroot)
 
 //Estados de los nodos
 #define FIND  0x01
@@ -57,17 +58,19 @@ typedef struct fragment fragment;
 typedef struct LWOE_type LWOE_type;
 typedef struct LWOE LWOE;
 //typedef struct reports reports;
+
 typedef struct test_msg test_msg;
 typedef struct edges edges;
 typedef struct connect_msg connect_msg;
 typedef struct initiate_msg initiate_msg;
-typedef struct pospone_connect pospone_connect;
 typedef struct accept_msg accept_msg;
 typedef struct reject_msg reject_msg;
-typedef struct pospone_test pospone_test;
 typedef struct report_msg report_msg;
 //typedef struct report_str report_str;
 typedef struct info_found info_found;
+typedef struct connect_list connect_list;
+typedef struct initiate_list initiate_list;
+typedef struct accept_list accept_list;
 
 /*-------------------------------------------------------------------*/
 /*---------------- EVENTOS ------------------------------------------*/
@@ -134,10 +137,24 @@ struct initiate_msg
     linkaddr_t destination;
 };
 
+struct initiate_list
+{
+    struct initiate_list *next;
+    initiate_msg i_msg;
+    linkaddr_t from;
+};
+
 struct connect_msg
 {
     uint8_t level;
     linkaddr_t destination;
+};
+
+struct connect_list
+{
+    struct connect_list *next;
+    connect_msg co_msg;
+    linkaddr_t from;
 };
 
 struct test_msg
@@ -146,33 +163,28 @@ struct test_msg
     fragment f;
 };
 
+struct test_list
+{
+    struct test_list *next;
+    test_msg t_msg;
+    linkaddr_t from;
+};
+
 struct accept_msg
 {
     linkaddr_t destination;
+};
+
+struct accept_list
+{
+    struct accept_list *next;
+    linkaddr_t from;
 };
 
 struct reject_msg
 {
     linkaddr_t destination;
 };
-
-
-struct pospone_connect
-{
-    struct pospone_connect *next;
-    connect_msg co_msg;  //msg de connect
-    linkaddr_t neighbor; //Vecino que envio el msg de connect
-
-};
-
-struct pospone_test
-{
-    struct pospone_test *next;
-    test_msg t_msg;  //msg de connect
-    linkaddr_t neighbor; //Vecino que envio el msg de test
-
-};
-
 
 struct node
 {
@@ -192,7 +204,6 @@ struct node
 /*---------------- Variables globales--------------------------------*/
 /*-------------------------------------------------------------------*/
 extern node nd; //nd es node....n es neighbor
-extern pospone_connect pc; //pc = pospone connect
 
 /*-------------------------------------------------------------------*/
 /*---------------- FUNCIONES ----------------------------------------*/
@@ -204,26 +215,16 @@ linkaddr_t* least_basic_edge(edges *e_list_head);
 
 void ghs_co_i_recv_ruc(void *msg, const linkaddr_t *from,
                     struct memb *history_mem, list_t history_list, uint8_t seqno,
-                     edges *e_list_head, struct process *send_message_co_i,
-                    struct memb *pc_memb  ,list_t pc_list, struct process *master_co_i,
-                    struct process *e_pospone_connect, struct process *e_pospone_test);
+                    list_t co_list, struct memb *co_mem, struct process *evaluar_msg_co,
+                    list_t i_list, struct memb *i_mem, struct process *evaluar_msg_i,
+                    struct process *evaluar_msg_test);
 
-void ghs_co_i_send_ruc(const linkaddr_t *to, uint8_t retransmissions);
-void ghs_co_i_timedout_ruc(const linkaddr_t *to, uint8_t retransmissions);
-
-void init_master_co_i(struct neighbor *n_list_head, struct process *master_neighbor_discovery,
-                        struct process *send_message_co_i, struct process *e_pospone_connect ,
-                        struct memb *edges_memb, list_t edges_list,
-                        struct process *reports_completos, struct process *e_LWOE,
-                        struct process *send_message_report_ChaRoot, struct process *e_test,
-                        struct process *send_message_test_ar, struct process *e_pospone_test);
-
+void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, list_t edges_list);
 uint8_t state_is_branch( const linkaddr_t *addr,  edges *e_list_head);
 uint32_t weight_with_edge( const linkaddr_t *addr,  edges *e_list_head);
 void llenar_initiate_msg(initiate_msg *i_msg, uint32_t name,
                         uint8_t level, uint8_t state, const linkaddr_t *dest, uint8_t flags);
 void llenar_connect_msg (connect_msg *msg, uint8_t level, linkaddr_t *destination);
-void llenar_pospone_connect(pospone_connect *pc, const linkaddr_t *neighbor, connect_msg co_msg);
 
 
 

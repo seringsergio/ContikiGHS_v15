@@ -82,20 +82,6 @@ linkaddr_t* least_basic_edge(edges *e_list_head)
     }
     return &e_aux->addr;
 }
-/* Es la funcion que se llama cuando hay un timeout en el runicast
-*/
-void ghs_co_i_timedout_ruc(const linkaddr_t *to, uint8_t retransmissions)
-{
-    printf("runicast message timed out when sending to %d.%d, retransmissions %d\n",
-  	 to->u8[0], to->u8[1], retransmissions);
-}
-/* Send un mensaje de runicast
-*/
-void ghs_co_i_send_ruc(const linkaddr_t *to, uint8_t retransmissions)
-{
-    /*printf("runicast message sent to %d.%d, retransmissions %d\n",
-       to->u8[0], to->u8[1], retransmissions);*/
-}
 
 /*Funcion para retornar el peso del edge
 */
@@ -134,12 +120,7 @@ uint8_t state_is_branch(const linkaddr_t *addr,  edges *e_list_head)
 
 /* Hace la inicializacion del proceso master_co_i
 */
-void init_master_co_i(struct neighbor *n_list_head, struct process *master_neighbor_discovery,
-                        struct process *send_message_co_i, struct process *e_pospone_connect ,
-                        struct memb *edges_memb, list_t edges_list,
-                        struct process *reports_completos, struct process *e_LWOE,
-                        struct process *send_message_report_ChaRoot, struct process *e_test,
-                        struct process *send_message_test_ar, struct process *e_pospone_test)
+void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, list_t edges_list)
 {
     printf("Process Init: master_co_i \n");
 
@@ -153,23 +134,6 @@ void init_master_co_i(struct neighbor *n_list_head, struct process *master_neigh
     nd.f.level = 0;
     nd.num_children = 0;
 
-    //Terminar procesos
-    process_exit(master_neighbor_discovery);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
-
-
-    //Iniciar procesos nuevos
-    process_start(send_message_co_i, NULL);
-    process_start(e_pospone_connect, NULL);
-
-    //Procesos de test ar
-    process_start(send_message_test_ar, NULL);
-    process_start(e_pospone_test, NULL);
-    process_start(e_test, NULL);
-
-    //procesos de report-ChangeRoot
-    process_start(reports_completos, NULL); //para inicializar report_list_g y report_memb_g
-    process_start(send_message_report_ChaRoot, NULL); //para inicializar report_list_g y report_memb_g
-    process_start(e_LWOE, NULL); //para inicializar report_list_g y report_memb_g
 
     //Tomar info de master_neighbor_discovery
     fill_edges_list(edges_list, edges_memb, n_list_head );
@@ -218,15 +182,6 @@ void llenar_connect_msg (connect_msg *msg, uint8_t level, linkaddr_t *destinatio
     linkaddr_copy(&msg->destination,  destination);
 }
 
-/* LLena un msg de pospone connect con los valores parametros
-*/
-void llenar_pospone_connect(pospone_connect *pc, const linkaddr_t *neighbor, connect_msg co_msg)
-{
-    linkaddr_copy(&pc->neighbor, neighbor);
-    pc->co_msg = co_msg;
-}
-
-
 /*---------------------------------------------------------------------------*/
 /* Funcion que recibe un mensaje de runicast: Guarda en history_list los vecinos que
 * han enviado msg y su seq. Si el avg_seqno_gap del vecino es
@@ -234,13 +189,13 @@ void llenar_pospone_connect(pospone_connect *pc, const linkaddr_t *neighbor, con
 */
 void ghs_co_i_recv_ruc(void *msg, const linkaddr_t *from,
                     struct memb *history_mem, list_t history_list, uint8_t seqno,
-                     edges *e_list_head, struct process *send_message_co_i,
-                    struct memb *pc_memb  ,list_t pc_list, struct process *master_co_i,
-                    struct process *e_pospone_connect, struct process *e_pospone_test)
+                    list_t co_list, struct memb *co_mem, struct process *evaluar_msg_co,
+                    list_t i_list, struct memb *i_mem, struct process *evaluar_msg_i,
+                    struct process *evaluar_msg_test)
+
 {
     // OPTIONAL: Sender history
     struct history_entry *e = NULL;
-    uint8_t duplicate = 0;
 
     for(e = list_head(history_list); e != NULL; e = e->next) {
       if(linkaddr_cmp(&e->addr, from)) { // Si las dir son iguales entra
@@ -259,7 +214,6 @@ void ghs_co_i_recv_ruc(void *msg, const linkaddr_t *from,
     } else {
       // Detect duplicate callback
       if(e->seq == seqno) {
-        duplicate = 1;
         printf("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
   	     from->u8[0], from->u8[1], seqno);
         return;
@@ -268,130 +222,51 @@ void ghs_co_i_recv_ruc(void *msg, const linkaddr_t *from,
       e->seq = seqno;
     }
 
-    /*printf("runicast message received from %d.%d, seqno %d\n",
-  	 from->u8[0], from->u8[1],
-       seqno);*/
-
-   if(duplicate == 0)
-   {
         //Leer el packet buffer attribute: Especificamente el tipo de mensaje
         packetbuf_attr_t msg_type = packetbuf_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG);
 
         // Evaluo el tipo de msg que llego
         if(msg_type == CONNECT)
         {
-            initiate_msg i_msg;
-            connect_msg *co_msg = (connect_msg *) msg;
+            connect_list *co_list_p;
 
-            printf("LLEga ConNect de %d con level=%d \n", from->u8[0], co_msg->level);
-            if(co_msg->level == nd.f.level) //Si los dos fragmentos tienen el mismo nivel
+            co_list_p = memb_alloc(co_mem); //Alocar memoria
+            if(co_list_p == NULL)
             {
-                if(state_is_branch(from, e_list_head)) // Caso inicial. Fragmentos con 1 nodo
-                {
-                    nd.num_children = nd.num_children + 1;
-                    nd.flags |= CORE_NODE;
-
-                    llenar_initiate_msg(&i_msg, weight_with_edge(from, e_list_head),
-                                        (nd.f.level + 1), FIND, from, BECOME_CORE_NODE);
-                    process_post(send_message_co_i,  e_msg_initiate, &i_msg); //Hijo + 1 !!
-                    printf("Soy CORE_NORE 3\n");
-
-                }else //Si el estado NO es branch (El proceso postpones processing CONECT)
-                {
-                    pospone_connect *pc_aux = NULL;
-                    for(pc_aux = list_head(pc_list); pc_aux != NULL; pc_aux = list_item_next(pc_aux)) // Recorrer toda la lista
-                    {
-                        if(linkaddr_cmp(&pc_aux->neighbor, from)) { // Si las dir son iguales entra
-                          break;
-                        }
-                    }
-                    if(pc_aux == NULL) //SI no existe un pospone para el nodo
-                    {
-                        // Create new history entry
-                        pc_aux = memb_alloc(pc_memb);
-                        if(pc_aux == NULL)
-                        {
-                            printf("ERROR: NO PUDE CREAR UNA ENTRADA PARA POSPONE CONNECT \n");
-                        }else
-                        {
-                            llenar_pospone_connect(pc_aux, from, *co_msg);
-                            list_push(pc_list, pc_aux); //Add an item to the start of the list.
-                            printf("Agregado CONECT POSPONE de  %d \n", pc_aux->neighbor.u8[0]);
-                        }
-                    }else //Existe un pospone connect para el nodo, pero lo update
-                    {
-                        printf("Llegaron 2 mensajes de CONNECT POSPONE del nodo %d \n"
-                              ,from->u8[0]);
-                        //Reemplazo (update) los valores del mensaje de connect
-                        llenar_pospone_connect(pc_aux, from, *co_msg);
-                    }
-                } //FIN de pospone connect
+                printf("ERROR: La lista de msg de connect esta llena\n");
             }else
-            if(co_msg->level < nd.f.level)
             {
-                become_branch(e_list_head, from); // become branch de connect
-                nd.num_children = nd.num_children + 1;
-                llenar_initiate_msg(&i_msg, nd.f.name,nd.f.level, nd.state, from, ~BECOME_CORE_NODE);
-                process_post(send_message_co_i,  e_msg_initiate, &i_msg); //Hijo + 1 !!
-                printf("Soy mayor \n");
+                co_list_p->co_msg = *((connect_msg *)msg); //msg le hago cast.Luego cojo todo el msg
+                linkaddr_copy(&co_list_p->from, from);
+                list_push(co_list, co_list_p); //Add an item to the start of the list.
+                process_post(evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
             }
-            /*printf("llego CONNECT from %d.%d con level = %d\n",
-                  from->u8[0], from->u8[1],
-                  co_msg->level);*/
+
         }else
         if(msg_type == INITIATE)
         {
-            initiate_msg *i_msg = (initiate_msg *) msg;
-            initiate_msg i_msg_d;
 
-            nd.f.name  = i_msg->f.name;
-            nd.f.level = i_msg->f.level;
-            nd.state   = i_msg->nd_state;
-            linkaddr_copy(&nd.parent , from);
-
-            if(i_msg->flags & BECOME_CORE_NODE)
+            initiate_list *i_list_p;
+            i_list_p = memb_alloc(i_mem); //Alocar memoria
+            if(i_list_p == NULL)
             {
-                nd.flags |= CORE_NODE;
-                printf("Soy CORE_NORE 2\n");
+               printf("ERROR: La lista de msg de initiate esta llena\n");
+            }else
+            {
+               i_list_p->i_msg = *((initiate_msg *)msg); //msg le hago cast.Luego cojo todo el msg
+               linkaddr_copy(&i_list_p->from, from);
+               list_push(i_list, i_list_p); //Add an item to the start of the list.
+               process_post(evaluar_msg_i, PROCESS_EVENT_CONTINUE, NULL);
+
+               //LLamar al proceso para que evalue el pospone agregado o actualizado
+               // Se hace aca porque el INITIATE es quien cambia el level del fragmento
+               process_post(evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
+               process_post(evaluar_msg_test, PROCESS_EVENT_CONTINUE, NULL ) ;
             }
 
-            if(i_msg->nd_state == FIND) //si cambio de estado a FIND
-            {
-                //Envio un mensaje al master_co_i de find
-                process_post(master_co_i,  e_find, NULL);
-                nd.state = FIND;  //Para saber en que estado estoy en cualquier parte
-            }
-
-            //Reenvio el msg por todas las BRANCHES
-            edges *e_aux;
-            for(e_aux = e_list_head; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
-            {
-                //Propagar el INITIATE por las otras ramas
-                //Si es una BRANCH y no es el nodo que me envio el INITIATE (No le devuelvo el msg)
-                if( (e_aux->state == BRANCH) && !linkaddr_cmp(&e_aux->addr, from))
-                {
-                    //nd.num_children = nd.num_children + 1;
-                    llenar_initiate_msg(&i_msg_d, i_msg->f.name,i_msg->f.level,
-                                       i_msg->nd_state, &e_aux->addr, ~BECOME_CORE_NODE);
-                    process_post(send_message_co_i,  e_msg_initiate, &i_msg_d);
-                }
-            }
-
-            printf("llego INITIATE from %d.%d name=%d.%02d level=%d state=%d parent=%d\n",
-                  from->u8[0], from->u8[1],
-                  (int)(nd.f.name / SEQNO_EWMA_UNITY),
-                  (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100),
-                  nd.f.level,
-                  nd.state,
-                  nd.parent.u8[0]);
         } //END if msg es INITIATE
 
-        //LLamar al proceso para que evalue el pospone agregado o actualizado
-        //Esto es equivalente a mandar el pc al final de la cola
-        process_post(e_pospone_connect, PROCESS_EVENT_CONTINUE, NULL ) ;
-        process_post(e_pospone_test, PROCESS_EVENT_CONTINUE, NULL ) ;
 
 
 
-    } //END of IF duplicate == 0
 } //END runicas receive

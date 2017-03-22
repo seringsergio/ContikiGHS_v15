@@ -30,7 +30,7 @@ typedef struct wait s_wait;
 // Definicion de constantes
 #define MAX_RETRANSMISSIONS 8
 #define NUM_HISTORY_ENTRIES MAX_NEIGHBORS //Numero de entradas los 16 vecinos posibles
-#define WAIT_NETWORK_STABILIZATION (MAX_NODOS_EN_RED * 1) //por cada nodo espero 1 segundos
+#define WAIT_NETWORK_STABILIZATION (MAX_NODOS_EN_RED * 4) //por cada nodo espero 4 segundos
 
 
 /* These two defines are used for computing the moving average for the

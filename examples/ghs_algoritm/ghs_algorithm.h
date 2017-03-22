@@ -37,13 +37,15 @@ PROCESS_NAME(master_co_i);
 
 //Procesos de co i
 PROCESS_NAME(send_message_co_i);
-PROCESS_NAME(e_pospone_connect);
+PROCESS_NAME(evaluar_msg_co);
+PROCESS_NAME(evaluar_msg_i);
+
 
 //Procesos de test ar
 PROCESS_NAME(e_test);
-PROCESS_NAME(e_pospone_test);
 PROCESS_NAME(send_message_test_ar);
-
+PROCESS_NAME(evaluar_msg_test);
+PROCESS_NAME(evaluar_msg_accept);
 
 // master_report_ChaRoot
 //PROCESS_NAME(master_report_ChaRoot);

@@ -57,8 +57,9 @@
 /*----------PROCESSES------- -----------------------------------------*/
 /*------------------------------------------------------------------- */
 PROCESS(send_message_test_ar, "Enviar msg de test-accept-reject");
-PROCESS(e_pospone_test, "Evaluar Pospone Test");
 PROCESS(e_test, "Evaluar con Test Neighbors");
+PROCESS(evaluar_msg_test, "Evaluar Mensaje de Test");
+PROCESS(evaluar_msg_accept, "Evaluar Mensaje de Accept");
 
 /*------------------------------------------------------------------- */
 /*----------- VARIABLES GLOBALES ---------------------------------------------- */
@@ -70,11 +71,13 @@ PROCESS(e_test, "Evaluar con Test Neighbors");
 MEMB(history_mem, struct history_entry, NUM_HISTORY_ENTRIES);
 LIST(history_list);
 
-//pt = pospone test
-MEMB(pt_memb, pospone_test, MAX_NUM_POSPONES); // Defines a memory pool for edges
-LIST(pt_list); // List that holds the neighbors we have seen thus far
+// Lista para guardar los msg de test
+MEMB(t_mem,  test_list   , MAX_TAMANO_LISTA_MSG);
+LIST(t_list);
 
-
+// Lista para guardar los msg de accept
+MEMB(a_mem,  accept_list   , MAX_TAMANO_LISTA_MSG);
+LIST(a_list);
 /*------------------------------------------------------------------- */
 /*----------STATIC VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
@@ -88,23 +91,22 @@ static void
 recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 {
 
-  ghs_test_ar_recv_ruc(packetbuf_dataptr() ,list_head(history_list), from, &history_mem,
-                       history_list, seqno, &send_message_test_ar, e_list_head_g,
-                       pt_list, &pt_memb, &e_test, &send_message_report_ChaRoot,
-                       &master_co_i, &e_LWOE    );
-
-
+  ghs_test_ar_recv_ruc(packetbuf_dataptr() , from, &history_mem,
+                       history_list, seqno,
+                       &e_test,
+                        &t_mem , t_list, &evaluar_msg_test,
+                       &a_mem, a_list, &evaluar_msg_accept);
 }
 static void
 sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-  printf("runicast TEEEST message sent to %d.%d, retransmissions %d\n",
+  printf("runicast (test-ar) message sent to %d.%d, retransmissions %d\n",
 	 to->u8[0], to->u8[1], retransmissions);
 }
 static void
 timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-  printf("runicast TEEEST message timed out when sending to %d.%d, retransmissions %d\n",
+  printf("runicast (test-ar) message timed out when sending to %d.%d, retransmissions %d\n",
 	 to->u8[0], to->u8[1], retransmissions);
 }
 static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
@@ -140,7 +142,7 @@ PROCESS_THREAD(e_test, ev, data)
 
             uint8_t tengo_edges_de_salida = 0;
             edges *e_aux;
-            test_msg t_msg;
+            static test_msg t_msg;
             for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
             {
                 if(e_aux->state == BASIC)
@@ -247,61 +249,153 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
     PROCESS_END();
 }
 
-/* Proceso que evalua los msg pendientes de test
-*/
-PROCESS_THREAD(e_pospone_test, ev, data)
+
+PROCESS_THREAD(evaluar_msg_test, ev, data)
 {
-    PROCESS_EXITHANDLER();
     PROCESS_BEGIN();
 
-    //printf("Process Init: e_pospone_test \n");
+    // Iniciar la lista
+    list_init(t_list);
+    memb_init(&t_mem);
+
     while(1)
     {
-        //static struct etimer et;
-        static pospone_test *pt_aux = NULL;
-        static accept_msg a_msg;
-        static reject_msg r_msg;
-
-
-        /*etimer_set(&et, CLOCK_SECOND * 1); //Evaluo msg de test pendientes cada 1 seg
-        PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
-            if( list_length (pt_list) ) //Si hay elementos en la lista
+            if(list_length(t_list))
             {
-                for(pt_aux = list_head(pt_list); pt_aux != NULL; pt_aux = list_item_next(pt_aux)) // Recorrer toda la lista
+                test_list *t_list_p;
+                for(t_list_p = list_head(t_list); t_list_p != NULL; t_list_p = t_list_p->next)
                 {
-                    if(pt_aux->t_msg.f.level > nd.f.level)
-                    {
-                        //Pospones processing the incomming test msg, until (t_msg->f.level < nd.f.level)
-                        //No lo voy a posponer otra vez!
-                    }else
-                    if(pt_aux->t_msg.f.level <= nd.f.level)
-                    {
-                        if(pt_aux->t_msg.f.name == nd.f.name)
-                        {
-                            //Enviar reject
-                            llenar_reject_msg (&r_msg, &pt_aux->neighbor);
-                            process_post(&send_message_test_ar, e_msg_reject, &r_msg);
-                            printf("Quuuiero enviar e_msg_reject a %d \n", r_msg.destination.u8[0]);
-                            //Como se soluciona el test se remueve de la lista
-                            list_remove (pt_list, pt_aux);
+                    //test_msg *t_msg = (test_msg *) msg;
+                    static accept_msg a_msg;
+                    static reject_msg r_msg;
 
-                        }else
+                     printf("Reeeeeecibi un TEST msg from %d con name=%d.%02d, level=%d \n",
+                     t_list_p->from.u8[0],
+                     (int)(t_list_p->t_msg.f.name / SEQNO_EWMA_UNITY),
+                     (int)(((100UL * t_list_p->t_msg.f.name) / SEQNO_EWMA_UNITY) % 100),
+                     t_list_p->t_msg.f.level);
+
+                     if(t_list_p->t_msg.f.level > nd.f.level)
+                     {
+                         //Pospones processing the incomming test msg, until (t_msg->f.level < nd.f.level)
+                         list_remove(t_list, t_list_p); //Remove a specific element from a list.
+                         list_add(t_list, t_list_p); //Add an item at the end of a list.
+                     }else
+                     if(t_list_p->t_msg.f.level <= nd.f.level)
+                     {
+                         if(t_list_p->t_msg.f.name == nd.f.name)
+                         {
+                             //Enviar reject
+                             llenar_reject_msg (&r_msg, &t_list_p->from);
+                             process_post(&send_message_test_ar, e_msg_reject, &r_msg);
+
+                             list_remove(t_list, t_list_p); //Remove a specific element from a list.
+                             printf("Quuuiero enviar e_msg_reject a %d \n", r_msg.destination.u8[0]);
+
+                         }else
+                         {
+                             //Enviar accept
+                             llenar_accept_msg (&a_msg, &t_list_p->from);
+                             process_post(&send_message_test_ar, e_msg_accept, &a_msg);
+
+                             list_remove(t_list, t_list_p); //Remove a specific element from a list.
+                             printf("Quuuiero enviar e_msg_accept a %d \n", a_msg.destination.u8[0]);
+                         }
+                     }
+                } //FOR todos los elementos de la lista
+            } //Si hay elementos en la lista
+        } //END IF EV == CONTINUE
+    } //END OF WHILE
+    PROCESS_END();
+} //END OF THREAD
+
+
+PROCESS_THREAD(evaluar_msg_accept, ev, data)
+{
+
+    PROCESS_BEGIN();
+
+    // Iniciar la lista
+    list_init(a_list);
+    memb_init(&a_mem);
+
+    while(1)
+    {
+        PROCESS_WAIT_EVENT(); // Wait for any event.
+        if(ev == PROCESS_EVENT_CONTINUE)
+        {
+            if(list_length(a_list))
+            {
+                accept_list *a_list_p;
+                for(a_list_p = list_head(a_list); a_list_p != NULL; a_list_p = a_list_p->next)
+                {
+
+                    //accept_msg *a_msg = (accept_msg *) msg;
+                    static report_msg rp_msg; //rp = report
+
+                    printf("llego AcCept de %d. Numero Hijos = %d flags=%04X \n ",
+                    a_list_p->from.u8[0], nd.num_children, nd.flags);
+
+                    become_accepted(e_list_head_g, &a_list_p->from);
+
+                    //Si un edges es aceptado: Se guarda el edge como mejor opcion del Nodo
+                    linkaddr_copy(&nd.lwoe.node.neighbor,  &a_list_p->from);
+                    nd.lwoe.node.weight = return_weight(e_list_head_g, &a_list_p->from);
+                    nd.flags |= ND_LWOE; //Ya encontre el ND_LWOE
+                    process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+
+                    if( !(nd.flags & CORE_NODE) ) // Si no soy core node
+                    {
+                        //Ya encontre el ND_LWOE, ahora verifico si tengo hijos o no
+                        if(nd.num_children == 0) // Si no tengo hijos reporto de una!!
                         {
-                            //Enviar accept
-                            llenar_accept_msg (&a_msg, &pt_aux->neighbor);
-                            process_post(&send_message_test_ar, e_msg_accept, &a_msg);
-                            printf("Quuuiero enviar e_msg_accept a %d \n", a_msg.destination.u8[0]);
-                            //Como se soluciona el test se remueve de la lista
-                            list_remove (pt_list, pt_aux);
+                            //linkaddr_copy( &nd.downroute , &nd.lwoe.node.neighbor) ; //si no tengo hijos no tengo downroute
+                            nd.flags |= CH_LWOE; //Ya encontre el CH_LWOE
+                            process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+
+                            llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
+                            process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
+                            printf("no_CN: Deeeseo Reportar Neigh=%d Weight=%d.%02d\n",
+                                     rp_msg.quien_reporto.u8[0],
+                                     (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                                     (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
+                             //paso a FOUND
+                             process_post(&master_co_i, e_found, NULL);
+                             nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+                        }
+                    }else //SI Soy CORE_NODE
+                    {
+                        if( (nd.num_children-1) == 0) // Si no tengo hijos reporto de una!!
+                        {
+                            //linkaddr_copy( &nd.downroute , &nd.lwoe.node.neighbor) ; //si no tengo hijos no tengo downroute
+                            nd.flags |= CH_LWOE; //Ya encontre el CH_LWOE
+                            process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+
+                            llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
+                            process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
+                            printf("CN:Deeeseo Reportar Neigh=%d Weight=%d.%02d flags=%04X\n",
+                                     rp_msg.quien_reporto.u8[0],
+                                     (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                                     (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100),
+                                     nd.flags);
+                            //paso a FOUND
+                            process_post(&master_co_i, e_found, NULL);
+                            nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                         }
                     }
-                } //For cada elemento de la lista
-            }//end if hay elementos en la lista
-        } //END IF CONTINUE
-    } //end of while
+
+                    //Remuevo el elemento de la lista
+                    list_remove(a_list, a_list_p); //Remove a specific element from a list.
+
+                } //FOR cada elemento de la lista
+            } //Si hay elementos en la lista
+        } //END OF EV== CONTINUE
+    } //END of WHILE
+
     PROCESS_END();
-}
+
+} // END OF PROCESS THREAD

@@ -57,7 +57,6 @@
 /*----------GLOBAL VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
 //node nd; //nd es node....n es neighbor
-pospone_connect pc; //pc = pospone connect
 
 MEMB(edges_memb, edges, MAX_NUM_EDGES); // Defines a memory pool for edges
 LIST(edges_list); // List that holds the neighbors we have seen thus far
@@ -70,9 +69,16 @@ edges *e_list_head_g; //Es el apuntador a la cabeza de la lista global
 MEMB(history_mem, struct history_entry, NUM_HISTORY_ENTRIES);
 LIST(history_list);
 
-//pc = pospone connect
-MEMB(pc_memb, pospone_connect, MAX_NUM_POSPONES); // Defines a memory pool for edges
-LIST(pc_list); // List that holds the neighbors we have seen thus far
+
+// Lista para guardar los msg de connect
+MEMB(co_mem, connect_list , MAX_TAMANO_LISTA_MSG);
+LIST(co_list);
+
+// Lista para guardar los msg de initiate
+MEMB(i_mem,  initiate_list   , MAX_TAMANO_LISTA_MSG);
+LIST(i_list);
+
+
 /*------------------------------------------------------------------- */
 /*----------STATIC VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
@@ -88,18 +94,20 @@ static struct runicast_conn runicast; //Es la conexion de runicast
 static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 {
   ghs_co_i_recv_ruc(packetbuf_dataptr(), from, &history_mem, history_list, seqno,
-                  list_head(edges_list), &send_message_co_i, &pc_memb, pc_list, &master_co_i,
-                  &e_pospone_connect, &e_pospone_test );
+                    co_list, &co_mem, &evaluar_msg_co,
+                   i_list, &i_mem , &evaluar_msg_i, &evaluar_msg_test);
+
 }
 static void sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-  ghs_co_i_send_ruc(to, retransmissions);
+  printf("runicast (co-i) message sent to %d.%d, retransmissions %d\n",
+     to->u8[0], to->u8[1], retransmissions);
 }
 static void
 timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-  ghs_co_i_timedout_ruc(to, retransmissions);
-
+    printf("runicast (co-i) message timed out when sending to %d.%d, retransmissions %d\n",
+     to->u8[0], to->u8[1], retransmissions);
 }
 static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
 							     sent_runicast,
@@ -117,7 +125,10 @@ static void master_co_i_exit_handler(void)
 /*------------------------------------------------------------------- */
 PROCESS(master_co_i, "Proceso master de los msg connect-initiate");
 PROCESS(send_message_co_i, "Enviar msg de connect - initiate");
-PROCESS(e_pospone_connect, "Evaluar Pospone Connect");
+PROCESS(evaluar_msg_co, "Evaluar Mensaje de Connect");
+PROCESS(evaluar_msg_i, "Evaluar Mensaje de initiate");
+
+
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS------------------------------------------------*/
 /*------------------------------------------------------------------- */
@@ -168,12 +179,25 @@ PROCESS_THREAD(master_co_i, ev, data)
         {
 
             static connect_msg c_msg;
+
+            //Terminar procesos
+            process_exit(&master_neighbor_discovery);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
+            //Iniciar procesos co_i
+            process_start(&send_message_co_i, NULL);
+            process_start(&evaluar_msg_co, NULL );
+            process_start(&evaluar_msg_i, NULL );
+            //Procesos de test ar
+            process_start(&send_message_test_ar, NULL);
+            process_start(&e_test, NULL);
+            process_start(&evaluar_msg_test, NULL);
+            process_start(&evaluar_msg_accept, NULL);
+            //procesos de report-ChangeRoot
+            process_start(&reports_completos, NULL); //para inicializar report_list_g y report_memb_g
+            process_start(&send_message_report_ChaRoot, NULL); //para inicializar report_list_g y report_memb_g
+            process_start(&e_LWOE, NULL); //para inicializar report_list_g y report_memb_g
+
             //Inicializar el master_co_i
-            init_master_co_i(data, &master_neighbor_discovery,
-                              &send_message_co_i, &e_pospone_connect,
-                              &edges_memb, edges_list,
-                              &reports_completos, &e_LWOE, &send_message_report_ChaRoot,
-                              &e_test, &send_message_test_ar, &e_pospone_test);
+            init_master_co_i(data, &edges_memb, edges_list);
 
             //Espero a que todos hayan inicializado la conexion del connect antes de seguir
             //Ademas, SI NO ESPERO LA LISTA SE IMPRIME MAL: RARO X 2
@@ -211,70 +235,8 @@ PROCESS_THREAD(master_co_i, ev, data)
     }//END OF WHILE
     PROCESS_END();
 }
-/* Evaluar los mensajes de pospone connect
-*/
-PROCESS_THREAD(e_pospone_connect, ev, data)
-{
-    PROCESS_BEGIN();
 
-    while(1)
-    {
-        static pospone_connect *pc_aux = NULL;
-        static initiate_msg i_msg;
 
-        PROCESS_WAIT_EVENT(); // Wait for any event.
-        if(ev == PROCESS_EVENT_CONTINUE)
-        {
-            if( list_length (pc_list) ) //Si hay elementos en la lista
-            {
-                for(pc_aux = list_head(pc_list); pc_aux != NULL; pc_aux = list_item_next(pc_aux)) // Recorrer toda la lista
-                {
-                    if(pc_aux->co_msg.level == nd.f.level) //Si los dos fragmentos tienen el mismo nivel
-                    {
-                        if(state_is_branch( &pc_aux->neighbor, list_head(edges_list))) // Caso inicial. Fragmentos con 1 nodo
-                        {
-                            nd.num_children = nd.num_children + 1;
-                            nd.flags |= CORE_NODE;
-
-                            llenar_initiate_msg(&i_msg, weight_with_edge(&pc_aux->neighbor, list_head(edges_list)),
-                                               (nd.f.level + 1), FIND, &pc_aux->neighbor, BECOME_CORE_NODE);
-                            process_post(&send_message_co_i,  e_msg_initiate, &i_msg);
-                            printf("Soy CORE_NORE 1\n");
-
-                            //Pude procesar el pospone connect con exito.
-                            //Entonces lo retiro de la lista
-                            list_remove (pc_list, pc_aux);
-                            printf("Envio msg de INICIATE DESDE POSPONE a %d \n", i_msg.destination.u8[0] );
-                        }else //Si el estado NO es branch (El proceso postpones processing CONECT)
-                        {
-                            //No lo voy a posponer otra vez!
-                            //Simplemente no lo renuevo de la lista pc_list
-                        }
-                    }else
-                    if(pc_aux->co_msg.level < nd.f.level)
-                    {
-                        become_branch(list_head(edges_list), &pc_aux->neighbor); // become branch de pospone connect
-
-                        nd.num_children = nd.num_children + 1;
-
-                        llenar_initiate_msg(&i_msg, nd.f.name, nd.f.level, nd.state, &pc_aux->neighbor,~BECOME_CORE_NODE);
-                        process_post(&send_message_co_i,  e_msg_initiate, &i_msg);
-
-                        //Pude procesar el pospone connect con exito.
-                        //Entonces lo retiro de la lista
-                        list_remove (pc_list, pc_aux);
-
-                        printf("Envio msg de INICIATE DESDE POSPONEEE a %d.%d \n",
-                        i_msg.destination.u8[0]
-                        , i_msg.destination.u8[1]);
-
-                    }
-                } //For cada elemento de la lista
-            } //end if hay elementos en la lista
-        } //END if ev == CONTINUE
-    } //EnD of while
-    PROCESS_END();
-}
 /* Proceso para enviar mensajes
 */
 PROCESS_THREAD(send_message_co_i, ev, data)
@@ -327,3 +289,151 @@ PROCESS_THREAD(send_message_co_i, ev, data)
     } //END of while
     PROCESS_END();
 }
+
+PROCESS_THREAD(evaluar_msg_co, ev, data)
+{
+    PROCESS_BEGIN();
+
+    // Iniciar la lista
+    list_init(co_list);
+    memb_init(&co_mem);
+
+    while(1)
+    {
+        PROCESS_WAIT_EVENT(); // Wait for any event.
+        if(ev == PROCESS_EVENT_CONTINUE)
+        {
+            if(list_length(co_list))
+            {
+                connect_list *co_list_p;
+                for(co_list_p = list_head(co_list); co_list_p != NULL; co_list_p = co_list_p->next)
+                {
+                    static initiate_msg i_msg;
+                    //connect_msg *co_msg = (connect_msg *) msg;
+
+                    if(co_list_p->co_msg.level == nd.f.level) //Si los dos fragmentos tienen el mismo nivel
+                    {
+                        if(state_is_branch(&co_list_p->from, e_list_head_g)) // Caso inicial. Fragmentos con 1 nodo
+                        {
+                            printf("Tamano lista=%d Evaluo ConNect de %d con level=%d \n",
+                            list_length(co_list),
+                             co_list_p->from.u8[0],
+                             co_list_p->co_msg.level);
+
+                            nd.num_children = nd.num_children + 1;
+                            nd.flags |= CORE_NODE;
+
+                            llenar_initiate_msg(&i_msg, weight_with_edge(&co_list_p->from, e_list_head_g),
+                                                (nd.f.level + 1), FIND, &co_list_p->from, BECOME_CORE_NODE);
+                            process_post(&send_message_co_i,  e_msg_initiate, &i_msg); //Hijo + 1 !!
+                            //remuevo el elemento de la lista
+                            list_remove(co_list, co_list_p); //Remove a specific element from a list.
+
+                        }else //Si el estado NO es branch (El proceso postpones processing CONECT)
+                        {
+                            printf("Tamano lista=%d Pospone ConNect de %d con level=%d \n",
+                            list_length(co_list),
+                             co_list_p->from.u8[0],
+                             co_list_p->co_msg.level);
+
+                            list_remove(co_list, co_list_p); //Remove a specific element from a list.
+                            list_add(co_list, co_list_p); //Add an item at the end of a list.
+
+                        } //FIN de pospone connect
+                    }else
+                    if(co_list_p->co_msg.level < nd.f.level)
+                    {
+                        printf("Tamano lista=%d Evaluo ConNect de %d con level=%d \n",
+                        list_length(co_list),
+                         co_list_p->from.u8[0],
+                         co_list_p->co_msg.level);
+
+                        become_branch(e_list_head_g, &co_list_p->from); // become branch de connect
+                        nd.num_children = nd.num_children + 1;
+                        llenar_initiate_msg(&i_msg, nd.f.name, nd.f.level, nd.state, &co_list_p->from, ~BECOME_CORE_NODE);
+                        process_post(&send_message_co_i,  e_msg_initiate, &i_msg); //Hijo + 1 !!
+
+                        //remuevo el elemento de la lista
+                        list_remove(co_list, co_list_p); //Remove a specific element from a list.
+
+                    }
+                } //END for para recorrer lista
+            } // END Si la lista tiene elementos
+        } //END PROCESS EV==CONTINUE
+    } //END OF WHILE
+    PROCESS_END();
+} //END of PROCESS THREAD
+
+PROCESS_THREAD(evaluar_msg_i, ev, data)
+{
+
+    PROCESS_BEGIN();
+
+    // Iniciar la lista
+    list_init(i_list);
+    memb_init(&i_mem);
+
+    while(1)
+    {
+        PROCESS_WAIT_EVENT(); // Wait for any event.
+        if(ev == PROCESS_EVENT_CONTINUE)
+        {
+            if(list_length(i_list))
+            {
+                initiate_list *i_list_p;
+                for(i_list_p = list_head(i_list); i_list_p != NULL; i_list_p = i_list_p->next)
+                {
+                    //initiate_msg *i_msg = (initiate_msg *) msg;
+                    static initiate_msg i_msg_d;
+
+                    nd.f.name  = i_list_p->i_msg.f.name;
+                    nd.f.level = i_list_p->i_msg.f.level;
+                    nd.state   = i_list_p->i_msg.nd_state;
+                    linkaddr_copy(&nd.parent , &i_list_p->from);
+
+                    if(i_list_p->i_msg.flags & BECOME_CORE_NODE)
+                    {
+                        nd.flags |= CORE_NODE;
+                        printf("Soy CORE_NORE 2\n");
+                    }
+
+                    if(i_list_p->i_msg.nd_state == FIND) //si cambio de estado a FIND
+                    {
+                        //Envio un mensaje al master_co_i de find
+                        process_post(&master_co_i,  e_find, NULL);
+                        nd.state = FIND;  //Para saber en que estado estoy en cualquier parte
+                    }
+
+                    //Reenvio el msg por todas las BRANCHES
+                    edges *e_aux;
+                    for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
+                    {
+                        //Propagar el INITIATE por las otras ramas
+                        //Si es una BRANCH y no es el nodo que me envio el INITIATE (No le devuelvo el msg)
+                        if( (e_aux->state == BRANCH) && !linkaddr_cmp(&e_aux->addr, &i_list_p->from))
+                        {
+                            //nd.num_children = nd.num_children + 1;
+                            llenar_initiate_msg(&i_msg_d, i_list_p->i_msg.f.name, i_list_p->i_msg.f.level,
+                                               i_list_p->i_msg.nd_state, &e_aux->addr, ~BECOME_CORE_NODE);
+                            process_post(&send_message_co_i,  e_msg_initiate, &i_msg_d);
+                        }
+                    }
+
+                    printf("TamanoLista =%d llego INITIATE from %d.%d name=%d.%02d level=%d state=%d parent=%d\n",
+                          list_length(i_list),
+                          i_list_p->from.u8[0], i_list_p->from.u8[1],
+                          (int)(nd.f.name / SEQNO_EWMA_UNITY),
+                          (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100),
+                          nd.f.level,
+                          nd.state,
+                          nd.parent.u8[0]);
+
+                  //Remuevo el elemento de la lista
+                  list_remove(i_list, i_list_p); //Remove a specific element from a list.
+
+                } //FOR todos los elementos de la lista
+            } //Si hay elementos en la lista
+        } //END IF  EV == CONTINUE
+    } //end of while
+    PROCESS_END();
+} //END of PROCESS THREAD evaluar_msg_i
