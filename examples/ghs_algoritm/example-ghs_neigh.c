@@ -302,7 +302,7 @@ PROCESS_THREAD(n_link_weight_worst_case, ev, data)
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
-                msg.avg_seqno_gap = n_aux->avg_seqno_gap;
+                msg.avg_seqno_gap = n_aux->avg_seqno_gap; //llenar el msg
                 packetbuf_copyfrom(&msg, sizeof(msg));
                 printf("%u.%u: sending runicast to address %u.%u\n",
                    linkaddr_node_addr.u8[0],
@@ -310,6 +310,10 @@ PROCESS_THREAD(n_link_weight_worst_case, ev, data)
                    n_aux->addr.u8[0],
                    n_aux->addr.u8[1]);
                 runicast_send(&runicast, &n_aux->addr, MAX_RETRANSMISSIONS);
+            }else
+            {
+                //Espero que esto no pase porque tengo una espera de 2 a 4 seg entre msgs
+                printf("ERROR: El runicast esta ocupado - No envie msg de AGREE ON LINK WEIGHT\n");
             }
         }
         process_post(&master_neighbor_discovery,e_wait_stabilization, PROCESS_CURRENT());

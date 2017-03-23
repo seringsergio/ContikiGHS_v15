@@ -243,6 +243,12 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
                         (int)( rp_msg.weight_r / SEQNO_EWMA_UNITY),
                         (int)(((100UL * rp_msg.weight_r ) / SEQNO_EWMA_UNITY) % 100),
                         nd.flags );
+            }else //Si runicast esta ocupado TX, pospongo el envio del msg
+            {
+                //pospone sending the message
+                llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->quien_reporto,
+                                  rp_msg_d->weight_r);
+                process_post(PROCESS_CURRENT(), e_msg_report, &rp_msg);
             }
         }else
         if(ev == e_msg_ch_root)
@@ -267,6 +273,11 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
                         cr_msg.next_hop.u8[0],
                         cr_msg.final_destination.u8[0]
                         );
+            }else //Si runicast esta ocupado TX, pospongo el envio del msg
+            {
+                //pospone sending the message
+                llenar_change_root(&cr_msg, &cr_msg_d->next_hop, &cr_msg_d->final_destination);
+                process_post(PROCESS_CURRENT(), e_msg_ch_root, &cr_msg);
             }
         }
     } //end of infinite while

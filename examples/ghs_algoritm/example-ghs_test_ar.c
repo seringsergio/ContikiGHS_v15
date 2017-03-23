@@ -209,7 +209,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                 runicast_send(&runicast, &t_msg.destination, MAX_RETRANSMISSIONS);
                 printf("Deseo enviar e_msg_test a %d\n", t_msg.destination.u8[0]);
 
-            }else
+            }else //Si runicast esta ocupado TX, pospongo el envio del msg
             {
                 //pospone sending the message
                 llenar_test_msg(&t_msg, &t_msg_d->destination, t_msg_d->f );
@@ -234,6 +234,11 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_REJECT);
                 runicast_send(&runicast, &r_msg.destination, MAX_RETRANSMISSIONS);
                 printf("Envie reject a %d \n",r_msg.destination.u8[0]);
+            }else //Si runicast esta ocupado TX, pospongo el envio del msg
+            {
+                //pospone sending the message
+                llenar_reject_msg(&r_msg, &r_msg_d->destination);
+                process_post(PROCESS_CURRENT(), e_msg_reject, &r_msg);
             }
 
         }else
@@ -251,6 +256,11 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_ACCEPT);
                 runicast_send(&runicast, &a_msg.destination, MAX_RETRANSMISSIONS);
                 printf("Envie accept a %d \n",a_msg.destination.u8[0]);
+            }else //Si runicast esta ocupado TX, pospongo el envio del msg
+            {
+                //pospone sending the message
+                llenar_accept_msg(&a_msg, &a_msg_d->destination);
+                process_post(PROCESS_CURRENT(), e_msg_accept, &a_msg);
             }
         }
     } //end of while

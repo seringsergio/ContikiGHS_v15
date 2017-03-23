@@ -256,7 +256,7 @@ PROCESS_THREAD(send_message_co_i, ev, data)
         {
             static connect_msg *c_msg_d;
             c_msg_d = (connect_msg *) data;
-            connect_msg co_msg;
+            static connect_msg co_msg;
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
@@ -265,6 +265,11 @@ PROCESS_THREAD(send_message_co_i, ev, data)
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, CONNECT);
                 runicast_send(&runicast, &co_msg.destination, MAX_RETRANSMISSIONS);
                 printf("Envio CONECT to %d , level=%d \n", co_msg.destination.u8[0], co_msg.level);
+            }else //Si runicast esta ocupado TX, pospongo el envio del msg
+            {
+                //pospone sending the message
+                llenar_connect_msg (&co_msg, c_msg_d->level, &c_msg_d->destination);
+                process_post(PROCESS_CURRENT(), e_msg_connect, &co_msg);
             }
         }else
         if(ev == e_msg_initiate)
@@ -285,6 +290,12 @@ PROCESS_THREAD(send_message_co_i, ev, data)
                 (int)(i_msg.f.name / SEQNO_EWMA_UNITY),
                 (int)(((100UL * i_msg.f.name) / SEQNO_EWMA_UNITY) % 100),
                  nd.flags);
+            }else //Si runicast esta ocupado TX, pospongo el envio del msg
+            {
+                //pospone sending the message
+                llenar_initiate_msg(&i_msg, msg_d->f.name, msg_d->f.level,
+                                    msg_d->nd_state,  &msg_d->destination, msg_d->flags );
+                process_post(PROCESS_CURRENT(), e_msg_initiate, &i_msg);
             }
         }
     } //END of while
