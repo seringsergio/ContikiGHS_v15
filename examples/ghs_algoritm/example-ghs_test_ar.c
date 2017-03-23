@@ -141,7 +141,7 @@ PROCESS_THREAD(e_test, ev, data)
             print_edges_list(e_list_head_g, string,  &linkaddr_node_addr);
 
             uint8_t tengo_edges_de_salida = 0;
-            edges *e_aux;
+            edges *e_aux = NULL;
             static test_msg t_msg;
             for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
             {
@@ -219,7 +219,9 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
             {
                 llenar_reject_msg(&r_msg, &r_msg_d->destination);
 
-                become_rejected(e_list_head_g, &r_msg.destination);
+                //No puedo decir que si envio un reject ese link esta E_REJECTED:
+                //Pasaria de BRANCH A REJECTED. LO CUAL NO TIENE SENTIDO
+                //become_rejected(e_list_head_g, &r_msg.destination);
 
                 packetbuf_copyfrom(&r_msg, sizeof(r_msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_REJECT);

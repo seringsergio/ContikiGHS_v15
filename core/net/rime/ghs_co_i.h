@@ -25,7 +25,7 @@
 #define FOUND 0x02
 #define END   0x04
 
-//Banderas de los nodos
+//Banderas de los nodos nd.flags
 #define INITIATIOR  0x01
 #define ND_LWOE     0x02
 #define CH_LWOE     0x04

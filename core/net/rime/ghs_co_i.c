@@ -36,13 +36,14 @@ void print_edges_list(edges *e_list_head, char *string,  const linkaddr_t *node_
 
     for(e_aux = e_list_head; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
     {
-        printf("%s %d %d %d.%02d %d\n",
+        printf("%s %d %d %d.%02d %d nd.state=%d\n",
               string,
               node_addr->u8[0],
               e_aux->addr.u8[0],
               (int)(e_aux->weight / SEQNO_EWMA_UNITY),
               (int)(((100UL * e_aux->weight) / SEQNO_EWMA_UNITY) % 100),
-              e_aux->state);
+              e_aux->state,
+              nd.state);
     }
 }
 
