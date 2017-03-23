@@ -141,12 +141,13 @@ PROCESS_THREAD(e_test, ev, data)
             print_edges_list(e_list_head_g, string,  &linkaddr_node_addr);
 
             uint8_t tengo_edges_de_salida = 0;
-            edges *e_aux = NULL;
+            static edges *e_aux = NULL;
             static test_msg t_msg;
             for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
             {
                 if(e_aux->state == BASIC)
                 {
+                    printf("addr=%d e_aux->state =%d \n",e_aux->addr.u8[0], e_aux->state);
                     llenar_test_msg(&t_msg, &e_aux->addr, nd.f );
                     process_post(&send_message_test_ar, e_msg_test, &t_msg);
                     tengo_edges_de_salida = 1;
@@ -197,8 +198,9 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
         {
             static test_msg *t_msg_d;
             t_msg_d = (test_msg *) data;
-            test_msg t_msg;
+            static test_msg t_msg;
 
+            //printf("Deseo enviar e_msg_test NO IF\n");
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
                 llenar_test_msg(&t_msg, &t_msg_d->destination, t_msg_d->f);
@@ -207,6 +209,11 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                 runicast_send(&runicast, &t_msg.destination, MAX_RETRANSMISSIONS);
                 printf("Deseo enviar e_msg_test a %d\n", t_msg.destination.u8[0]);
 
+            }else
+            {
+                //pospone sending the message
+                llenar_test_msg(&t_msg, &t_msg_d->destination, t_msg_d->f );
+                process_post(PROCESS_CURRENT(), e_msg_test, &t_msg);
             }
         }else
         if(ev == e_msg_reject)
