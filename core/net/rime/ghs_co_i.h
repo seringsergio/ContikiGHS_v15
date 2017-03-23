@@ -66,7 +66,6 @@ typedef struct initiate_msg initiate_msg;
 typedef struct accept_msg accept_msg;
 typedef struct reject_msg reject_msg;
 typedef struct report_msg report_msg;
-//typedef struct report_str report_str;
 typedef struct info_found info_found;
 typedef struct connect_list connect_list;
 typedef struct initiate_list initiate_list;

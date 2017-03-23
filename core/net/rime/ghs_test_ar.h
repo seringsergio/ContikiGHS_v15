@@ -27,7 +27,7 @@ typedef struct accept_msg accept_msg;
 typedef struct reject_msg reject_msg;
 typedef struct edges edges;
 typedef struct report_msg report_msg;
-typedef struct report_str report_str;
+typedef struct report_list report_list;
 
 
 /*-------------------------------------------------------------------*/

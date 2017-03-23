@@ -26,10 +26,10 @@ void llenar_change_root(change_root_msg *cr_msg, const linkaddr_t *next_hop,
 */
 void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, const linkaddr_t *from,
                          struct memb *history_mem, list_t history_list, uint8_t seqno,
-                         struct memb *report_memb, list_t report_list, struct process *reports_completos,
-                         struct process *send_message_co_i, struct process *send_message_report_ChaRoot)
+                         struct memb *rp_mem, list_t rp_list, struct process *evaluar_msg_rp,
+                         struct process *send_message_co_i, struct process *send_message_report_ChaRoot,
+                         list_t  cr_list, struct memb *cr_mem, struct process *evaluar_msg_cr )
 {
-    uint8_t duplicate = 0;
 
     /* OPTIONAL: Sender history */
     struct history_entry *e = NULL;
@@ -50,7 +50,6 @@ void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, 
     } else {
       /* Detect duplicate callback */
       if(e->seq == seqno) {
-        duplicate = 1;
         printf("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
   	     from->u8[0], from->u8[1], seqno);
         return;
@@ -59,98 +58,42 @@ void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, 
       e->seq = seqno;
     }
 
-    /*printf("runicast TEEEST message received from %d.%d, seqno %d\n",
-  	 from->u8[0], from->u8[1], seqno);*/
-   if(duplicate == 0)
-   {
        //Leer el packet buffer attribute: Especificamente el tipo de mensaje
        packetbuf_attr_t msg_type = packetbuf_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG);
 
        if(msg_type == REPORT)
        {
 
-           report_msg *rp_msg_d = (report_msg *) msg; //rp = report
-           /*report_msg  rp_msg;*/
+          report_list *rp_list_p;
 
-           printf("LLLego report de %d Neigh=%d Weight=%d.%02d Hj=%d flags=%04X\n",
-                 from->u8[0],
-                 rp_msg_d->quien_reporto.u8[0],
-                 (int)(rp_msg_d->weight_r / SEQNO_EWMA_UNITY),
-                 (int)(((100UL * rp_msg_d->weight_r) / SEQNO_EWMA_UNITY) % 100),
-                  nd.num_children,
-                  nd.flags
-                  );
-
-           //---------------------------------------------------------------
-           //Apenas llega el report lo guardo en una lista de Reports
-           //---------------------------------------------------------------
-
-           // OPTIONAL: Sender history
-           report_str *rp_str = NULL;
-           for(rp_str = list_head(report_list) ; rp_str != NULL; rp_str = rp_str->next)
-           {
-             if(linkaddr_cmp(&rp_str->neighbor, from)) // Si las dir son iguales entra
-             {
-               break;
-             }
-           }
-           if(rp_str == NULL)
-           {
-             // Create new history entry
-             rp_str = memb_alloc(report_memb);
-             if(rp_str == NULL)
-             {
-               printf("ERROR: NO PUDE CREAR UNA ENTRADA PARA REPORT \n");
-             }else
-             {
-                 linkaddr_copy(&rp_str->neighbor, from);
-                 rp_str->rp_msg = *rp_msg_d;
-                 list_push(report_list, rp_str);
-
-             }
-
-           } else //Ya existe un report para ese nodo, pero reemplazo la info
-           {
-             // Update existing report entry
-             printf("Ya existe un report para ese nodo, pero reemplazo la info\n");
-             linkaddr_copy(&rp_str->neighbor, from);
-             rp_str->rp_msg = *rp_msg_d;
-
-           }
-
-           //evaluo si la lista ya esta completa
-           printf("Tamano lista=%d \n", list_length(report_list) );
-           process_post(reports_completos, PROCESS_EVENT_CONTINUE, NULL);
+          rp_list_p = memb_alloc(rp_mem); //Alocar memoria
+          if(rp_list_p == NULL)
+          {
+              printf("ERROR: La lista de msg de REPORT esta llena\n");
+          }else
+          {
+              rp_list_p->rp_msg = *((report_msg *)msg); //msg le hago cast.Luego cojo todo el msg
+              linkaddr_copy(&rp_list_p->from, from);
+              list_push(rp_list, rp_list_p); //Add an item to the start of the list.
+              process_post(evaluar_msg_rp, PROCESS_EVENT_CONTINUE, NULL);
+          }
 
        }else //end IF REPORT
        if(msg_type == CHANGE_ROOT)
        {
-           change_root_msg *cr_msg_d = (change_root_msg *) msg; //rp = report
-           static connect_msg c_msg;
-           change_root_msg cr_msg;
 
-           //Si el change_root es para mi
-           if(linkaddr_cmp(&cr_msg_d->final_destination, &linkaddr_node_addr)) //Entra si las direcciones son iguales
+           change_root_list *cr_list_p;
+
+           cr_list_p = memb_alloc(cr_mem); //Alocar memoria
+           if(cr_list_p == NULL)
            {
-               //El msg de CHANGE_ROOT ES PARA MI
-               printf("El msg de ChangeRooot es para mi\n");
-               become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root
-
-               llenar_connect_msg (&c_msg, nd.f.level, &nd.lwoe.node.neighbor);
-               process_post(send_message_co_i,  e_msg_connect, &c_msg);
-               printf("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
-
-           }else//Si el change_root NO es para mi
+               printf("ERROR: La lista de msg de change_root esta llena\n");
+           }else
            {
-               printf("El msg de ChangeRooot NO es para mi\n");
-
-               llenar_change_root(&cr_msg, &nd.downroute, &cr_msg_d->final_destination);
-               process_post_synch(send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
-               printf("REEEnvie  CHANGE_ROOT a next_hop=%d final_destination=%d\n",
-               cr_msg.next_hop.u8[0],
-               cr_msg.final_destination.u8[0]);
+               cr_list_p->cr_msg = *((change_root_msg *)msg); //msg le hago cast.Luego cojo todo el msg
+               linkaddr_copy(&cr_list_p->from, from);
+               list_push(cr_list, cr_list_p); //Add an item to the start of the list.
+               process_post(evaluar_msg_cr, PROCESS_EVENT_CONTINUE, NULL);
            }
-
        }
-   } //END IF DUPLICATE == 0
 }//End recibir mensajes de unicast

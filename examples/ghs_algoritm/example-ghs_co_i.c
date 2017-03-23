@@ -192,9 +192,10 @@ PROCESS_THREAD(master_co_i, ev, data)
             process_start(&evaluar_msg_test, NULL);
             process_start(&evaluar_msg_accept, NULL);
             //procesos de report-ChangeRoot
-            process_start(&reports_completos, NULL); //para inicializar report_list_g y report_memb_g
+            process_start(&evaluar_msg_rp, NULL); //para inicializar report_list_g y report_memb_g
             process_start(&send_message_report_ChaRoot, NULL); //para inicializar report_list_g y report_memb_g
             process_start(&e_LWOE, NULL); //para inicializar report_list_g y report_memb_g
+            process_start(&evaluar_msg_cr, NULL); //para inicializar report_list_g y report_memb_g
 
             //Inicializar el master_co_i
             init_master_co_i(data, &edges_memb, edges_list);
@@ -218,8 +219,8 @@ PROCESS_THREAD(master_co_i, ev, data)
             printf("Estoy en FOUND \n");
 
             //borro la lista de reportes de vecinos
-            list_init(report_list_g); //The list will be empty after this function has been called.
             memb_init(report_memb_g);
+            list_init(report_list_g); //The list will be empty after this function has been called.
 
             //Reinicio variables
             nd.flags &= ~ND_LWOE;
@@ -328,6 +329,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                             process_post(&send_message_co_i,  e_msg_initiate, &i_msg); //Hijo + 1 !!
                             //remuevo el elemento de la lista
                             list_remove(co_list, co_list_p); //Remove a specific element from a list.
+                            memb_free(&co_mem, co_list_p);
 
                         }else //Si el estado NO es branch (El proceso postpones processing CONECT)
                         {
@@ -355,6 +357,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
 
                         //remuevo el elemento de la lista
                         list_remove(co_list, co_list_p); //Remove a specific element from a list.
+                        memb_free(&co_mem, co_list_p);
 
                     }
                 } //END for para recorrer lista
@@ -430,6 +433,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
 
                   //Remuevo el elemento de la lista
                   list_remove(i_list, i_list_p); //Remove a specific element from a list.
+                  memb_free(&i_mem, i_list_p);
 
                 } //FOR todos los elementos de la lista
             } //Si hay elementos en la lista

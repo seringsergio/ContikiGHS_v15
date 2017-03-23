@@ -294,6 +294,7 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                              process_post(&send_message_test_ar, e_msg_reject, &r_msg);
 
                              list_remove(t_list, t_list_p); //Remove a specific element from a list.
+                             memb_free(&t_mem, t_list_p);
                              printf("Quuuiero enviar e_msg_reject a %d \n", r_msg.destination.u8[0]);
 
                          }else
@@ -303,6 +304,7 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                              process_post(&send_message_test_ar, e_msg_accept, &a_msg);
 
                              list_remove(t_list, t_list_p); //Remove a specific element from a list.
+                             memb_free(&t_mem, t_list_p);
                              printf("Quuuiero enviar e_msg_accept a %d \n", a_msg.destination.u8[0]);
                          }
                      }
@@ -390,6 +392,7 @@ PROCESS_THREAD(evaluar_msg_accept, ev, data)
 
                     //Remuevo el elemento de la lista
                     list_remove(a_list, a_list_p); //Remove a specific element from a list.
+                    memb_free(&a_mem, a_list_p);
 
                 } //FOR cada elemento de la lista
             } //Si hay elementos en la lista

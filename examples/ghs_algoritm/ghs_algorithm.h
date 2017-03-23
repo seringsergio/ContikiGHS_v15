@@ -50,8 +50,9 @@ PROCESS_NAME(evaluar_msg_accept);
 // master_report_ChaRoot
 //PROCESS_NAME(master_report_ChaRoot);
 PROCESS_NAME(send_message_report_ChaRoot);
-PROCESS_NAME(reports_completos);
+PROCESS_NAME(evaluar_msg_rp);
 PROCESS_NAME(e_LWOE);
+PROCESS_NAME(evaluar_msg_cr);
 
 /*------------------------------------------------------------------- */
 /*----------EVENTOS -------- -----------------------------------------*/

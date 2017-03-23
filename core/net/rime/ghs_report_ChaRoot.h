@@ -25,10 +25,12 @@
 /*---------------- TYPEDEF ------------------------------------------*/
 /*-------------------------------------------------------------------*/
 
-typedef struct report_str report_str;
+typedef struct report_list report_list;
 typedef struct report_msg report_msg;
 typedef struct change_root_msg change_root_msg;
 typedef struct info_found info_found;
+typedef struct change_root_list change_root_list;
+
 /*-------------------------------------------------------------------*/
 /*---------------- EVENTOS ------------------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -48,6 +50,12 @@ struct change_root_msg
 
 };
 
+struct change_root_list
+{
+    struct change_root_list *next;
+    change_root_msg cr_msg;
+    linkaddr_t from;
+};
 
 struct report_msg
 {
@@ -56,17 +64,17 @@ struct report_msg
     uint32_t weight_r; //Este es el peso del nodo con menor peso. Weight_reportado
 };
 
-struct report_str
+struct report_list
 {
-    struct report_str *next;
+    struct report_list *next;
     report_msg rp_msg;
-    linkaddr_t neighbor; //Vecino que envio el msg de report
+    linkaddr_t from; //Vecino que envio el msg de report
 };
 
 struct info_found
 {
-    list_t report_list;
-    struct memb *report_memb;
+    list_t rp_list;
+    struct memb *rp_mem;
 };
 /*-------------------------------------------------------------------*/
 /*---------------- Variables globales--------------------------------*/
@@ -79,8 +87,9 @@ struct info_found
 
 void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, const linkaddr_t *from,
                          struct memb *history_mem, list_t history_list, uint8_t seqno,
-                         struct memb *report_memb, list_t report_list, struct process *reports_completos,
-                         struct process *send_message_co_i, struct process *send_message_report_ChaRoot);
+                         struct memb *rp_mem, list_t rp_list, struct process *evaluar_msg_rp,
+                         struct process *send_message_co_i, struct process *send_message_report_ChaRoot,
+                         list_t  cr_list, struct memb *cr_mem, struct process *evaluar_msg_cr );
 
 void llenar_change_root(change_root_msg *cr_msg, const linkaddr_t *next_hop,
                         const linkaddr_t *final_destination);
