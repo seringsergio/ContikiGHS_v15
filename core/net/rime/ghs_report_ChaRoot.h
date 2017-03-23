@@ -85,10 +85,10 @@ struct info_found
 /*----------------DECLARACION FUNCIONES -----------------------------*/
 /*-------------------------------------------------------------------*/
 
-void ghs_report_ChaRoot_recv_ruc(void *msg, struct history_entry *h_entry_head, const linkaddr_t *from,
+void ghs_report_ChaRoot_recv_ruc(void *msg,
+                         const linkaddr_t *from,
                          struct memb *history_mem, list_t history_list, uint8_t seqno,
                          struct memb *rp_mem, list_t rp_list, struct process *evaluar_msg_rp,
-                         struct process *send_message_co_i, struct process *send_message_report_ChaRoot,
                          list_t  cr_list, struct memb *cr_mem, struct process *evaluar_msg_cr );
 
 void llenar_change_root(change_root_msg *cr_msg, const linkaddr_t *next_hop,

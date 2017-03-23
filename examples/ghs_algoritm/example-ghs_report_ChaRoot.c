@@ -88,9 +88,9 @@
  recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
  {
 
-   ghs_report_ChaRoot_recv_ruc(packetbuf_dataptr() ,list_head(history_list), from, &history_mem,
+   ghs_report_ChaRoot_recv_ruc(packetbuf_dataptr() , from, &history_mem,
                         history_list, seqno, &rp_mem, rp_list, &evaluar_msg_rp,
-                        &send_message_co_i, &send_message_report_ChaRoot, cr_list, &cr_mem,
+                        cr_list, &cr_mem,
                         &evaluar_msg_cr);
 
 
@@ -98,25 +98,19 @@
  static void
  sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
  {
-   printf("runicast REPORT  message sent to %d.%d, retransmissions %d flags=%04X\n",
+   printf("runicast (report-ChaRoot)  message sent to %d.%d, retransmissions %d flags=%04X\n",
  	 to->u8[0], to->u8[1], retransmissions, nd.flags);
  }
  static void
  timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
  {
-   printf("runicast REPORT message timed out when sending to %d.%d, retransmissions %d\n",
+   printf("runicast (report-ChaRoot) message timed out when sending to %d.%d, retransmissions %d\n",
  	 to->u8[0], to->u8[1], retransmissions);
  }
  static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
  							     sent_runicast,
  							     timedout_runicast};
 
- /* Exit handler
- */
- /*static void master_report_ChaRoot_exit_handler(void)
- {
-     printf("Process Exit: master_report_ChaRoot \n");
- }*/
 
  /*------------------------------------------------------------------- */
  /*-----------PROCESOS------------------------------------------------*/
