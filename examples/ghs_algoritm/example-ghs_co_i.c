@@ -218,10 +218,6 @@ PROCESS_THREAD(master_co_i, ev, data)
             //Espero instrucciones de change_root o initiate
             printf("Estoy en FOUND \n");
 
-            //borro la lista de reportes de vecinos
-            memb_init(report_memb_g);
-            list_init(report_list_g); //The list will be empty after this function has been called.
-
             //Reinicio variables
             nd.flags &= ~ND_LWOE;
             nd.flags &= ~CH_LWOE;
@@ -339,7 +335,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                                                 (nd.f.level + 1), FIND, &co_list_p->from, BECOME_CORE_NODE);
                             process_post(&send_message_co_i,  e_msg_initiate, &i_msg); //Hijo + 1 !!
                             //remuevo el elemento de la lista
-                            list_remove(co_list, co_list_p); //Remove a specific element from a list.
+                            my_list_remove(co_list, co_list_p); //Remove a specific element from a list.
                             memb_free(&co_mem, co_list_p);
 
                         }else //Si el estado NO es branch (El proceso postpones processing CONECT)
@@ -367,7 +363,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                         process_post(&send_message_co_i,  e_msg_initiate, &i_msg); //Hijo + 1 !!
 
                         //remuevo el elemento de la lista
-                        list_remove(co_list, co_list_p); //Remove a specific element from a list.
+                        my_list_remove(co_list, co_list_p); //Remove a specific element from a list.
                         memb_free(&co_mem, co_list_p);
 
                     }
@@ -416,6 +412,12 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                         //Envio un mensaje al master_co_i de find
                         process_post(&master_co_i,  e_find, NULL);
                         nd.state = FIND;  //Para saber en que estado estoy en cualquier parte
+                    }else
+                    if(i_list_p->i_msg.nd_state == FOUND) //si cambio de estado a FOUND
+                    {
+                        //Envio un mensaje al master_co_i de found
+                        process_post(&master_co_i,  e_found, NULL);
+                        nd.state = FOUND;  //Para saber en que estado estoy en cualquier parte
                     }
 
                     //Reenvio el msg por todas las BRANCHES
@@ -443,7 +445,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                           nd.parent.u8[0]);
 
                   //Remuevo el elemento de la lista
-                  list_remove(i_list, i_list_p); //Remove a specific element from a list.
+                  my_list_remove(i_list, i_list_p); //Remove a specific element from a list.
                   memb_free(&i_mem, i_list_p);
 
                 } //FOR todos los elementos de la lista

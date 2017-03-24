@@ -143,8 +143,8 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
         if(ev == PROCESS_EVENT_CONTINUE)
         {
 
-                static report_list *rp_list_p;
-                rp_list_p = list_tail(rp_list);//returns the last element of the list
+                report_list *rp_list_p;
+                rp_list_p = list_head(rp_list);//returns the last element of the list
                 printf("LLLego report de %d Neigh=%d Weight=%d.%02d Hj=%d flags=%04X\n",
                   rp_list_p->from.u8[0],
                   rp_list_p->rp_msg.quien_reporto.u8[0],
@@ -189,10 +189,10 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
                     nd.flags,
                     nd.downroute.u8[0]);
 
-                    //dealocate memory: Remuevo (list_remove) en el found con la funcion list_init()
-                    report_list *rp_list_p;
+                    //Remuevo (list_remove) todos los elementos de la lista
                     for(rp_list_p = list_head(rp_list); rp_list_p != NULL; rp_list_p = rp_list_p->next)
                     {
+                        my_list_remove(rp_list, rp_list_p); //Remove a specific element from a list.
                         memb_free(&rp_mem, rp_list_p);
                     }
                 } // si lista >= num_children
@@ -312,7 +312,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         //send change_root y dejo de ser CORE_NODE
                         nd.flags &= ~CORE_NODE;
                         llenar_change_root(&cr_msg, &nd.lwoe.node.neighbor, &nd.lwoe.node.neighbor);
-                        process_post_synch(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
+                        process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
                         printf("EEEnvie 1 CHANGE_ROOT a next_hop=%d final_destination=%d\n",
                         cr_msg.next_hop.u8[0],
                         cr_msg.final_destination.u8[0]);
@@ -421,7 +421,7 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
                     }
 
                     //remuevo el elemento de la lista
-                    list_remove(cr_list, cr_list_p); //Remove a specific element from a list.
+                    my_list_remove(cr_list, cr_list_p); //Remove a specific element from a list.
                     memb_free(&cr_mem, cr_list_p);
 
                 } //FOR recorrer toda la lista

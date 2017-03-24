@@ -289,15 +289,8 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                 static accept_msg a_msg;
                 static reject_msg r_msg;
 
-                //test_list *const t_list_p_const;  // ptr is a constant pointer to test_list
-
                 for(t_list_p = list_head(t_list); t_list_p != NULL; t_list_p = t_list_p->next)
                 {
-                    //t_list_p_const = t_list_p;
-
-                    printf("111: t_list_p->from=%d next=%d \n",
-                    t_list_p->from.u8[0], t_list_p->next->from.u8[0]);
-
 
                      if(t_list_p->t_msg.f.level > nd.f.level)
                      {
@@ -310,6 +303,8 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                          nd.f.level);
 
                          //Pospones processing the incomming test msg, until (t_msg->f.level < nd.f.level)
+                         //No uso my_list_remove() porque no me importa donde quede
+                         //apuntando el NEXT
                          list_remove(t_list, t_list_p); //Remove a specific element from a list.
                          list_add(t_list, t_list_p); //Add an item at the end of a list.
 
@@ -330,14 +325,11 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                              llenar_reject_msg (&r_msg, &t_list_p->from);
                              process_post(&send_message_test_ar, e_msg_reject, &r_msg);
 
-                             //Cuando lo saco de la lista el next es NULL
-                             //t_list_p_remove = memb_alloc(&t_mem_remove); //Alocar memoria
-                             //t_list_p_remove = t_list_p;
-                             //list_push(t_list_remove, t_list_p_remove); //Add an item to the start of the list.
-
+                             //Remover el dato de la lista
+                             //Cuando lo saco de la lista con list_remove() el next es NULL
+                             //Por eso creo mi propio my_list_remove(), donde el next no es NULL
                              my_list_remove(t_list, t_list_p); //Remove a specific element from a list.
                              memb_free(&t_mem, t_list_p);
-                             //t_list_p = t_list_p_const;
 
                              printf("Quuuiero enviar e_msg_reject a %d \n", r_msg.destination.u8[0]);
 
@@ -355,36 +347,15 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                              llenar_accept_msg (&a_msg, &t_list_p->from);
                              process_post(&send_message_test_ar, e_msg_accept, &a_msg);
 
-                             //Cuando lo saco de la lista el next es NULL
-                             //t_list_p_remove = memb_alloc(&t_mem_remove); //Alocar memoria
-                             //t_list_p_remove = t_list_p;
-                             //list_push(t_list_remove, t_list_p_remove); //Add an item to the start of the list.
+                             //Remover el dato de la lista
+                             //Cuando lo saco de la lista con list_remove() el next es NULL
+                             //Por eso creo mi propio my_list_remove(), donde el next no es NULL
                              my_list_remove(t_list, t_list_p); //Remove a specific element from a list.
                              memb_free(&t_mem, t_list_p);
-                             //t_list_p = t_list_p_const;
-
                              printf("Quuuiero enviar e_msg_accept a %d \n", a_msg.destination.u8[0]);
-
-
                          }
                      }
-
-                     //t_list_p_next = t_list_p->next;
-
-                     printf("222: t_list_p->from=%d next=%d \n",
-                     t_list_p->from.u8[0], t_list_p->next->from.u8[0]);
-                     //test_msg *t_msg = (test_msg *) msg;
                 } //FOR todos los elementos de la lista - EVALUAR
-
-                // FOR PARA remover de la lista
-                /*for(t_list_p_remove = list_head(t_list_remove); t_list_p_remove != NULL;
-                    t_list_p_remove = t_list_p_remove->next)
-                {
-                    list_remove(t_list, t_list_p_remove);
-                    printf("TammannoL=%d\n", list_length(t_list));
-
-                }*/
-
             } //Si hay elementos en la lista
         } //END IF EV == CONTINUE
     } //END OF WHILE
@@ -467,7 +438,7 @@ PROCESS_THREAD(evaluar_msg_accept, ev, data)
                     }
 
                     //Remuevo el elemento de la lista
-                    list_remove(a_list, a_list_p); //Remove a specific element from a list.
+                    my_list_remove(a_list, a_list_p); //Remove a specific element from a list.
                     memb_free(&a_mem, a_list_p);
 
                 } //FOR cada elemento de la lista

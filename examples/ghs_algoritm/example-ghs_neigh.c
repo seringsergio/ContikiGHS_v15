@@ -315,7 +315,7 @@ PROCESS_THREAD(n_link_weight_worst_case, ev, data)
                 //Espero que esto no pase porque tengo una espera de 2 a 4 seg entre msgs
                 printf("ERROR: El runicast esta ocupado - No envie msg de AGREE ON LINK WEIGHT\n");
             }
-        }
+        } //END of FOR
         process_post(&master_neighbor_discovery,e_wait_stabilization, PROCESS_CURRENT());
     }//END if ev == CONTINUE
 }//END of while
