@@ -196,7 +196,7 @@ struct node
     uint8_t num_children;
     linkaddr_t downroute; //Para enviar msg en la downward direction
     test_msg t_msg;
-    //uint16_t num_test;
+    linkaddr_t otro_core_node; //Indica la direccion del otro CORE_NODE
 
 };
 /*-------------------------------------------------------------------*/

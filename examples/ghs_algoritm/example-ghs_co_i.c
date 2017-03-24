@@ -331,6 +331,8 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
 
                             nd.num_children = nd.num_children + 1;
                             nd.flags |= CORE_NODE;
+                            linkaddr_copy(&nd.otro_core_node, &co_list_p->from);
+
 
                             llenar_initiate_msg(&i_msg, weight_with_edge(&co_list_p->from, e_list_head_g),
                                                 (nd.f.level + 1), FIND, &co_list_p->from, BECOME_CORE_NODE);
@@ -404,6 +406,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
 
                     if(i_list_p->i_msg.flags & BECOME_CORE_NODE)
                     {
+                        linkaddr_copy(&nd.otro_core_node, &i_list_p->from);
                         nd.flags |= CORE_NODE;
                         printf("Soy CORE_NORE 2\n");
                     }

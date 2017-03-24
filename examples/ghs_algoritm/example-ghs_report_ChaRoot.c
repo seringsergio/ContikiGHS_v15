@@ -148,9 +148,12 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
                    nd.num_children,
                    nd.flags
                    );
+                   printf("list_length(rp_list)=%d >= nd.num_children=%d \n",
+                    list_length(rp_list), nd.num_children );
 
                 //Si la lista de reports ya esta completa
-                if(list_length(rp_list) >= nd.num_children)//Si el tamano de la lista es = al num de hijos
+                if(   (list_length(rp_list) == nd.num_children)  ||
+                      (lista_completa_core_node(rp_list)      )   )             //Si el tamano de la lista es = al num de hijos
                 {
                     //Saco el nodo con menor peso de la lista
                     printf("Lista de Reports completa \n");
@@ -305,6 +308,10 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         llenar_connect_msg (&co_msg, nd.f.level, &nd.lwoe.node.neighbor);
                         process_post(&send_message_co_i,  e_msg_connect, &co_msg);
                         printf("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
+                        //paso a FOUND
+                        process_post(&master_co_i, e_found, NULL);
+                        nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+
                     }else //Si es mejor el edge de un vecino
                     {
                         //send change_root y dejo de ser CORE_NODE
@@ -314,6 +321,9 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         printf("EEEnvie 2 CHANGE_ROOT a next_hop=%d final_destination=%d\n",
                         cr_msg.next_hop.u8[0],
                         cr_msg.final_destination.u8[0]);
+                        //paso a FOUND
+                        process_post(&master_co_i, e_found, NULL);
+                        nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                     }
                 }else //SI NO estan seteados los dos
                 {
@@ -325,9 +335,8 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                  rp_msg.neighbor_r.u8[0],
                                  (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                  (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
-                        //paso a FOUND
-                        process_post(&master_co_i, e_found, NULL);
-                        nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+                        //NO paso a FOUND: Espero a que el otro nodo reporte
+                        //Caso de que solo 2 CORE_NODES esten en el fragmento
 
                     }
                 }

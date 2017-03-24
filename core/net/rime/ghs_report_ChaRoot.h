@@ -99,4 +99,6 @@ uint8_t es_Hoja();
 void llenar_report_msg(report_msg *rp_msg, const linkaddr_t *destination,
                       const linkaddr_t *neighbor_r, uint32_t weight_r);
 
+uint8_t lista_completa_core_node( list_t rp_list);
+
 #endif /* GHS_NEIGH_H */

@@ -47,6 +47,47 @@ void llenar_report_msg(report_msg *rp_msg, const linkaddr_t *destination,
     rp_msg->weight_r  = weight_r;
 }
 
+/* Indica que la lista ya esta completa en el caso de un CORE_NODE
+*  en el cual todos los hijos reportaron menos el OTRO_CORE_NODE
+*/
+uint8_t lista_completa_core_node( list_t rp_list)
+{
+    report_list *rp_list_p;
+    uint8_t no_falta_core_node = 0;
+    uint8_t lista_completa = 0;
+
+// SI SOY CORE_NODE
+//SI solamente falta 1 hijo
+// Y ese hijo faltante es el OTRO_CORE_NODE
+//Entonces: La lista esta completa
+
+    if(nd.flags & CORE_NODE) //SI SOY CORE_NODE
+    {
+        if( list_length(rp_list) == (nd.num_children-1)  )  //ME FALTA SOLAMENTE 1 HIJO
+        {
+            for(rp_list_p = list_head(rp_list); rp_list_p != NULL; rp_list_p = rp_list_p->next)
+            {
+                if(linkaddr_cmp(&rp_list_p->from , &nd.otro_core_node)) //Entra si las direcciones son iguales
+                {
+                    no_falta_core_node = 1;
+
+                }
+            }
+
+            if(no_falta_core_node == 1)
+            {
+                lista_completa = 0; //LISTA incompleta
+            }else
+            {
+                lista_completa = 1; //Lista completa
+                printf("completa porque solamente falta el otro core_node\n");
+            }
+        }
+    } //END si soy CORE_NODE
+
+    return lista_completa;
+}
+
 /* Funcion que recibe los msg de runicast
 */
 void ghs_report_ChaRoot_recv_ruc(void *msg,
