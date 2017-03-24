@@ -15,10 +15,10 @@
 /* LLenar el msg de report
 */
 void llenar_report_msg(report_msg *rp_msg, const linkaddr_t *destination,
-                      const linkaddr_t *quien_reporto, uint32_t weight_r)
+                      const linkaddr_t *neighbor_r, uint32_t weight_r)
 {
     linkaddr_copy(&rp_msg->destination, destination);
-    linkaddr_copy(&rp_msg->quien_reporto, quien_reporto);
+    linkaddr_copy(&rp_msg->neighbor_r, neighbor_r);
     rp_msg->weight_r  = weight_r;
 }
 
@@ -179,5 +179,3 @@ void ghs_test_ar_recv_ruc(void *msg, const linkaddr_t *from,
        }
 
  } //END receive runicast
-
- 

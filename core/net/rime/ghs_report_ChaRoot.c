@@ -20,6 +20,22 @@ void llenar_change_root(change_root_msg *cr_msg, const linkaddr_t *next_hop,
 
 }
 
+/*Determina si el nodo es hoja o no dependiendo del # de hijos
+*/
+uint8_t es_Hoja()
+{
+    if( (nd.num_children == 0)  )
+    {
+        return 1; //Si tengo 0 hijos soy hoja
+    }else
+    if( (nd.num_children == 1) && (nd.flags & CORE_NODE)   )
+    {
+        return 1; //Si tengo 1 hijo y soy el CORE_NODE. Entonces soy hoja
+    }else
+    {
+        return 0;// EN todos los otros casos no soy hoja
+    }
+}
 
 
 /* Funcion que recibe los msg de runicast

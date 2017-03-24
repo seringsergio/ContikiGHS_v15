@@ -214,7 +214,8 @@ PROCESS_THREAD(master_co_i, ev, data)
             process_post(PROCESS_CURRENT(), e_found, NULL);
             nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
         }else
-        if (ev == e_found){
+        if (ev == e_found)
+        {
             //Espero instrucciones de change_root o initiate
             printf("Estoy en FOUND \n");
 

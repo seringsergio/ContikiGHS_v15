@@ -377,14 +377,16 @@ PROCESS_THREAD(evaluar_msg_accept, ev, data)
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
+            //static report_msg rp_msg; //rp = report
+            accept_list *a_list_p;
+
             if(list_length(a_list))
             {
-                accept_list *a_list_p;
+
                 for(a_list_p = list_head(a_list); a_list_p != NULL; a_list_p = a_list_p->next)
                 {
 
                     //accept_msg *a_msg = (accept_msg *) msg;
-                    static report_msg rp_msg; //rp = report
 
                     printf("llego AcCept de %d. Numero Hijos = %d flags=%04X \n ",
                     a_list_p->from.u8[0], nd.num_children, nd.flags);
@@ -396,46 +398,6 @@ PROCESS_THREAD(evaluar_msg_accept, ev, data)
                     nd.lwoe.node.weight = return_weight(e_list_head_g, &a_list_p->from);
                     nd.flags |= ND_LWOE; //Ya encontre el ND_LWOE
                     process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
-
-                    if( !(nd.flags & CORE_NODE) ) // Si no soy core node
-                    {
-                        //Ya encontre el ND_LWOE, ahora verifico si tengo hijos o no
-                        if(nd.num_children == 0) // Si no tengo hijos reporto de una!!
-                        {
-                            //linkaddr_copy( &nd.downroute , &nd.lwoe.node.neighbor) ; //si no tengo hijos no tengo downroute
-                            nd.flags |= CH_LWOE; //Ya encontre el CH_LWOE
-                            process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
-
-                            llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
-                            process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
-                            printf("no_CN: Deeeseo Reportar Neigh=%d Weight=%d.%02d\n",
-                                     rp_msg.quien_reporto.u8[0],
-                                     (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
-                                     (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
-                             //paso a FOUND
-                             process_post(&master_co_i, e_found, NULL);
-                             nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
-                        }
-                    }else //SI Soy CORE_NODE
-                    {
-                        if( (nd.num_children-1) == 0) // Si no tengo hijos reporto de una!!
-                        {
-                            //linkaddr_copy( &nd.downroute , &nd.lwoe.node.neighbor) ; //si no tengo hijos no tengo downroute
-                            nd.flags |= CH_LWOE; //Ya encontre el CH_LWOE
-                            process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
-
-                            llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
-                            process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
-                            printf("CN:Deeeseo Reportar Neigh=%d Weight=%d.%02d flags=%04X\n",
-                                     rp_msg.quien_reporto.u8[0],
-                                     (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
-                                     (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100),
-                                     nd.flags);
-                            //paso a FOUND
-                            process_post(&master_co_i, e_found, NULL);
-                            nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
-                        }
-                    }
 
                     //Remuevo el elemento de la lista
                     my_list_remove(a_list, a_list_p); //Remove a specific element from a list.

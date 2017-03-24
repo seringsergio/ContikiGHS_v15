@@ -134,7 +134,8 @@ void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, lis
     nd.f.name = 0;
     nd.f.level = 0;
     nd.num_children = 0;
-
+    nd.lwoe.node.weight = INFINITO;
+    nd.lwoe.children.weight = INFINITO; 
 
     //Tomar info de master_neighbor_discovery
     fill_edges_list(edges_list, edges_memb, n_list_head );

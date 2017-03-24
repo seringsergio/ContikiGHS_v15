@@ -145,9 +145,9 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
 
                 report_list *rp_list_p;
                 rp_list_p = list_head(rp_list);//returns the last element of the list
-                printf("LLLego report de %d Neigh=%d Weight=%d.%02d Hj=%d flags=%04X\n",
+                    printf("LLLego report de %d Neigh=%d Weight=%d.%02d Hj=%d flags=%04X\n",
                   rp_list_p->from.u8[0],
-                  rp_list_p->rp_msg.quien_reporto.u8[0],
+                  rp_list_p->rp_msg.neighbor_r.u8[0],
                   (int)(rp_list_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
                   (int)(((100UL * rp_list_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100),
                    nd.num_children,
@@ -177,7 +177,7 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
 
                     //guardo el menor hijo como el mejor edge
                     linkaddr_copy( &nd.downroute , &lowest_rp->from);
-                    linkaddr_copy(&nd.lwoe.children.neighbor, &lowest_rp->rp_msg.quien_reporto );
+                    linkaddr_copy(&nd.lwoe.children.neighbor, &lowest_rp->rp_msg.neighbor_r );
                     nd.lwoe.children.weight = lowest_rp->rp_msg.weight_r;
                     nd.flags |= CH_LWOE; //Ya encontre el ND_LWOE
                     process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
@@ -232,21 +232,21 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
-                llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->quien_reporto,
+                llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->neighbor_r,
                                   rp_msg_d->weight_r);
                 packetbuf_copyfrom(&rp_msg, sizeof(rp_msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, REPORT);
                 runicast_send(&runicast, &rp_msg.destination, MAX_RETRANSMISSIONS);
                 printf("Envie report a %d Neigh=%d Weight=%d.%02d flags=%04X\n",
                         rp_msg.destination.u8[0],
-                        rp_msg.quien_reporto.u8[0],
+                        rp_msg.neighbor_r.u8[0],
                         (int)( rp_msg.weight_r / SEQNO_EWMA_UNITY),
                         (int)(((100UL * rp_msg.weight_r ) / SEQNO_EWMA_UNITY) % 100),
                         nd.flags );
             }else //Si runicast esta ocupado TX, pospongo el envio del msg
             {
                 //pospone sending the message
-                llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->quien_reporto,
+                llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->neighbor_r,
                                   rp_msg_d->weight_r);
                 process_post(PROCESS_CURRENT(), e_msg_report, &rp_msg);
             }
@@ -293,70 +293,73 @@ PROCESS_THREAD(e_LWOE, ev, data)
 
     while(1)
     {
-        //static struct etimer et;
         static report_msg rp_msg; //rp = report
         static change_root_msg cr_msg; //cr = change root
-
-        //(&et, CLOCK_SECOND * 1); //Cada segundo evaluo si ya se cual es el LWOE
-        //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+        static connect_msg co_msg;
 
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
-            if( (nd.flags & ND_LWOE) && (nd.flags & CH_LWOE))
+            if(nd.flags & CORE_NODE)
             {
-                if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
+                if( (nd.flags & ND_LWOE) && (nd.flags & CH_LWOE) )
                 {
-                    if(nd.flags & CORE_NODE)
+                    if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
+                    {
+                        //Envio CONNECT msg
+                        llenar_connect_msg (&co_msg, nd.f.level, &nd.lwoe.node.neighbor);
+                        process_post(&send_message_co_i,  e_msg_connect, &co_msg);
+                        printf("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
+                    }else //Si es mejor el edge de un vecino
                     {
                         //send change_root y dejo de ser CORE_NODE
-                        nd.flags &= ~CORE_NODE;
-                        llenar_change_root(&cr_msg, &nd.lwoe.node.neighbor, &nd.lwoe.node.neighbor);
-                        process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
-                        printf("EEEnvie 1 CHANGE_ROOT a next_hop=%d final_destination=%d\n",
-                        cr_msg.next_hop.u8[0],
-                        cr_msg.final_destination.u8[0]);
-                        //paso a FOUND
-                        //process_post(&master_co_i, e_found, NULL);
-
-                    }else
-                    {
-                        //send_report y paso a estado FOUND
-                        llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
-                        process_post(&send_message_report_ChaRoot, e_msg_report, &rp_msg);
-                        printf("nd y ch: Deseo Reportar Neigh=%d Weight=%d.%02d\n",
-                                 nd.lwoe.node.neighbor.u8[0],
-                                 (int)(nd.lwoe.node.weight / SEQNO_EWMA_UNITY),
-                                 (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100)  );
-
-                        //paso a FOUND
-                        process_post(&master_co_i, e_found, NULL);
-                        nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
-
-
-                    }
-                }else //Si es mejor el edge de un vecino
-                {
-                    if(nd.flags & CORE_NODE)
-                    {
-                        //send change_root y dejo de ser CORE_NODE
-                        nd.flags &= ~CORE_NODE;
+                        //nd.flags &= ~CORE_NODE;
                         llenar_change_root(&cr_msg, &nd.downroute, &nd.lwoe.children.neighbor);
                         process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
                         printf("EEEnvie 2 CHANGE_ROOT a next_hop=%d final_destination=%d\n",
                         cr_msg.next_hop.u8[0],
                         cr_msg.final_destination.u8[0]);
-                        //paso a FOUND
-                        //process_post(&master_co_i, e_found, NULL);
-
-                    }else
+                    }
+                }else //SI NO estan seteados los dos
+                {
+                    if( (es_Hoja()) && (nd.flags & ND_LWOE) )
                     {
+                        llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
+                        process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
+                        printf("1 Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                                 rp_msg.neighbor_r.u8[0],
+                                 (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                                 (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
+                        //paso a FOUND
+                        process_post(&master_co_i, e_found, NULL);
+                        nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
 
+                    }
+                }
+            }else //NO soy el CORE_NODE
+            {
+                if( (nd.flags & ND_LWOE) && (nd.flags & CH_LWOE) )
+                {
+                    if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
+                    {
                         //send_report y paso a estado FOUND
-                        // nd.lwoe.children.neighbor es quien_reporto
+                        llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
+                        process_post(&send_message_report_ChaRoot, e_msg_report, &rp_msg);
+                        printf("2 Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                                 nd.lwoe.node.neighbor.u8[0],
+                                 (int)(nd.lwoe.node.weight / SEQNO_EWMA_UNITY),
+                                 (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100)  );
+                        //paso a FOUND
+                        process_post(&master_co_i, e_found, NULL);
+                        nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+
+                    }else //Si es mejor el edge de un vecino
+                    {
+                        //send_report y paso a estado FOUND
+                        // nd.lwoe.children.neighbor es neighbor_r
                         llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.children.neighbor, nd.lwoe.children.weight );
                         process_post(&send_message_report_ChaRoot, e_msg_report, &rp_msg);
-                        printf("nd y ch: Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                        printf("3 Deseo Reportar Neigh=%d Weight=%d.%02d\n",
                                  nd.lwoe.children.neighbor.u8[0],
                                  (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
                                  (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100)  );
@@ -365,8 +368,22 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
 
                     }
+                }else //SI NO estan seteados los dos
+                {
+                    if( (es_Hoja()) && (nd.flags & ND_LWOE) )
+                    {
+                        llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
+                        process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
+                        printf("4 Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                                 rp_msg.neighbor_r.u8[0],
+                                 (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                                 (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
+                         //paso a FOUND
+                         process_post(&master_co_i, e_found, NULL);
+                         nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+                    }
                 }
-            } //End IF las dos banderas estan arriba
+            }
         } //IF ev == CONTINUE
     } //end of while
 

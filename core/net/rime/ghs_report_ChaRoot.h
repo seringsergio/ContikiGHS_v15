@@ -60,7 +60,7 @@ struct change_root_list
 struct report_msg
 {
     linkaddr_t destination; //Hacia donde envio el msg de report
-    linkaddr_t quien_reporto; //Neighbor con LWOE dentro del fragmento. El nodo quien reporto
+    linkaddr_t neighbor_r; //Neighbor con LWOE dentro del fragmento. El nodo quien reporto
     uint32_t weight_r; //Este es el peso del nodo con menor peso. Weight_reportado
 };
 
@@ -94,5 +94,6 @@ void ghs_report_ChaRoot_recv_ruc(void *msg,
 void llenar_change_root(change_root_msg *cr_msg, const linkaddr_t *next_hop,
                         const linkaddr_t *final_destination);
 
+uint8_t es_Hoja();
 
 #endif /* GHS_NEIGH_H */
