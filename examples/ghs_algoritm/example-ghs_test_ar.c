@@ -285,49 +285,106 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
         {
             if(list_length(t_list))
             {
-                test_list *t_list_p;
+                static test_list *t_list_p;
+                static accept_msg a_msg;
+                static reject_msg r_msg;
+
+                //test_list *const t_list_p_const;  // ptr is a constant pointer to test_list
+
                 for(t_list_p = list_head(t_list); t_list_p != NULL; t_list_p = t_list_p->next)
                 {
-                    //test_msg *t_msg = (test_msg *) msg;
-                    static accept_msg a_msg;
-                    static reject_msg r_msg;
+                    //t_list_p_const = t_list_p;
 
-                     printf("Reeeeeecibi un TEST msg from %d con name=%d.%02d, level=%d \n",
-                     t_list_p->from.u8[0],
-                     (int)(t_list_p->t_msg.f.name / SEQNO_EWMA_UNITY),
-                     (int)(((100UL * t_list_p->t_msg.f.name) / SEQNO_EWMA_UNITY) % 100),
-                     t_list_p->t_msg.f.level);
+                    printf("111: t_list_p->from=%d next=%d \n",
+                    t_list_p->from.u8[0], t_list_p->next->from.u8[0]);
+
 
                      if(t_list_p->t_msg.f.level > nd.f.level)
                      {
+                         printf("TL=%d  Pospone un TEsT msg from %d con name=%d.%02d, level=%d > nd.f.level=%d \n",
+                         list_length(t_list),
+                         t_list_p->from.u8[0],
+                         (int)(t_list_p->t_msg.f.name / SEQNO_EWMA_UNITY),
+                         (int)(((100UL * t_list_p->t_msg.f.name) / SEQNO_EWMA_UNITY) % 100),
+                         t_list_p->t_msg.f.level,
+                         nd.f.level);
+
                          //Pospones processing the incomming test msg, until (t_msg->f.level < nd.f.level)
                          list_remove(t_list, t_list_p); //Remove a specific element from a list.
                          list_add(t_list, t_list_p); //Add an item at the end of a list.
+
                      }else
                      if(t_list_p->t_msg.f.level <= nd.f.level)
                      {
                          if(t_list_p->t_msg.f.name == nd.f.name)
                          {
+                             printf("TL=%d  evaluo un TEsT msg from %d con name=%d.%02d, level=%d > nd.f.level=%d \n",
+                             list_length(t_list),
+                             t_list_p->from.u8[0],
+                             (int)(t_list_p->t_msg.f.name / SEQNO_EWMA_UNITY),
+                             (int)(((100UL * t_list_p->t_msg.f.name) / SEQNO_EWMA_UNITY) % 100),
+                             t_list_p->t_msg.f.level,
+                             nd.f.level);
+
                              //Enviar reject
                              llenar_reject_msg (&r_msg, &t_list_p->from);
                              process_post(&send_message_test_ar, e_msg_reject, &r_msg);
 
-                             list_remove(t_list, t_list_p); //Remove a specific element from a list.
+                             //Cuando lo saco de la lista el next es NULL
+                             //t_list_p_remove = memb_alloc(&t_mem_remove); //Alocar memoria
+                             //t_list_p_remove = t_list_p;
+                             //list_push(t_list_remove, t_list_p_remove); //Add an item to the start of the list.
+
+                             my_list_remove(t_list, t_list_p); //Remove a specific element from a list.
                              memb_free(&t_mem, t_list_p);
+                             //t_list_p = t_list_p_const;
+
                              printf("Quuuiero enviar e_msg_reject a %d \n", r_msg.destination.u8[0]);
 
                          }else
                          {
+                             printf("TL=%d  evaluo un TEsT msg from %d con name=%d.%02d, level=%d > nd.f.level=%d \n",
+                             list_length(t_list),
+                             t_list_p->from.u8[0],
+                             (int)(t_list_p->t_msg.f.name / SEQNO_EWMA_UNITY),
+                             (int)(((100UL * t_list_p->t_msg.f.name) / SEQNO_EWMA_UNITY) % 100),
+                             t_list_p->t_msg.f.level,
+                             nd.f.level);
+
                              //Enviar accept
                              llenar_accept_msg (&a_msg, &t_list_p->from);
                              process_post(&send_message_test_ar, e_msg_accept, &a_msg);
 
-                             list_remove(t_list, t_list_p); //Remove a specific element from a list.
+                             //Cuando lo saco de la lista el next es NULL
+                             //t_list_p_remove = memb_alloc(&t_mem_remove); //Alocar memoria
+                             //t_list_p_remove = t_list_p;
+                             //list_push(t_list_remove, t_list_p_remove); //Add an item to the start of the list.
+                             my_list_remove(t_list, t_list_p); //Remove a specific element from a list.
                              memb_free(&t_mem, t_list_p);
+                             //t_list_p = t_list_p_const;
+
                              printf("Quuuiero enviar e_msg_accept a %d \n", a_msg.destination.u8[0]);
+
+
                          }
                      }
-                } //FOR todos los elementos de la lista
+
+                     //t_list_p_next = t_list_p->next;
+
+                     printf("222: t_list_p->from=%d next=%d \n",
+                     t_list_p->from.u8[0], t_list_p->next->from.u8[0]);
+                     //test_msg *t_msg = (test_msg *) msg;
+                } //FOR todos los elementos de la lista - EVALUAR
+
+                // FOR PARA remover de la lista
+                /*for(t_list_p_remove = list_head(t_list_remove); t_list_p_remove != NULL;
+                    t_list_p_remove = t_list_p_remove->next)
+                {
+                    list_remove(t_list, t_list_p_remove);
+                    printf("TammannoL=%d\n", list_length(t_list));
+
+                }*/
+
             } //Si hay elementos en la lista
         } //END IF EV == CONTINUE
     } //END OF WHILE

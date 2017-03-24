@@ -10,6 +10,7 @@
 #include "ghs_algorithm.h"
 #include "net/rime/rime.h"
 #include <stdio.h>
+
 //#include <inttypes.h> //para imprimir el INFINITO. NO BORRAR!
 
 /*-------------------------------------------------------------------*/
@@ -78,6 +79,7 @@ void ghs_test_ar_recv_ruc(void *msg, const linkaddr_t *from,
                          struct process *e_test,
                          struct memb *t_mem, list_t t_list, struct process *evaluar_msg_test,
                          struct memb *a_mem, list_t a_list, struct process *evaluar_msg_accept);
+
 
 
 #endif /* GHS_NEIGH_H */

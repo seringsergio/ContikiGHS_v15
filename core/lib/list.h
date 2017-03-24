@@ -79,7 +79,7 @@
  *
  * The list variable is declared as static to make it easy to use in a
  * single C module without unnecessarily exporting the name to other
- * modules. 
+ * modules.
  *
  * \param name The name of the list.
  */
@@ -142,6 +142,7 @@ void * list_chop(list_t list);
 
 void   list_add(list_t list, void *item);
 void   list_remove(list_t list, void *item);
+void   my_list_remove(list_t list, void *item);
 
 int    list_length(list_t list);
 

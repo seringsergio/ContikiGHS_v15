@@ -2,7 +2,6 @@
 /*---------------- INCLUDES -----------------------------------------*/
 /*-------------------------------------------------------------------*/
 
-#include <stdio.h>
 #include "ghs_test_ar.h"
 
 
@@ -180,3 +179,5 @@ void ghs_test_ar_recv_ruc(void *msg, const linkaddr_t *from,
        }
 
  } //END receive runicast
+
+ 
