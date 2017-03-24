@@ -50,7 +50,7 @@ void llenar_report_msg(report_msg *rp_msg, const linkaddr_t *destination,
 /* Indica que la lista ya esta completa en el caso de un CORE_NODE
 *  en el cual todos los hijos reportaron menos el OTRO_CORE_NODE
 */
-uint8_t lista_completa_core_node( list_t rp_list)
+uint8_t lista_casi_completa( list_t rp_list)
 {
     report_list *rp_list_p;
     uint8_t no_falta_core_node = 0;
