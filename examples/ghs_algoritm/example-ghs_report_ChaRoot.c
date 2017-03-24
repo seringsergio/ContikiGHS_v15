@@ -72,8 +72,6 @@
  MEMB(cr_mem, change_root_list, MAX_TAMANO_LISTA_MSG); // Defines a memory pool for edges
  LIST(cr_list); // List that holds the neighbors we have seen thus far
 
- list_t report_list_g;
- struct memb *report_memb_g;
 
  /*------------------------------------------------------------------- */
  /*----------STATIC VARIABLES -----------------------------------------*/
@@ -126,16 +124,12 @@
 
 PROCESS_THREAD(evaluar_msg_rp, ev, data)
 {
-    //inicializo variable global
-    report_list_g = rp_list;
-    report_memb_g = &rp_mem;
+    PROCESS_EXITHANDLER();
+    PROCESS_BEGIN();
 
     //inicializar: Adicionalmente se re-inician en FOUND
     list_init(rp_list);
     memb_init(&rp_mem);
-
-    PROCESS_EXITHANDLER();
-    PROCESS_BEGIN();
 
     while(1)
     {
@@ -143,9 +137,10 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
         if(ev == PROCESS_EVENT_CONTINUE)
         {
 
-                report_list *rp_list_p;
-                rp_list_p = list_head(rp_list);//returns the last element of the list
-                    printf("LLLego report de %d Neigh=%d Weight=%d.%02d Hj=%d flags=%04X\n",
+                static report_list *rp_list_p;
+                rp_list_p = list_head(rp_list);
+                    printf("TL:%d LLLego report de %d Neigh=%d Weight=%d.%02d Hj=%d flags=%04X\n",
+                    list_length(rp_list),
                   rp_list_p->from.u8[0],
                   rp_list_p->rp_msg.neighbor_r.u8[0],
                   (int)(rp_list_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
@@ -326,7 +321,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                     {
                         llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                         process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
-                        printf("1 Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                        printf("CORE_NODE & HOJA Deseo Reportar Neigh=%d Weight=%d.%02d\n",
                                  rp_msg.neighbor_r.u8[0],
                                  (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                  (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
@@ -345,7 +340,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         //send_report y paso a estado FOUND
                         llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                         process_post(&send_message_report_ChaRoot, e_msg_report, &rp_msg);
-                        printf("2 Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                        printf("NO_CORE & BEST(ND_LWOE) Deseo Reportar Neigh=%d Weight=%d.%02d\n",
                                  nd.lwoe.node.neighbor.u8[0],
                                  (int)(nd.lwoe.node.weight / SEQNO_EWMA_UNITY),
                                  (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100)  );
@@ -359,7 +354,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         // nd.lwoe.children.neighbor es neighbor_r
                         llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.children.neighbor, nd.lwoe.children.weight );
                         process_post(&send_message_report_ChaRoot, e_msg_report, &rp_msg);
-                        printf("3 Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                        printf("NO_CORE & BEST(CH_LWOE) Deseo Reportar Neigh=%d Weight=%d.%02d\n",
                                  nd.lwoe.children.neighbor.u8[0],
                                  (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
                                  (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100)  );
@@ -374,7 +369,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                     {
                         llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                         process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
-                        printf("4 Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                        printf("NO_CORE & HOJA Deseo Reportar Neigh=%d Weight=%d.%02d\n",
                                  rp_msg.neighbor_r.u8[0],
                                  (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                  (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));

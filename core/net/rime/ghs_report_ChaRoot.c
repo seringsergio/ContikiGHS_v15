@@ -37,6 +37,15 @@ uint8_t es_Hoja()
     }
 }
 
+/* LLenar el msg de report
+*/
+void llenar_report_msg(report_msg *rp_msg, const linkaddr_t *destination,
+                      const linkaddr_t *neighbor_r, uint32_t weight_r)
+{
+    linkaddr_copy(&rp_msg->destination, destination);
+    linkaddr_copy(&rp_msg->neighbor_r, neighbor_r);
+    rp_msg->weight_r  = weight_r;
+}
 
 /* Funcion que recibe los msg de runicast
 */
@@ -92,6 +101,7 @@ void ghs_report_ChaRoot_recv_ruc(void *msg,
               linkaddr_copy(&rp_list_p->from, from);
               list_push(rp_list, rp_list_p); //Add an item to the start of the list.
               process_post(evaluar_msg_rp, PROCESS_EVENT_CONTINUE, NULL);
+
           }
 
        }else //end IF REPORT

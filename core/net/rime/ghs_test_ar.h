@@ -71,8 +71,6 @@ void llenar_reject_msg (reject_msg *r_msg, const linkaddr_t *destination);
 void become_accepted(edges *e_list_head_g, const linkaddr_t *from);
 void become_rejected(edges *e_list_head_g, const linkaddr_t *from);
 uint32_t return_weight(edges *e_list_head_g,  const linkaddr_t *from);
-void llenar_report_msg(report_msg *rp_msg, const linkaddr_t *destination,
-                      const linkaddr_t *neighbor_r, uint32_t weight_r);
 
 void ghs_test_ar_recv_ruc(void *msg, const linkaddr_t *from,
                          struct memb *history_mem, list_t history_list, uint8_t seqno,
