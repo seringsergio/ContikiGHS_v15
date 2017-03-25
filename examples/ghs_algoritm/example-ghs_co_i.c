@@ -228,7 +228,6 @@ PROCESS_THREAD(master_co_i, ev, data)
             nd.flags &= ~ND_LWOE;
             nd.flags &= ~CH_LWOE;
             //nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
-
         }else
         if (ev == e_find)
         {
