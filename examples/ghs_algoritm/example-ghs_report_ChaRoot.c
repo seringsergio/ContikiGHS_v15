@@ -302,7 +302,6 @@ PROCESS_THREAD(e_LWOE, ev, data)
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
-            
             /*if( (nd.lwoe.node.weight == INFINITO) && (nd.lwoe.children.weight==INFINITO) )
             {
                 //termino GHS

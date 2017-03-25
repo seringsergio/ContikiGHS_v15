@@ -57,6 +57,7 @@ uint8_t lista_casi_completa( list_t rp_list)
 // Y ese hijo faltante es el OTRO_CORE_NODE
 //Entonces: La lista esta completa
 
+
     if(nd.flags & CORE_NODE) //SI SOY CORE_NODE
     {
         if( list_length(rp_list) == (nd.num_children-1)  )  //ME FALTA SOLAMENTE 1 HIJO
