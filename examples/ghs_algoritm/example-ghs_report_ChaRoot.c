@@ -320,7 +320,6 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
                                 {
                                     nd.flags &= ~CORE_NODE;
-
                                     //envio CHANGE_ROOT imaginario
                                     become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root
 
@@ -336,7 +335,6 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 {
                                     //send change_root y dejo de ser CORE_NODE
                                     nd.flags &= ~CORE_NODE;
-
                                     llenar_change_root(&cr_msg, &nd.downroute, &nd.lwoe.children.neighbor);
                                     process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
                                     printf("EEEnvie 2 CHANGE_ROOT a next_hop=%d final_destination=%d\n",
