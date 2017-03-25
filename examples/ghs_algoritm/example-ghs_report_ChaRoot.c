@@ -305,7 +305,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
             if( (nd.lwoe.node.weight == INFINITO) && (nd.lwoe.children.weight==INFINITO) )
             {
                 //termino GHS
-                printf("Acabo GHS algorithm Name=%d.%02d\n",
+                printf("1. Acabo GHS algorithm Name=%d.%02d\n",
                 (int)(nd.f.name / SEQNO_EWMA_UNITY),
                 (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
 
@@ -319,6 +319,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                     {
                         if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
                         {
+                            //nd.flags &= ~CORE_NODE;
                             //Envio CONNECT msg
                             llenar_connect_msg (&co_msg, nd.f.level, &nd.lwoe.node.neighbor);
                             process_post(&send_message_co_i,  e_msg_connect, &co_msg);
@@ -331,6 +332,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         {
                             //send change_root y dejo de ser CORE_NODE
                             //nd.flags &= ~CORE_NODE;
+
                             llenar_change_root(&cr_msg, &nd.downroute, &nd.lwoe.children.neighbor);
                             process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
                             printf("EEEnvie 2 CHANGE_ROOT a next_hop=%d final_destination=%d\n",
