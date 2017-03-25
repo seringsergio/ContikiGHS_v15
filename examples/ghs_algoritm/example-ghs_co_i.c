@@ -220,9 +220,9 @@ PROCESS_THREAD(master_co_i, ev, data)
             printf("Estoy en FOUND \n");
 
             //termino GHS
-            printf("2. Acabo GHS algorithm Name=%d.%02d\n",
+            /*printf("2. Acabo GHS algorithm Name=%d.%02d\n",
             (int)(nd.f.name / SEQNO_EWMA_UNITY),
-            (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
+            (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));*/
 
             //Reinicio variables
             nd.flags &= ~ND_LWOE;

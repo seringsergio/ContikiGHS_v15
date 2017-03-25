@@ -302,7 +302,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
-            if( (nd.lwoe.node.weight == INFINITO) && (nd.lwoe.children.weight==INFINITO) )
+            /*if( (nd.lwoe.node.weight == INFINITO) && (nd.lwoe.children.weight==INFINITO) )
             {
                 //termino GHS
                 printf("1. Acabo GHS algorithm Name=%d.%02d\n",
@@ -312,14 +312,14 @@ PROCESS_THREAD(e_LWOE, ev, data)
                 process_post(&master_co_i, e_found, NULL);
                 nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
             }else
-            {
+            {*/
                 if(nd.flags & CORE_NODE)
                 {
                     if( (nd.flags & ND_LWOE) && (nd.flags & CH_LWOE) )
                     {
                         if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
                         {
-                            //nd.flags &= ~CORE_NODE;
+                            nd.flags &= ~CORE_NODE;
                             //Envio CONNECT msg
                             llenar_connect_msg (&co_msg, nd.f.level, &nd.lwoe.node.neighbor);
                             process_post(&send_message_co_i,  e_msg_connect, &co_msg);
@@ -331,7 +331,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         }else //Si es mejor el edge de un vecino
                         {
                             //send change_root y dejo de ser CORE_NODE
-                            //nd.flags &= ~CORE_NODE;
+                            nd.flags &= ~CORE_NODE;
 
                             llenar_change_root(&cr_msg, &nd.downroute, &nd.lwoe.children.neighbor);
                             process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
@@ -443,7 +443,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                          nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                     }
                 } //END no soy core node
-            } //SI los dos son INFINITO acabo!!
+            //} //SI los dos son INFINITO acabo!!
         } //IF ev == CONTINUE
     } //end of while
 
