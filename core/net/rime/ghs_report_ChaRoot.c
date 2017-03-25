@@ -28,10 +28,6 @@ uint8_t es_Hoja()
     {
         return 1; //Si tengo 0 hijos soy hoja
     }else
-    if( (nd.num_children == 1) && (nd.flags & CORE_NODE)   )
-    {
-        return 1; //Si tengo 1 hijo y soy el CORE_NODE. Entonces soy hoja
-    }else
     {
         return 0;// EN todos los otros casos no soy hoja
     }
