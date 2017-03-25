@@ -338,9 +338,6 @@ PROCESS_THREAD(e_LWOE, ev, data)
                              rp_msg.neighbor_r.u8[0],
                              (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
                              (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
-                    //¿?NO paso a FOUND: Espero a que el otro nodo reporte
-                    //¿?Caso de que solo 2 CORE_NODES esten en el fragmento
-
                     //paso a FOUND
                     process_post(&master_co_i, e_found, NULL);
                     nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
@@ -348,38 +345,43 @@ PROCESS_THREAD(e_LWOE, ev, data)
                 else //SI NO estan seteados los dos. Pero soy lista CASI completa(solo falta el otro core_node)
                 if( (lista_casi_completa(rp_list)) && (nd.flags & ND_LWOE) )
                 {
-                    //Encuentro el menor de la lista
-                    static report_list *rp_str = NULL;
-                    static uint32_t lowest_weight;
-                    static report_list *lowest_rp = NULL;
-                    for(rp_str = list_head(rp_list), lowest_weight = rp_str->rp_msg.weight_r,
-                        lowest_rp = rp_str;
-                        rp_str != NULL; rp_str = rp_str->next)
+                    if(list_length(rp_list) == 0)
                     {
-                        if(rp_str->rp_msg.weight_r < lowest_weight)
+                        llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
+                        process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
+                        printf("CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                                 rp_msg.neighbor_r.u8[0],
+                                 (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                                 (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
+
+                        //paso a FOUND
+                        process_post(&master_co_i, e_found, NULL);
+                        nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+
+                    }else //Si la lista tiene reportes
+                    {
+                        //Encuentro el menor de la lista
+                        static report_list *rp_str = NULL;
+                        static uint32_t lowest_weight;
+                        static report_list *lowest_rp = NULL;
+                        for(rp_str = list_head(rp_list), lowest_weight = rp_str->rp_msg.weight_r,
+                            lowest_rp = rp_str;
+                            rp_str != NULL; rp_str = rp_str->next)
                         {
-                            lowest_weight = rp_str->rp_msg.weight_r;
-                            lowest_rp     = rp_str;
+                            if(rp_str->rp_msg.weight_r < lowest_weight)
+                            {
+                                lowest_weight = rp_str->rp_msg.weight_r;
+                                lowest_rp     = rp_str;
+                            }
                         }
+
+                        //guardo el menor hijo como el mejor edge
+                        linkaddr_copy( &nd.downroute , &lowest_rp->from);
+                        linkaddr_copy(&nd.lwoe.children.neighbor, &lowest_rp->rp_msg.neighbor_r );
+                        nd.lwoe.children.weight = lowest_rp->rp_msg.weight_r;
+                        nd.flags |= CH_LWOE; //Ya encontre el ND_LWOE
+                        process_post(PROCESS_CURRENT(), PROCESS_EVENT_CONTINUE, NULL);
                     }
-
-                    //guardo el menor hijo como el mejor edge
-                    linkaddr_copy( &nd.downroute , &lowest_rp->from);
-                    linkaddr_copy(&nd.lwoe.children.neighbor, &lowest_rp->rp_msg.neighbor_r );
-                    nd.lwoe.children.weight = lowest_rp->rp_msg.weight_r;
-                    //nd.flags |= CH_LWOE; //Ya encontre el ND_LWOE
-                    //process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
-
-                    llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.children.neighbor, nd.lwoe.children.weight );
-                    process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
-                    printf("CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
-                             rp_msg.neighbor_r.u8[0],
-                             (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
-                             (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
-
-                    //paso a FOUND
-                    process_post(&master_co_i, e_found, NULL);
-                    nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                 }
 
             }else //NO soy el CORE_NODE
