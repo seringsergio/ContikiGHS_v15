@@ -413,7 +413,10 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                         linkaddr_copy(&nd.otro_core_node, &i_list_p->from);
                         nd.flags |= CORE_NODE;
                         printf("Soy CORE_NORE 2\n");
-                    }
+                    }/*else
+                    {
+                        nd.flags &= ~CORE_NODE;
+                    }*/
 
                     if(i_list_p->i_msg.nd_state == FIND) //si cambio de estado a FIND
                     {

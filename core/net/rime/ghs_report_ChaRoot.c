@@ -74,6 +74,7 @@ uint8_t lista_casi_completa( list_t rp_list)
             if(no_falta_core_node == 1)
             {
                 lista_completa = 0; //LISTA incompleta
+                printf("NOOO ... Lista NO completa\n");
             }else
             {
                 lista_completa = 1; //Lista completa

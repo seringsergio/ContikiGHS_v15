@@ -320,10 +320,14 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
                                 {
                                     nd.flags &= ~CORE_NODE;
+
+                                    //envio CHANGE_ROOT imaginario
+                                    become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root
+
                                     //Envio CONNECT msg
-                                    llenar_connect_msg (&co_msg, nd.f.level, &nd.lwoe.node.neighbor);
+                                    /*llenar_connect_msg (&co_msg, nd.f.level, &nd.lwoe.node.neighbor);
                                     process_post(&send_message_co_i,  e_msg_connect, &co_msg);
-                                    printf("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
+                                    printf("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);*/
                                     //paso a FOUND
                                     process_post(&master_co_i, e_found, NULL);
                                     nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
@@ -359,7 +363,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         else //SI NO estan seteados los dos. Pero soy lista CASI completa(solo falta el otro core_node)
                         if( (lista_casi_completa(rp_list)) && (nd.flags & ND_LWOE) )
                         {
-                            if(list_length(rp_list) == 0)
+                            if(list_length(rp_list) == 0) //significa que tengo CERO hijos
                             {
                                 llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                                 process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
@@ -372,7 +376,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 process_post(&master_co_i, e_found, NULL);
                                 nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
 
-                            }else //Si la lista tiene reportes
+                            }else //Si la lista tiene reportes, tengo HIJOS
                             {
                                 //Encuentro el menor de la lista
                                 static report_list *rp_str = NULL;
@@ -394,7 +398,33 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 linkaddr_copy(&nd.lwoe.children.neighbor, &lowest_rp->rp_msg.neighbor_r );
                                 nd.lwoe.children.weight = lowest_rp->rp_msg.weight_r;
                                 nd.flags |= CH_LWOE; //Ya encontre el ND_LWOE
-                                process_post(PROCESS_CURRENT(), PROCESS_EVENT_CONTINUE, NULL);
+                                //process_post(PROCESS_CURRENT(), PROCESS_EVENT_CONTINUE, NULL);
+
+                                if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
+                                {
+                                    llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
+                                    process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
+                                    printf("CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                                             rp_msg.neighbor_r.u8[0],
+                                             (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                                             (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
+
+                                    //paso a FOUND
+                                    process_post(&master_co_i, e_found, NULL);
+                                    nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+                               }else
+                               {
+                                   llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.children.neighbor, nd.lwoe.children.weight );
+                                   process_post(&send_message_report_ChaRoot, e_msg_report, &rp_msg);
+                                   printf("CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                                                        rp_msg.neighbor_r.u8[0],
+                                                        (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                                                        (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
+                                   //paso a FOUND
+                                   process_post(&master_co_i, e_found, NULL);
+                                   nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+
+                               }
                             }
                         }
                 }else //NO soy el CORE_NODE
@@ -407,9 +437,9 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                             process_post(&send_message_report_ChaRoot, e_msg_report, &rp_msg);
                             printf("NO_CORE & BEST(ND_LWOE) Deseo Reportar Neigh=%d Weight=%d.%02d\n",
-                                     nd.lwoe.node.neighbor.u8[0],
-                                     (int)(nd.lwoe.node.weight / SEQNO_EWMA_UNITY),
-                                     (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100)  );
+                                                rp_msg.neighbor_r.u8[0],
+                                                (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                                                (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                             //paso a FOUND
                             process_post(&master_co_i, e_found, NULL);
                             nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
@@ -421,9 +451,9 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.children.neighbor, nd.lwoe.children.weight );
                             process_post(&send_message_report_ChaRoot, e_msg_report, &rp_msg);
                             printf("NO_CORE & BEST(CH_LWOE) Deseo Reportar Neigh=%d Weight=%d.%02d\n",
-                                     nd.lwoe.children.neighbor.u8[0],
-                                     (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
-                                     (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100)  );
+                                                rp_msg.neighbor_r.u8[0],
+                                                (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                                                (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                             //paso a FOUND
                             process_post(&master_co_i, e_found, NULL);
                             nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
@@ -435,9 +465,9 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                         process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
                         printf("NO_CORE & HOJA Deseo Reportar Neigh=%d Weight=%d.%02d\n",
-                                 rp_msg.neighbor_r.u8[0],
-                                 (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
-                                 (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
+                                            rp_msg.neighbor_r.u8[0],
+                                            (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                                            (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                          //paso a FOUND
                          process_post(&master_co_i, e_found, NULL);
                          nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
@@ -481,13 +511,15 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
                         printf("El msg de ChangeRooot es para mi\n");
                         become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root
 
-                        llenar_connect_msg (&c_msg, nd.f.level, &nd.lwoe.node.neighbor);
+                        //Envio CONNECT
+                        /*llenar_connect_msg (&c_msg, nd.f.level, &nd.lwoe.node.neighbor);
                         process_post(&send_message_co_i,  e_msg_connect, &c_msg);
-                        printf("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
+                        printf("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);*/
 
                     }else//Si el change_root NO es para mi
                     {
                         printf("El msg de ChangeRooot NO es para mi\n");
+                        nd.flags &= ~CORE_NODE;
 
                         llenar_change_root(&cr_msg_new, &nd.downroute, &cr_list_p->cr_msg.final_destination);
                         process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg_new );
