@@ -338,9 +338,12 @@ PROCESS_THREAD(e_LWOE, ev, data)
                              rp_msg.neighbor_r.u8[0],
                              (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
                              (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
-                    //NO paso a FOUND: Espero a que el otro nodo reporte
-                    //Caso de que solo 2 CORE_NODES esten en el fragmento
+                    //¿?NO paso a FOUND: Espero a que el otro nodo reporte
+                    //¿?Caso de que solo 2 CORE_NODES esten en el fragmento
 
+                    //paso a FOUND
+                    process_post(&master_co_i, e_found, NULL);
+                    nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                 }
                 else //SI NO estan seteados los dos. Pero soy lista CASI completa(solo falta el otro core_node)
                 if( (lista_casi_completa(rp_list)) && (nd.flags & ND_LWOE) )
