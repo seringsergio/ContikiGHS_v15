@@ -227,10 +227,11 @@ PROCESS_THREAD(master_co_i, ev, data)
             //Reinicio variables
             nd.flags &= ~ND_LWOE;
             nd.flags &= ~CH_LWOE;
-            //nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
         }else
         if (ev == e_find)
         {
+            //Por alguna razon no deja la siguiente linea. Por eso la hago cuando post el e_find
+            nd.flags &= ~FRAGMENTO_LWOE; //No he encontrado el LWOE del fragmento
             printf("Estoy en FIND \n");
             process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
         }
@@ -365,7 +366,9 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                          co_list_p->co_msg.level);
 
                         become_branch(e_list_head_g, &co_list_p->from); // become branch de connect
+
                         nd.num_children = nd.num_children + 1;
+
                         llenar_initiate_msg(&i_msg, nd.f.name, nd.f.level, nd.state, &co_list_p->from, ~BECOME_CORE_NODE);
                         process_post(&send_message_co_i,  e_msg_initiate, &i_msg); //Hijo + 1 !!
 
@@ -420,6 +423,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                         //Envio un mensaje al master_co_i de find
                         process_post(&master_co_i,  e_find, NULL);
                         nd.state = FIND;  //Para saber en que estado estoy en cualquier parte
+                        //nd.flags &= ~FRAGMENTO_LWOE; //No he encontrado el LWOE del fragmento
                     }else
                     if(i_list_p->i_msg.nd_state == FOUND) //si cambio de estado a FOUND
                     {
@@ -436,7 +440,6 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                         //Si es una BRANCH y no es el nodo que me envio el INITIATE (No le devuelvo el msg)
                         if( (e_aux->state == BRANCH) && !linkaddr_cmp(&e_aux->addr, &i_list_p->from))
                         {
-                            //nd.num_children = nd.num_children + 1;
                             llenar_initiate_msg(&i_msg_d, i_list_p->i_msg.f.name, i_list_p->i_msg.f.level,
                                                i_list_p->i_msg.nd_state, &e_aux->addr, ~BECOME_CORE_NODE);
                             process_post(&send_message_co_i,  e_msg_initiate, &i_msg_d);

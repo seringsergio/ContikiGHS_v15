@@ -26,10 +26,11 @@
 #define END   0x04
 
 //Banderas de los nodos nd.flags
-#define INITIATIOR  0x01
-#define ND_LWOE     0x02
-#define CH_LWOE     0x04
-#define CORE_NODE   0x08
+#define INITIATIOR          0x01
+#define ND_LWOE             0x02
+#define CH_LWOE             0x04
+#define CORE_NODE           0x08
+#define FRAGMENTO_LWOE      0x10
 
 //Banderas de initiate_msg
 #define BECOME_CORE_NODE 0x01
@@ -203,7 +204,7 @@ struct node
 /*-------------------------------------------------------------------*/
 /*---------------- Variables globales--------------------------------*/
 /*-------------------------------------------------------------------*/
-extern node nd; //nd es node....n es neighbor
+//extern node nd; //nd es node....n es neighbor
 
 /*-------------------------------------------------------------------*/
 /*---------------- FUNCIONES ----------------------------------------*/

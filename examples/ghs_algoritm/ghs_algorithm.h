@@ -22,6 +22,8 @@ typedef struct edges edges;
 extern edges *e_list_head_g;
 extern list_t report_list_g;
 extern struct memb *report_memb_g;
+extern node nd; //nd es node....n es neighbor
+
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS-------------------------------------------------*/
 /*------------------------------------------------------------------- */

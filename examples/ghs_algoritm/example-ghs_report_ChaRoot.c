@@ -335,9 +335,9 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                     become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root
 
                                     //Envio CONNECT msg
-                                    /*llenar_connect_msg (&co_msg, nd.f.level, &nd.lwoe.node.neighbor);
+                                    llenar_connect_msg (&co_msg, nd.f.level, &nd.lwoe.node.neighbor);
                                     process_post(&send_message_co_i,  e_msg_connect, &co_msg);
-                                    printf("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);*/
+                                    printf("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
                                     //paso a FOUND
                                     process_post(&master_co_i, e_found, NULL);
                                     nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
@@ -356,6 +356,9 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                     nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                                 }
 
+                                //Ya encontre el LWOE del fragmento. No reenvio CHANGE_ROOT
+                                //del otro CORE_NODE
+                                nd.flags |= FRAGMENTO_LWOE;
                                 //Otro CORE_NODE debe dejar de ser CORE_NODE
                                 static msg_informacion inf_msg;
                                 llenar_msg_informacion(&inf_msg, NO_SEA_CORE_NODE, &nd.otro_core_node );
@@ -382,7 +385,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             //a que al menos 1 de los 2 CORE_NODES envie change_root.
                             //Lo que pasa es que los 2 CORE_NODE envian report y pasan a FOUND
                             //y ninguno envia change_root.
-                            if(list_length(rp_list) == 0) //significa que tengo CERO hijos
+                            if(list_length(rp_list) == 0) //Mi unico hijo es el otro CORE_NODE
                             {
                                 //nd.flags &= ~CORE_NODE;
                                 llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
@@ -543,19 +546,29 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
                         become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root
 
                         //Envio CONNECT
-                        /*llenar_connect_msg (&c_msg, nd.f.level, &nd.lwoe.node.neighbor);
+                        llenar_connect_msg (&c_msg, nd.f.level, &nd.lwoe.node.neighbor);
                         process_post(&send_message_co_i,  e_msg_connect, &c_msg);
-                        printf("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);*/
+                        printf("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
 
                     }else//Si el change_root NO es para mi
                     {
-                        printf("El msg de ChangeRooot NO es para mi\n");
 
-                        llenar_change_root(&cr_msg_new, &nd.downroute, &cr_list_p->cr_msg.final_destination);
-                        process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg_new );
-                        printf("REEEnvie  CHANGE_ROOT a next_hop=%d final_destination=%d\n",
-                        cr_msg_new.next_hop.u8[0],
-                        cr_msg_new.final_destination.u8[0]);
+                        //si voy a reenviar un CHANGE_ROOT que viene del otro_core_node &&
+                        //Ya encontre el LWOE del fragmento
+                        if(  (linkaddr_cmp(&cr_list_p->from,&nd.otro_core_node)) &&
+                             (nd.flags & FRAGMENTO_LWOE) )
+                        {
+                            printf("ChangeRoot NO es para mi - NO Reenvio el CHANGE_ROOT porque YO ya lo mande\n");
+                        }else
+                        {
+                            printf("ChangeRoot NO es para mi\n");
+
+                            llenar_change_root(&cr_msg_new, &nd.downroute, &cr_list_p->cr_msg.final_destination);
+                            process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg_new );
+                            printf("REEEnvie  CHANGE_ROOT a next_hop=%d final_destination=%d\n",
+                                    cr_msg_new.next_hop.u8[0],
+                                    cr_msg_new.final_destination.u8[0]);
+                        }
                     }
 
                     //remuevo el elemento de la lista
