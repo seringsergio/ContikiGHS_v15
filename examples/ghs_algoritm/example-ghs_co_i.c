@@ -230,7 +230,6 @@ PROCESS_THREAD(master_co_i, ev, data)
         }else
         if (ev == e_find)
         {
-            //Por alguna razon no deja la siguiente linea. Por eso la hago cuando post el e_find
             nd.flags &= ~FRAGMENTO_LWOE; //No he encontrado el LWOE del fragmento
             printf("Estoy en FIND \n");
             process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
@@ -423,7 +422,6 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                         //Envio un mensaje al master_co_i de find
                         process_post(&master_co_i,  e_find, NULL);
                         nd.state = FIND;  //Para saber en que estado estoy en cualquier parte
-                        //nd.flags &= ~FRAGMENTO_LWOE; //No he encontrado el LWOE del fragmento
                     }else
                     if(i_list_p->i_msg.nd_state == FOUND) //si cambio de estado a FOUND
                     {
