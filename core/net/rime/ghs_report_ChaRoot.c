@@ -32,6 +32,13 @@ uint8_t es_Hoja()
         return 0;// EN todos los otros casos no soy hoja
     }
 }
+/* llenar el msg de informacion
+*/
+void llenar_msg_informacion(msg_informacion *inf_msg, uint8_t flags, const linkaddr_t *destination )
+{
+    inf_msg->flags = flags;
+    linkaddr_copy(&inf_msg->destination, destination);
+}
 
 /* LLenar el msg de report
 */
@@ -92,7 +99,8 @@ void ghs_report_ChaRoot_recv_ruc(void *msg,
                          const linkaddr_t *from,
                          struct memb *history_mem, list_t history_list, uint8_t seqno,
                          struct memb *rp_mem, list_t rp_list, struct process *evaluar_msg_rp,
-                         list_t  cr_list, struct memb *cr_mem, struct process *evaluar_msg_cr )
+                         list_t  cr_list, struct memb *cr_mem, struct process *evaluar_msg_cr,
+                         struct process *master_co_i )
 {
 
     /* OPTIONAL: Sender history */
@@ -160,5 +168,24 @@ void ghs_report_ChaRoot_recv_ruc(void *msg,
                list_push(cr_list, cr_list_p); //Add an item to the start of the list.
                process_post(evaluar_msg_cr, PROCESS_EVENT_CONTINUE, NULL);
            }
+       }else
+       if(msg_type == INFORMATION)
+       {
+           report_list *rp_list_p;
+
+           //dejo de ser core_node
+           nd.flags &= ~CORE_NODE;
+
+           //limpio mi lista de reportes
+           for(rp_list_p = list_head(rp_list); rp_list_p != NULL; rp_list_p = rp_list_p->next)
+           {
+               my_list_remove(rp_list, rp_list_p); //Remove a specific element from a list.
+               memb_free(rp_mem, rp_list_p);
+           }
+
+           //paso a FOUND
+           process_post(master_co_i, e_found, NULL);
+           nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
        }
+
 }//End recibir mensajes de unicast

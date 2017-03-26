@@ -169,7 +169,7 @@ PROCESS_THREAD(master_co_i, ev, data)
 
         e_msg_report          = process_alloc_event(); // Darle un numero al evento
         e_msg_ch_root         = process_alloc_event(); // Darle un numero al evento
-
+        e_msg_information     = process_alloc_event(); // Darle un numero al evento
 
     static s_wait str_wait;
     while(1)

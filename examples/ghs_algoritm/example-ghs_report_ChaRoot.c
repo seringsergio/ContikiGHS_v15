@@ -89,7 +89,7 @@
    ghs_report_ChaRoot_recv_ruc(packetbuf_dataptr() , from, &history_mem,
                         history_list, seqno, &rp_mem, rp_list, &evaluar_msg_rp,
                         cr_list, &cr_mem,
-                        &evaluar_msg_cr);
+                        &evaluar_msg_cr, &master_co_i);
 
 
  }
@@ -218,8 +218,6 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
 
     while(1)
     {
-        //static struct etimer et;
-
         PROCESS_WAIT_EVENT(); // Wait for any event.
 
         if(ev == e_msg_report)
@@ -227,10 +225,6 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
             static report_msg *rp_msg_d; //rp = report
             rp_msg_d = (report_msg *) data;
             static report_msg rp_msg;
-
-            //Delay 2-4 seconds  //Para que no todos lo manden al tiempo
-            /*etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
-            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
@@ -259,12 +253,6 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
             cr_msg_d = (change_root_msg *) data;
             static change_root_msg cr_msg;
 
-            //llenar_change_root(&cr_msg, &cr_msg_d->next_hop, &cr_msg_d->final_destination);
-
-            //Delay 2-4 seconds  //Para que no todos lo manden al tiempo
-            /*etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
-            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
-
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
                 llenar_change_root(&cr_msg, &cr_msg_d->next_hop, &cr_msg_d->final_destination);
@@ -281,7 +269,30 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
                 llenar_change_root(&cr_msg, &cr_msg_d->next_hop, &cr_msg_d->final_destination);
                 process_post(PROCESS_CURRENT(), e_msg_ch_root, &cr_msg);
             }
+        }else
+        if(ev == e_msg_information)
+        {
+            static msg_informacion *inf_msg_d; //information_message
+            inf_msg_d = (msg_informacion *) data;
+            static msg_informacion inf_msg;
+
+
+            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+            {
+                llenar_msg_informacion(&inf_msg, inf_msg_d->flags, &inf_msg_d->destination);
+                packetbuf_copyfrom(&inf_msg, sizeof(inf_msg));
+                packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INFORMATION);
+                runicast_send(&runicast, &inf_msg.destination, MAX_RETRANSMISSIONS);
+                printf("Envie INFORMATION msg TO=%d\n",
+                        inf_msg.destination.u8[0]);
+            }else //Si runicast esta ocupado TX, pospongo el envio del msg
+            {
+                //pospone sending the message
+                llenar_msg_informacion(&inf_msg, inf_msg_d->flags, &inf_msg_d->destination);
+                process_post(PROCESS_CURRENT(), e_msg_information, &inf_msg);
+            }
         }
+
     } //end of infinite while
     PROCESS_END();
 }
@@ -344,10 +355,17 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                     process_post(&master_co_i, e_found, NULL);
                                     nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                                 }
+
+                                //Otro CORE_NODE debe dejar de ser CORE_NODE
+                                static msg_informacion inf_msg;
+                                llenar_msg_informacion(&inf_msg, NO_SEA_CORE_NODE, &nd.otro_core_node );
+                                process_post(&send_message_report_ChaRoot, e_msg_information, &inf_msg);
+
                             } //SI los dos valores son INFINITO acabo GHS
                         }else //SI NO estan seteados los dos. Pero soy hoja...
                         if( (es_Hoja()) && (nd.flags & ND_LWOE) )
                         {
+                            nd.flags &= ~CORE_NODE;
                             llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                             process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
                             printf("CORE_NODE & HOJA Deseo Reportar Neigh=%d Weight=%d.%02d\n",
@@ -360,9 +378,13 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         }
                         else //SI NO estan seteados los dos. Pero soy lista CASI completa(solo falta el otro core_node)
                         if( (lista_casi_completa(rp_list)) && (nd.flags & ND_LWOE) )
-                        {
+                        {  //No puedo pasar a FOUND ni ~CORE_NODE porque tengo q esperar
+                            //a que al menos 1 de los 2 CORE_NODES envie change_root.
+                            //Lo que pasa es que los 2 CORE_NODE envian report y pasan a FOUND
+                            //y ninguno envia change_root.
                             if(list_length(rp_list) == 0) //significa que tengo CERO hijos
                             {
+                                //nd.flags &= ~CORE_NODE;
                                 llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                                 process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
                                 printf("CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
@@ -371,11 +393,12 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                          (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
 
                                 //paso a FOUND
-                                process_post(&master_co_i, e_found, NULL);
-                                nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+                                //process_post(&master_co_i, e_found, NULL);
+                                //nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
 
                             }else //Si la lista tiene reportes, tengo HIJOS
                             {
+                                //report_list *rp_list_p;
                                 //Encuentro el menor de la lista
                                 static report_list *rp_str = NULL;
                                 static uint32_t lowest_weight;
@@ -391,6 +414,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                     }
                                 }
 
+
                                 //guardo el menor hijo como el mejor edge
                                 linkaddr_copy( &nd.downroute , &lowest_rp->from);
                                 linkaddr_copy(&nd.lwoe.children.neighbor, &lowest_rp->rp_msg.neighbor_r );
@@ -398,8 +422,16 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 nd.flags |= CH_LWOE; //Ya encontre el ND_LWOE
                                 //process_post(PROCESS_CURRENT(), PROCESS_EVENT_CONTINUE, NULL);
 
+                                //Remuevo (list_remove) todos los elementos de la lista
+                                /*for(rp_list_p = list_head(rp_list); rp_list_p != NULL; rp_list_p = rp_list_p->next)
+                                {
+                                    my_list_remove(rp_list, rp_list_p); //Remove a specific element from a list.
+                                    memb_free(&rp_mem, rp_list_p);
+                                }*/
+
                                 if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
                                 {
+                                    //nd.flags &= ~CORE_NODE;
                                     llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                                     process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
                                     printf("CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
@@ -408,10 +440,11 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                              (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
 
                                     //paso a FOUND
-                                    process_post(&master_co_i, e_found, NULL);
-                                    nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+                                    //process_post(&master_co_i, e_found, NULL);
+                                    //nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                                }else
                                {
+                                   //nd.flags &= ~CORE_NODE;
                                    llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.children.neighbor, nd.lwoe.children.weight );
                                    process_post(&send_message_report_ChaRoot, e_msg_report, &rp_msg);
                                    printf("CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
@@ -419,8 +452,8 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                                         (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                                         (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                                    //paso a FOUND
-                                   process_post(&master_co_i, e_found, NULL);
-                                   nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+                                   //process_post(&master_co_i, e_found, NULL);
+                                   //nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
 
                                }
                             }
@@ -517,7 +550,6 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
                     }else//Si el change_root NO es para mi
                     {
                         printf("El msg de ChangeRooot NO es para mi\n");
-                        nd.flags &= ~CORE_NODE;
 
                         llenar_change_root(&cr_msg_new, &nd.downroute, &cr_list_p->cr_msg.final_destination);
                         process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg_new );

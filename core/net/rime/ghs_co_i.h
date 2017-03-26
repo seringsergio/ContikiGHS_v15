@@ -48,6 +48,7 @@
 #define M_ACCEPT     0x10
 #define REPORT       0x20
 #define CHANGE_ROOT  0x40
+#define INFORMATION  0x80
 
 
 /*-------------------------------------------------------------------*/

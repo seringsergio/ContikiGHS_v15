@@ -20,7 +20,8 @@
 /*-------------------------------------------------------------------*/
 #define MAX_NUM_REPORTS MAX_NEIGHBORS
 
-
+//banderas msg_informacion
+#define NO_SEA_CORE_NODE 0x01
 /*-------------------------------------------------------------------*/
 /*---------------- TYPEDEF ------------------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -30,6 +31,8 @@ typedef struct report_msg report_msg;
 typedef struct change_root_msg change_root_msg;
 typedef struct info_found info_found;
 typedef struct change_root_list change_root_list;
+typedef struct msg_informacion msg_informacion;
+
 
 /*-------------------------------------------------------------------*/
 /*---------------- EVENTOS ------------------------------------------*/
@@ -39,10 +42,17 @@ typedef struct change_root_list change_root_list;
 
 //msg
 process_event_t e_msg_report;
-//process_event_t e_msg_ch_root;
+process_event_t e_msg_information; //no sea core_node
 /*-------------------------------------------------------------------*/
 /*---------------- ESTRUCTURAS---------------------------------------*/
 /*-------------------------------------------------------------------*/
+
+struct msg_informacion
+{
+    uint8_t flags;
+    linkaddr_t destination; //Hacia donde envio el msg de report
+};
+
 struct change_root_msg
 {
     linkaddr_t next_hop; //El siguiente hop en el camino del msg de change root
@@ -89,16 +99,17 @@ void ghs_report_ChaRoot_recv_ruc(void *msg,
                          const linkaddr_t *from,
                          struct memb *history_mem, list_t history_list, uint8_t seqno,
                          struct memb *rp_mem, list_t rp_list, struct process *evaluar_msg_rp,
-                         list_t  cr_list, struct memb *cr_mem, struct process *evaluar_msg_cr );
+                         list_t  cr_list, struct memb *cr_mem, struct process *evaluar_msg_cr,
+                         struct process *master_co_i );
 
 void llenar_change_root(change_root_msg *cr_msg, const linkaddr_t *next_hop,
                         const linkaddr_t *final_destination);
-
 uint8_t es_Hoja();
-
 void llenar_report_msg(report_msg *rp_msg, const linkaddr_t *destination,
                       const linkaddr_t *neighbor_r, uint32_t weight_r);
-
 uint8_t lista_casi_completa( list_t rp_list);
+void llenar_msg_informacion(msg_informacion *inf_msg, uint8_t flags,
+                            const linkaddr_t *destination);
+
 
 #endif /* GHS_NEIGH_H */

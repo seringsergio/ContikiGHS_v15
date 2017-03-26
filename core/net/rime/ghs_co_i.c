@@ -28,6 +28,7 @@ void fill_edges_list(list_t edges_list, struct memb *edges_memb, struct neighbor
 
 }
 
+
 /* Imprime la lista de edges
 */
 void print_edges_list(edges *e_list_head, char *string,  const linkaddr_t *node_addr)
