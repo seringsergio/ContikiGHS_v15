@@ -161,11 +161,18 @@ void ghs_test_ar_recv_ruc(void *msg, const linkaddr_t *from,
        {
            // Evaluo directamente, sin meter en cola, porque el codigo es pequeño
 
-           printf("llego reject de %d \n", from->u8[0]);
-           become_rejected(e_list_head_g, from);
+           if(state_is_branch(from,  e_list_head_g))
+           {
+               printf("Llego REJECT. Pero no puedo asignar el estado YA SOY BRANCH\n");
+               process_post(e_test , PROCESS_EVENT_CONTINUE, NULL);
+           }else
+           {
+               printf("Asumo Reject q llego  de %d \n", from->u8[0]);
+               become_rejected(e_list_head_g, from);
 
-           //Si el edge es rechazado, entonces testeo uno nuevo.
-           process_post(e_test , PROCESS_EVENT_CONTINUE, NULL);
+               //Si el edge es rechazado, entonces testeo uno nuevo.
+               process_post(e_test , PROCESS_EVENT_CONTINUE, NULL);
+           }
 
        }
 

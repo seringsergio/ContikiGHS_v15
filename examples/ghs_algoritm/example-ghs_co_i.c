@@ -359,7 +359,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                     }else
                     if(co_list_p->co_msg.level < nd.f.level)
                     {
-                        printf("Tamano lista=%d Evaluo ConNect de %d con level=%d \n",
+                        printf("Tamano lista=%d EvaluOO ConNect de %d con level=%d \n",
                         list_length(co_list),
                          co_list_p->from.u8[0],
                          co_list_p->co_msg.level);
