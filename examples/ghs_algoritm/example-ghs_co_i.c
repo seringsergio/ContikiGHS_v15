@@ -199,6 +199,7 @@ PROCESS_THREAD(master_co_i, ev, data)
 
             //Inicializar el master_co_i
             init_master_co_i(data, &edges_memb, edges_list);
+            become_branch(list_head(edges_list),  &nd.lwoe.node.neighbor ); //become branch inicial level = 0
 
             //Espero a que todos hayan inicializado la conexion del connect antes de seguir
             //Ademas, SI NO ESPERO LA LISTA SE IMPRIME MAL: RARO X 2
@@ -459,6 +460,25 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                   memb_free(&i_mem, i_list_p);
 
                 } //FOR todos los elementos de la lista
+
+                edges *e_aux;
+                char string[] = "END";
+                for(e_aux = e_list_head_g; e_aux != NULL; e_aux = e_aux->next) // Recorrer toda la lista
+                {
+                    if(linkaddr_cmp(&e_aux->addr, &nd.parent)) //Solo muestro mi padre
+                    {
+                        printf("%s %d %d %d.%02d %d %d.%02d \n",
+                        string,
+                        linkaddr_node_addr.u8[0],
+                        nd.parent.u8[0],
+                        (int)(e_aux->weight / SEQNO_EWMA_UNITY),
+                        (int)(((100UL * e_aux->weight) / SEQNO_EWMA_UNITY) % 100),
+                        e_aux->state,
+                        (int)(nd.f.name / SEQNO_EWMA_UNITY),
+                        (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
+                   }
+               }
+
             } //Si hay elementos en la lista
         } //END IF  EV == CONTINUE
     } //end of while

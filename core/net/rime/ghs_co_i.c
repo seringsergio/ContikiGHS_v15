@@ -172,7 +172,6 @@ void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, lis
 
     // Vuelve Branch el basic edge con menor peso
     lwoe_init = least_basic_edge(list_head(edges_list));
-    become_branch(list_head(edges_list),  lwoe_init ); //become branch inicial level = 0
 
     //Setear LWOE del nodo
     linkaddr_copy(&nd.lwoe.node.neighbor, lwoe_init);

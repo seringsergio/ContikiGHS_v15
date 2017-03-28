@@ -319,7 +319,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             if( (nd.lwoe.node.weight == INFINITO) && (nd.lwoe.children.weight==INFINITO) )
                             {
                                 //termino GHS
-                                printf("1. Acabo GHS algorithm Name=%d.%02d\n",
+                                printf("11. Acabo GHS algorithm Name=%d.%02d\n",
                                 (int)(nd.f.name / SEQNO_EWMA_UNITY),
                                 (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
 
@@ -374,6 +374,13 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         }else //SI NO estan seteados los dos. Pero soy hoja...
                         if( (es_Hoja()) && (nd.flags & ND_LWOE) )
                         {
+                            if(nd.lwoe.node.weight == INFINITO)
+                            {
+                                printf("1. Acabo GHS algorithm Name=%d.%02d\n",
+                                (int)(nd.f.name / SEQNO_EWMA_UNITY),
+                                (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
+                            }
+
                             nd.flags &= ~CORE_NODE;
                             llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                             process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
@@ -393,6 +400,13 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             //y ninguno envia change_root.
                             if(list_length(rp_list) == 0) //Mi unico hijo es el otro CORE_NODE
                             {
+                                if(nd.lwoe.node.weight == INFINITO)
+                                {
+                                    printf("1. Acabo GHS algorithm Name=%d.%02d\n",
+                                    (int)(nd.f.name / SEQNO_EWMA_UNITY),
+                                    (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
+                                }
+
                                 //nd.flags &= ~CORE_NODE;
                                 llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                                 process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
@@ -440,6 +454,13 @@ PROCESS_THREAD(e_LWOE, ev, data)
 
                                 if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
                                 {
+                                    if(nd.lwoe.node.weight == INFINITO)
+                                    {
+                                        printf("1. Acabo GHS algorithm Name=%d.%02d\n",
+                                        (int)(nd.f.name / SEQNO_EWMA_UNITY),
+                                        (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
+                                    }
+
                                     //nd.flags &= ~CORE_NODE;
                                     llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                                     process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
@@ -453,6 +474,13 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                     //nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                                }else
                                {
+                                   if(nd.lwoe.children.weight == INFINITO)
+                                   {
+                                       printf("1. Acabo GHS algorithm Name=%d.%02d\n",
+                                       (int)(nd.f.name / SEQNO_EWMA_UNITY),
+                                       (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
+                                   }
+
                                    //nd.flags &= ~CORE_NODE;
                                    llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.children.neighbor, nd.lwoe.children.weight );
                                    process_post(&send_message_report_ChaRoot, e_msg_report, &rp_msg);
@@ -473,6 +501,12 @@ PROCESS_THREAD(e_LWOE, ev, data)
                     {
                         if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
                         {
+                            if(nd.lwoe.node.weight == INFINITO)
+                            {
+                                printf("1. Acabo GHS algorithm Name=%d.%02d\n",
+                                (int)(nd.f.name / SEQNO_EWMA_UNITY),
+                                (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
+                            }
                             //send_report y paso a estado FOUND
                             llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                             process_post(&send_message_report_ChaRoot, e_msg_report, &rp_msg);
@@ -486,6 +520,12 @@ PROCESS_THREAD(e_LWOE, ev, data)
 
                         }else //Si es mejor el edge de un vecino
                         {
+                            if(nd.lwoe.children.weight == INFINITO)
+                            {
+                                printf("1. Acabo GHS algorithm Name=%d.%02d\n",
+                                (int)(nd.f.name / SEQNO_EWMA_UNITY),
+                                (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
+                            }
                             //send_report y paso a estado FOUND
                             // nd.lwoe.children.neighbor es neighbor_r
                             llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.children.neighbor, nd.lwoe.children.weight );
@@ -502,6 +542,12 @@ PROCESS_THREAD(e_LWOE, ev, data)
                     }else //SI NO estan seteados los dos
                     if( (es_Hoja()) && (nd.flags & ND_LWOE) )
                     {
+                        if(nd.lwoe.node.weight == INFINITO)
+                        {
+                            printf("1. Acabo GHS algorithm Name=%d.%02d\n",
+                            (int)(nd.f.name / SEQNO_EWMA_UNITY),
+                            (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
+                        }
                         llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                         process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
                         printf("NO_CORE & HOJA Deseo Reportar Neigh=%d Weight=%d.%02d\n",
