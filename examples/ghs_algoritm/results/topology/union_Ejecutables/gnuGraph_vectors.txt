@@ -1,10 +1,12 @@
-set xr [0:210]
-set yr [-195:10]
+set xr [0:50]
+set yr [0:50]
 
 set size square
 
-flePnts = 'pnts.dat'
-fleEdges = 'edges.dat'
+set style arrow 1 head filled size screen 0.025,10,40 lc rgb "black" lw 2
+
+flePnts = 'pnts1.dat'
+fleEdges = 'edges1.dat'
 
 loadEdges = sprintf('< gawk '' \
     FNR==NR{x[$1]=$2;y[$1]=$3;next;} \
@@ -17,7 +19,7 @@ loadWeights = sprintf('< gawk '' \
 '' %s %s', flePnts, fleEdges);
 
 plot \
-    loadEdges using 1:2:3:4 with vectors lc rgb "black" lw 2 notitle, \
-    flePnts using 2:3:(3.0) with circles linecolor rgb "white" lw 2 fill solid border lc lt 0 notitle, \
-    flePnts using 2:3:1 with labels offset (0,0) font 'Arial Bold' notitle, \
+    loadEdges using 1:2:3:4 with vectors arrowstyle 1  notitle, \
+    flePnts using 2:3:(0.8) with circles  linecolor rgb "white" lw 2 fill solid border lc lt 0 notitle, \
+    flePnts using 2:3:1 with labels tc rgb "black" font "Arial Bold" notitle, \
     loadWeights using 1:2:3 with labels tc rgb "red" center font "Arial Bold" notitle
