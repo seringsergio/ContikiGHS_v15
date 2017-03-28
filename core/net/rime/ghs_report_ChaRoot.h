@@ -43,6 +43,7 @@ typedef struct msg_informacion msg_informacion;
 //msg
 process_event_t e_msg_report;
 process_event_t e_msg_information; //no sea core_node
+process_event_t e_msg_ghs_end; 
 /*-------------------------------------------------------------------*/
 /*---------------- ESTRUCTURAS---------------------------------------*/
 /*-------------------------------------------------------------------*/

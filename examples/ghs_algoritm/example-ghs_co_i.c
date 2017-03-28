@@ -170,6 +170,7 @@ PROCESS_THREAD(master_co_i, ev, data)
         e_msg_report          = process_alloc_event(); // Darle un numero al evento
         e_msg_ch_root         = process_alloc_event(); // Darle un numero al evento
         e_msg_information     = process_alloc_event(); // Darle un numero al evento
+        e_msg_ghs_end         = process_alloc_event(); // Darle un numero al evento
 
     static s_wait str_wait;
     while(1)
@@ -238,6 +239,26 @@ PROCESS_THREAD(master_co_i, ev, data)
             nd.flags &= ~FRAGMENTO_LWOE; //No he encontrado el LWOE del fragmento
             printf("Estoy en FIND \n");
             process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
+        }else
+        if(ev == e_msg_ghs_end)
+        {
+            edges *e_aux;
+            char string[] = "END";
+            for(e_aux = e_list_head_g; e_aux != NULL; e_aux = e_aux->next) // Recorrer toda la lista
+            {
+                if(linkaddr_cmp(&e_aux->addr, &nd.parent)) //Solo muestro mi padre
+                {
+                    printf("%s %d %d %d.%02d %d %d.%02d \n",
+                    string,
+                    linkaddr_node_addr.u8[0],
+                    nd.parent.u8[0],
+                    (int)(e_aux->weight / SEQNO_EWMA_UNITY),
+                    (int)(((100UL * e_aux->weight) / SEQNO_EWMA_UNITY) % 100),
+                    e_aux->state,
+                    (int)(nd.f.name / SEQNO_EWMA_UNITY),
+                    (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
+               }
+           }
         }
     }//END OF WHILE
     PROCESS_END();
@@ -460,25 +481,6 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                   memb_free(&i_mem, i_list_p);
 
                 } //FOR todos los elementos de la lista
-
-                edges *e_aux;
-                char string[] = "END";
-                for(e_aux = e_list_head_g; e_aux != NULL; e_aux = e_aux->next) // Recorrer toda la lista
-                {
-                    if(linkaddr_cmp(&e_aux->addr, &nd.parent)) //Solo muestro mi padre
-                    {
-                        printf("%s %d %d %d.%02d %d %d.%02d \n",
-                        string,
-                        linkaddr_node_addr.u8[0],
-                        nd.parent.u8[0],
-                        (int)(e_aux->weight / SEQNO_EWMA_UNITY),
-                        (int)(((100UL * e_aux->weight) / SEQNO_EWMA_UNITY) % 100),
-                        e_aux->state,
-                        (int)(nd.f.name / SEQNO_EWMA_UNITY),
-                        (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
-                   }
-               }
-
             } //Si hay elementos en la lista
         } //END IF  EV == CONTINUE
     } //end of while

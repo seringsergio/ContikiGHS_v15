@@ -97,6 +97,7 @@ extern process_event_t e_msg_ch_root;
     //msg
 extern process_event_t e_msg_report;
 extern process_event_t e_msg_information;
+extern process_event_t e_msg_ghs_end;
 
 /*-------------------------------------------------------------------*/
 /*---------------- Estructuras---------------------------------------*/

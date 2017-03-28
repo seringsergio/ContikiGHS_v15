@@ -318,13 +318,11 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         {
                             if( (nd.lwoe.node.weight == INFINITO) && (nd.lwoe.children.weight==INFINITO) )
                             {
-                                //termino GHS
-                                printf("11. Acabo GHS algorithm Name=%d.%02d\n",
-                                (int)(nd.f.name / SEQNO_EWMA_UNITY),
-                                (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
-
+                                //Paso a FOUND
                                 process_post(&master_co_i, e_found, NULL);
                                 nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+                                //paso a END
+                                process_post(&master_co_i, e_msg_ghs_end, NULL);
                             }else
                             {
                                 if(!(nd.flags & FRAGMENTO_LWOE))
@@ -376,9 +374,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         {
                             if(nd.lwoe.node.weight == INFINITO)
                             {
-                                printf("1. Acabo GHS algorithm Name=%d.%02d\n",
-                                (int)(nd.f.name / SEQNO_EWMA_UNITY),
-                                (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
+                                process_post(&master_co_i, e_msg_ghs_end, NULL);
                             }
 
                             nd.flags &= ~CORE_NODE;
@@ -402,9 +398,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             {
                                 if(nd.lwoe.node.weight == INFINITO)
                                 {
-                                    printf("1. Acabo GHS algorithm Name=%d.%02d\n",
-                                    (int)(nd.f.name / SEQNO_EWMA_UNITY),
-                                    (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
+                                    process_post(&master_co_i, e_msg_ghs_end, NULL);
                                 }
 
                                 //nd.flags &= ~CORE_NODE;
@@ -456,9 +450,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 {
                                     if(nd.lwoe.node.weight == INFINITO)
                                     {
-                                        printf("1. Acabo GHS algorithm Name=%d.%02d\n",
-                                        (int)(nd.f.name / SEQNO_EWMA_UNITY),
-                                        (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
+                                        process_post(&master_co_i, e_msg_ghs_end, NULL);
                                     }
 
                                     //nd.flags &= ~CORE_NODE;
@@ -476,9 +468,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                {
                                    if(nd.lwoe.children.weight == INFINITO)
                                    {
-                                       printf("1. Acabo GHS algorithm Name=%d.%02d\n",
-                                       (int)(nd.f.name / SEQNO_EWMA_UNITY),
-                                       (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
+                                       process_post(&master_co_i, e_msg_ghs_end, NULL);
                                    }
 
                                    //nd.flags &= ~CORE_NODE;
@@ -503,9 +493,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         {
                             if(nd.lwoe.node.weight == INFINITO)
                             {
-                                printf("1. Acabo GHS algorithm Name=%d.%02d\n",
-                                (int)(nd.f.name / SEQNO_EWMA_UNITY),
-                                (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
+                                process_post(&master_co_i, e_msg_ghs_end, NULL);
                             }
                             //send_report y paso a estado FOUND
                             llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
@@ -522,9 +510,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         {
                             if(nd.lwoe.children.weight == INFINITO)
                             {
-                                printf("1. Acabo GHS algorithm Name=%d.%02d\n",
-                                (int)(nd.f.name / SEQNO_EWMA_UNITY),
-                                (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
+                                process_post(&master_co_i, e_msg_ghs_end, NULL);
                             }
                             //send_report y paso a estado FOUND
                             // nd.lwoe.children.neighbor es neighbor_r
@@ -544,9 +530,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                     {
                         if(nd.lwoe.node.weight == INFINITO)
                         {
-                            printf("1. Acabo GHS algorithm Name=%d.%02d\n",
-                            (int)(nd.f.name / SEQNO_EWMA_UNITY),
-                            (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
+                            process_post(&master_co_i, e_msg_ghs_end, NULL);
                         }
                         llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                         process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
