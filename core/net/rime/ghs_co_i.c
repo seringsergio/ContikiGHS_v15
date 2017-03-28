@@ -8,6 +8,33 @@
 
 node nd; //nd es node....n es neighbor
 
+
+/* FUNCION que imprime el resultado final final
+*/
+
+void print_final_result()
+{
+
+    edges *e_aux;
+    char string[] = "END";
+    for(e_aux = e_list_head_g; e_aux != NULL; e_aux = e_aux->next) // Recorrer toda la lista
+    {
+        if(linkaddr_cmp(&e_aux->addr, &nd.parent)) //Solo muestro mi padre
+        {
+            printf("%s %d %d %d.%02d %d %d.%02d \n",
+            string,
+            linkaddr_node_addr.u8[0],
+            nd.parent.u8[0],
+            (int)(e_aux->weight / SEQNO_EWMA_UNITY),
+            (int)(((100UL * e_aux->weight) / SEQNO_EWMA_UNITY) % 100),
+            e_aux->state,
+            (int)(nd.f.name / SEQNO_EWMA_UNITY),
+            (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
+       }
+   }
+}
+
+
 /* Toma la informacion de la lista de vecinos (neighbors_list) del master_neighbor_discovery
 *  y copia la informacion de interes en una nueva lista de edges edges_list.
 */

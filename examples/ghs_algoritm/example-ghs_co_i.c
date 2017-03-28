@@ -242,23 +242,7 @@ PROCESS_THREAD(master_co_i, ev, data)
         }else
         if(ev == e_msg_ghs_end)
         {
-            edges *e_aux;
-            char string[] = "END";
-            for(e_aux = e_list_head_g; e_aux != NULL; e_aux = e_aux->next) // Recorrer toda la lista
-            {
-                if(linkaddr_cmp(&e_aux->addr, &nd.parent)) //Solo muestro mi padre
-                {
-                    printf("%s %d %d %d.%02d %d %d.%02d \n",
-                    string,
-                    linkaddr_node_addr.u8[0],
-                    nd.parent.u8[0],
-                    (int)(e_aux->weight / SEQNO_EWMA_UNITY),
-                    (int)(((100UL * e_aux->weight) / SEQNO_EWMA_UNITY) % 100),
-                    e_aux->state,
-                    (int)(nd.f.name / SEQNO_EWMA_UNITY),
-                    (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
-               }
-           }
+            print_final_result();
         }
     }//END OF WHILE
     PROCESS_END();

@@ -227,6 +227,7 @@ void llenar_initiate_msg(initiate_msg *i_msg, uint32_t name,
                         uint8_t level, uint8_t state, const linkaddr_t *dest, uint8_t flags);
 void llenar_connect_msg (connect_msg *msg, uint8_t level, linkaddr_t *destination);
 uint8_t num_hijos(edges *e_list_head);
+void print_final_result();
 
 
 
