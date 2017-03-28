@@ -59,8 +59,33 @@ void become_branch(edges *e_list_head, const linkaddr_t *node_addr)
         if(linkaddr_cmp(&e_aux->addr, node_addr)) //Entra si las direcciones son iguales
         {
             e_aux->state = BRANCH;
+            //nd.num_branches = nd.num_branches + 1;
             break;
         }
+    }
+}
+
+/* Funcion que devuelve el numero de hijos
+*/
+uint8_t num_hijos(edges *e_list_head)
+{
+    uint8_t numero_hijos = 0;
+
+    edges *e_aux;
+    for(e_aux = e_list_head; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
+    {
+        if(e_aux->state == BRANCH) //Entra si las direcciones son iguales
+        {
+            numero_hijos = numero_hijos + 1;
+        }
+    }
+
+    if(nd.flags & CORE_NODE)
+    {
+        return (numero_hijos); //aca el padre tambien es hijo al mismo tiempo
+    }else
+    {
+        return (numero_hijos - 1); //menos la branch del padre
     }
 }
 
@@ -134,9 +159,10 @@ void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, lis
     nd.flags = 0;
     nd.f.name = 0;
     nd.f.level = 0;
-    nd.num_children = 0;
     nd.lwoe.node.weight = INFINITO;
     nd.lwoe.children.weight = INFINITO;
+    nd.num_branches = 0;
+
 
     //Tomar info de master_neighbor_discovery
     fill_edges_list(edges_list, edges_memb, n_list_head );

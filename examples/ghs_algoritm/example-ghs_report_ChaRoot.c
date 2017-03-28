@@ -139,17 +139,16 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
 
                 static report_list *rp_list_p;
                 rp_list_p = list_head(rp_list);
-                    printf("TL:%d LLLego report de %d Neigh=%d Weight=%d.%02d Hj=%d flags=%04X\n",
+                    printf("TL:%d LLLego report de %d Neigh=%d Weight=%d.%02d  flags=%04X\n",
                     list_length(rp_list),
                   rp_list_p->from.u8[0],
                   rp_list_p->rp_msg.neighbor_r.u8[0],
                   (int)(rp_list_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
                   (int)(((100UL * rp_list_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100),
-                   nd.num_children,
                    nd.flags
                    );
-                   printf("list_length(rp_list)=%d >= nd.num_children=%d \n",
-                    list_length(rp_list), nd.num_children );
+                   printf("list_length(rp_list)=%d  \n",
+                    list_length(rp_list) );
 
                 //Si la lista esta CASI completa
                 if( lista_casi_completa(rp_list) )
@@ -157,10 +156,10 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
                     process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
                 }else
                 //Si la lista de reports ya esta completa
-                if(list_length(rp_list) >= nd.num_children) //Si el tamano de la lista es = al num de hijos
+                if(list_length(rp_list) >= num_hijos(e_list_head_g) ) //Si el tamano de la lista es = al num de hijos
                 {
                     //Saco el nodo con menor peso de la lista
-                    printf("Lista de Reports completa \n");
+                    printf("Reports completos..   \n");
 
                     //Encuentro el menor de la lista
                     static report_list *rp_str = NULL;
@@ -197,7 +196,7 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
                         my_list_remove(rp_list, rp_list_p); //Remove a specific element from a list.
                         memb_free(&rp_mem, rp_list_p);
                     }
-                } // si lista >= num_children
+                } // si lista >= num children
         } //IF EV == CONTINUE
     } //END OF WHILE
     PROCESS_END();
@@ -328,42 +327,49 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                             }else
                             {
-                                if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
+                                if(!(nd.flags & FRAGMENTO_LWOE))
                                 {
-                                    nd.flags &= ~CORE_NODE;
-                                    //envio CHANGE_ROOT imaginario
-                                    become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root
+                                    if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
+                                    {
+                                        nd.flags &= ~CORE_NODE;
+                                        //envio CHANGE_ROOT imaginario
+                                        become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root
 
-                                    //Envio CONNECT msg
-                                    llenar_connect_msg (&co_msg, nd.f.level, &nd.lwoe.node.neighbor);
-                                    process_post(&send_message_co_i,  e_msg_connect, &co_msg);
-                                    printf("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
-                                    //paso a FOUND
-                                    process_post(&master_co_i, e_found, NULL);
-                                    nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+                                        //Envio CONNECT msg
+                                        llenar_connect_msg (&co_msg, nd.f.level, &nd.lwoe.node.neighbor);
+                                        process_post(&send_message_co_i,  e_msg_connect, &co_msg);
+                                        printf("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
+                                        //paso a FOUND
+                                        process_post(&master_co_i, e_found, NULL);
+                                        nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
 
-                                }else //Si es mejor el edge de un vecino
+                                    }else //Si es mejor el edge de un vecino
+                                    {
+                                        //send change_root y dejo de ser CORE_NODE
+                                        nd.flags &= ~CORE_NODE;
+                                        llenar_change_root(&cr_msg, &nd.downroute, &nd.lwoe.children.neighbor);
+                                        process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
+                                        printf("EEEnvie 2 CHANGE_ROOT a next_hop=%d final_destination=%d\n",
+                                        cr_msg.next_hop.u8[0],
+                                        cr_msg.final_destination.u8[0]);
+                                        //paso a FOUND
+                                        process_post(&master_co_i, e_found, NULL);
+                                        nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+                                    }
+
+                                    //Ya encontre el LWOE del fragmento. No reenvio CHANGE_ROOT
+                                    //del otro CORE_NODE
+                                    nd.flags |= FRAGMENTO_LWOE;
+                                    //Otro CORE_NODE debe dejar de ser CORE_NODE
+                                    static msg_informacion inf_msg;
+                                    llenar_msg_informacion(&inf_msg, NO_SEA_CORE_NODE, &nd.otro_core_node );
+                                    process_post(&send_message_report_ChaRoot, e_msg_information, &inf_msg);
+                                }else
                                 {
-                                    //send change_root y dejo de ser CORE_NODE
-                                    nd.flags &= ~CORE_NODE;
-                                    llenar_change_root(&cr_msg, &nd.downroute, &nd.lwoe.children.neighbor);
-                                    process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
-                                    printf("EEEnvie 2 CHANGE_ROOT a next_hop=%d final_destination=%d\n",
-                                    cr_msg.next_hop.u8[0],
-                                    cr_msg.final_destination.u8[0]);
                                     //paso a FOUND
                                     process_post(&master_co_i, e_found, NULL);
                                     nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                                 }
-
-                                //Ya encontre el LWOE del fragmento. No reenvio CHANGE_ROOT
-                                //del otro CORE_NODE
-                                nd.flags |= FRAGMENTO_LWOE;
-                                //Otro CORE_NODE debe dejar de ser CORE_NODE
-                                static msg_informacion inf_msg;
-                                llenar_msg_informacion(&inf_msg, NO_SEA_CORE_NODE, &nd.otro_core_node );
-                                process_post(&send_message_report_ChaRoot, e_msg_information, &inf_msg);
-
                             } //SI los dos valores son INFINITO acabo GHS
                         }else //SI NO estan seteados los dos. Pero soy hoja...
                         if( (es_Hoja()) && (nd.flags & ND_LWOE) )
@@ -542,7 +548,9 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
                     if(linkaddr_cmp(&cr_list_p->cr_msg.final_destination, &linkaddr_node_addr)) //Entra si las direcciones son iguales
                     {
                         //El msg de CHANGE_ROOT ES PARA MI
-                        printf("El msg de ChangeRooot es para mi\n");
+                        printf("El msg de ChangeRooot es para mi, from=%d\n",
+                        cr_list_p->from.u8[0]);
+
                         become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root
 
                         //Envio CONNECT
@@ -561,8 +569,8 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
                             printf("ChangeRoot NO es para mi - NO Reenvio el CHANGE_ROOT porque YO ya lo mande\n");
                         }else
                         {
+                            nd.flags |= FRAGMENTO_LWOE;
                             printf("ChangeRoot NO es para mi\n");
-
                             llenar_change_root(&cr_msg_new, &nd.downroute, &cr_list_p->cr_msg.final_destination);
                             process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg_new );
                             printf("REEEnvie  CHANGE_ROOT a next_hop=%d final_destination=%d\n",

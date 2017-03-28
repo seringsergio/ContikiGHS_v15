@@ -24,13 +24,13 @@ void llenar_change_root(change_root_msg *cr_msg, const linkaddr_t *next_hop,
 */
 uint8_t es_Hoja()
 {
-    if( (nd.num_children == 0)  )
-    {
-        return 1; //Si tengo 0 hijos soy hoja
-    }else
-    {
-        return 0;// EN todos los otros casos no soy hoja
-    }
+        if( num_hijos(e_list_head_g) == 0  )
+        {
+            return 1; //Si tengo 0 hijos soy hoja
+        }else
+        {
+            return 0;// EN todos los otros casos no soy hoja
+        }
 }
 /* llenar el msg de informacion
 */
@@ -67,7 +67,7 @@ uint8_t lista_casi_completa( list_t rp_list)
 
     if(nd.flags & CORE_NODE) //SI SOY CORE_NODE
     {
-        if( list_length(rp_list) == (nd.num_children-1)  )  //ME FALTA SOLAMENTE 1 HIJO
+        if( list_length(rp_list) == (num_hijos(e_list_head_g)-1)  )  //ME FALTA SOLAMENTE 1 HIJO
         {
             for(rp_list_p = list_head(rp_list); rp_list_p != NULL; rp_list_p = rp_list_p->next)
             {

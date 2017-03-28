@@ -195,7 +195,7 @@ struct node
     linkaddr_t parent; //Para enviar msg en la upward direction
     LWOE_type lwoe;
     //reports r;
-    uint8_t num_children;
+    uint8_t num_branches;
     linkaddr_t downroute; //Para enviar msg en la downward direction
     test_msg t_msg;
     linkaddr_t otro_core_node; //Indica la direccion del otro CORE_NODE
@@ -226,6 +226,7 @@ uint32_t weight_with_edge( const linkaddr_t *addr,  edges *e_list_head);
 void llenar_initiate_msg(initiate_msg *i_msg, uint32_t name,
                         uint8_t level, uint8_t state, const linkaddr_t *dest, uint8_t flags);
 void llenar_connect_msg (connect_msg *msg, uint8_t level, linkaddr_t *destination);
+uint8_t num_hijos(edges *e_list_head);
 
 
 

@@ -137,7 +137,6 @@ PROCESS_THREAD(e_test, ev, data)
             printf("CONTINUE e_test level=%d\n ", nd.f.level);
 
             char string[] = "REAAD";
-
             print_edges_list(e_list_head_g, string,  &linkaddr_node_addr);
 
             uint8_t tengo_edges_de_salida = 0;
@@ -389,8 +388,8 @@ PROCESS_THREAD(evaluar_msg_accept, ev, data)
 
                     //accept_msg *a_msg = (accept_msg *) msg;
 
-                    printf("llego AcCept de %d. Numero Hijos = %d flags=%04X \n ",
-                    a_list_p->from.u8[0], nd.num_children, nd.flags);
+                    printf("llego AcCept de %d.  flags=%04X \n ",
+                    a_list_p->from.u8[0], nd.flags);
 
                     become_accepted(e_list_head_g, &a_list_p->from);
 

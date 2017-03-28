@@ -227,6 +227,10 @@ PROCESS_THREAD(master_co_i, ev, data)
             //Reinicio variables
             nd.flags &= ~ND_LWOE;
             nd.flags &= ~CH_LWOE;
+
+            char string[] = "REAAAD";
+            print_edges_list(e_list_head_g, string,  &linkaddr_node_addr);
+
         }else
         if (ev == e_find)
         {
@@ -333,7 +337,6 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                              co_list_p->from.u8[0],
                              co_list_p->co_msg.level);
 
-                            nd.num_children = nd.num_children + 1;
                             nd.flags |= CORE_NODE;
                             linkaddr_copy(&nd.otro_core_node, &co_list_p->from);
 
@@ -365,8 +368,6 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                          co_list_p->co_msg.level);
 
                         become_branch(e_list_head_g, &co_list_p->from); // become branch de connect
-
-                        nd.num_children = nd.num_children + 1;
 
                         llenar_initiate_msg(&i_msg, nd.f.name, nd.f.level, nd.state, &co_list_p->from, ~BECOME_CORE_NODE);
                         process_post(&send_message_co_i,  e_msg_initiate, &i_msg); //Hijo + 1 !!
