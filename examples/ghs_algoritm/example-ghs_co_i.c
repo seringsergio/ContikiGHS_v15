@@ -230,8 +230,9 @@ PROCESS_THREAD(master_co_i, ev, data)
             nd.flags &= ~ND_LWOE;
             nd.flags &= ~CH_LWOE;
 
-            char string[] = "REAAAD";
-            print_edges_list(e_list_head_g, string,  &linkaddr_node_addr);
+            /*char string[] = "REAAAD";
+            print_edges_list(e_list_head_g, string,  &linkaddr_node_addr);*/
+            print_final_result();
 
         }else
         if (ev == e_find)

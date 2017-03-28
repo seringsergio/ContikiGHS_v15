@@ -2,6 +2,6 @@
 
 g++ -o parserLogListener parserLogListener.cpp
 
-2. Ejecutar el parser para leer el archivo loglistener.txt
+2. Ejecutar el parser para leer el archivo loglistener.txt. El 12 es el numero de nodos
 
-./parserLogListener > edges.dat
+./parserLogListener 12 > edges.dat
