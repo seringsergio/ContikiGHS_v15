@@ -287,14 +287,14 @@
   <plugin>
     org.contikios.cooja.plugins.LogListener
     <plugin_config>
-      <filter>END</filter>
+      <filter />
       <formatted_time />
       <coloring />
     </plugin_config>
-    <width>701</width>
+    <width>775</width>
     <z>0</z>
     <height>542</height>
-    <location_x>400</location_x>
+    <location_x>326</location_x>
     <location_y>160</location_y>
   </plugin>
   <plugin>

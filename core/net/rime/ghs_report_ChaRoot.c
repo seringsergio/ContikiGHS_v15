@@ -62,7 +62,7 @@ uint8_t lista_casi_completa( list_t rp_list)
 // SI SOY CORE_NODE
 //SI solamente falta 1 hijo
 // Y ese hijo faltante es el OTRO_CORE_NODE
-//Entonces: La lista esta completa
+//Entonces: La lista esta CASI completa
 
 
     if(nd.flags & CORE_NODE) //SI SOY CORE_NODE

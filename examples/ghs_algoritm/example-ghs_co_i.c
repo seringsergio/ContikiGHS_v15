@@ -151,8 +151,6 @@ PROCESS_THREAD(master_co_i, ev, data)
 
     static connect_msg c_msg;
     static s_wait str_wait;
-    static uint8_t primer_connect;
-    static uint8_t *primer_co;
 
     while(1)
     {
@@ -184,26 +182,21 @@ PROCESS_THREAD(master_co_i, ev, data)
             process_post(&send_message_co_i,  e_msg_connect, &c_msg);
 
             //Me voy al estado found
-            process_post(PROCESS_CURRENT(), e_found, &primer_connect);
+            //virtualmente porque no quiero resetear ND_LWOE ni CH_LWOE
             nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+            printf("Estoy en FOUND \n");
+
         }else
         if (ev == e_found)
         {
-            primer_co = (uint8_t *) data;
-            if(primer_co == NULL)
-            {
-                //Espero instrucciones de change_root o initiate
-                printf("Estoy en FOUND \n");
+            //Espero instrucciones de change_root o initiate
+            printf("Estoy en FOUND \n");
 
-                //Reinicio variables
-                nd.flags &= ~ND_LWOE;
-                nd.flags &= ~CH_LWOE;
+            //Reinicio variables
+            nd.flags &= ~ND_LWOE;
+            nd.flags &= ~CH_LWOE;
 
-                print_final_result();
-            }else
-            {
-                printf("Primer: Estoy en FOUND \n");
-            }
+            print_final_result();
 
         }else
         if (ev == e_find)
@@ -324,7 +317,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                     {
                         if(state_is_branch(&co_list_p->from, e_list_head_g)) // Caso inicial. Fragmentos con 1 nodo
                         {
-                            printf("Tamano lista=%d Evaluo ConNect de %d con level=%d \n",
+                            printf("Tamano lista=%d Evaluo ConNect de %d con Mismo level, level=%d \n",
                             list_length(co_list),
                              co_list_p->from.u8[0],
                              co_list_p->co_msg.level);

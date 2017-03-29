@@ -346,7 +346,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 linkaddr_copy( &nd.downroute , &lowest_rp->from);
                                 linkaddr_copy(&nd.lwoe.children.neighbor, &lowest_rp->rp_msg.neighbor_r );
                                 nd.lwoe.children.weight = lowest_rp->rp_msg.weight_r;
-                                nd.flags |= CH_LWOE; //Ya encontre el ND_LWOE
+                                //nd.flags |= CH_LWOE; //Ya encontre el ND_LWOE
                                 //process_post(PROCESS_CURRENT(), PROCESS_EVENT_CONTINUE, NULL);
 
                                 //Remuevo (list_remove) todos los elementos de la lista
