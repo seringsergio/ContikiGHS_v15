@@ -184,7 +184,7 @@ PROCESS_THREAD(master_co_i, ev, data)
             //Me voy al estado found
             //virtualmente porque no quiero resetear ND_LWOE ni CH_LWOE
             nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
-            printf("Estoy en FOUND \n");
+            printf("Estoy en FOUND virtual \n");
 
         }else
         if (ev == e_found)
@@ -196,6 +196,7 @@ PROCESS_THREAD(master_co_i, ev, data)
             nd.flags &= ~ND_LWOE;
             nd.flags &= ~CH_LWOE;
 
+            //imprimo END
             print_final_result();
 
         }else

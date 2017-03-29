@@ -66,7 +66,7 @@ PROCESS(evaluar_msg_reject, "Evaluar Mensaje de Reject");
 /*----------- VARIABLES GLOBALES ---------------------------------------------- */
 /*------------------------------------------------------------------- */
 
-/*Listas de runicast para saber cual seq ha llegado. Si ha llegado
+/*Listas de runicastt para saber cual seq ha llegado. Si ha llegado
 * duplicado o no
 */
 MEMB(history_mem, struct history_entry, NUM_HISTORY_ENTRIES);
@@ -83,10 +83,12 @@ LIST(a_list);
 // Lista para guardar los msg de reject
 MEMB(rj_mem,  reject_list   , MAX_TAMANO_LISTA_MSG);
 LIST(rj_list);
+
+
 /*------------------------------------------------------------------- */
 /*----------STATIC VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
-static struct runicast_conn runicast; //Es la conexion de runicast
+static struct runicast_conn runicast_145; //Es la conexion de runicastt
 /*----------------------------------------------------------------------------*/
 
 /*------------------------------------------------------------------- */
@@ -106,13 +108,13 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 static void
 sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-  printf("runicast (test-ar) message sent to %d.%d, retransmissions %d\n",
+  printf("runicastt (test-ar) message sent to %d.%d, retransmissions %d\n",
 	 to->u8[0], to->u8[1], retransmissions);
 }
 static void
 timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-  printf("runicast (test-ar) message timed out when sending to %d.%d, retransmissions %d\n",
+  printf("runicastt (test-ar) message timed out when sending to %d.%d, retransmissions %d\n",
 	 to->u8[0], to->u8[1], retransmissions);
 }
 static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
@@ -188,7 +190,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
     PROCESS_EXITHANDLER();
     PROCESS_BEGIN();
 
-    runicast_open(&runicast, 145, &runicast_callbacks); //el 144 ya esta usado
+    runicast_open(&runicast_145, 145, &runicast_callbacks); //el 144 ya esta usado
 
     //proceso test_ar
     //estados
@@ -212,11 +214,12 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
     static test_msg *t_msg_d;
     static test_msg t_msg;
 
-    static reject_msg *r_msg_d;
-    static reject_msg r_msg;
 
     static accept_msg *a_msg_d;
     static accept_msg a_msg;
+
+    reject_msg *r_msg_d;
+    static reject_msg r_msg;
 
     //printf("Process Init: send_message_test_ar \n");
     while(1)
@@ -229,15 +232,15 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
             t_msg_d = (test_msg *) data;
 
             //printf("Deseo enviar e_msg_test NO IF\n");
-            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+            if(!runicast_is_transmitting(&runicast_145)) // Si runicastt no esta TX, entra
             {
                 llenar_test_msg(&t_msg, &t_msg_d->destination, t_msg_d->f);
                 packetbuf_copyfrom(&t_msg, sizeof(t_msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, TEST);
-                runicast_send(&runicast, &t_msg.destination, MAX_RETRANSMISSIONS);
+                runicast_send(&runicast_145, &t_msg.destination, MAX_RETRANSMISSIONS);
                 printf("Deseo enviar e_msg_test a %d\n", t_msg.destination.u8[0]);
 
-            }else //Si runicast esta ocupado TX, pospongo el envio del msg
+            }else //Si runicastt esta ocupado TX, pospongo el envio del msg
             {
                 //pospone sending the message
                 llenar_test_msg(&t_msg, &t_msg_d->destination, t_msg_d->f );
@@ -248,7 +251,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
         {
             r_msg_d = (reject_msg *) data;
 
-            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+            if(!runicast_is_transmitting(&runicast_145)) // Si runicastt no esta TX, entra
             {
                 llenar_reject_msg(&r_msg, &r_msg_d->destination);
 
@@ -258,11 +261,13 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
 
                 packetbuf_copyfrom(&r_msg, sizeof(r_msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_REJECT);
-                runicast_send(&runicast, &r_msg.destination, MAX_RETRANSMISSIONS);
-                printf("Envie reject a %d \n",r_msg.destination.u8[0]);
-            }else //Si runicast esta ocupado TX, pospongo el envio del msg
+                runicast_send(&runicast_145, &r_msg.destination, MAX_RETRANSMISSIONS);
+                printf("Envie reject a %d\n",r_msg.destination.u8[0] );
+            }
+            else
             {
                 //pospone sending the message
+                printf("posponer el msg de reject de %d\n", r_msg_d->destination.u8[0]);
                 llenar_reject_msg(&r_msg, &r_msg_d->destination);
                 process_post(PROCESS_CURRENT(), e_msg_reject, &r_msg);
             }
@@ -273,14 +278,14 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
 
             a_msg_d = (accept_msg *) data;
 
-            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+            if(!runicast_is_transmitting(&runicast_145)) // Si runicastt no esta TX, entra
             {
                 llenar_accept_msg(&a_msg, &a_msg_d->destination);
                 packetbuf_copyfrom(&a_msg, sizeof(a_msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_ACCEPT);
-                runicast_send(&runicast, &a_msg.destination, MAX_RETRANSMISSIONS);
+                runicast_send(&runicast_145, &a_msg.destination, MAX_RETRANSMISSIONS);
                 printf("Envie accept a %d \n",a_msg.destination.u8[0]);
-            }else //Si runicast esta ocupado TX, pospongo el envio del msg
+            }else //Si runicastt esta ocupado TX, pospongo el envio del msg
             {
                 //pospone sending the message
                 llenar_accept_msg(&a_msg, &a_msg_d->destination);
@@ -301,6 +306,12 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
     list_init(t_list);
     memb_init(&t_mem);
 
+    static test_list *t_list_p;
+    static accept_msg a_msg;
+    static reject_msg r_msg;
+
+    static struct etimer et;
+
     while(1)
     {
 
@@ -309,9 +320,6 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
         {
             if(list_length(t_list))
             {
-                static test_list *t_list_p;
-                static accept_msg a_msg;
-                static reject_msg r_msg;
 
                 for(t_list_p = list_head(t_list); t_list_p != NULL; t_list_p = t_list_p->next)
                 {
@@ -345,9 +353,12 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                              t_list_p->t_msg.f.level,
                              nd.f.level);
 
+
                              //Enviar reject
                              llenar_reject_msg (&r_msg, &t_list_p->from);
                              process_post(&send_message_test_ar, e_msg_reject, &r_msg);
+
+                             printf("Quuuiero enviar e_msg_reject a %d \n", r_msg.destination.u8[0]);
 
                              //Remover el dato de la lista
                              //Cuando lo saco de la lista con list_remove() el next es NULL
@@ -355,7 +366,6 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                              my_list_remove(t_list, t_list_p); //Remove a specific element from a list.
                              memb_free(&t_mem, t_list_p);
 
-                             printf("Quuuiero enviar e_msg_reject a %d \n", r_msg.destination.u8[0]);
 
                          }else
                          {
@@ -379,6 +389,12 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                              printf("Quuuiero enviar e_msg_accept a %d \n", a_msg.destination.u8[0]);
                          }
                      }
+
+                     //espero 1 segundo antes de enviar el siguiente msg
+                     //si envio 2 respuestas seguidas de daña el dato del post
+                     etimer_set(&et, CLOCK_SECOND / MIN_CLOCK_SECOND );
+                     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
                 } //FOR todos los elementos de la lista - EVALUAR
             } //Si hay elementos en la lista
         } //END IF EV == CONTINUE
@@ -456,7 +472,8 @@ PROCESS_THREAD(evaluar_msg_reject, ev, data)
                 {
                     if(state_is_branch(&rj_list_p->from,  e_list_head_g))
                     {
-                        printf("Llego REJECT. Pero no puedo asignar el estado YA SOY BRANCH\n");
+                        printf("Llego REJECT de %d. Pero no puedo asignar el estado YA SOY BRANCH\n"
+                              , rj_list_p->from.u8[0]);
                         process_post(&e_test , PROCESS_EVENT_CONTINUE, NULL);
 
                     }else

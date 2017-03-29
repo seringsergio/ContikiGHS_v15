@@ -349,6 +349,13 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 //nd.flags |= CH_LWOE; //Ya encontre el ND_LWOE
                                 //process_post(PROCESS_CURRENT(), PROCESS_EVENT_CONTINUE, NULL);
 
+                                printf("CasiCompleta:El menor de la lista es %d weight=%d.%02d flags=%04X - downroute=%d \n",
+                                nd.lwoe.children.neighbor.u8[0],
+                                (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
+                                (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100),
+                                nd.flags,
+                                nd.downroute.u8[0]);
+
                                 //Remuevo (list_remove) todos los elementos de la lista
                                 /*for(rp_list_p = list_head(rp_list); rp_list_p != NULL; rp_list_p = rp_list_p->next)
                                 {

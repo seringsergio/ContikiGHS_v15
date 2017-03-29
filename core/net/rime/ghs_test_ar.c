@@ -79,7 +79,7 @@ void llenar_accept_msg (accept_msg *a_msg, const linkaddr_t *destination)
 
 /* Funcion para llenar el msg de reject
 */
-void llenar_reject_msg (reject_msg *r_msg, const linkaddr_t *destination)
+void llenar_reject_msg ( reject_msg *r_msg,  linkaddr_t *destination)
 {
     linkaddr_copy(&r_msg->destination,  destination);
 }

@@ -85,7 +85,7 @@ uint8_t lista_casi_completa( list_t rp_list)
             }else
             {
                 lista_completa = 1; //Lista completa
-                printf("completa porque solamente falta el otro core_node\n");
+                printf("Casicompleta porque solamente falta el otro core_node\n");
             }
         }
     } //END si soy CORE_NODE
