@@ -60,6 +60,7 @@ PROCESS(send_message_test_ar, "Enviar msg de test-accept-reject");
 PROCESS(e_test, "Evaluar con Test Neighbors");
 PROCESS(evaluar_msg_test, "Evaluar Mensaje de Test");
 PROCESS(evaluar_msg_accept, "Evaluar Mensaje de Accept");
+PROCESS(evaluar_msg_reject, "Evaluar Mensaje de Reject");
 
 /*------------------------------------------------------------------- */
 /*----------- VARIABLES GLOBALES ---------------------------------------------- */
@@ -78,6 +79,10 @@ LIST(t_list);
 // Lista para guardar los msg de accept
 MEMB(a_mem,  accept_list   , MAX_TAMANO_LISTA_MSG);
 LIST(a_list);
+
+// Lista para guardar los msg de reject
+MEMB(rj_mem,  reject_list   , MAX_TAMANO_LISTA_MSG);
+LIST(rj_list);
 /*------------------------------------------------------------------- */
 /*----------STATIC VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
@@ -95,7 +100,8 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
                        history_list, seqno,
                        &e_test,
                         &t_mem , t_list, &evaluar_msg_test,
-                       &a_mem, a_list, &evaluar_msg_accept);
+                       &a_mem, a_list, &evaluar_msg_accept, rj_list, &rj_mem ,
+                       &evaluar_msg_reject);
 }
 static void
 sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
@@ -199,6 +205,11 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
             static test_msg *t_msg_d;
             t_msg_d = (test_msg *) data;
             static test_msg t_msg;
+            /*static struct etimer et;
+
+            // Delay 2-4 seconds
+            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
             //printf("Deseo enviar e_msg_test NO IF\n");
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
@@ -221,6 +232,11 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
             static reject_msg *r_msg_d;
             r_msg_d = (reject_msg *) data;
             static reject_msg r_msg;
+            /*static struct etimer et;
+
+            // Delay 2-4 seconds
+            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
@@ -248,6 +264,11 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
             static accept_msg *a_msg_d;
             a_msg_d = (accept_msg *) data;
             static accept_msg a_msg;
+            /*static struct etimer et;
+
+            // Delay 2-4 seconds
+            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
@@ -411,3 +432,48 @@ PROCESS_THREAD(evaluar_msg_accept, ev, data)
     PROCESS_END();
 
 } // END OF PROCESS THREAD
+
+PROCESS_THREAD(evaluar_msg_reject, ev, data)
+{
+    PROCESS_BEGIN();
+
+    // Iniciar la lista
+    list_init(rj_list);
+    memb_init(&rj_mem);
+
+    while(1)
+    {
+        PROCESS_WAIT_EVENT(); // Wait for any event.
+        if(ev == PROCESS_EVENT_CONTINUE)
+        {
+            if(list_length(rj_list))
+            {
+                reject_list *rj_list_p;
+                for(rj_list_p = list_head(rj_list); rj_list_p != NULL; rj_list_p = rj_list_p->next)
+                {
+                    if(state_is_branch(&rj_list_p->from,  e_list_head_g))
+                    {
+                        printf("Llego REJECT. Pero no puedo asignar el estado YA SOY BRANCH\n");
+                        process_post(&e_test , PROCESS_EVENT_CONTINUE, NULL);
+
+                    }else
+                    {
+
+                        printf("Asumo Reject q llego  de %d \n", rj_list_p->from.u8[0]);
+                        become_rejected(e_list_head_g, &rj_list_p->from);
+
+                        //Si el edge es rechazado, entonces testeo uno nuevo.
+                        process_post(&e_test , PROCESS_EVENT_CONTINUE, NULL);
+                    }
+
+                    //remuevo el elemento de la lista
+                    my_list_remove(rj_list, rj_list_p); //Remove a specific element from a list.
+                    memb_free(&rj_mem, rj_list_p);
+                }
+            }
+        } //IF ev==CONTINUE
+    } //End of while
+
+    PROCESS_END();
+
+}

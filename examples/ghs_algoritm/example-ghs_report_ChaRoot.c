@@ -224,6 +224,11 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
             static report_msg *rp_msg_d; //rp = report
             rp_msg_d = (report_msg *) data;
             static report_msg rp_msg;
+            /*static struct etimer et;
+
+            // Delay 2-4 seconds
+            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
@@ -251,6 +256,11 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
             static change_root_msg *cr_msg_d; //cr = change root
             cr_msg_d = (change_root_msg *) data;
             static change_root_msg cr_msg;
+            /*static struct etimer et;
+
+            // Delay 2-4 seconds
+            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
@@ -274,6 +284,11 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
             static msg_informacion *inf_msg_d; //information_message
             inf_msg_d = (msg_informacion *) data;
             static msg_informacion inf_msg;
+            /*static struct etimer et;
+
+            // Delay 2-4 seconds
+            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra

@@ -90,7 +90,8 @@ void ghs_test_ar_recv_ruc(void *msg, const linkaddr_t *from,
                          struct memb *history_mem, list_t history_list, uint8_t seqno,
                          struct process *e_test,
                          struct memb *t_mem, list_t t_list, struct process *evaluar_msg_test,
-                         struct memb *a_mem, list_t a_list, struct process *evaluar_msg_accept)
+                         struct memb *a_mem, list_t a_list, struct process *evaluar_msg_accept,
+                         list_t rj_list, struct memb *rj_mem, struct process *evaluar_msg_reject)
 
 {
 
@@ -159,19 +160,17 @@ void ghs_test_ar_recv_ruc(void *msg, const linkaddr_t *from,
        }else
        if(msg_type == M_REJECT)
        {
-           // Evaluo directamente, sin meter en cola, porque el codigo es pequeño
+           reject_list *rj_list_p;
 
-           if(state_is_branch(from,  e_list_head_g))
+           rj_list_p = memb_alloc(rj_mem); //Alocar memoria
+           if(rj_list_p == NULL)
            {
-               printf("Llego REJECT. Pero no puedo asignar el estado YA SOY BRANCH\n");
-               process_post(e_test , PROCESS_EVENT_CONTINUE, NULL);
+               printf("ERROR: La lista de msg de Reject esta llena\n");
            }else
            {
-               printf("Asumo Reject q llego  de %d \n", from->u8[0]);
-               become_rejected(e_list_head_g, from);
-
-               //Si el edge es rechazado, entonces testeo uno nuevo.
-               process_post(e_test , PROCESS_EVENT_CONTINUE, NULL);
+               linkaddr_copy(&rj_list_p->from, from);
+               list_push(rj_list, rj_list_p); //Add an item to the start of the list.
+               process_post(evaluar_msg_reject, PROCESS_EVENT_CONTINUE, NULL);
            }
 
        }

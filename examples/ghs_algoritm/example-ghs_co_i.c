@@ -192,6 +192,7 @@ PROCESS_THREAD(master_co_i, ev, data)
             process_start(&e_test, NULL);
             process_start(&evaluar_msg_test, NULL);
             process_start(&evaluar_msg_accept, NULL);
+            process_start(&evaluar_msg_reject, NULL);
             //procesos de report-ChangeRoot
             process_start(&evaluar_msg_rp, NULL); //para inicializar report_list_g y report_memb_g
             process_start(&send_message_report_ChaRoot, NULL); //para inicializar report_list_g y report_memb_g
@@ -269,6 +270,11 @@ PROCESS_THREAD(send_message_co_i, ev, data)
             static connect_msg *c_msg_d;
             c_msg_d = (connect_msg *) data;
             static connect_msg co_msg;
+            /*static struct etimer et;
+
+            // Delay 2-4 seconds
+            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
@@ -289,6 +295,11 @@ PROCESS_THREAD(send_message_co_i, ev, data)
             static initiate_msg *msg_d;
             msg_d = (initiate_msg *) data;
             static initiate_msg  i_msg;
+            /*static struct etimer et;
+
+            // Delay 2-4 seconds
+            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
+            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {

@@ -259,24 +259,6 @@
       </interface_config>
       <motetype_identifier>sky1</motetype_identifier>
     </mote>
-    <mote>
-      <breakpoints />
-      <interface_config>
-        org.contikios.cooja.interfaces.Position
-        <x>181.14905309401684</x>
-        <y>185.83748621548284</y>
-        <z>0.0</z>
-      </interface_config>
-      <interface_config>
-        org.contikios.cooja.mspmote.interfaces.MspClock
-        <deviation>1.0</deviation>
-      </interface_config>
-      <interface_config>
-        org.contikios.cooja.mspmote.interfaces.MspMoteID
-        <id>13</id>
-      </interface_config>
-      <motetype_identifier>sky1</motetype_identifier>
-    </mote>
   </simulation>
   <plugin>
     org.contikios.cooja.plugins.SimControl

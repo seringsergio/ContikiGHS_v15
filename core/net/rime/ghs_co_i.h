@@ -72,7 +72,7 @@ typedef struct info_found info_found;
 typedef struct connect_list connect_list;
 typedef struct initiate_list initiate_list;
 typedef struct accept_list accept_list;
-
+typedef struct reject_list reject_list;
 /*-------------------------------------------------------------------*/
 /*---------------- EVENTOS ------------------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -185,6 +185,12 @@ struct accept_list
 struct reject_msg
 {
     linkaddr_t destination;
+};
+
+struct reject_list
+{
+    struct reject_list *next;
+    linkaddr_t from;
 };
 
 struct node

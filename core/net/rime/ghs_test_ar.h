@@ -76,7 +76,8 @@ void ghs_test_ar_recv_ruc(void *msg, const linkaddr_t *from,
                          struct memb *history_mem, list_t history_list, uint8_t seqno,
                          struct process *e_test,
                          struct memb *t_mem, list_t t_list, struct process *evaluar_msg_test,
-                         struct memb *a_mem, list_t a_list, struct process *evaluar_msg_accept);
+                         struct memb *a_mem, list_t a_list, struct process *evaluar_msg_accept,
+                         list_t rj_list, struct memb *rj_mem, struct process *evaluar_msg_reject);
 
 
 

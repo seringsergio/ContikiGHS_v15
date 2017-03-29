@@ -48,6 +48,7 @@ PROCESS_NAME(e_test);
 PROCESS_NAME(send_message_test_ar);
 PROCESS_NAME(evaluar_msg_test);
 PROCESS_NAME(evaluar_msg_accept);
+PROCESS_NAME(evaluar_msg_reject);
 
 // master_report_ChaRoot
 //PROCESS_NAME(master_report_ChaRoot);
