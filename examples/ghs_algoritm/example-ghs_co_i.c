@@ -336,10 +336,10 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
 
                         }else //Si el estado NO es branch (El proceso postpones processing CONECT)
                         {
-                            printf("Tamano lista=%d Pospone ConNect de %d con level=%d \n",
+                            printf("Tamano lista=%d Pospone ConNect de %d con level=%d nd.f.level=%d \n",
                             list_length(co_list),
                              co_list_p->from.u8[0],
-                             co_list_p->co_msg.level);
+                             co_list_p->co_msg.level, nd.f.level);
 
                             list_remove(co_list, co_list_p); //Remove a specific element from a list.
                             list_add(co_list, co_list_p); //Add an item at the end of a list.
