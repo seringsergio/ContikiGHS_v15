@@ -209,11 +209,30 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
     PROCESS_EXITHANDLER();
     PROCESS_BEGIN();
 
+    //proceso report - ChangeRoot
+    e_msg_report          = process_alloc_event(); // Darle un numero al evento
+    e_msg_ch_root         = process_alloc_event(); // Darle un numero al evento
+    e_msg_information     = process_alloc_event(); // Darle un numero al evento
+    e_msg_ghs_end         = process_alloc_event(); // Darle un numero al evento
+
+    process_start(&evaluar_msg_rp, NULL); //para inicializar report_list_g y report_memb_g
+    process_start(&e_LWOE, NULL); //para inicializar report_list_g y report_memb_g
+    process_start(&evaluar_msg_cr, NULL); //para inicializar report_list_g y report_memb_g
+
     runicast_open(&runicast, 146, &runicast_callbacks); //el 144-145 ya estan usados
 
     /* OPTIONAL: Sender history */
     list_init(history_list);
     memb_init(&history_mem);
+
+    static report_msg *rp_msg_d; //rp = report
+    static report_msg rp_msg;
+
+    static change_root_msg *cr_msg_d; //cr = change root
+    static change_root_msg cr_msg;
+
+    static msg_informacion *inf_msg_d; //information_message
+    static msg_informacion inf_msg;
 
     while(1)
     {
@@ -221,14 +240,7 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
 
         if(ev == e_msg_report)
         {
-            static report_msg *rp_msg_d; //rp = report
             rp_msg_d = (report_msg *) data;
-            static report_msg rp_msg;
-            /*static struct etimer et;
-
-            // Delay 2-4 seconds
-            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
-            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
@@ -253,14 +265,7 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
         }else
         if(ev == e_msg_ch_root)
         {
-            static change_root_msg *cr_msg_d; //cr = change root
             cr_msg_d = (change_root_msg *) data;
-            static change_root_msg cr_msg;
-            /*static struct etimer et;
-
-            // Delay 2-4 seconds
-            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
-            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
@@ -281,15 +286,7 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
         }else
         if(ev == e_msg_information)
         {
-            static msg_informacion *inf_msg_d; //information_message
             inf_msg_d = (msg_informacion *) data;
-            static msg_informacion inf_msg;
-            /*static struct etimer et;
-
-            // Delay 2-4 seconds
-            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
-            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
-
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {

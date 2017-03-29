@@ -123,6 +123,8 @@ static void master_co_i_exit_handler(void)
 /*------------------------------------------------------------------- */
 /*----------PROCESSES------- -----------------------------------------*/
 /*------------------------------------------------------------------- */
+PROCESS(wait_rand, "Wait for a random number of seconds");
+
 PROCESS(master_co_i, "Proceso master de los msg connect-initiate");
 PROCESS(send_message_co_i, "Enviar msg de connect - initiate");
 PROCESS(evaluar_msg_co, "Evaluar Mensaje de Connect");
@@ -147,31 +149,7 @@ PROCESS_THREAD(master_co_i, ev, data)
 
     //Definir eventos: master find found
 
-    //Proceso co_i
-        //estados
-        e_found = process_alloc_event(); // Darle un numero al evento
-        e_find = process_alloc_event(); // Darle un numero al evento
-        //msg
-        e_msg_connect = process_alloc_event(); // Darle un numero al evento
-        e_msg_initiate = process_alloc_event();  // Darle un numero al evento
-
-    //proceso test_ar
-        //estados
-        e_evaluate_test       = process_alloc_event(); // Darle un numero al evento
-        e_nd_lwoe             = process_alloc_event(); // Darle un numero al evento
-        e_ch_lwoe             = process_alloc_event(); // Darle un numero al evento
-        //msg
-        e_msg_test            = process_alloc_event(); // Darle un numero al evento
-        e_msg_reject          = process_alloc_event(); // Darle un numero al evento
-        e_msg_accept          = process_alloc_event(); // Darle un numero al evento
-
-    //proceso report - ChangeRoot
-
-        e_msg_report          = process_alloc_event(); // Darle un numero al evento
-        e_msg_ch_root         = process_alloc_event(); // Darle un numero al evento
-        e_msg_information     = process_alloc_event(); // Darle un numero al evento
-        e_msg_ghs_end         = process_alloc_event(); // Darle un numero al evento
-
+    static connect_msg c_msg;
     static s_wait str_wait;
     while(1)
     {
@@ -179,25 +157,14 @@ PROCESS_THREAD(master_co_i, ev, data)
         if (ev == e_init_master_co_i)
         {
 
-            static connect_msg c_msg;
-
             //Terminar procesos
             process_exit(&master_neighbor_discovery);   //Se cierra el proceso y se llama el PROCESS_EXITHANDLER(funcion)
             //Iniciar procesos co_i
             process_start(&send_message_co_i, NULL);
-            process_start(&evaluar_msg_co, NULL );
-            process_start(&evaluar_msg_i, NULL );
             //Procesos de test ar
             process_start(&send_message_test_ar, NULL);
-            process_start(&e_test, NULL);
-            process_start(&evaluar_msg_test, NULL);
-            process_start(&evaluar_msg_accept, NULL);
-            process_start(&evaluar_msg_reject, NULL);
             //procesos de report-ChangeRoot
-            process_start(&evaluar_msg_rp, NULL); //para inicializar report_list_g y report_memb_g
             process_start(&send_message_report_ChaRoot, NULL); //para inicializar report_list_g y report_memb_g
-            process_start(&e_LWOE, NULL); //para inicializar report_list_g y report_memb_g
-            process_start(&evaluar_msg_cr, NULL); //para inicializar report_list_g y report_memb_g
 
             //Inicializar el master_co_i
             init_master_co_i(data, &edges_memb, edges_list);
@@ -211,7 +178,11 @@ PROCESS_THREAD(master_co_i, ev, data)
 
             //Envio Connect INICIAL con level = 0
             llenar_connect_msg (&c_msg, nd.f.level, &nd.lwoe.node.neighbor);
-            process_post(&send_message_co_i,  e_msg_connect, &c_msg);
+            if(process_post(&send_message_co_i,  e_msg_connect, &c_msg) == PROCESS_ERR_OK)
+            {
+                printf("BIEN: The event could be posted.\n");
+            }
+            printf("Antes de esto envio connnect\n");
 
             //Me voy al estado found
             process_post(PROCESS_CURRENT(), e_found, NULL);
@@ -258,23 +229,34 @@ PROCESS_THREAD(send_message_co_i, ev, data)
     PROCESS_BEGIN();
     runicast_open(&runicast, 144, &runicast_callbacks);
 
+    //Proceso co_i
+    //estados
+    e_found = process_alloc_event(); // Darle un numero al evento
+    e_find = process_alloc_event(); // Darle un numero al evento
+    //msg
+    e_msg_connect = process_alloc_event(); // Darle un numero al evento
+    e_msg_initiate = process_alloc_event();  // Darle un numero al evento
+
+    process_start(&evaluar_msg_co, NULL );
+    process_start(&evaluar_msg_i, NULL );
+    process_start(&wait_rand, NULL );
+
     /* OPTIONAL: Sender history */
     list_init(history_list);
     memb_init(&history_mem);
+
+    static connect_msg *c_msg_d;
+    static connect_msg co_msg;
+
+    static initiate_msg *msg_d;
+    static initiate_msg  i_msg;
 
     while(1)
     {
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == e_msg_connect)
         {
-            static connect_msg *c_msg_d;
             c_msg_d = (connect_msg *) data;
-            static connect_msg co_msg;
-            /*static struct etimer et;
-
-            // Delay 2-4 seconds
-            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
-            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
@@ -292,14 +274,7 @@ PROCESS_THREAD(send_message_co_i, ev, data)
         }else
         if(ev == e_msg_initiate)
         {
-            static initiate_msg *msg_d;
             msg_d = (initiate_msg *) data;
-            static initiate_msg  i_msg;
-            /*static struct etimer et;
-
-            // Delay 2-4 seconds
-            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
-            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
@@ -482,3 +457,29 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
     } //end of while
     PROCESS_END();
 } //END of PROCESS THREAD evaluar_msg_i
+
+
+PROCESS_THREAD(wait_rand, ev, data)
+{
+    PROCESS_BEGIN();
+
+    static struct etimer et;
+    static s_wait *str_wait;
+
+    while(1)
+    {
+          PROCESS_WAIT_EVENT(); // Wait for any event.
+          if(ev == PROCESS_EVENT_CONTINUE)
+          {
+              str_wait = (s_wait *) data;
+
+              // Delay x-x seconds
+              etimer_set(&et, CLOCK_SECOND *str_wait->seconds
+                  + random_rand() % (CLOCK_SECOND * str_wait->seconds));
+              PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
+              process_post(str_wait->return_process,PROCESS_EVENT_CONTINUE, NULL);
+          }
+    }
+    PROCESS_END();
+}

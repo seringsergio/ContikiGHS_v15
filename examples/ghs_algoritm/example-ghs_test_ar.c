@@ -190,9 +190,33 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
 
     runicast_open(&runicast, 145, &runicast_callbacks); //el 144 ya esta usado
 
+    //proceso test_ar
+    //estados
+    e_evaluate_test       = process_alloc_event(); // Darle un numero al evento
+    e_nd_lwoe             = process_alloc_event(); // Darle un numero al evento
+    e_ch_lwoe             = process_alloc_event(); // Darle un numero al evento
+    //msg
+    e_msg_test            = process_alloc_event(); // Darle un numero al evento
+    e_msg_reject          = process_alloc_event(); // Darle un numero al evento
+    e_msg_accept          = process_alloc_event(); // Darle un numero al evento
+
     /* OPTIONAL: Sender history */
     list_init(history_list);
     memb_init(&history_mem);
+
+    process_start(&e_test, NULL);
+    process_start(&evaluar_msg_test, NULL);
+    process_start(&evaluar_msg_accept, NULL);
+    process_start(&evaluar_msg_reject, NULL);
+
+    static test_msg *t_msg_d;
+    static test_msg t_msg;
+
+    static reject_msg *r_msg_d;
+    static reject_msg r_msg;
+
+    static accept_msg *a_msg_d;
+    static accept_msg a_msg;
 
     //printf("Process Init: send_message_test_ar \n");
     while(1)
@@ -202,14 +226,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == e_msg_test)
         {
-            static test_msg *t_msg_d;
             t_msg_d = (test_msg *) data;
-            static test_msg t_msg;
-            /*static struct etimer et;
-
-            // Delay 2-4 seconds
-            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
-            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
             //printf("Deseo enviar e_msg_test NO IF\n");
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
@@ -229,14 +246,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
         }else
         if(ev == e_msg_reject)
         {
-            static reject_msg *r_msg_d;
             r_msg_d = (reject_msg *) data;
-            static reject_msg r_msg;
-            /*static struct etimer et;
-
-            // Delay 2-4 seconds
-            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
-            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
@@ -261,14 +271,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
         if(ev == e_msg_accept)
         {
 
-            static accept_msg *a_msg_d;
             a_msg_d = (accept_msg *) data;
-            static accept_msg a_msg;
-            /*static struct etimer et;
-
-            // Delay 2-4 seconds
-            etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
-            PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {

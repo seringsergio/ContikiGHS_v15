@@ -276,7 +276,7 @@
       <skin>org.contikios.cooja.plugins.skins.GridVisualizerSkin</skin>
       <skin>org.contikios.cooja.plugins.skins.TrafficVisualizerSkin</skin>
       <skin>org.contikios.cooja.plugins.skins.UDGMVisualizerSkin</skin>
-      <viewport>1.1937952470621214 0.0 0.0 1.1937952470621214 48.74757341370414 1.1337824656743232</viewport>
+      <viewport>1.44500446026504 0.0 0.0 1.44500446026504 24.92497514637912 -11.319150679171027</viewport>
     </plugin_config>
     <width>400</width>
     <z>2</z>
@@ -294,8 +294,8 @@
     <width>701</width>
     <z>0</z>
     <height>542</height>
-    <location_x>403</location_x>
-    <location_y>153</location_y>
+    <location_x>400</location_x>
+    <location_y>160</location_y>
   </plugin>
   <plugin>
     org.contikios.cooja.plugins.Notes
