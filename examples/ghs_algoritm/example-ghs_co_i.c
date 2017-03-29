@@ -151,6 +151,9 @@ PROCESS_THREAD(master_co_i, ev, data)
 
     static connect_msg c_msg;
     static s_wait str_wait;
+    static uint8_t primer_connect;
+    static uint8_t *primer_co;
+
     while(1)
     {
         PROCESS_WAIT_EVENT(); // Wait for any event.
@@ -178,33 +181,29 @@ PROCESS_THREAD(master_co_i, ev, data)
 
             //Envio Connect INICIAL con level = 0
             llenar_connect_msg (&c_msg, nd.f.level, &nd.lwoe.node.neighbor);
-            if(process_post(&send_message_co_i,  e_msg_connect, &c_msg) == PROCESS_ERR_OK)
-            {
-                printf("BIEN: The event could be posted.\n");
-            }
-            printf("Antes de esto envio connnect\n");
+            process_post(&send_message_co_i,  e_msg_connect, &c_msg);
 
             //Me voy al estado found
-            process_post(PROCESS_CURRENT(), e_found, NULL);
+            process_post(PROCESS_CURRENT(), e_found, &primer_connect);
             nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
         }else
         if (ev == e_found)
         {
-            //Espero instrucciones de change_root o initiate
-            printf("Estoy en FOUND \n");
+            primer_co = (uint8_t *) data;
+            if(primer_co == NULL)
+            {
+                //Espero instrucciones de change_root o initiate
+                printf("Estoy en FOUND \n");
 
-            //termino GHS
-            /*printf("2. Acabo GHS algorithm Name=%d.%02d\n",
-            (int)(nd.f.name / SEQNO_EWMA_UNITY),
-            (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));*/
+                //Reinicio variables
+                nd.flags &= ~ND_LWOE;
+                nd.flags &= ~CH_LWOE;
 
-            //Reinicio variables
-            nd.flags &= ~ND_LWOE;
-            nd.flags &= ~CH_LWOE;
-
-            /*char string[] = "REAAAD";
-            print_edges_list(e_list_head_g, string,  &linkaddr_node_addr);*/
-            print_final_result();
+                print_final_result();
+            }else
+            {
+                printf("Primer: Estoy en FOUND \n");
+            }
 
         }else
         if (ev == e_find)

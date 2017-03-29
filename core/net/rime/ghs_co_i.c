@@ -189,7 +189,7 @@ void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, lis
     nd.lwoe.node.weight = INFINITO;
     nd.lwoe.children.weight = INFINITO;
     nd.num_branches = 0;
-
+    linkaddr_copy(&nd.otro_core_node, &linkaddr_node_addr); //otro core node soy YO
 
     //Tomar info de master_neighbor_discovery
     fill_edges_list(edges_list, edges_memb, n_list_head );

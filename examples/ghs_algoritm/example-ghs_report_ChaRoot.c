@@ -204,109 +204,6 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
 
 
 
-PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
-{
-    PROCESS_EXITHANDLER();
-    PROCESS_BEGIN();
-
-    //proceso report - ChangeRoot
-    e_msg_report          = process_alloc_event(); // Darle un numero al evento
-    e_msg_ch_root         = process_alloc_event(); // Darle un numero al evento
-    e_msg_information     = process_alloc_event(); // Darle un numero al evento
-    e_msg_ghs_end         = process_alloc_event(); // Darle un numero al evento
-
-    process_start(&evaluar_msg_rp, NULL); //para inicializar report_list_g y report_memb_g
-    process_start(&e_LWOE, NULL); //para inicializar report_list_g y report_memb_g
-    process_start(&evaluar_msg_cr, NULL); //para inicializar report_list_g y report_memb_g
-
-    runicast_open(&runicast, 146, &runicast_callbacks); //el 144-145 ya estan usados
-
-    /* OPTIONAL: Sender history */
-    list_init(history_list);
-    memb_init(&history_mem);
-
-    static report_msg *rp_msg_d; //rp = report
-    static report_msg rp_msg;
-
-    static change_root_msg *cr_msg_d; //cr = change root
-    static change_root_msg cr_msg;
-
-    static msg_informacion *inf_msg_d; //information_message
-    static msg_informacion inf_msg;
-
-    while(1)
-    {
-        PROCESS_WAIT_EVENT(); // Wait for any event.
-
-        if(ev == e_msg_report)
-        {
-            rp_msg_d = (report_msg *) data;
-
-            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
-            {
-                llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->neighbor_r,
-                                  rp_msg_d->weight_r);
-                packetbuf_copyfrom(&rp_msg, sizeof(rp_msg));
-                packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, REPORT);
-                runicast_send(&runicast, &rp_msg.destination, MAX_RETRANSMISSIONS);
-                printf("Envie report a %d Neigh=%d Weight=%d.%02d flags=%04X\n",
-                        rp_msg.destination.u8[0],
-                        rp_msg.neighbor_r.u8[0],
-                        (int)( rp_msg.weight_r / SEQNO_EWMA_UNITY),
-                        (int)(((100UL * rp_msg.weight_r ) / SEQNO_EWMA_UNITY) % 100),
-                        nd.flags );
-            }else //Si runicast esta ocupado TX, pospongo el envio del msg
-            {
-                //pospone sending the message
-                llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->neighbor_r,
-                                  rp_msg_d->weight_r);
-                process_post(PROCESS_CURRENT(), e_msg_report, &rp_msg);
-            }
-        }else
-        if(ev == e_msg_ch_root)
-        {
-            cr_msg_d = (change_root_msg *) data;
-
-            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
-            {
-                llenar_change_root(&cr_msg, &cr_msg_d->next_hop, &cr_msg_d->final_destination);
-                packetbuf_copyfrom(&cr_msg, sizeof(cr_msg));
-                packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, CHANGE_ROOT);
-                runicast_send(&runicast, &cr_msg.next_hop, MAX_RETRANSMISSIONS);
-                printf("Envie CHANGE_RooT next_hop=%d final_destination=%d\n",
-                        cr_msg.next_hop.u8[0],
-                        cr_msg.final_destination.u8[0]
-                        );
-            }else //Si runicast esta ocupado TX, pospongo el envio del msg
-            {
-                //pospone sending the message
-                llenar_change_root(&cr_msg, &cr_msg_d->next_hop, &cr_msg_d->final_destination);
-                process_post(PROCESS_CURRENT(), e_msg_ch_root, &cr_msg);
-            }
-        }else
-        if(ev == e_msg_information)
-        {
-            inf_msg_d = (msg_informacion *) data;
-
-            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
-            {
-                llenar_msg_informacion(&inf_msg, inf_msg_d->flags, &inf_msg_d->destination);
-                packetbuf_copyfrom(&inf_msg, sizeof(inf_msg));
-                packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INFORMATION);
-                runicast_send(&runicast, &inf_msg.destination, MAX_RETRANSMISSIONS);
-                printf("Envie INFORMATION msg TO=%d\n",
-                        inf_msg.destination.u8[0]);
-            }else //Si runicast esta ocupado TX, pospongo el envio del msg
-            {
-                //pospone sending the message
-                llenar_msg_informacion(&inf_msg, inf_msg_d->flags, &inf_msg_d->destination);
-                process_post(PROCESS_CURRENT(), e_msg_information, &inf_msg);
-            }
-        }
-
-    } //end of infinite while
-    PROCESS_END();
-}
 
 /* Proceso para evaluar si ya tengo LWOE propio (ND_LWOE) y de los vecinos (CH_LWOE)
 */
@@ -330,6 +227,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         {
                             if( (nd.lwoe.node.weight == INFINITO) && (nd.lwoe.children.weight==INFINITO) )
                             {
+                                printf("Los dos reportes son INFINITO\n");
                                 //Paso a FOUND
                                 process_post(&master_co_i, e_found, NULL);
                                 nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
@@ -392,7 +290,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             nd.flags &= ~CORE_NODE;
                             llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                             process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
-                            printf("CORE_NODE & HOJA Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                            printf("Hoja:CORE_NODE & HOJA Deseo Reportar Neigh=%d Weight=%d.%02d\n",
                                      rp_msg.neighbor_r.u8[0],
                                      (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                      (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
@@ -416,7 +314,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 //nd.flags &= ~CORE_NODE;
                                 llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                                 process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
-                                printf("CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                                printf("CasiCompleta:CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
                                          rp_msg.neighbor_r.u8[0],
                                          (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                          (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
@@ -633,3 +531,107 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
     PROCESS_END();
 
 } //End of PROCESS THREAD
+
+PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
+{
+    PROCESS_EXITHANDLER();
+    PROCESS_BEGIN();
+
+    //proceso report - ChangeRoot
+    e_msg_report          = process_alloc_event(); // Darle un numero al evento
+    e_msg_ch_root         = process_alloc_event(); // Darle un numero al evento
+    e_msg_information     = process_alloc_event(); // Darle un numero al evento
+    e_msg_ghs_end         = process_alloc_event(); // Darle un numero al evento
+
+    process_start(&evaluar_msg_rp, NULL); //para inicializar report_list_g y report_memb_g
+    process_start(&e_LWOE, NULL); //para inicializar report_list_g y report_memb_g
+    process_start(&evaluar_msg_cr, NULL); //para inicializar report_list_g y report_memb_g
+
+    runicast_open(&runicast, 146, &runicast_callbacks); //el 144-145 ya estan usados
+
+    /* OPTIONAL: Sender history */
+    list_init(history_list);
+    memb_init(&history_mem);
+
+    static report_msg *rp_msg_d; //rp = report
+    static report_msg rp_msg;
+
+    static change_root_msg *cr_msg_d; //cr = change root
+    static change_root_msg cr_msg;
+
+    static msg_informacion *inf_msg_d; //information_message
+    static msg_informacion inf_msg;
+
+    while(1)
+    {
+        PROCESS_WAIT_EVENT(); // Wait for any event.
+
+        if(ev == e_msg_report)
+        {
+            rp_msg_d = (report_msg *) data;
+
+            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+            {
+                llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->neighbor_r,
+                                  rp_msg_d->weight_r);
+                packetbuf_copyfrom(&rp_msg, sizeof(rp_msg));
+                packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, REPORT);
+                runicast_send(&runicast, &rp_msg.destination, MAX_RETRANSMISSIONS);
+                printf("Envie report a %d Neigh=%d Weight=%d.%02d flags=%04X\n",
+                        rp_msg.destination.u8[0],
+                        rp_msg.neighbor_r.u8[0],
+                        (int)( rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                        (int)(((100UL * rp_msg.weight_r ) / SEQNO_EWMA_UNITY) % 100),
+                        nd.flags );
+            }else //Si runicast esta ocupado TX, pospongo el envio del msg
+            {
+                //pospone sending the message
+                llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->neighbor_r,
+                                  rp_msg_d->weight_r);
+                process_post(PROCESS_CURRENT(), e_msg_report, &rp_msg);
+            }
+        }else
+        if(ev == e_msg_ch_root)
+        {
+            cr_msg_d = (change_root_msg *) data;
+
+            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+            {
+                llenar_change_root(&cr_msg, &cr_msg_d->next_hop, &cr_msg_d->final_destination);
+                packetbuf_copyfrom(&cr_msg, sizeof(cr_msg));
+                packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, CHANGE_ROOT);
+                runicast_send(&runicast, &cr_msg.next_hop, MAX_RETRANSMISSIONS);
+                printf("Envie CHANGE_RooT next_hop=%d final_destination=%d\n",
+                        cr_msg.next_hop.u8[0],
+                        cr_msg.final_destination.u8[0]
+                        );
+            }else //Si runicast esta ocupado TX, pospongo el envio del msg
+            {
+                //pospone sending the message
+                llenar_change_root(&cr_msg, &cr_msg_d->next_hop, &cr_msg_d->final_destination);
+                process_post(PROCESS_CURRENT(), e_msg_ch_root, &cr_msg);
+            }
+        }else
+        if(ev == e_msg_information)
+        {
+            inf_msg_d = (msg_informacion *) data;
+
+            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+            {
+                llenar_msg_informacion(&inf_msg, inf_msg_d->flags, &inf_msg_d->destination);
+                packetbuf_copyfrom(&inf_msg, sizeof(inf_msg));
+                packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INFORMATION);
+                runicast_send(&runicast, &inf_msg.destination, MAX_RETRANSMISSIONS);
+                printf("Envie INFORMATION msg TO=%d\n",
+                        inf_msg.destination.u8[0]);
+            }else //Si runicast esta ocupado TX, pospongo el envio del msg
+            {
+                //pospone sending the message
+                llenar_msg_informacion(&inf_msg, inf_msg_d->flags, &inf_msg_d->destination);
+                process_post(PROCESS_CURRENT(), e_msg_information, &inf_msg);
+            }
+        }
+
+    } //end of infinite while
+    PROCESS_END();
+}
