@@ -1,7 +1,9 @@
 1. Compilar el parser para leer el archivo loglistener.txt
 
-g++ -o parserLogListener parserLogListener.cpp
+g++ -o parserLogListener_lines parserLogListener_lines.cpp
+g++ -o parserLogListener_vectors parserLogListener_vectors.cpp
 
 2. Ejecutar el parser para leer el archivo loglistener.txt. El 12 es el numero de nodos
 
-./parserLogListener 12 > edges.dat
+./parserLogListener_vectors 12 > edges_vectors.dat
+./parserLogListener_lines > edges_lines.dat

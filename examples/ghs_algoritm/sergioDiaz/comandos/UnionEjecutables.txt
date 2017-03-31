@@ -17,7 +17,8 @@ DESCRIPCION:
 
 PASOS:
 
-./parserLogListener 12 > edges.dat
+./parserLogListener_vectors 12 > edges_vectors.dat
+./parserLogListener_lines > edges_lines.dat
 java readSimulation > pnts.dat
 gnuplot
-//Copiar y pegar el contenido de gnuGraphScript.txt
+//Copiar y pegar el contenido de gnuGraph_vectors.txt y gnuGraph_lines.txt

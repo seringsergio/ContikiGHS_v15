@@ -6,7 +6,7 @@ set size square
 set style arrow 1 head filled size screen 0.025,10,40 linecolor rgb "black" linewidth 2
 
 flePnts = 'pnts.dat'
-fleEdges = 'edges.dat'
+fleEdges = 'edges_vectors.dat'
 
 loadEdges = sprintf('< gawk '' \
     FNR==NR{x[$1]=$2;y[$1]=$3;next;} \
