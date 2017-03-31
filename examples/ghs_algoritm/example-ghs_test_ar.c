@@ -153,6 +153,7 @@ PROCESS_THREAD(e_test, ev, data)
 
             for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
             {
+                //un rejected nunca se vuelve a testear
                 if( (e_aux->state == BASIC) || (e_aux->state == E_ACCEPTED) )
                 {
                     printf("addr=%d e_aux->state =%d \n",e_aux->addr.u8[0], e_aux->state);

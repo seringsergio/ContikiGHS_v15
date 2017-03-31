@@ -173,6 +173,8 @@ void ghs_report_ChaRoot_recv_ruc(void *msg,
        {
            report_list *rp_list_p;
 
+           printf("llego informacion de =%d\n", from->u8[0]);
+
            //dejo de ser core_node
            nd.flags &= ~CORE_NODE;
 

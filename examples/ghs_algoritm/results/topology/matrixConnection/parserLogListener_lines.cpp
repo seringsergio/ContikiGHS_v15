@@ -23,7 +23,7 @@ int main()
             std::string READ;
             std::string id;
             std::string neighbor;
-            double avg_seqno_gap;
+            std::string avg_seqno_gap;
 
             //Sacar los todos los valores de la linea que estan separados por espacio
             ss >> Time >> Mote >> READ >> id >> neighbor >> avg_seqno_gap;

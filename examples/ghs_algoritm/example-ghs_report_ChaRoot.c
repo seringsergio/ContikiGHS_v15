@@ -223,8 +223,11 @@ PROCESS_THREAD(e_LWOE, ev, data)
         {
                 if(nd.flags & CORE_NODE)
                 {
+                        printf("nd.flags=%04X\n", nd.flags);
                         if( (nd.flags & ND_LWOE) && (nd.flags & CH_LWOE) )
                         {
+                            printf("Entraaa nd.flags=%04X\n", nd.flags);
+
                             if( (nd.lwoe.node.weight == INFINITO) && (nd.lwoe.children.weight==INFINITO) )
                             {
                                 printf("Los dos reportes son INFINITO\n");
@@ -237,6 +240,12 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             {
                                 if(!(nd.flags & FRAGMENTO_LWOE))
                                 {
+                                    printf("nd.lwoe.node.weigh=%d.%02d <= nd.lwoe.children.weight=%d.%02d \n",
+                                    (int)(nd.lwoe.node.weight / SEQNO_EWMA_UNITY),
+                                    (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100),
+                                    (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
+                                    (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100)     );
+
                                     if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
                                     {
                                         nd.flags &= ~CORE_NODE;
@@ -257,7 +266,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                         nd.flags &= ~CORE_NODE;
                                         llenar_change_root(&cr_msg, &nd.downroute, &nd.lwoe.children.neighbor);
                                         process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
-                                        printf("EEEnvie 2 CHANGE_ROOT a next_hop=%d final_destination=%d\n",
+                                        printf("EEEnvie 222 CHANGE_ROOT a next_hop=%d final_destination=%d\n",
                                         cr_msg.next_hop.u8[0],
                                         cr_msg.final_destination.u8[0]);
                                         //paso a FOUND

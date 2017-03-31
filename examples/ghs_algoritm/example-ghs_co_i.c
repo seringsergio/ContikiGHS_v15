@@ -328,6 +328,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
 
                             nd.flags |= CORE_NODE;
                             //Creo que debo subir el nivel aca
+                            //creo que debo cambiar el nombre del fragmento aca
                             linkaddr_copy(&nd.otro_core_node, &co_list_p->from);
 
 
