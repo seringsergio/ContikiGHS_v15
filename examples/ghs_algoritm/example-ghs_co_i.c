@@ -301,6 +301,12 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
     list_init(co_list);
     memb_init(&co_mem);
 
+    static initiate_msg i_msg;
+    static connect_list *co_list_p;
+    static struct etimer et;
+
+    //connect_msg *co_msg = (connect_msg *) msg;
+
     while(1)
     {
         PROCESS_WAIT_EVENT(); // Wait for any event.
@@ -308,11 +314,8 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
         {
             if(list_length(co_list))
             {
-                connect_list *co_list_p;
                 for(co_list_p = list_head(co_list); co_list_p != NULL; co_list_p = co_list_p->next)
                 {
-                    static initiate_msg i_msg;
-                    //connect_msg *co_msg = (connect_msg *) msg;
 
                     if(co_list_p->co_msg.level == nd.f.level) //Si los dos fragmentos tienen el mismo nivel
                     {
@@ -324,6 +327,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                              co_list_p->co_msg.level);
 
                             nd.flags |= CORE_NODE;
+                            //Creo que debo subir el nivel aca
                             linkaddr_copy(&nd.otro_core_node, &co_list_p->from);
 
 
@@ -363,6 +367,12 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                         memb_free(&co_mem, co_list_p);
 
                     }
+
+                    //espero 7.8ms antes de enviar el siguiente msg
+                    //si envio 2 respuestas seguidas se daña el dato del post
+                    etimer_set(&et, CLOCK_SECOND / MIN_CLOCK_SECOND );
+                    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
                 } //END for para recorrer lista
             } // END Si la lista tiene elementos
         } //END PROCESS EV==CONTINUE

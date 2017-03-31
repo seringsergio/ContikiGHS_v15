@@ -390,8 +390,8 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                          }
                      }
 
-                     //espero 1 segundo antes de enviar el siguiente msg
-                     //si envio 2 respuestas seguidas de daña el dato del post
+                     //espero 7.8ms antes de enviar el siguiente msg
+                     //si envio 2 respuestas seguidas se daña el dato del post
                      etimer_set(&et, CLOCK_SECOND / MIN_CLOCK_SECOND );
                      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
