@@ -310,7 +310,6 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
     static test_list *t_list_p;
     static accept_msg a_msg;
     static reject_msg r_msg;
-
     static struct etimer et;
 
     while(1)

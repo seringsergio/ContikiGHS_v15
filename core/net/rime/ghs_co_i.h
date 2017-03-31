@@ -20,7 +20,7 @@
 #define MAX_NUM_POSPONES        MAX_NEIGHBORS
 #define MAX_TAMANO_LISTA_MSG    MAX_NEIGHBORS //lista donde guardo msgs (co-i-test-ar-report-Chroot)
 
-//Estados de los nodos
+//Estados de los nodos nd.state
 #define FIND  0x01
 #define FOUND 0x02
 #define END   0x04

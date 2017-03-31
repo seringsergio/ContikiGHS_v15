@@ -390,6 +390,8 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
     list_init(i_list);
     memb_init(&i_mem);
 
+    static struct etimer et;
+
     while(1)
     {
         PROCESS_WAIT_EVENT(); // Wait for any event.
@@ -397,7 +399,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
         {
             if(list_length(i_list))
             {
-                initiate_list *i_list_p;
+                static initiate_list *i_list_p;
                 for(i_list_p = list_head(i_list); i_list_p != NULL; i_list_p = i_list_p->next)
                 {
                     //initiate_msg *i_msg = (initiate_msg *) msg;
@@ -420,6 +422,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                         //Envio un mensaje al master_co_i de find
                         process_post(&master_co_i,  e_find, NULL);
                         nd.state = FIND;  //Para saber en que estado estoy en cualquier parte
+                        printf("Deseo postear FIND\n");
                     }else
                     if(i_list_p->i_msg.nd_state == FOUND) //si cambio de estado a FOUND
                     {
@@ -429,17 +432,23 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                     }
 
                     //Reenvio el msg por todas las BRANCHES
-                    edges *e_aux;
+                    static edges *e_aux;
                     for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
                     {
                         //Propagar el INITIATE por las otras ramas
                         //Si es una BRANCH y no es el nodo que me envio el INITIATE (No le devuelvo el msg)
                         if( (e_aux->state == BRANCH) && !linkaddr_cmp(&e_aux->addr, &i_list_p->from))
                         {
+
                             llenar_initiate_msg(&i_msg_d, i_list_p->i_msg.f.name, i_list_p->i_msg.f.level,
                                                i_list_p->i_msg.nd_state, &e_aux->addr, ~BECOME_CORE_NODE);
                             process_post(&send_message_co_i,  e_msg_initiate, &i_msg_d);
+
                         }
+                        //espero 7.8ms antes de enviar el siguiente msg
+                        //si envio 2 respuestas seguidas se daña el dato del post
+                        etimer_set(&et, CLOCK_SECOND / MIN_CLOCK_SECOND );
+                        PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
                     }
 
                     printf("TamanoLista =%d llego INITIATE from %d.%d name=%d.%02d level=%d state=%d parent=%d\n",
