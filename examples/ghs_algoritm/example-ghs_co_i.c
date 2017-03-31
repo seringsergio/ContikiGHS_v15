@@ -433,7 +433,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
 
                     //Reenvio el msg por todas las BRANCHES
                     static edges *e_aux;
-                    for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
+                    for(e_aux = e_list_head_g; e_aux != NULL; e_aux = e_aux->next) // Recorrer toda la lista
                     {
                         //Propagar el INITIATE por las otras ramas
                         //Si es una BRANCH y no es el nodo que me envio el INITIATE (No le devuelvo el msg)
@@ -447,7 +447,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                         }
                         //espero 7.8ms antes de enviar el siguiente msg
                         //si envio 2 respuestas seguidas se daña el dato del post
-                        etimer_set(&et, CLOCK_SECOND / MIN_CLOCK_SECOND );
+                        etimer_set(&et, CLOCK_SECOND / (2*MIN_CLOCK_SECOND) );
                         PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
                     }
 
