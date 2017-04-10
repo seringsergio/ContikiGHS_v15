@@ -28,7 +28,7 @@ typedef struct wait s_wait;
 #define MAX_NODOS_EN_RED 12
 
 // Definicion de constantes
-#define MAX_RETRANSMISSIONS 60 //TIENE que esta en min 60
+#define MAX_RETRANSMISSIONS 100 //TIENE que esta en min 100
 #define NUM_HISTORY_ENTRIES MAX_NEIGHBORS //Numero de entradas los 16 vecinos posibles
 #define WAIT_NETWORK_STABILIZATION (MAX_NODOS_EN_RED * 4) //por cada nodo espero 4 segundos
 
