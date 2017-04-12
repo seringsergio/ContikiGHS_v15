@@ -34,7 +34,7 @@ uint8_t es_Hoja()
 }
 /* llenar el msg de informacion
 */
-void llenar_msg_informacion(msg_informacion *inf_msg, uint8_t flags, const linkaddr_t *destination )
+void llenar_msg_informacion(informacion_msg *inf_msg, uint8_t flags, const linkaddr_t *destination )
 {
     inf_msg->flags = flags;
     linkaddr_copy(&inf_msg->destination, destination);
@@ -92,102 +92,3 @@ uint8_t lista_casi_completa( list_t rp_list)
 
     return lista_completa;
 }
-
-/* Funcion que recibe los msg de runicast
-*/
-void ghs_report_ChaRoot_recv_ruc(void *msg,
-                         const linkaddr_t *from,
-                         struct memb *history_mem, list_t history_list, uint8_t seqno,
-                         struct memb *rp_mem, list_t rp_list, struct process *evaluar_msg_rp,
-                         list_t  cr_list, struct memb *cr_mem, struct process *evaluar_msg_cr,
-                         struct process *master_co_i )
-{
-
-    /* OPTIONAL: Sender history */
-    struct history_entry *e = NULL;
-    for(e = list_head(history_list); e != NULL; e = e->next) {
-      if(linkaddr_cmp(&e->addr, from)) { // Si las dir son iguales entra
-        break;
-      }
-    }
-    if(e == NULL) {
-      /* Create new history entry */
-      e = memb_alloc(history_mem);
-      if(e == NULL) {
-        e = list_chop(history_list); /* Remove oldest at full history */
-      }
-      linkaddr_copy(&e->addr, from);
-      e->seq = seqno;
-      list_push(history_list, e);
-    } else {
-      /* Detect duplicate callback */
-      if(e->seq == seqno) {
-        printf("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
-  	     from->u8[0], from->u8[1], seqno);
-        return;
-      }
-      /* Update existing history entry */
-      e->seq = seqno;
-    }
-
-       //Leer el packet buffer attribute: Especificamente el tipo de mensaje
-       packetbuf_attr_t msg_type = packetbuf_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG);
-
-       if(msg_type == REPORT)
-       {
-
-          report_list *rp_list_p;
-
-          rp_list_p = memb_alloc(rp_mem); //Alocar memoria
-          if(rp_list_p == NULL)
-          {
-              printf("ERROR: La lista de msg de REPORT esta llena\n");
-          }else
-          {
-              rp_list_p->rp_msg = *((report_msg *)msg); //msg le hago cast.Luego cojo todo el msg
-              linkaddr_copy(&rp_list_p->from, from);
-              list_push(rp_list, rp_list_p); //Add an item to the start of the list.
-              process_post(evaluar_msg_rp, PROCESS_EVENT_CONTINUE, NULL);
-
-          }
-
-       }else //end IF REPORT
-       if(msg_type == CHANGE_ROOT)
-       {
-
-           change_root_list *cr_list_p;
-
-           cr_list_p = memb_alloc(cr_mem); //Alocar memoria
-           if(cr_list_p == NULL)
-           {
-               printf("ERROR: La lista de msg de change_root esta llena\n");
-           }else
-           {
-               cr_list_p->cr_msg = *((change_root_msg *)msg); //msg le hago cast.Luego cojo todo el msg
-               linkaddr_copy(&cr_list_p->from, from);
-               list_push(cr_list, cr_list_p); //Add an item to the start of the list.
-               process_post(evaluar_msg_cr, PROCESS_EVENT_CONTINUE, NULL);
-           }
-       }else
-       if(msg_type == INFORMATION)
-       {
-           report_list *rp_list_p;
-
-           printf("llego informacion de =%d\n", from->u8[0]);
-
-           //dejo de ser core_node
-           nd.flags &= ~CORE_NODE;
-
-           //limpio mi lista de reportes
-           for(rp_list_p = list_head(rp_list); rp_list_p != NULL; rp_list_p = rp_list_p->next)
-           {
-               my_list_remove(rp_list, rp_list_p); //Remove a specific element from a list.
-               memb_free(rp_mem, rp_list_p);
-           }
-
-           //paso a FOUND
-           process_post(master_co_i, e_found, NULL);
-           nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
-       }
-
-}//End recibir mensajes de unicast

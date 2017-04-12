@@ -72,6 +72,9 @@
  MEMB(cr_mem, change_root_list, MAX_TAMANO_LISTA_MSG); // Defines a memory pool for edges
  LIST(cr_list); // List that holds the neighbors we have seen thus far
 
+ MEMB(info_mem, informacion_list , MAX_TAMANO_LISTA_MSG); // Defines a memory pool for edges
+ LIST(info_list); // List that holds the neighbors we have seen thus far
+
 
  /*------------------------------------------------------------------- */
  /*----------STATIC VARIABLES -----------------------------------------*/
@@ -86,11 +89,84 @@
  recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
  {
 
-   ghs_report_ChaRoot_recv_ruc(packetbuf_dataptr() , from, &history_mem,
-                        history_list, seqno, &rp_mem, rp_list, &evaluar_msg_rp,
-                        cr_list, &cr_mem,
-                        &evaluar_msg_cr, &master_co_i);
+    void *msg = packetbuf_dataptr();
 
+    /* OPTIONAL: Sender history */
+    struct history_entry *e = NULL;
+    for(e = list_head(history_list); e != NULL; e = e->next) {
+      if(linkaddr_cmp(&e->addr, from)) { // Si las dir son iguales entra
+        break;
+      }
+    }
+    if(e == NULL) {
+      /* Create new history entry */
+      e = memb_alloc(&history_mem);
+      if(e == NULL) {
+        e = list_chop(history_list); /* Remove oldest at full history */
+      }
+      linkaddr_copy(&e->addr, from);
+      e->seq = seqno;
+      list_push(history_list, e);
+    } else {
+      /* Detect duplicate callback */
+      if(e->seq == seqno) {
+        printf("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
+  	     from->u8[0], from->u8[1], seqno);
+        return;
+      }
+      /* Update existing history entry */
+      e->seq = seqno;
+    }
+       //Leer el packet buffer attribute: Especificamente el tipo de mensaje
+       packetbuf_attr_t msg_type = packetbuf_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG);
+       if(msg_type == REPORT)
+       {
+          report_list *rp_list_p;
+          rp_list_p = memb_alloc(&rp_mem); //Alocar memoria
+          if(rp_list_p == NULL)
+          {
+              printf("ERROR: La lista de msg de REPORT esta llena\n");
+          }else
+          {
+              rp_list_p->rp_msg = *((report_msg *)msg); //msg le hago cast.Luego cojo todo el msg
+              linkaddr_copy(&rp_list_p->from, from);
+              list_push(rp_list, rp_list_p); //Add an item to the start of the list.
+              process_post(&evaluar_msg_rp, PROCESS_EVENT_CONTINUE, NULL);
+              //process_poll(evaluar_msg_rp);
+          }
+       }else //end IF REPORT
+       if(msg_type == CHANGE_ROOT)
+       {
+           change_root_list *cr_list_p;
+           cr_list_p = memb_alloc(&cr_mem); //Alocar memoria
+           if(cr_list_p == NULL)
+           {
+               printf("ERROR: La lista de msg de change_root esta llena\n");
+           }else
+           {
+               cr_list_p->cr_msg = *((change_root_msg *)msg); //msg le hago cast.Luego cojo todo el msg
+               linkaddr_copy(&cr_list_p->from, from);
+               list_push(cr_list, cr_list_p); //Add an item to the start of the list.
+               process_post(&evaluar_msg_cr, PROCESS_EVENT_CONTINUE, NULL);
+               //process_poll(evaluar_msg_cr);
+           }
+       }else
+       if(msg_type == INFORMATION)
+       {
+           informacion_list *info_list_p;
+           info_list_p = memb_alloc(&info_mem); //Alocar memoria
+           if(info_list_p == NULL)
+           {
+               printf("ERROR: La lista de msg de INFORMACION esta llena\n");
+           }else
+           {
+               //no necesito coger el mensage
+               linkaddr_copy(&info_list_p->from, from);
+               list_push(info_list, info_list_p); //Add an item to the start of the list.
+               process_post(&evaluar_msg_info, PROCESS_EVENT_CONTINUE, NULL);
+               //process_poll(evaluar_msg_info);
+           }
+       }
 
  }
  static void
@@ -120,6 +196,7 @@
  PROCESS(evaluar_msg_rp, "Evalua si los hijos ya enviaron los msg de report");
  PROCESS(e_LWOE, "Evaluar si ya tengo LWOE propio y de los vecinos");
  PROCESS(evaluar_msg_cr, "Evaluar Mensaje de change_root");
+ PROCESS(evaluar_msg_info, "Evaluar Mensaje de informacion");
 
 
 PROCESS_THREAD(evaluar_msg_rp, ev, data)
@@ -133,6 +210,7 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
 
     while(1)
     {
+        //PROCESS_YIELD();
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
@@ -278,7 +356,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                     //del otro CORE_NODE
                                     nd.flags |= FRAGMENTO_LWOE;
                                     //Otro CORE_NODE debe dejar de ser CORE_NODE
-                                    static msg_informacion inf_msg;
+                                    static informacion_msg inf_msg;
                                     llenar_msg_informacion(&inf_msg, NO_SEA_CORE_NODE, &nd.otro_core_node );
                                     process_post(&send_message_report_ChaRoot, e_msg_information, &inf_msg);
                                 }else
@@ -488,6 +566,7 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
 
     while(1)
     {
+        //PROCESS_YIELD();
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
@@ -548,6 +627,56 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
 
 } //End of PROCESS THREAD
 
+
+PROCESS_THREAD(evaluar_msg_info, ev, data)
+{
+    PROCESS_BEGIN();
+
+    // Iniciar la lista
+    list_init(info_list);
+    memb_init(&info_mem);
+
+    static report_list *rp_list_p;
+    static informacion_list *info_list_p;
+
+    while(1)
+    {
+        //PROCESS_YIELD();
+        PROCESS_WAIT_EVENT(); // Wait for any event.
+        if(ev == PROCESS_EVENT_CONTINUE)
+        {
+            if(list_length(info_list))
+            {
+                for(info_list_p = list_head(info_list); info_list_p != NULL; info_list_p = info_list_p->next)
+                {
+                    printf("llego informacion de =%d\n", info_list_p->from.u8[0]);
+
+                    //dejo de ser core_node
+                    nd.flags &= ~CORE_NODE;
+
+                    //limpio mi lista de reportes
+                    for(rp_list_p = list_head(rp_list); rp_list_p != NULL; rp_list_p = rp_list_p->next)
+                    {
+                        my_list_remove(rp_list, rp_list_p); //Remove a specific element from a list.
+                        memb_free(&rp_mem, rp_list_p);
+                    }
+
+                    //paso a FOUND
+                    process_post(&master_co_i, e_found, NULL);
+                    nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+
+                    //remuevo el elemento de la lista
+                    my_list_remove(info_list, info_list_p); //Remove a specific element from a list.
+                    memb_free(&info_mem, info_list_p);
+
+                } //end FOR
+            }// END IF lista tiene algun elemento
+        } //IF ev==CONTINUE
+    } //end WHILE
+
+    PROCESS_END();
+}
+
 PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
 {
     PROCESS_EXITHANDLER();
@@ -562,6 +691,7 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
     process_start(&evaluar_msg_rp, NULL); //para inicializar report_list_g y report_memb_g
     process_start(&e_LWOE, NULL); //para inicializar report_list_g y report_memb_g
     process_start(&evaluar_msg_cr, NULL); //para inicializar report_list_g y report_memb_g
+    process_start(&evaluar_msg_info, NULL); //init msg evaluation
 
     runicast_open(&runicast, 146, &runicast_callbacks); //el 144-145 ya estan usados
 
@@ -575,8 +705,8 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
     static change_root_msg *cr_msg_d; //cr = change root
     static change_root_msg cr_msg;
 
-    static msg_informacion *inf_msg_d; //information_message
-    static msg_informacion inf_msg;
+    static informacion_msg *inf_msg_d; //information_message
+    static informacion_msg inf_msg;
 
     while(1)
     {
@@ -630,7 +760,7 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
         }else
         if(ev == e_msg_information)
         {
-            inf_msg_d = (msg_informacion *) data;
+            inf_msg_d = (informacion_msg *) data;
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {

@@ -73,13 +73,4 @@ void become_accepted(edges *e_list_head_g, const linkaddr_t *from);
 void become_rejected(edges *e_list_head_g, const linkaddr_t *from);
 uint32_t return_weight(edges *e_list_head_g,  const linkaddr_t *from);
 
-void ghs_test_ar_recv_ruc(void *msg, const linkaddr_t *from,
-                         struct memb *history_mem, list_t history_list, uint8_t seqno,
-                         struct process *e_test,
-                         struct memb *t_mem, list_t t_list, struct process *evaluar_msg_test,
-                         struct memb *a_mem, list_t a_list, struct process *evaluar_msg_accept,
-                         list_t rj_list, struct memb *rj_mem, struct process *evaluar_msg_reject);
-
-
-
 #endif /* GHS_NEIGH_H */

@@ -56,6 +56,7 @@ PROCESS_NAME(send_message_report_ChaRoot);
 PROCESS_NAME(evaluar_msg_rp);
 PROCESS_NAME(e_LWOE);
 PROCESS_NAME(evaluar_msg_cr);
+PROCESS_NAME(evaluar_msg_info);
 
 /*------------------------------------------------------------------- */
 /*----------EVENTOS -------- -----------------------------------------*/

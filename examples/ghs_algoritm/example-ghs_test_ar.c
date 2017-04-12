@@ -97,13 +97,85 @@ static struct runicast_conn runicast_145; //Es la conexion de runicastt
 static void
 recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 {
+    void *msg = packetbuf_dataptr();
 
-  ghs_test_ar_recv_ruc(packetbuf_dataptr() , from, &history_mem,
-                       history_list, seqno,
-                       &e_test,
-                        &t_mem , t_list, &evaluar_msg_test,
-                       &a_mem, a_list, &evaluar_msg_accept, rj_list, &rj_mem ,
-                       &evaluar_msg_reject);
+   /* OPTIONAL: Sender history */
+
+   struct history_entry *e = NULL;
+   for(e = list_head(history_list); e != NULL; e = e->next) {
+     if(linkaddr_cmp(&e->addr, from)) { // Si las dir son iguales entra
+       break;
+     }
+   }
+   if(e == NULL) {
+     /* Create new history entry */
+     e = memb_alloc(&history_mem);
+     if(e == NULL) {
+       e = list_chop(history_list); /* Remove oldest at full history */
+     }
+     linkaddr_copy(&e->addr, from);
+     e->seq = seqno;
+     list_push(history_list, e);
+   } else {
+     /* Detect duplicate callback */
+     if(e->seq == seqno) {
+       printf("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
+ 	     from->u8[0], from->u8[1], seqno);
+       return;
+     }
+     /* Update existing history entry */
+     e->seq = seqno;
+   }
+      //Leer el packet buffer attribute: Especificamente el tipo de mensaje
+      packetbuf_attr_t msg_type = packetbuf_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG);
+      // Evaluo el tipo de msg que llego
+      if(msg_type == TEST)
+      {
+          test_list *t_list_p;
+          t_list_p = memb_alloc(&t_mem); //Alocar memoria
+          if(t_list_p == NULL)
+          {
+              printf("ERROR: La lista de msg de test esta llena\n");
+          }else
+          {
+              t_list_p->t_msg = *((test_msg *)msg); //msg le hago cast.Luego cojo todo el msg
+              linkaddr_copy(&t_list_p->from, from);
+              list_push(t_list, t_list_p); //Add an item to the start of the list.
+              process_post(&evaluar_msg_test, PROCESS_EVENT_CONTINUE, NULL ) ;
+              //process_poll(evaluar_msg_test);
+          }
+      }else
+      if(msg_type == M_ACCEPT)
+      {
+          accept_list *a_list_p;
+          a_list_p = memb_alloc(&a_mem); //Alocar memoria
+          if(a_list_p == NULL)
+          {
+              printf("ERROR: La lista de msg de accept esta llena\n");
+          }else
+          {
+              linkaddr_copy(&a_list_p->from, from);
+              list_push(a_list, a_list_p); //Add an item to the start of the list.
+              process_post(&evaluar_msg_accept, PROCESS_EVENT_CONTINUE, NULL);
+              //process_poll(evaluar_msg_accept);
+          }
+      }else
+      if(msg_type == M_REJECT)
+      {
+          reject_list *rj_list_p;
+          rj_list_p = memb_alloc(&rj_mem); //Alocar memoria
+          if(rj_list_p == NULL)
+          {
+              printf("ERROR: La lista de msg de Reject esta llena\n");
+          }else
+          {
+              linkaddr_copy(&rj_list_p->from, from);
+              list_push(rj_list, rj_list_p); //Add an item to the start of the list.
+              process_post(&evaluar_msg_reject, PROCESS_EVENT_CONTINUE, NULL);
+              //process_poll(evaluar_msg_reject);
+          }
+      }
+
 }
 static void
 sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
@@ -314,7 +386,7 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
 
     while(1)
     {
-
+        //PROCESS_YIELD();
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
@@ -414,6 +486,7 @@ PROCESS_THREAD(evaluar_msg_accept, ev, data)
 
     while(1)
     {
+        //PROCESS_YIELD();
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
@@ -462,6 +535,7 @@ PROCESS_THREAD(evaluar_msg_reject, ev, data)
 
     while(1)
     {
+        //PROCESS_YIELD();
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {

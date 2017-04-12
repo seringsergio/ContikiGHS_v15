@@ -93,9 +93,82 @@ static struct runicast_conn runicast; //Es la conexion de runicast
 */
 static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 {
-  ghs_co_i_recv_ruc(packetbuf_dataptr(), from, &history_mem, history_list, seqno,
-                    co_list, &co_mem, &evaluar_msg_co,
-                   i_list, &i_mem , &evaluar_msg_i, &evaluar_msg_test);
+
+   // OPTIONAL: Sender history
+   void *msg = packetbuf_dataptr();
+   struct history_entry *e = NULL;
+
+   for(e = list_head(history_list); e != NULL; e = e->next) {
+     if(linkaddr_cmp(&e->addr, from)) { // Si las dir son iguales entra
+       break;
+     }
+   }
+   if(e == NULL) {
+     // Create new history entry
+     e = memb_alloc(&history_mem);
+     if(e == NULL) {
+       e = list_chop(history_list); /* Remove oldest at full history */
+     }
+     linkaddr_copy(&e->addr, from);
+     e->seq = seqno;
+     list_push(history_list, e);
+   } else {
+     // Detect duplicate callback
+     if(e->seq == seqno) {
+       printf("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
+        from->u8[0], from->u8[1], seqno);
+       return;
+     }
+     // Update existing history entry
+     e->seq = seqno;
+   }
+
+   //Leer el packet buffer attribute: Especificamente el tipo de mensaje
+   packetbuf_attr_t msg_type = packetbuf_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG);
+
+   // Evaluo el tipo de msg que llego
+   if(msg_type == CONNECT)
+   {
+       connect_list *co_list_p;
+       co_list_p = memb_alloc(&co_mem); //Alocar memoria
+       if(co_list_p == NULL)
+       {
+           printf("ERROR: La lista de msg de connect esta llena\n");
+       }else
+       {
+           co_list_p->co_msg = *((connect_msg *)msg); //msg le hago cast.Luego cojo todo el msg
+           linkaddr_copy(&co_list_p->from, from);
+           list_push(co_list, co_list_p); //Add an item to the start of the list.
+           process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
+           //process_poll(evaluar_msg_co);
+       }
+
+   }else
+   if(msg_type == INITIATE)
+   {
+
+       initiate_list *i_list_p;
+       i_list_p = memb_alloc(&i_mem); //Alocar memoria
+       if(i_list_p == NULL)
+       {
+          printf("ERROR: La lista de msg de initiate esta llena\n");
+       }else
+       {
+          i_list_p->i_msg = *((initiate_msg *)msg); //msg le hago cast.Luego cojo todo el msg
+          linkaddr_copy(&i_list_p->from, from);
+          list_push(i_list, i_list_p); //Add an item to the start of the list.
+          process_post(&evaluar_msg_i, PROCESS_EVENT_CONTINUE, NULL);
+          //process_poll(evaluar_msg_i);
+
+          //LLamar al proceso para que evalue el pospone agregado o actualizado
+          // Se hace aca porque el INITIATE es quien cambia el level del fragmento
+          process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
+          process_post(&evaluar_msg_test, PROCESS_EVENT_CONTINUE, NULL ) ;
+          //process_poll(evaluar_msg_co);
+          //process_poll(evaluar_msg_test);
+       }
+
+   } //END if msg es INITIATE
 
 }
 static void sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
@@ -309,6 +382,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
 
     while(1)
     {
+        //PROCESS_YIELD();
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
@@ -394,6 +468,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
 
     while(1)
     {
+        //PROCESS_YIELD();
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {

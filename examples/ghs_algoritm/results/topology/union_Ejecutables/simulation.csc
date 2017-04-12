@@ -287,7 +287,7 @@
   <plugin>
     org.contikios.cooja.plugins.LogListener
     <plugin_config>
-      <filter />
+      <filter>END</filter>
       <formatted_time />
       <coloring />
     </plugin_config>

@@ -219,13 +219,6 @@ void fill_edges_list(list_t edges_list, struct memb *edges_memb, struct neighbor
 void print_edges_list(edges *e_list_head, char *string,  const linkaddr_t *node_addr);
 void become_branch(edges *e_list_head, const linkaddr_t *node_addr);
 linkaddr_t* least_basic_edge(edges *e_list_head);
-
-void ghs_co_i_recv_ruc(void *msg, const linkaddr_t *from,
-                    struct memb *history_mem, list_t history_list, uint8_t seqno,
-                    list_t co_list, struct memb *co_mem, struct process *evaluar_msg_co,
-                    list_t i_list, struct memb *i_mem, struct process *evaluar_msg_i,
-                    struct process *evaluar_msg_test);
-
 void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, list_t edges_list);
 uint8_t state_is_branch( const linkaddr_t *addr,  edges *e_list_head);
 uint32_t weight_with_edge( const linkaddr_t *addr,  edges *e_list_head);
