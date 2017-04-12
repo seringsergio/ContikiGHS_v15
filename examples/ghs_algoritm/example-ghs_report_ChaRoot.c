@@ -132,7 +132,7 @@
               linkaddr_copy(&rp_list_p->from, from);
               list_push(rp_list, rp_list_p); //Add an item to the start of the list.
               process_post(&evaluar_msg_rp, PROCESS_EVENT_CONTINUE, NULL);
-              //process_poll(evaluar_msg_rp);
+              //process_poll(&evaluar_msg_rp);
           }
        }else //end IF REPORT
        if(msg_type == CHANGE_ROOT)
@@ -148,7 +148,7 @@
                linkaddr_copy(&cr_list_p->from, from);
                list_push(cr_list, cr_list_p); //Add an item to the start of the list.
                process_post(&evaluar_msg_cr, PROCESS_EVENT_CONTINUE, NULL);
-               //process_poll(evaluar_msg_cr);
+               //process_poll(&evaluar_msg_cr);
            }
        }else
        if(msg_type == INFORMATION)
@@ -164,7 +164,7 @@
                linkaddr_copy(&info_list_p->from, from);
                list_push(info_list, info_list_p); //Add an item to the start of the list.
                process_post(&evaluar_msg_info, PROCESS_EVENT_CONTINUE, NULL);
-               //process_poll(evaluar_msg_info);
+               //process_poll(&evaluar_msg_info);
            }
        }
 
@@ -210,7 +210,7 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
 
     while(1)
     {
-        //PROCESS_YIELD();
+        //PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_POLL);
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
@@ -566,7 +566,7 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
 
     while(1)
     {
-        //PROCESS_YIELD();
+        //PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_POLL);
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
@@ -641,7 +641,7 @@ PROCESS_THREAD(evaluar_msg_info, ev, data)
 
     while(1)
     {
-        //PROCESS_YIELD();
+        //PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_POLL);
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {

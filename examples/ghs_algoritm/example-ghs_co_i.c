@@ -140,7 +140,7 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
            linkaddr_copy(&co_list_p->from, from);
            list_push(co_list, co_list_p); //Add an item to the start of the list.
            process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
-           //process_poll(evaluar_msg_co);
+           //process_poll(&evaluar_msg_co);
        }
 
    }else
@@ -158,14 +158,14 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
           linkaddr_copy(&i_list_p->from, from);
           list_push(i_list, i_list_p); //Add an item to the start of the list.
           process_post(&evaluar_msg_i, PROCESS_EVENT_CONTINUE, NULL);
-          //process_poll(evaluar_msg_i);
+          //process_poll(&evaluar_msg_i);
 
           //LLamar al proceso para que evalue el pospone agregado o actualizado
           // Se hace aca porque el INITIATE es quien cambia el level del fragmento
           process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
           process_post(&evaluar_msg_test, PROCESS_EVENT_CONTINUE, NULL ) ;
-          //process_poll(evaluar_msg_co);
-          //process_poll(evaluar_msg_test);
+          //process_poll(&evaluar_msg_co);
+          //process_poll(&evaluar_msg_test);
        }
 
    } //END if msg es INITIATE
@@ -382,7 +382,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
 
     while(1)
     {
-        //PROCESS_YIELD();
+        //PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_POLL);
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
@@ -468,7 +468,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
 
     while(1)
     {
-        //PROCESS_YIELD();
+        //PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_POLL);
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {

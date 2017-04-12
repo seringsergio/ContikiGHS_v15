@@ -142,7 +142,7 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
               linkaddr_copy(&t_list_p->from, from);
               list_push(t_list, t_list_p); //Add an item to the start of the list.
               process_post(&evaluar_msg_test, PROCESS_EVENT_CONTINUE, NULL ) ;
-              //process_poll(evaluar_msg_test);
+              //process_poll(&evaluar_msg_test);
           }
       }else
       if(msg_type == M_ACCEPT)
@@ -157,7 +157,7 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
               linkaddr_copy(&a_list_p->from, from);
               list_push(a_list, a_list_p); //Add an item to the start of the list.
               process_post(&evaluar_msg_accept, PROCESS_EVENT_CONTINUE, NULL);
-              //process_poll(evaluar_msg_accept);
+              //process_poll(&evaluar_msg_accept);
           }
       }else
       if(msg_type == M_REJECT)
@@ -172,7 +172,7 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
               linkaddr_copy(&rj_list_p->from, from);
               list_push(rj_list, rj_list_p); //Add an item to the start of the list.
               process_post(&evaluar_msg_reject, PROCESS_EVENT_CONTINUE, NULL);
-              //process_poll(evaluar_msg_reject);
+              //process_poll(&evaluar_msg_reject);
           }
       }
 
@@ -386,7 +386,7 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
 
     while(1)
     {
-        //PROCESS_YIELD();
+        //PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_POLL);
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
@@ -486,7 +486,7 @@ PROCESS_THREAD(evaluar_msg_accept, ev, data)
 
     while(1)
     {
-        //PROCESS_YIELD();
+        //PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_POLL);
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
@@ -535,7 +535,7 @@ PROCESS_THREAD(evaluar_msg_reject, ev, data)
 
     while(1)
     {
-        //PROCESS_YIELD();
+        //PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_POLL);
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
