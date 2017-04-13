@@ -65,8 +65,8 @@ void become_accepted(edges *e_list_head_g, const linkaddr_t *from)
 void llenar_test_msg (test_msg *t_msg, const linkaddr_t *destination, fragment f)
 {
     linkaddr_copy(&t_msg->destination,  destination);
-    t_msg->f.name      = f.name;
-    t_msg->f.level     = f.level;
+    t_msg->f.name_str      = f.name_str;
+    t_msg->f.level         = f.level;
 }
 
 
@@ -82,4 +82,18 @@ void llenar_accept_msg (accept_msg *a_msg, const linkaddr_t *destination)
 void llenar_reject_msg ( reject_msg *r_msg,  linkaddr_t *destination)
 {
     linkaddr_copy(&r_msg->destination,  destination);
+}
+
+uint8_t nombres_iguales(name *name_str_1, name *name_str_2)
+{
+    if( (name_str_1->weight == name_str_2->weight)                      &&
+        (linkaddr_cmp(&name_str_1->neighbor, &name_str_2->neighbor)  )  &&
+        (linkaddr_cmp(&name_str_1->mismo_nodo, &name_str_2->mismo_nodo)  )   )
+
+    {
+        return 1;
+    }else
+    {
+        return 0;
+    }
 }

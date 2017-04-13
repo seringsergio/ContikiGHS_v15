@@ -130,7 +130,7 @@
           {
               rp_list_p->rp_msg = *((report_msg *)msg); //msg le hago cast.Luego cojo todo el msg
               linkaddr_copy(&rp_list_p->from, from);
-              list_push(rp_list, rp_list_p); //Add an item to the start of the list.
+              list_add(rp_list, rp_list_p); //Add an item at the end of a list.
               process_post(&evaluar_msg_rp, PROCESS_EVENT_CONTINUE, NULL);
               //process_poll(&evaluar_msg_rp);
           }
@@ -146,7 +146,7 @@
            {
                cr_list_p->cr_msg = *((change_root_msg *)msg); //msg le hago cast.Luego cojo todo el msg
                linkaddr_copy(&cr_list_p->from, from);
-               list_push(cr_list, cr_list_p); //Add an item to the start of the list.
+               list_add(cr_list, cr_list_p); //Add an item at the end of a list.
                process_post(&evaluar_msg_cr, PROCESS_EVENT_CONTINUE, NULL);
                //process_poll(&evaluar_msg_cr);
            }
@@ -162,7 +162,7 @@
            {
                //no necesito coger el mensage
                linkaddr_copy(&info_list_p->from, from);
-               list_push(info_list, info_list_p); //Add an item to the start of the list.
+               list_add(info_list, info_list_p); //Add an item at the end of a list.
                process_post(&evaluar_msg_info, PROCESS_EVENT_CONTINUE, NULL);
                //process_poll(&evaluar_msg_info);
            }

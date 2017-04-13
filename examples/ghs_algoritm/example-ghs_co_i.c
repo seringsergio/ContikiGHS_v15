@@ -138,7 +138,7 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
        {
            co_list_p->co_msg = *((connect_msg *)msg); //msg le hago cast.Luego cojo todo el msg
            linkaddr_copy(&co_list_p->from, from);
-           list_push(co_list, co_list_p); //Add an item to the start of the list.
+           list_add(co_list, co_list_p); //Add an item at the end of a list.
            process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
            //process_poll(&evaluar_msg_co);
        }
@@ -156,7 +156,7 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
        {
           i_list_p->i_msg = *((initiate_msg *)msg); //msg le hago cast.Luego cojo todo el msg
           linkaddr_copy(&i_list_p->from, from);
-          list_push(i_list, i_list_p); //Add an item to the start of the list.
+          list_add(i_list, i_list_p); //Add an item at the end of a list.
           process_post(&evaluar_msg_i, PROCESS_EVENT_CONTINUE, NULL);
           //process_poll(&evaluar_msg_i);
 
@@ -344,20 +344,20 @@ PROCESS_THREAD(send_message_co_i, ev, data)
 
             if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
             {
-                llenar_initiate_msg(&i_msg, msg_d->f.name, msg_d->f.level,
+                llenar_initiate_msg(&i_msg, msg_d->f.name_str, msg_d->f.level,
                                     msg_d->nd_state,  &msg_d->destination, msg_d->flags );
                 packetbuf_copyfrom(&i_msg, sizeof(i_msg));
                 packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INITIATE);
                 runicast_send(&runicast, &i_msg.destination, MAX_RETRANSMISSIONS);
                 printf("Envio initiate a %d level= %d name=%d.%02d flags=%04X\n", i_msg.destination.u8[0],
                 i_msg.f.level,
-                (int)(i_msg.f.name / SEQNO_EWMA_UNITY),
-                (int)(((100UL * i_msg.f.name) / SEQNO_EWMA_UNITY) % 100),
+                (int)(i_msg.f.name_str.weight / SEQNO_EWMA_UNITY),
+                (int)(((100UL * i_msg.f.name_str.weight) / SEQNO_EWMA_UNITY) % 100),
                  nd.flags);
             }else //Si runicast esta ocupado TX, pospongo el envio del msg
             {
                 //pospone sending the message
-                llenar_initiate_msg(&i_msg, msg_d->f.name, msg_d->f.level,
+                llenar_initiate_msg(&i_msg, msg_d->f.name_str, msg_d->f.level,
                                     msg_d->nd_state,  &msg_d->destination, msg_d->flags );
                 process_post(PROCESS_CURRENT(), e_msg_initiate, &i_msg);
             }
@@ -401,13 +401,16 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                              co_list_p->co_msg.level);
 
                             nd.flags |= CORE_NODE;
-                            //Creo que debo subir el nivel aca
-                            //creo que debo cambiar el nombre del fragmento aca
                             linkaddr_copy(&nd.otro_core_node, &co_list_p->from);
 
+                            //Creo que debo subir el nivel aca
+                            nd.f.level = nd.f.level + 1 ;
+                            //creo que debo cambiar el nombre del fragmento aca
+                            llenar_name_str(&nd.f.name_str,
+                                weight_with_edge(&co_list_p->from, e_list_head_g), &co_list_p->from);
 
-                            llenar_initiate_msg(&i_msg, weight_with_edge(&co_list_p->from, e_list_head_g),
-                                                (nd.f.level + 1), FIND, &co_list_p->from, BECOME_CORE_NODE);
+                            llenar_initiate_msg(&i_msg, nd.f.name_str ,
+                                                nd.f.level, FIND, &co_list_p->from, BECOME_CORE_NODE);
                             process_post(&send_message_co_i,  e_msg_initiate, &i_msg); //Hijo + 1 !!
                             //remuevo el elemento de la lista
                             my_list_remove(co_list, co_list_p); //Remove a specific element from a list.
@@ -434,7 +437,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
 
                         become_branch(e_list_head_g, &co_list_p->from); // become branch de connect
 
-                        llenar_initiate_msg(&i_msg, nd.f.name, nd.f.level, nd.state, &co_list_p->from, ~BECOME_CORE_NODE);
+                        llenar_initiate_msg(&i_msg, nd.f.name_str, nd.f.level, nd.state, &co_list_p->from, ~BECOME_CORE_NODE);
                         process_post(&send_message_co_i,  e_msg_initiate, &i_msg); //Hijo + 1 !!
 
                         //remuevo el elemento de la lista
@@ -480,9 +483,9 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                     //initiate_msg *i_msg = (initiate_msg *) msg;
                     static initiate_msg i_msg_d;
 
-                    nd.f.name  = i_list_p->i_msg.f.name;
-                    nd.f.level = i_list_p->i_msg.f.level;
-                    nd.state   = i_list_p->i_msg.nd_state;
+                    nd.f.name_str  = i_list_p->i_msg.f.name_str;
+                    nd.f.level     = i_list_p->i_msg.f.level;
+                    nd.state       = i_list_p->i_msg.nd_state;
                     linkaddr_copy(&nd.parent , &i_list_p->from);
 
                     if(i_list_p->i_msg.flags & BECOME_CORE_NODE)
@@ -515,7 +518,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                         if( (e_aux->state == BRANCH) && !linkaddr_cmp(&e_aux->addr, &i_list_p->from))
                         {
 
-                            llenar_initiate_msg(&i_msg_d, i_list_p->i_msg.f.name, i_list_p->i_msg.f.level,
+                            llenar_initiate_msg(&i_msg_d, i_list_p->i_msg.f.name_str, i_list_p->i_msg.f.level,
                                                i_list_p->i_msg.nd_state, &e_aux->addr, ~BECOME_CORE_NODE);
                             process_post(&send_message_co_i,  e_msg_initiate, &i_msg_d);
 
@@ -529,8 +532,8 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                     printf("TamanoLista =%d llego INITIATE from %d.%d name=%d.%02d level=%d state=%d parent=%d\n",
                           list_length(i_list),
                           i_list_p->from.u8[0], i_list_p->from.u8[1],
-                          (int)(nd.f.name / SEQNO_EWMA_UNITY),
-                          (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100),
+                          (int)(nd.f.name_str.weight / SEQNO_EWMA_UNITY),
+                          (int)(((100UL * nd.f.name_str.weight) / SEQNO_EWMA_UNITY) % 100),
                           nd.f.level,
                           nd.state,
                           nd.parent.u8[0]);

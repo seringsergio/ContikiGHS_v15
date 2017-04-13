@@ -73,6 +73,7 @@ typedef struct connect_list connect_list;
 typedef struct initiate_list initiate_list;
 typedef struct accept_list accept_list;
 typedef struct reject_list reject_list;
+typedef struct name name;
 /*-------------------------------------------------------------------*/
 /*---------------- EVENTOS ------------------------------------------*/
 /*-------------------------------------------------------------------*/
@@ -89,9 +90,17 @@ process_event_t e_msg_initiate;
 /*---------------- ESTRUCTURAS---------------------------------------*/
 /*-------------------------------------------------------------------*/
 
+struct name
+{
+    linkaddr_t neighbor;
+    linkaddr_t mismo_nodo;
+    uint32_t weight;
+
+};
+
 struct fragment
 {
-    uint32_t name;
+    name name_str;
     uint8_t level;
 
 };
@@ -222,11 +231,12 @@ linkaddr_t* least_basic_edge(edges *e_list_head);
 void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, list_t edges_list);
 uint8_t state_is_branch( const linkaddr_t *addr,  edges *e_list_head);
 uint32_t weight_with_edge( const linkaddr_t *addr,  edges *e_list_head);
-void llenar_initiate_msg(initiate_msg *i_msg, uint32_t name,
+void llenar_initiate_msg(initiate_msg *i_msg, name name_str,
                         uint8_t level, uint8_t state, const linkaddr_t *dest, uint8_t flags);
 void llenar_connect_msg (connect_msg *msg, uint8_t level, linkaddr_t *destination);
 uint8_t num_hijos(edges *e_list_head);
 void print_final_result();
+void llenar_name_str(name *name_str, uint32_t weight, linkaddr_t *neighbor);
 
 
 

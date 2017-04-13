@@ -28,8 +28,8 @@ void print_final_result()
             (int)(e_aux->weight / SEQNO_EWMA_UNITY),
             (int)(((100UL * e_aux->weight) / SEQNO_EWMA_UNITY) % 100),
             e_aux->state,
-            (int)(nd.f.name / SEQNO_EWMA_UNITY),
-            (int)(((100UL * nd.f.name) / SEQNO_EWMA_UNITY) % 100));
+            (int)(nd.f.name_str.weight / SEQNO_EWMA_UNITY),
+            (int)(((100UL * nd.f.name_str.weight) / SEQNO_EWMA_UNITY) % 100));
        }
    }
 }
@@ -172,6 +172,13 @@ uint8_t state_is_branch(const linkaddr_t *addr,  edges *e_list_head)
     }
 }
 
+void llenar_name_str(name *name_str, uint32_t weight, linkaddr_t *neighbor)
+{
+    linkaddr_copy(&name_str->neighbor, neighbor);
+    linkaddr_copy(&name_str->mismo_nodo, &linkaddr_node_addr);
+    name_str->weight = weight;
+
+}
 /* Hace la inicializacion del proceso master_co_i
 */
 void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, list_t edges_list)
@@ -184,7 +191,7 @@ void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, lis
 
     //Inicializacion de Variables globales
     nd.flags = 0;
-    nd.f.name = 0;
+    llenar_name_str(&nd.f.name_str, 0, &linkaddr_node_addr);
     nd.f.level = 0;
     nd.lwoe.node.weight = INFINITO;
     nd.lwoe.children.weight = INFINITO;
@@ -212,10 +219,10 @@ void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, lis
 }
 /* LLena un msg de initiate con los valores parametros
 */
-void llenar_initiate_msg(initiate_msg *i_msg, uint32_t name,
+void llenar_initiate_msg(initiate_msg *i_msg, name name_str,
                         uint8_t level, uint8_t state, const linkaddr_t *dest, uint8_t flags)
 {
-    i_msg->f.name     = name;
+    i_msg->f.name_str = name_str;
     i_msg->f.level    = level;
     i_msg->nd_state   = state;
     linkaddr_copy(&i_msg->destination , dest);

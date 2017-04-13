@@ -30,6 +30,7 @@ typedef struct reject_msg reject_msg;
 typedef struct edges edges;
 typedef struct report_msg report_msg;
 typedef struct report_list report_list;
+typedef struct name name;
 
 
 /*-------------------------------------------------------------------*/
@@ -72,5 +73,6 @@ void llenar_reject_msg ( reject_msg *r_msg,  linkaddr_t *destination);
 void become_accepted(edges *e_list_head_g, const linkaddr_t *from);
 void become_rejected(edges *e_list_head_g, const linkaddr_t *from);
 uint32_t return_weight(edges *e_list_head_g,  const linkaddr_t *from);
+uint8_t nombres_iguales(name *name_str_1, name *name_str_2);
 
 #endif /* GHS_NEIGH_H */

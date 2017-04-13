@@ -140,7 +140,7 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
           {
               t_list_p->t_msg = *((test_msg *)msg); //msg le hago cast.Luego cojo todo el msg
               linkaddr_copy(&t_list_p->from, from);
-              list_push(t_list, t_list_p); //Add an item to the start of the list.
+              list_add(t_list, t_list_p); //Add an item at the end of a list.
               process_post(&evaluar_msg_test, PROCESS_EVENT_CONTINUE, NULL ) ;
               //process_poll(&evaluar_msg_test);
           }
@@ -155,7 +155,7 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
           }else
           {
               linkaddr_copy(&a_list_p->from, from);
-              list_push(a_list, a_list_p); //Add an item to the start of the list.
+              list_add(a_list, a_list_p); //Add an item at the end of a list.
               process_post(&evaluar_msg_accept, PROCESS_EVENT_CONTINUE, NULL);
               //process_poll(&evaluar_msg_accept);
           }
@@ -170,7 +170,7 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
           }else
           {
               linkaddr_copy(&rj_list_p->from, from);
-              list_push(rj_list, rj_list_p); //Add an item to the start of the list.
+              list_add(rj_list, rj_list_p); //Add an item at the end of a list.
               process_post(&evaluar_msg_reject, PROCESS_EVENT_CONTINUE, NULL);
               //process_poll(&evaluar_msg_reject);
           }
@@ -401,8 +401,8 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                          printf("TL=%d  Pospone un TEsT msg from %d con name=%d.%02d, level=%d > nd.f.level=%d \n",
                          list_length(t_list),
                          t_list_p->from.u8[0],
-                         (int)(t_list_p->t_msg.f.name / SEQNO_EWMA_UNITY),
-                         (int)(((100UL * t_list_p->t_msg.f.name) / SEQNO_EWMA_UNITY) % 100),
+                         (int)(t_list_p->t_msg.f.name_str.weight / SEQNO_EWMA_UNITY),
+                         (int)(((100UL * t_list_p->t_msg.f.name_str.weight) / SEQNO_EWMA_UNITY) % 100),
                          t_list_p->t_msg.f.level,
                          nd.f.level);
 
@@ -415,13 +415,13 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                      }else
                      if(t_list_p->t_msg.f.level <= nd.f.level)
                      {
-                         if(t_list_p->t_msg.f.name == nd.f.name)
+                         if(  nombres_iguales(  &(t_list_p->t_msg.f.name_str) , &(nd.f.name_str)   )   )
                          {
                              printf("TL=%d  evaluo un TEsT msg from %d con name=%d.%02d, level=%d > nd.f.level=%d \n",
                              list_length(t_list),
                              t_list_p->from.u8[0],
-                             (int)(t_list_p->t_msg.f.name / SEQNO_EWMA_UNITY),
-                             (int)(((100UL * t_list_p->t_msg.f.name) / SEQNO_EWMA_UNITY) % 100),
+                             (int)(t_list_p->t_msg.f.name_str.weight / SEQNO_EWMA_UNITY),
+                             (int)(((100UL * t_list_p->t_msg.f.name_str.weight) / SEQNO_EWMA_UNITY) % 100),
                              t_list_p->t_msg.f.level,
                              nd.f.level);
 
@@ -444,8 +444,8 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                              printf("TL=%d  evaluo un TEsT msg from %d con name=%d.%02d, level=%d > nd.f.level=%d \n",
                              list_length(t_list),
                              t_list_p->from.u8[0],
-                             (int)(t_list_p->t_msg.f.name / SEQNO_EWMA_UNITY),
-                             (int)(((100UL * t_list_p->t_msg.f.name) / SEQNO_EWMA_UNITY) % 100),
+                             (int)(t_list_p->t_msg.f.name_str.weight / SEQNO_EWMA_UNITY),
+                             (int)(((100UL * t_list_p->t_msg.f.name_str.weight) / SEQNO_EWMA_UNITY) % 100),
                              t_list_p->t_msg.f.level,
                              nd.f.level);
 
