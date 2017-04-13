@@ -131,7 +131,8 @@
               rp_list_p->rp_msg = *((report_msg *)msg); //msg le hago cast.Luego cojo todo el msg
               linkaddr_copy(&rp_list_p->from, from);
               list_add(rp_list, rp_list_p); //Add an item at the end of a list.
-              process_post(&evaluar_msg_rp, PROCESS_EVENT_CONTINUE, NULL);
+              process_post_synch(&evaluar_msg_rp, PROCESS_EVENT_CONTINUE, NULL);
+              //process_post(&evaluar_msg_rp, PROCESS_EVENT_CONTINUE, NULL);
               //process_poll(&evaluar_msg_rp);
           }
        }else //end IF REPORT
@@ -147,7 +148,8 @@
                cr_list_p->cr_msg = *((change_root_msg *)msg); //msg le hago cast.Luego cojo todo el msg
                linkaddr_copy(&cr_list_p->from, from);
                list_add(cr_list, cr_list_p); //Add an item at the end of a list.
-               process_post(&evaluar_msg_cr, PROCESS_EVENT_CONTINUE, NULL);
+               process_post_synch(&evaluar_msg_cr, PROCESS_EVENT_CONTINUE, NULL);
+               //process_post(&evaluar_msg_cr, PROCESS_EVENT_CONTINUE, NULL);
                //process_poll(&evaluar_msg_cr);
            }
        }else
@@ -163,7 +165,8 @@
                //no necesito coger el mensage
                linkaddr_copy(&info_list_p->from, from);
                list_add(info_list, info_list_p); //Add an item at the end of a list.
-               process_post(&evaluar_msg_info, PROCESS_EVENT_CONTINUE, NULL);
+               process_post_synch(&evaluar_msg_info, PROCESS_EVENT_CONTINUE, NULL);
+               //process_post(&evaluar_msg_info, PROCESS_EVENT_CONTINUE, NULL);
                //process_poll(&evaluar_msg_info);
            }
        }
@@ -231,7 +234,8 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
                 //Si la lista esta CASI completa
                 if( lista_casi_completa(rp_list) )
                 {
-                    process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+                    process_post_synch(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+                    //process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
                 }else
                 //Si la lista de reports ya esta completa
                 if(list_length(rp_list) >= num_hijos(e_list_head_g) ) //Si el tamano de la lista es = al num de hijos
@@ -259,7 +263,8 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
                     linkaddr_copy(&nd.lwoe.children.neighbor, &lowest_rp->rp_msg.neighbor_r );
                     nd.lwoe.children.weight = lowest_rp->rp_msg.weight_r;
                     nd.flags |= CH_LWOE; //Ya encontre el ND_LWOE
-                    process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+                    //process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+                    process_post_synch(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
 
                     printf("El menor de la lista es %d weight=%d.%02d flags=%04X - downroute=%d \n",
                     nd.lwoe.children.neighbor.u8[0],
@@ -310,10 +315,12 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             {
                                 printf("Los dos reportes son INFINITO\n");
                                 //Paso a FOUND
-                                process_post(&master_co_i, e_found, NULL);
+                                //process_post(&master_co_i, e_found, NULL);
+                                process_post_synch(&master_co_i, e_found, NULL);
                                 nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                                 //paso a END
-                                process_post(&master_co_i, e_msg_ghs_end, NULL);
+                                process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
+                                //process_post(&master_co_i, e_msg_ghs_end, NULL);
                             }else
                             {
                                 if(!(nd.flags & FRAGMENTO_LWOE))
@@ -335,7 +342,9 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                         process_post(&send_message_co_i,  e_msg_connect, &co_msg);
                                         printf("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
                                         //paso a FOUND
-                                        process_post(&master_co_i, e_found, NULL);
+                                        process_post_synch(&master_co_i, e_found, NULL);
+                                        //process_post(&master_co_i, e_found, NULL);
+
                                         nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
 
                                     }else //Si es mejor el edge de un vecino
@@ -348,7 +357,8 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                         cr_msg.next_hop.u8[0],
                                         cr_msg.final_destination.u8[0]);
                                         //paso a FOUND
-                                        process_post(&master_co_i, e_found, NULL);
+                                        process_post_synch(&master_co_i, e_found, NULL);
+                                        //process_post(&master_co_i, e_found, NULL);
                                         nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                                     }
 
@@ -362,7 +372,9 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 }else
                                 {
                                     //paso a FOUND
-                                    process_post(&master_co_i, e_found, NULL);
+                                    process_post_synch(&master_co_i, e_found, NULL);
+                                    //process_post(&master_co_i, e_found, NULL);
+
                                     nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                                 }
                             } //SI los dos valores son INFINITO acabo GHS
@@ -371,7 +383,9 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         {
                             if(nd.lwoe.node.weight == INFINITO)
                             {
-                                process_post(&master_co_i, e_msg_ghs_end, NULL);
+                                //process_post(&master_co_i, e_msg_ghs_end, NULL);
+                                process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
+
                             }
 
                             nd.flags &= ~CORE_NODE;
@@ -382,7 +396,9 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                      (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                      (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                             //paso a FOUND
-                            process_post(&master_co_i, e_found, NULL);
+                            //process_post(&master_co_i, e_found, NULL);
+                            process_post_synch(&master_co_i, e_found, NULL);
+
                             nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                         }
                         else //SI NO estan seteados los dos. Pero soy lista CASI completa(solo falta el otro core_node)
@@ -395,7 +411,9 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             {
                                 if(nd.lwoe.node.weight == INFINITO)
                                 {
-                                    process_post(&master_co_i, e_msg_ghs_end, NULL);
+                                    //process_post(&master_co_i, e_msg_ghs_end, NULL);
+                                    process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
+
                                 }
 
                                 //nd.flags &= ~CORE_NODE;
@@ -454,7 +472,9 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 {
                                     if(nd.lwoe.node.weight == INFINITO)
                                     {
-                                        process_post(&master_co_i, e_msg_ghs_end, NULL);
+                                        //process_post(&master_co_i, e_msg_ghs_end, NULL);
+                                        process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
+
                                     }
 
                                     //nd.flags &= ~CORE_NODE;
@@ -472,7 +492,9 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                {
                                    if(nd.lwoe.children.weight == INFINITO)
                                    {
-                                       process_post(&master_co_i, e_msg_ghs_end, NULL);
+                                       //process_post(&master_co_i, e_msg_ghs_end, NULL);
+                                       process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
+
                                    }
 
                                    //nd.flags &= ~CORE_NODE;
@@ -497,7 +519,9 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         {
                             if(nd.lwoe.node.weight == INFINITO)
                             {
-                                process_post(&master_co_i, e_msg_ghs_end, NULL);
+                                //process_post(&master_co_i, e_msg_ghs_end, NULL);
+                                process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
+
                             }
                             //send_report y paso a estado FOUND
                             llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
@@ -507,14 +531,18 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                                 (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                                 (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                             //paso a FOUND
-                            process_post(&master_co_i, e_found, NULL);
+                            //process_post(&master_co_i, e_found, NULL);
+                            process_post_synch(&master_co_i, e_found, NULL);
+
                             nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
 
                         }else //Si es mejor el edge de un vecino
                         {
                             if(nd.lwoe.children.weight == INFINITO)
                             {
-                                process_post(&master_co_i, e_msg_ghs_end, NULL);
+                                //process_post(&master_co_i, e_msg_ghs_end, NULL);
+                                process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
+
                             }
                             //send_report y paso a estado FOUND
                             // nd.lwoe.children.neighbor es neighbor_r
@@ -525,7 +553,8 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                                 (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                                 (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                             //paso a FOUND
-                            process_post(&master_co_i, e_found, NULL);
+                            process_post_synch(&master_co_i, e_found, NULL);
+                            //process_post(&master_co_i, e_found, NULL);
                             nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
 
                         }
@@ -534,7 +563,8 @@ PROCESS_THREAD(e_LWOE, ev, data)
                     {
                         if(nd.lwoe.node.weight == INFINITO)
                         {
-                            process_post(&master_co_i, e_msg_ghs_end, NULL);
+                            process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
+                            //process_post(&master_co_i, e_msg_ghs_end, NULL);
                         }
                         llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
                         process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
@@ -543,7 +573,8 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                             (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                             (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                          //paso a FOUND
-                         process_post(&master_co_i, e_found, NULL);
+                         process_post_synch(&master_co_i, e_found, NULL);
+                         //process_post(&master_co_i, e_found, NULL);
                          nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                     }
                 } //END no soy core node
@@ -662,7 +693,9 @@ PROCESS_THREAD(evaluar_msg_info, ev, data)
                     }
 
                     //paso a FOUND
-                    process_post(&master_co_i, e_found, NULL);
+                    process_post_synch(&master_co_i, e_found, NULL);
+                    //process_post(&master_co_i, e_found, NULL);
+
                     nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
 
                     //remuevo el elemento de la lista

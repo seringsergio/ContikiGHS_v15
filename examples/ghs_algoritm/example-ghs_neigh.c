@@ -342,7 +342,9 @@ PROCESS_THREAD(wait, ev, data)
               etimer_set(&et, CLOCK_SECOND * str_wait->seconds );
               PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
-              process_post(str_wait->return_process,PROCESS_EVENT_CONTINUE, NULL);
+              //process_post(str_wait->return_process,PROCESS_EVENT_CONTINUE, NULL);
+              process_post_synch(str_wait->return_process,PROCESS_EVENT_CONTINUE, NULL);
+
           }
     }
     PROCESS_END();

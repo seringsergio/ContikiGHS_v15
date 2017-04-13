@@ -139,7 +139,8 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
            co_list_p->co_msg = *((connect_msg *)msg); //msg le hago cast.Luego cojo todo el msg
            linkaddr_copy(&co_list_p->from, from);
            list_add(co_list, co_list_p); //Add an item at the end of a list.
-           process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
+           process_post_synch(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
+           //process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
            //process_poll(&evaluar_msg_co);
        }
 
@@ -157,7 +158,8 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
           i_list_p->i_msg = *((initiate_msg *)msg); //msg le hago cast.Luego cojo todo el msg
           linkaddr_copy(&i_list_p->from, from);
           list_add(i_list, i_list_p); //Add an item at the end of a list.
-          process_post(&evaluar_msg_i, PROCESS_EVENT_CONTINUE, NULL);
+          process_post_synch(&evaluar_msg_i, PROCESS_EVENT_CONTINUE, NULL);
+          //process_post(&evaluar_msg_i, PROCESS_EVENT_CONTINUE, NULL);
           //process_poll(&evaluar_msg_i);
 
           //LLamar al proceso para que evalue el pospone agregado o actualizado
@@ -196,7 +198,6 @@ static void master_co_i_exit_handler(void)
 /*------------------------------------------------------------------- */
 /*----------PROCESSES------- -----------------------------------------*/
 /*------------------------------------------------------------------- */
-PROCESS(wait_rand, "Wait for a random number of seconds");
 
 PROCESS(master_co_i, "Proceso master de los msg connect-initiate");
 PROCESS(send_message_co_i, "Enviar msg de connect - initiate");
@@ -247,7 +248,8 @@ PROCESS_THREAD(master_co_i, ev, data)
             //Espero a que todos hayan inicializado la conexion del connect antes de seguir
             //Ademas, SI NO ESPERO LA LISTA SE IMPRIME MAL: RARO X 2
             llenar_wait_struct(&str_wait, WAIT_NETWORK_STABILIZATION, PROCESS_CURRENT()  );
-            process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
+            //process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
+            process_post_synch(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
 
             //Envio Connect INICIAL con level = 0
@@ -277,7 +279,9 @@ PROCESS_THREAD(master_co_i, ev, data)
         {
             nd.flags &= ~FRAGMENTO_LWOE; //No he encontrado el LWOE del fragmento
             printf("Estoy en FIND \n");
-            process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
+            process_post_synch(&e_test, PROCESS_EVENT_CONTINUE, NULL);
+            //process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
+
         }else
         if(ev == e_msg_ghs_end)
         {
@@ -305,7 +309,6 @@ PROCESS_THREAD(send_message_co_i, ev, data)
 
     process_start(&evaluar_msg_co, NULL );
     process_start(&evaluar_msg_i, NULL );
-    process_start(&wait_rand, NULL );
 
     /* OPTIONAL: Sender history */
     list_init(history_list);
@@ -498,14 +501,16 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                     if(i_list_p->i_msg.nd_state == FIND) //si cambio de estado a FIND
                     {
                         //Envio un mensaje al master_co_i de find
-                        process_post(&master_co_i,  e_find, NULL);
+                        //process_post(&master_co_i,  e_find, NULL);
+                        process_post_synch(&master_co_i,  e_find, NULL);
                         nd.state = FIND;  //Para saber en que estado estoy en cualquier parte
                         printf("Deseo postear FIND\n");
                     }else
                     if(i_list_p->i_msg.nd_state == FOUND) //si cambio de estado a FOUND
                     {
                         //Envio un mensaje al master_co_i de found
-                        process_post(&master_co_i,  e_found, NULL);
+                        //process_post(&master_co_i,  e_found, NULL);
+                        process_post_synch(&master_co_i,  e_found, NULL);
                         nd.state = FOUND;  //Para saber en que estado estoy en cualquier parte
                     }
 
@@ -548,29 +553,3 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
     } //end of while
     PROCESS_END();
 } //END of PROCESS THREAD evaluar_msg_i
-
-
-PROCESS_THREAD(wait_rand, ev, data)
-{
-    PROCESS_BEGIN();
-
-    static struct etimer et;
-    static s_wait *str_wait;
-
-    while(1)
-    {
-          PROCESS_WAIT_EVENT(); // Wait for any event.
-          if(ev == PROCESS_EVENT_CONTINUE)
-          {
-              str_wait = (s_wait *) data;
-
-              // Delay x-x seconds
-              etimer_set(&et, CLOCK_SECOND *str_wait->seconds
-                  + random_rand() % (CLOCK_SECOND * str_wait->seconds));
-              PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-
-              process_post(str_wait->return_process,PROCESS_EVENT_CONTINUE, NULL);
-          }
-    }
-    PROCESS_END();
-}

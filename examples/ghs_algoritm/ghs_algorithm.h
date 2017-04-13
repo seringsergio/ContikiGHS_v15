@@ -41,7 +41,6 @@ PROCESS_NAME(master_co_i);
 PROCESS_NAME(send_message_co_i);
 PROCESS_NAME(evaluar_msg_co);
 PROCESS_NAME(evaluar_msg_i);
-PROCESS_NAME(wait_rand);
 
 //Procesos de test ar
 PROCESS_NAME(e_test);

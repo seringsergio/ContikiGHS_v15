@@ -141,7 +141,8 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
               t_list_p->t_msg = *((test_msg *)msg); //msg le hago cast.Luego cojo todo el msg
               linkaddr_copy(&t_list_p->from, from);
               list_add(t_list, t_list_p); //Add an item at the end of a list.
-              process_post(&evaluar_msg_test, PROCESS_EVENT_CONTINUE, NULL ) ;
+              process_post_synch(&evaluar_msg_test, PROCESS_EVENT_CONTINUE, NULL ) ;
+              //process_post(&evaluar_msg_test, PROCESS_EVENT_CONTINUE, NULL ) ;
               //process_poll(&evaluar_msg_test);
           }
       }else
@@ -156,7 +157,8 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
           {
               linkaddr_copy(&a_list_p->from, from);
               list_add(a_list, a_list_p); //Add an item at the end of a list.
-              process_post(&evaluar_msg_accept, PROCESS_EVENT_CONTINUE, NULL);
+              process_post_synch(&evaluar_msg_accept, PROCESS_EVENT_CONTINUE, NULL);
+              //process_post(&evaluar_msg_accept, PROCESS_EVENT_CONTINUE, NULL);
               //process_poll(&evaluar_msg_accept);
           }
       }else
@@ -171,7 +173,8 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
           {
               linkaddr_copy(&rj_list_p->from, from);
               list_add(rj_list, rj_list_p); //Add an item at the end of a list.
-              process_post(&evaluar_msg_reject, PROCESS_EVENT_CONTINUE, NULL);
+              process_post_synch(&evaluar_msg_reject, PROCESS_EVENT_CONTINUE, NULL);
+              //process_post(&evaluar_msg_reject, PROCESS_EVENT_CONTINUE, NULL);
               //process_poll(&evaluar_msg_reject);
           }
       }
@@ -244,7 +247,8 @@ PROCESS_THREAD(e_test, ev, data)
                 printf("No tengo edge de salida \n");
                 nd.lwoe.node.weight = INFINITO;
                 nd.flags |= ND_LWOE; //Ya encontre el ND_LWOE. Porque no tengo edges de salida
-                process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+                //process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+                process_post_synch(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
 
             }
 
@@ -510,7 +514,8 @@ PROCESS_THREAD(evaluar_msg_accept, ev, data)
                     linkaddr_copy(&nd.lwoe.node.neighbor,  &a_list_p->from);
                     nd.lwoe.node.weight = return_weight(e_list_head_g, &a_list_p->from);
                     nd.flags |= ND_LWOE; //Ya encontre el ND_LWOE
-                    process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+                    //process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+                    process_post_synch(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
 
                     //Remuevo el elemento de la lista
                     my_list_remove(a_list, a_list_p); //Remove a specific element from a list.
@@ -548,7 +553,8 @@ PROCESS_THREAD(evaluar_msg_reject, ev, data)
                     {
                         printf("Llego REJECT de %d. Pero no puedo asignar el estado YA SOY BRANCH\n"
                               , rj_list_p->from.u8[0]);
-                        process_post(&e_test , PROCESS_EVENT_CONTINUE, NULL);
+                        //process_post(&e_test , PROCESS_EVENT_CONTINUE, NULL);
+                        process_post_synch(&e_test , PROCESS_EVENT_CONTINUE, NULL);
 
                     }else
                     {
@@ -557,7 +563,9 @@ PROCESS_THREAD(evaluar_msg_reject, ev, data)
                         become_rejected(e_list_head_g, &rj_list_p->from);
 
                         //Si el edge es rechazado, entonces testeo uno nuevo.
-                        process_post(&e_test , PROCESS_EVENT_CONTINUE, NULL);
+                        //process_post(&e_test , PROCESS_EVENT_CONTINUE, NULL);
+                        process_post_synch(&e_test , PROCESS_EVENT_CONTINUE, NULL);
+
                     }
 
                     //remuevo el elemento de la lista
