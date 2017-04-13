@@ -172,10 +172,10 @@ uint8_t state_is_branch(const linkaddr_t *addr,  edges *e_list_head)
     }
 }
 
-void llenar_name_str(name *name_str, uint32_t weight, linkaddr_t *neighbor)
+void llenar_name_str(name *name_str, uint32_t weight, linkaddr_t *core_node_2)
 {
-    linkaddr_copy(&name_str->neighbor, neighbor);
-    linkaddr_copy(&name_str->mismo_nodo, &linkaddr_node_addr);
+    linkaddr_copy(&name_str->core_node_1, &linkaddr_node_addr);
+    linkaddr_copy(&name_str->core_node_2, core_node_2);
     name_str->weight = weight;
 
 }

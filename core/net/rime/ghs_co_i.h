@@ -92,8 +92,8 @@ process_event_t e_msg_initiate;
 
 struct name
 {
-    linkaddr_t neighbor;
-    linkaddr_t mismo_nodo;
+    linkaddr_t core_node_1; //Es el core node 1, es decir, el mismo nodo
+    linkaddr_t core_node_2; //Es el core node 2, es decir, el vecino
     uint32_t weight;
 
 };
@@ -236,7 +236,7 @@ void llenar_initiate_msg(initiate_msg *i_msg, name name_str,
 void llenar_connect_msg (connect_msg *msg, uint8_t level, linkaddr_t *destination);
 uint8_t num_hijos(edges *e_list_head);
 void print_final_result();
-void llenar_name_str(name *name_str, uint32_t weight, linkaddr_t *neighbor);
+void llenar_name_str(name *name_str, uint32_t weight, linkaddr_t *core_node_2);
 
 
 

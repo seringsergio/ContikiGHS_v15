@@ -87,8 +87,8 @@ void llenar_reject_msg ( reject_msg *r_msg,  linkaddr_t *destination)
 uint8_t nombres_iguales(name *name_str_1, name *name_str_2)
 {
     if( (name_str_1->weight == name_str_2->weight)                      &&
-        (linkaddr_cmp(&name_str_1->neighbor, &name_str_2->neighbor)  )  &&
-        (linkaddr_cmp(&name_str_1->mismo_nodo, &name_str_2->mismo_nodo)  )   )
+        (linkaddr_cmp(&name_str_1->core_node_1, &name_str_2->core_node_1)  )  &&
+        (linkaddr_cmp(&name_str_1->core_node_2, &name_str_2->core_node_2)  )   )
 
     {
         return 1;
