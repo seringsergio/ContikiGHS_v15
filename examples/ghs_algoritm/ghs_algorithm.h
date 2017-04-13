@@ -24,6 +24,9 @@ extern list_t report_list_g;
 extern struct memb *report_memb_g;
 extern node nd; //nd es node....n es neighbor
 
+extern list_t co_list_out_g;
+extern struct memb *co_mem_out_g;
+
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS-------------------------------------------------*/
 /*------------------------------------------------------------------- */

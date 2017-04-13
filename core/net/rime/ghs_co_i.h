@@ -237,6 +237,7 @@ void llenar_connect_msg (connect_msg *msg, uint8_t level, linkaddr_t *destinatio
 uint8_t num_hijos(edges *e_list_head);
 void print_final_result();
 void llenar_name_str(name *name_str, uint32_t weight, linkaddr_t *core_node_2);
+void llenar_connect_msg_list (connect_list *co_list_out_p, uint8_t level, linkaddr_t *destination);
 
 
 

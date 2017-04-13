@@ -243,3 +243,9 @@ void llenar_connect_msg (connect_msg *msg, uint8_t level, linkaddr_t *destinatio
     msg->level = level;
     linkaddr_copy(&msg->destination,  destination);
 }
+
+void llenar_connect_msg_list (connect_list *co_list_out_p, uint8_t level, linkaddr_t *destination)
+{
+    co_list_out_p->co_msg.level = level;
+    linkaddr_copy(&co_list_out_p->co_msg.destination,  destination);
+}

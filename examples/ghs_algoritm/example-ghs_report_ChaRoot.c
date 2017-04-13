@@ -299,7 +299,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
     {
         static report_msg rp_msg; //rp = report
         static change_root_msg cr_msg; //cr = change root
-        static connect_msg co_msg;
+        static connect_list *co_list_out_p;
 
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
@@ -338,8 +338,11 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                         become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root
 
                                         //Envio CONNECT msg
-                                        llenar_connect_msg (&co_msg, nd.f.level, &nd.lwoe.node.neighbor);
-                                        process_post(&send_message_co_i,  e_msg_connect, &co_msg);
+                                        co_list_out_p = memb_alloc(co_mem_out_g); //Alocar memoria
+                                        llenar_connect_msg_list (co_list_out_p, nd.f.level, &nd.lwoe.node.neighbor);
+                                        //meter mensaje a la lista de msg de co salientes: co_list_out
+                                        list_add(co_list_out_g, co_list_out_p); //Add an item at the end of a list
+                                        process_post(&send_message_co_i,  e_msg_connect, NULL);
                                         printf("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
                                         //paso a FOUND
                                         process_post_synch(&master_co_i, e_found, NULL);
@@ -369,6 +372,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                     static informacion_msg inf_msg;
                                     llenar_msg_informacion(&inf_msg, NO_SEA_CORE_NODE, &nd.otro_core_node );
                                     process_post(&send_message_report_ChaRoot, e_msg_information, &inf_msg);
+
                                 }else
                                 {
                                     //paso a FOUND
@@ -607,7 +611,7 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
                 for(cr_list_p = list_head(cr_list); cr_list_p != NULL; cr_list_p = cr_list_p->next)
                 {
 
-                    static connect_msg c_msg;
+                    static connect_list *co_list_out_p;
                     static change_root_msg cr_msg_new;
 
                     //Si el change_root es para mi
@@ -620,8 +624,13 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
                         become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root
 
                         //Envio CONNECT
-                        llenar_connect_msg (&c_msg, nd.f.level, &nd.lwoe.node.neighbor);
-                        process_post(&send_message_co_i,  e_msg_connect, &c_msg);
+
+                        co_list_out_p = memb_alloc(co_mem_out_g); //Alocar memoria
+                        llenar_connect_msg_list (co_list_out_p, nd.f.level, &nd.lwoe.node.neighbor);
+                        //meter mensaje a la lista de msg de co salientes: co_list_out
+                        list_add(co_list_out_g, co_list_out_p); //Add an item at the end of a list
+                        process_post(&send_message_co_i,  e_msg_connect, NULL);
+
                         printf("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
 
                     }else//Si el change_root NO es para mi
