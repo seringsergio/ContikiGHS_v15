@@ -20,6 +20,13 @@ void llenar_change_root(change_root_msg *cr_msg, const linkaddr_t *next_hop,
 
 }
 
+void llenar_change_root_list(change_root_list *cr_list_out_p, const linkaddr_t *next_hop,
+                        const linkaddr_t *final_destination)
+{
+    linkaddr_copy(&cr_list_out_p->cr_msg.next_hop, next_hop);
+    linkaddr_copy(&cr_list_out_p->cr_msg.final_destination, final_destination);
+}
+
 /*Determina si el nodo es hoja o no dependiendo del # de hijos
 */
 uint8_t es_Hoja()

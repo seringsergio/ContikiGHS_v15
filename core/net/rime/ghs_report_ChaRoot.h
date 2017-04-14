@@ -111,5 +111,6 @@ void llenar_msg_informacion(informacion_msg *inf_msg, uint8_t flags,
                             const linkaddr_t *destination);
 void llenar_report_msg_list(report_list *rp_list_out_p, const linkaddr_t *destination,
                             const linkaddr_t *neighbor_r, uint32_t weight_r);
-
+void llenar_change_root_list(change_root_list *cr_list_out_p, const linkaddr_t *next_hop,
+                            const linkaddr_t *final_destination);
 #endif /* GHS_NEIGH_H */

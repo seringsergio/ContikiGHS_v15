@@ -78,6 +78,12 @@
  MEMB(cr_mem, change_root_list, MAX_TAMANO_LISTA_MSG); // Defines a memory pool for edges
  LIST(cr_list); // List that holds the neighbors we have seen thus far
 
+ MEMB(cr_mem_out, change_root_list, MAX_TAMANO_LISTA_MSG); // Defines a memory pool for edges
+ LIST(cr_list_out); // List that holds the neighbors we have seen thus far
+
+ list_t cr_list_out_g;
+ struct memb *cr_mem_out_g;
+
  MEMB(info_mem, informacion_list , MAX_TAMANO_LISTA_MSG); // Defines a memory pool for edges
  LIST(info_list); // List that holds the neighbors we have seen thus far
 
@@ -305,7 +311,8 @@ PROCESS_THREAD(e_LWOE, ev, data)
     {
         //static report_msg rp_msg; //rp = report
         static report_list *rp_list_out_p;
-        static change_root_msg cr_msg; //cr = change root
+        //static change_root_msg cr_msg; //cr = change root
+        static change_root_list *cr_list_out_p;
         static connect_list *co_list_out_p;
 
         PROCESS_WAIT_EVENT(); // Wait for any event.
@@ -361,11 +368,17 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                     {
                                         //send change_root y dejo de ser CORE_NODE
                                         nd.flags &= ~CORE_NODE;
-                                        llenar_change_root(&cr_msg, &nd.downroute, &nd.lwoe.children.neighbor);
-                                        process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg );
+
+                                        //send CHANGE_ROOT
+                                        cr_list_out_p = memb_alloc(&cr_mem_out); //Alocar memoria
+                                        llenar_change_root_list (cr_list_out_p, &nd.downroute, &nd.lwoe.children.neighbor);
+                                        list_add(cr_list_out, cr_list_out_p); //Add an item at the end of a list
+                                        process_post(&send_message_report_ChaRoot, e_msg_ch_root, NULL);
+
                                         printf("EEEnvie 222 CHANGE_ROOT a next_hop=%d final_destination=%d\n",
-                                        cr_msg.next_hop.u8[0],
-                                        cr_msg.final_destination.u8[0]);
+                                        cr_list_out_p->cr_msg.next_hop.u8[0],
+                                        cr_list_out_p->cr_msg.final_destination.u8[0]);
+
                                         //paso a FOUND
                                         process_post_synch(&master_co_i, e_found, NULL);
                                         //process_post(&master_co_i, e_found, NULL);
@@ -648,7 +661,8 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
                 {
 
                     static connect_list *co_list_out_p;
-                    static change_root_msg cr_msg_new;
+                    //static change_root_msg cr_msg_new;
+                    static change_root_list *cr_list_out_p;
 
                     //Si el change_root es para mi
                     if(linkaddr_cmp(&cr_list_p->cr_msg.final_destination, &linkaddr_node_addr)) //Entra si las direcciones son iguales
@@ -682,11 +696,16 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
                         {
                             nd.flags |= FRAGMENTO_LWOE;
                             printf("ChangeRoot NO es para mi\n");
-                            llenar_change_root(&cr_msg_new, &nd.downroute, &cr_list_p->cr_msg.final_destination);
-                            process_post(&send_message_report_ChaRoot, e_msg_ch_root, &cr_msg_new );
+
+                            //send CHANGE_ROOT
+                            cr_list_out_p = memb_alloc(&cr_mem_out); //Alocar memoria
+                            llenar_change_root_list (cr_list_out_p, &nd.downroute, &cr_list_p->cr_msg.final_destination);
+                            list_add(cr_list_out, cr_list_out_p); //Add an item at the end of a list
+                            process_post(&send_message_report_ChaRoot, e_msg_ch_root, NULL);
+
                             printf("REEEnvie  CHANGE_ROOT a next_hop=%d final_destination=%d\n",
-                                    cr_msg_new.next_hop.u8[0],
-                                    cr_msg_new.final_destination.u8[0]);
+                                    cr_list_out_p->cr_msg.next_hop.u8[0],
+                                    cr_list_out_p->cr_msg.final_destination.u8[0]);
                         }
                     }
 
@@ -780,19 +799,26 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
     list_init(rp_list_out);
     memb_init(&rp_mem_out);
 
+    list_init(cr_list_out);
+    memb_init(&cr_mem_out);
+
+    cr_list_out_g = cr_list_out;
+    cr_mem_out_g  = &cr_mem_out;
+
     rp_list_out_g = rp_list_out;
     rp_mem_out_g  = &rp_mem_out;
 
     //static report_msg *rp_msg_d; //rp = report
     static report_msg rp_msg;
 
-    static change_root_msg *cr_msg_d; //cr = change root
+    //static change_root_msg *cr_msg_d; //cr = change root
     static change_root_msg cr_msg;
 
     static informacion_msg *inf_msg_d; //information_message
     static informacion_msg inf_msg;
 
     static report_list *rp_list_out_p, *rp_list_out_p2;
+    static change_root_list *cr_list_out_p, *cr_list_out_p2;
 
     while(1)
     {
@@ -844,24 +870,44 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
         }else
         if(ev == e_msg_ch_root)
         {
-            cr_msg_d = (change_root_msg *) data;
+            if(list_length(cr_list_out))
+            {
+                for(cr_list_out_p = list_head(cr_list_out); cr_list_out_p != NULL; cr_list_out_p = cr_list_out_p->next)
+                {
+                        //cr_msg_d = (change_root_msg *) data;
 
-            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
-            {
-                llenar_change_root(&cr_msg, &cr_msg_d->next_hop, &cr_msg_d->final_destination);
-                packetbuf_copyfrom(&cr_msg, sizeof(cr_msg));
-                packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, CHANGE_ROOT);
-                runicast_send(&runicast, &cr_msg.next_hop, MAX_RETRANSMISSIONS);
-                printf("Envie CHANGE_RooT next_hop=%d final_destination=%d\n",
-                        cr_msg.next_hop.u8[0],
-                        cr_msg.final_destination.u8[0]
-                        );
-            }else //Si runicast esta ocupado TX, pospongo el envio del msg
-            {
-                //pospone sending the message
-                llenar_change_root(&cr_msg, &cr_msg_d->next_hop, &cr_msg_d->final_destination);
-                process_post(PROCESS_CURRENT(), e_msg_ch_root, &cr_msg);
-            }
+                        if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+                        {
+                            llenar_change_root(&cr_msg, &cr_list_out_p->cr_msg.next_hop,
+                                               &cr_list_out_p->cr_msg.final_destination);
+                            packetbuf_copyfrom(&cr_msg, sizeof(cr_msg));
+                            packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, CHANGE_ROOT);
+                            runicast_send(&runicast, &cr_msg.next_hop, MAX_RETRANSMISSIONS);
+                            printf("Envie CHANGE_RooT next_hop=%d final_destination=%d\n",
+                                    cr_msg.next_hop.u8[0],
+                                    cr_msg.final_destination.u8[0]
+                                    );
+
+                            //remuevo el elemento de la lista
+                            my_list_remove(cr_list_out, cr_list_out_p); //Remove a specific element from a list.
+                            memb_free(&cr_mem_out, cr_list_out_p);
+
+                        }else //Si runicast esta ocupado TX, pospongo el envio del msg
+                        {
+                            //pospone sending the message
+                            //remuevo el elemento de la lista
+                            my_list_remove(cr_list_out, cr_list_out_p); //Remove a specific element from a list.
+                            memb_free(&cr_mem_out, cr_list_out_p);
+
+                            //Agrego el mismo elemento al final de la lista
+                            cr_list_out_p2 = memb_alloc(&cr_mem_out); //Alocar memoria
+                            llenar_change_root_list (cr_list_out_p2, &cr_list_out_p->cr_msg.next_hop,
+                                               &cr_list_out_p->cr_msg.final_destination);
+                            list_add(cr_list_out, cr_list_out_p2); //Add an item at the end of a list
+                            process_post(PROCESS_CURRENT(), e_msg_ch_root, NULL);
+                        }
+                } //END for
+            } //END if hay elementos en la lista
         }else
         if(ev == e_msg_information)
         {
