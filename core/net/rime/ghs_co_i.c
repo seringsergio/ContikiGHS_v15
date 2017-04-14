@@ -236,6 +236,26 @@ void llenar_initiate_msg(initiate_msg *i_msg, name name_str,
         i_msg->flags     |= BECOME_CORE_NODE;
     }
 }
+
+void llenar_initiate_msg_list (initiate_list *i_list_out_p, name name_str,
+                        uint8_t level, uint8_t state, const linkaddr_t *dest, uint8_t flags)
+{
+    i_list_out_p->i_msg.f.name_str = name_str;
+    i_list_out_p->i_msg.f.level    = level;
+    i_list_out_p->i_msg.nd_state   = state;
+    linkaddr_copy(&i_list_out_p->i_msg.destination , dest);
+
+    if( !(flags & BECOME_CORE_NODE))
+    {
+        i_list_out_p->i_msg.flags     &= ~BECOME_CORE_NODE;
+    }else
+    if(flags & BECOME_CORE_NODE)
+    {
+        i_list_out_p->i_msg.flags     |= BECOME_CORE_NODE;
+    }
+}
+
+
 /* LLena un msg de connect con los valores parametros
 */
 void llenar_connect_msg (connect_msg *msg, uint8_t level, linkaddr_t *destination)

@@ -85,7 +85,12 @@ struct memb *co_mem_out_g;
 MEMB(i_mem,  initiate_list   , MAX_TAMANO_LISTA_MSG);
 LIST(i_list);
 
+// Lista para guardar los msg de initiate
+MEMB(i_mem_out,  initiate_list   , MAX_TAMANO_LISTA_MSG);
+LIST(i_list_out);
 
+list_t i_list_out_g;
+struct memb *i_mem_out_g;
 
 /*------------------------------------------------------------------- */
 /*----------STATIC VARIABLES -----------------------------------------*/
@@ -328,16 +333,23 @@ PROCESS_THREAD(send_message_co_i, ev, data)
     list_init(co_list_out);
     memb_init(&co_mem_out);
 
+    list_init(i_list_out);
+    memb_init(&i_mem_out);
+
     co_list_out_g = co_list_out;
     co_mem_out_g  = &co_mem_out;
+
+    i_list_out_g = i_list_out;
+    i_mem_out_g  = &i_mem_out;
 
     //static connect_msg *c_msg_d;
     static connect_msg co_msg;
 
-    static initiate_msg *msg_d;
+    //static initiate_msg *msg_d;
     static initiate_msg  i_msg;
 
     static connect_list *co_list_out_p, *co_list_out_p2;
+    static initiate_list *i_list_out_p, *i_list_out_p2;
 
     while(1)
     {
@@ -364,6 +376,7 @@ PROCESS_THREAD(send_message_co_i, ev, data)
 
                     }else //Si runicast esta ocupado TX, pospongo el envio del msg
                     {
+                        //pospone sending the message
                         //remuevo el elemento de la lista
                         my_list_remove(co_list_out, co_list_out_p); //Remove a specific element from a list.
                         memb_free(&co_mem_out, co_list_out_p);
@@ -379,27 +392,52 @@ PROCESS_THREAD(send_message_co_i, ev, data)
         }else
         if(ev == e_msg_initiate)
         {
-            msg_d = (initiate_msg *) data;
+            //msg_d = (initiate_msg *) data;
 
-            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+            if(list_length(i_list_out))
             {
-                llenar_initiate_msg(&i_msg, msg_d->f.name_str, msg_d->f.level,
-                                    msg_d->nd_state,  &msg_d->destination, msg_d->flags );
-                packetbuf_copyfrom(&i_msg, sizeof(i_msg));
-                packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INITIATE);
-                runicast_send(&runicast, &i_msg.destination, MAX_RETRANSMISSIONS);
-                printf("Envio initiate a %d level= %d name=%d.%02d flags=%04X\n", i_msg.destination.u8[0],
-                i_msg.f.level,
-                (int)(i_msg.f.name_str.weight / SEQNO_EWMA_UNITY),
-                (int)(((100UL * i_msg.f.name_str.weight) / SEQNO_EWMA_UNITY) % 100),
-                 nd.flags);
-            }else //Si runicast esta ocupado TX, pospongo el envio del msg
-            {
-                //pospone sending the message
-                llenar_initiate_msg(&i_msg, msg_d->f.name_str, msg_d->f.level,
-                                    msg_d->nd_state,  &msg_d->destination, msg_d->flags );
-                process_post(PROCESS_CURRENT(), e_msg_initiate, &i_msg);
-            }
+                for(i_list_out_p = list_head(i_list_out); i_list_out_p != NULL; i_list_out_p = i_list_out_p->next)
+                {
+                    if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+                    {
+                        llenar_initiate_msg(&i_msg,
+                                            i_list_out_p->i_msg.f.name_str,
+                                            i_list_out_p->i_msg.f.level,
+                                            i_list_out_p->i_msg.nd_state,
+                                            &i_list_out_p->i_msg.destination,
+                                            i_list_out_p->i_msg.flags );
+                        packetbuf_copyfrom(&i_msg, sizeof(i_msg));
+                        packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INITIATE);
+                        runicast_send(&runicast, &i_msg.destination, MAX_RETRANSMISSIONS);
+                        printf("Envio initiate a %d level= %d name=%d.%02d flags=%04X\n", i_msg.destination.u8[0],
+                        i_msg.f.level,
+                        (int)(i_msg.f.name_str.weight / SEQNO_EWMA_UNITY),
+                        (int)(((100UL * i_msg.f.name_str.weight) / SEQNO_EWMA_UNITY) % 100),
+                         nd.flags);
+
+                         //remuevo el elemento de la lista
+                         my_list_remove(i_list_out, i_list_out_p); //Remove a specific element from a list.
+                         memb_free(&i_mem_out, i_list_out_p);
+                    }else //Si runicast esta ocupado TX, pospongo el envio del msg
+                    {
+                        //pospone sending the message
+                        //remuevo el elemento de la lista
+                        my_list_remove(i_list_out, i_list_out_p); //Remove a specific element from a list.
+                        memb_free(&i_mem_out, i_list_out_p);
+
+                        //Agrego el mismo elemento al final de la lista
+                        i_list_out_p2 = memb_alloc(&i_mem_out); //Alocar memoria
+                        llenar_initiate_msg_list(i_list_out_p2,
+                                                 i_list_out_p->i_msg.f.name_str,
+                                                 i_list_out_p->i_msg.f.level,
+                                                 i_list_out_p->i_msg.nd_state,
+                                                 &i_list_out_p->i_msg.destination,
+                                                 i_list_out_p->i_msg.flags );
+                        list_add(i_list_out, i_list_out_p2); //Add an item at the end of a list
+                        process_post(PROCESS_CURRENT(), e_msg_initiate, NULL);
+                    }
+                } //END for
+            } //END if hay elementos en la lista
         }
     } //END of while
     PROCESS_END();
@@ -413,7 +451,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
     list_init(co_list);
     memb_init(&co_mem);
 
-    static initiate_msg i_msg;
+    static initiate_list *i_list_out_p;
     static connect_list *co_list_p;
     static struct etimer et;
 
@@ -448,9 +486,13 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                             llenar_name_str(&nd.f.name_str,
                                 weight_with_edge(&co_list_p->from, e_list_head_g), &co_list_p->from);
 
-                            llenar_initiate_msg(&i_msg, nd.f.name_str ,
+                            //send initiate
+                            i_list_out_p = memb_alloc(&i_mem_out); //Alocar memoria
+                            llenar_initiate_msg_list(i_list_out_p, nd.f.name_str ,
                                                 nd.f.level, FIND, &co_list_p->from, BECOME_CORE_NODE);
-                            process_post(&send_message_co_i,  e_msg_initiate, &i_msg); //Hijo + 1 !!
+                            list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
+                            process_post(&send_message_co_i, e_msg_initiate, NULL);
+
                             //remuevo el elemento de la lista
                             my_list_remove(co_list, co_list_p); //Remove a specific element from a list.
                             memb_free(&co_mem, co_list_p);
@@ -476,8 +518,11 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
 
                         become_branch(e_list_head_g, &co_list_p->from); // become branch de connect
 
-                        llenar_initiate_msg(&i_msg, nd.f.name_str, nd.f.level, nd.state, &co_list_p->from, ~BECOME_CORE_NODE);
-                        process_post(&send_message_co_i,  e_msg_initiate, &i_msg); //Hijo + 1 !!
+                        //Send initiate
+                        i_list_out_p = memb_alloc(&i_mem_out); //Alocar memoria
+                        llenar_initiate_msg_list(i_list_out_p, nd.f.name_str, nd.f.level, nd.state, &co_list_p->from, ~BECOME_CORE_NODE);
+                        list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
+                        process_post(&send_message_co_i, e_msg_initiate, NULL);
 
                         //remuevo el elemento de la lista
                         my_list_remove(co_list, co_list_p); //Remove a specific element from a list.
@@ -507,6 +552,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
     memb_init(&i_mem);
 
     static struct etimer et;
+    static initiate_list *i_list_out_p;
 
     while(1)
     {
@@ -520,7 +566,6 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                 for(i_list_p = list_head(i_list); i_list_p != NULL; i_list_p = i_list_p->next)
                 {
                     //initiate_msg *i_msg = (initiate_msg *) msg;
-                    static initiate_msg i_msg_d;
 
                     nd.f.name_str  = i_list_p->i_msg.f.name_str;
                     nd.f.level     = i_list_p->i_msg.f.level;
@@ -559,15 +604,18 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                         if( (e_aux->state == BRANCH) && !linkaddr_cmp(&e_aux->addr, &i_list_p->from))
                         {
 
-                            llenar_initiate_msg(&i_msg_d, i_list_p->i_msg.f.name_str, i_list_p->i_msg.f.level,
+                            //Send initiate
+                            i_list_out_p = memb_alloc(&i_mem_out); //Alocar memoria
+                            llenar_initiate_msg_list(i_list_out_p, i_list_p->i_msg.f.name_str, i_list_p->i_msg.f.level,
                                                i_list_p->i_msg.nd_state, &e_aux->addr, ~BECOME_CORE_NODE);
-                            process_post(&send_message_co_i,  e_msg_initiate, &i_msg_d);
+                            list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
+                            process_post(&send_message_co_i, e_msg_initiate, NULL);
 
                         }
                         //espero 7.8ms antes de enviar el siguiente msg
                         //si envio 2 respuestas seguidas se daña el dato del post
-                        etimer_set(&et, CLOCK_SECOND / (2*MIN_CLOCK_SECOND) );
-                        PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+                        /*etimer_set(&et, CLOCK_SECOND / (2*MIN_CLOCK_SECOND) );
+                        PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
                     }
 
                     printf("TamanoLista =%d llego INITIATE from %d.%d name=%d.%02d level=%d state=%d parent=%d\n",
