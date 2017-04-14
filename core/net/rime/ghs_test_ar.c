@@ -84,6 +84,11 @@ void llenar_accept_msg (accept_msg *a_msg, const linkaddr_t *destination)
     linkaddr_copy(&a_msg->destination,  destination);
 }
 
+void llenar_accept_msg_list (accept_list *a_list_out_p, const linkaddr_t *destination)
+{
+    linkaddr_copy(&a_list_out_p->a_msg.destination,  destination);
+}
+
 /* Funcion para llenar el msg de reject
 */
 void llenar_reject_msg ( reject_msg *r_msg,  linkaddr_t *destination)

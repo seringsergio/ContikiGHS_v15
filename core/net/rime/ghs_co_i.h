@@ -188,6 +188,7 @@ struct accept_msg
 struct accept_list
 {
     struct accept_list *next;
+    accept_msg a_msg;
     linkaddr_t from;
 };
 

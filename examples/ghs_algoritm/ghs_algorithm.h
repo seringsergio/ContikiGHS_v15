@@ -26,10 +26,15 @@ extern node nd; //nd es node....n es neighbor
 
 extern list_t co_list_out_g;
 extern struct memb *co_mem_out_g;
+
 extern list_t i_list_out_g;
 extern struct memb *i_mem_out_g;
+
 extern list_t t_list_out_g;
 extern struct memb *t_mem_out_g;
+
+extern list_t a_list_out_g;
+extern struct memb *a_mem_out_g;
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS-------------------------------------------------*/
 /*------------------------------------------------------------------- */

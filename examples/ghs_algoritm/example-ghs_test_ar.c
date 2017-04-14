@@ -87,6 +87,13 @@ struct memb *t_mem_out_g;
 MEMB(a_mem,  accept_list   , MAX_TAMANO_LISTA_MSG);
 LIST(a_list);
 
+// Lista para guardar los msg de accept
+MEMB(a_mem_out,  accept_list   , MAX_TAMANO_LISTA_MSG);
+LIST(a_list_out);
+
+list_t a_list_out_g;
+struct memb *a_mem_out_g;
+
 // Lista para guardar los msg de reject
 MEMB(rj_mem,  reject_list   , MAX_TAMANO_LISTA_MSG);
 LIST(rj_list);
@@ -300,8 +307,14 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
     list_init(t_list_out);
     memb_init(&t_mem_out);
 
+    list_init(a_list_out);
+    memb_init(&a_mem_out);
+
     t_list_out_g = t_list_out;
     t_mem_out_g  = &t_mem_out;
+
+    a_list_out_g = a_list_out;
+    a_mem_out_g  = &a_mem_out;
 
     process_start(&e_test, NULL);
     process_start(&evaluar_msg_test, NULL);
@@ -312,13 +325,14 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
     static test_msg t_msg;
 
 
-    static accept_msg *a_msg_d;
+    //static accept_msg *a_msg_d;
     static accept_msg a_msg;
 
     reject_msg *r_msg_d;
     static reject_msg r_msg;
 
     static test_list *t_list_out_p, *t_list_out_p2;
+    static accept_list *a_list_out_p, *a_list_out_p2;
 
     //printf("Process Init: send_message_test_ar \n");
     while(1)
@@ -396,22 +410,40 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
         }else
         if(ev == e_msg_accept)
         {
-
-            a_msg_d = (accept_msg *) data;
-
-            if(!runicast_is_transmitting(&runicast_145)) // Si runicastt no esta TX, entra
+            if(list_length(a_list_out))
             {
-                llenar_accept_msg(&a_msg, &a_msg_d->destination);
-                packetbuf_copyfrom(&a_msg, sizeof(a_msg));
-                packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_ACCEPT);
-                runicast_send(&runicast_145, &a_msg.destination, MAX_RETRANSMISSIONS);
-                printf("Envie accept a %d \n",a_msg.destination.u8[0]);
-            }else //Si runicastt esta ocupado TX, pospongo el envio del msg
-            {
-                //pospone sending the message
-                llenar_accept_msg(&a_msg, &a_msg_d->destination);
-                process_post(PROCESS_CURRENT(), e_msg_accept, &a_msg);
-            }
+                for(a_list_out_p = list_head(a_list_out); a_list_out_p != NULL; a_list_out_p = a_list_out_p->next)
+                {
+                    //a_msg_d = (accept_msg *) data;
+
+                    if(!runicast_is_transmitting(&runicast_145)) // Si runicastt no esta TX, entra
+                    {
+                        llenar_accept_msg(&a_msg, &a_list_out_p->a_msg.destination);
+                        packetbuf_copyfrom(&a_msg, sizeof(a_msg));
+                        packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_ACCEPT);
+                        runicast_send(&runicast_145, &a_msg.destination, MAX_RETRANSMISSIONS);
+                        printf("Envie accept a %d \n",a_msg.destination.u8[0]);
+
+                        //remuevo el elemento de la lista
+                        my_list_remove(a_list_out, a_list_out_p); //Remove a specific element from a list.
+                        memb_free(&a_mem_out, a_list_out_p);
+                    }else //Si runicastt esta ocupado TX, pospongo el envio del msg
+                    {
+                        //pospone sending the message
+                        //remuevo el elemento de la lista
+                        my_list_remove(a_list_out, a_list_out_p); //Remove a specific element from a list.
+                        memb_free(&a_mem_out, a_list_out_p);
+
+                        //Agrego el mismo elemento al final de la lista
+                        a_list_out_p2 = memb_alloc(&a_mem_out); //Alocar memoria
+                        llenar_accept_msg_list(a_list_out_p2, &a_list_out_p->a_msg.destination);
+                        list_add(a_list_out, a_list_out_p2); //Add an item at the end of a list
+                        process_post(PROCESS_CURRENT(), e_msg_accept, NULL);
+
+
+                    }
+                } //END for
+            } //END IF hay elementos en la lista
         }
     } //end of while
 
@@ -428,7 +460,7 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
     memb_init(&t_mem);
 
     static test_list *t_list_p;
-    static accept_msg a_msg;
+    static accept_list *a_list_out_p;
     static reject_msg r_msg;
     static struct etimer et;
 
@@ -498,15 +530,17 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                              nd.f.level);
 
                              //Enviar accept
-                             llenar_accept_msg (&a_msg, &t_list_p->from);
-                             process_post(&send_message_test_ar, e_msg_accept, &a_msg);
+                             a_list_out_p = memb_alloc(&a_mem_out); //Alocar memoria
+                             llenar_accept_msg_list(a_list_out_p, &t_list_p->from);
+                             list_add(a_list_out, a_list_out_p); //Add an item at the end of a list
+                             process_post(&send_message_test_ar, e_msg_accept, NULL);
 
                              //Remover el dato de la lista
                              //Cuando lo saco de la lista con list_remove() el next es NULL
                              //Por eso creo mi propio my_list_remove(), donde el next no es NULL
                              my_list_remove(t_list, t_list_p); //Remove a specific element from a list.
                              memb_free(&t_mem, t_list_p);
-                             printf("Quuuiero enviar e_msg_accept a %d \n", a_msg.destination.u8[0]);
+                             printf("Quuuiero enviar e_msg_accept a %d \n", a_list_out_p->a_msg.destination.u8[0]);
                          }
                      }
 
