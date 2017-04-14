@@ -47,6 +47,13 @@ void llenar_msg_informacion(informacion_msg *inf_msg, uint8_t flags, const linka
     linkaddr_copy(&inf_msg->destination, destination);
 }
 
+void llenar_msg_informacion_list(informacion_list *info_list_out_p, uint8_t flags,
+                                 const linkaddr_t *destination )
+{
+    info_list_out_p->info_msg.flags = flags;
+    linkaddr_copy(&info_list_out_p->info_msg.destination, destination);
+}
+
 /* LLenar el msg de report
 */
 void llenar_report_msg(report_msg *rp_msg, const linkaddr_t *destination,

@@ -87,6 +87,11 @@
  MEMB(info_mem, informacion_list , MAX_TAMANO_LISTA_MSG); // Defines a memory pool for edges
  LIST(info_list); // List that holds the neighbors we have seen thus far
 
+ MEMB(info_mem_out, informacion_list , MAX_TAMANO_LISTA_MSG); // Defines a memory pool for edges
+ LIST(info_list_out); // List that holds the neighbors we have seen thus far
+
+ list_t info_list_out_g;
+ struct memb *info_mem_out_g;
 
  /*------------------------------------------------------------------- */
  /*----------STATIC VARIABLES -----------------------------------------*/
@@ -389,9 +394,15 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                     //del otro CORE_NODE
                                     nd.flags |= FRAGMENTO_LWOE;
                                     //Otro CORE_NODE debe dejar de ser CORE_NODE
-                                    static informacion_msg inf_msg;
-                                    llenar_msg_informacion(&inf_msg, NO_SEA_CORE_NODE, &nd.otro_core_node );
-                                    process_post(&send_message_report_ChaRoot, e_msg_information, &inf_msg);
+
+                                    //send mensaje de informacion info para que el
+                                    // otro core_node deje de ser core_node
+                                    static informacion_list *info_list_out_p;
+                                    info_list_out_p = memb_alloc(&info_mem_out); //Alocar memoria
+                                    llenar_msg_informacion_list (info_list_out_p, NO_SEA_CORE_NODE, &nd.otro_core_node );
+                                    list_add(info_list_out, info_list_out_p); //Add an item at the end of a list
+                                    process_post_synch(&send_message_report_ChaRoot, e_msg_information, NULL);
+
 
                                 }else
                                 {
@@ -802,6 +813,12 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
     list_init(cr_list_out);
     memb_init(&cr_mem_out);
 
+    list_init(info_list_out);
+    memb_init(&info_mem_out);
+
+    info_list_out_g = info_list_out ;
+    info_mem_out_g  = &info_mem_out;
+
     cr_list_out_g = cr_list_out;
     cr_mem_out_g  = &cr_mem_out;
 
@@ -814,11 +831,12 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
     //static change_root_msg *cr_msg_d; //cr = change root
     static change_root_msg cr_msg;
 
-    static informacion_msg *inf_msg_d; //information_message
-    static informacion_msg inf_msg;
+    //static informacion_msg *inf_msg_d; //information_message
+    static informacion_msg info_msg;
 
     static report_list *rp_list_out_p, *rp_list_out_p2;
     static change_root_list *cr_list_out_p, *cr_list_out_p2;
+    static informacion_list *info_list_out_p, *info_list_out_p2;
 
     while(1)
     {
@@ -911,22 +929,44 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
         }else
         if(ev == e_msg_information)
         {
-            inf_msg_d = (informacion_msg *) data;
+            if(list_length(info_list_out))
+            {
+                for(info_list_out_p = list_head(info_list_out);
+                    info_list_out_p != NULL; info_list_out_p = info_list_out_p->next)
+                {
+                    //inf_msg_d = (informacion_msg *) data;
 
-            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
-            {
-                llenar_msg_informacion(&inf_msg, inf_msg_d->flags, &inf_msg_d->destination);
-                packetbuf_copyfrom(&inf_msg, sizeof(inf_msg));
-                packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INFORMATION);
-                runicast_send(&runicast, &inf_msg.destination, MAX_RETRANSMISSIONS);
-                printf("Envie INFORMATION msg TO=%d\n",
-                        inf_msg.destination.u8[0]);
-            }else //Si runicast esta ocupado TX, pospongo el envio del msg
-            {
-                //pospone sending the message
-                llenar_msg_informacion(&inf_msg, inf_msg_d->flags, &inf_msg_d->destination);
-                process_post(PROCESS_CURRENT(), e_msg_information, &inf_msg);
-            }
+                    if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+                    {
+                        llenar_msg_informacion(&info_msg,
+                                               info_list_out_p->info_msg.flags,
+                                               &info_list_out_p->info_msg.destination);
+                        packetbuf_copyfrom(&info_msg, sizeof(info_msg));
+                        packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INFORMATION);
+                        runicast_send(&runicast, &info_msg.destination, MAX_RETRANSMISSIONS);
+                        printf("Envie INFORMATION msg TO=%d\n",
+                                info_msg.destination.u8[0]);
+
+                        //remuevo el elemento de la lista
+                        my_list_remove(info_list_out, info_list_out_p); //Remove a specific element from a list.
+                        memb_free(&info_mem_out, info_list_out_p);
+                    }else //Si runicast esta ocupado TX, pospongo el envio del msg
+                    {
+                        //pospone sending the message
+                        //remuevo el elemento de la lista
+                        my_list_remove(info_list_out, info_list_out_p); //Remove a specific element from a list.
+                        memb_free(&info_mem_out, info_list_out_p);
+
+                        //Agrego el mismo elemento al final de la lista
+                        info_list_out_p2 = memb_alloc(&info_mem_out); //Alocar memoria
+                        llenar_msg_informacion_list (info_list_out_p2,
+                                               info_list_out_p->info_msg.flags,
+                                               &info_list_out_p->info_msg.destination);
+                        list_add(info_list_out, info_list_out_p2); //Add an item at the end of a list
+                        process_post(PROCESS_CURRENT(), e_msg_information, NULL);
+                    }
+                } //END for
+            } //END if hay elementos en la lista
         }
 
     } //end of infinite while

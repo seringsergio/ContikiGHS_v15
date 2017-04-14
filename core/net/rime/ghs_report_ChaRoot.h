@@ -57,7 +57,7 @@ struct informacion_msg
 struct informacion_list
 {
     struct informacion_list *next;
-    //informacion_msg info_msg; //no es necesario
+    informacion_msg info_msg;
     linkaddr_t from;
 };
 struct change_root_msg
@@ -113,4 +113,6 @@ void llenar_report_msg_list(report_list *rp_list_out_p, const linkaddr_t *destin
                             const linkaddr_t *neighbor_r, uint32_t weight_r);
 void llenar_change_root_list(change_root_list *cr_list_out_p, const linkaddr_t *next_hop,
                             const linkaddr_t *final_destination);
+void llenar_msg_informacion_list(informacion_list *info_list_out_p, uint8_t flags,
+                                const linkaddr_t *destination );
 #endif /* GHS_NEIGH_H */
