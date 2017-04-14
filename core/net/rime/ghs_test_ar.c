@@ -96,6 +96,11 @@ void llenar_reject_msg ( reject_msg *r_msg,  linkaddr_t *destination)
     linkaddr_copy(&r_msg->destination,  destination);
 }
 
+void llenar_reject_msg_list ( reject_list *rj_list_out_p,  linkaddr_t *destination)
+{
+    linkaddr_copy(&rj_list_out_p->rj_msg.destination,  destination);
+}
+
 uint8_t nombres_iguales(name *name_str_1, name *name_str_2)
 {
     if( (name_str_1->weight == name_str_2->weight)                      &&

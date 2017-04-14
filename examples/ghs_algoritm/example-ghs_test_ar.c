@@ -98,6 +98,13 @@ struct memb *a_mem_out_g;
 MEMB(rj_mem,  reject_list   , MAX_TAMANO_LISTA_MSG);
 LIST(rj_list);
 
+// Lista para guardar los msg de reject
+MEMB(rj_mem_out,  reject_list   , MAX_TAMANO_LISTA_MSG);
+LIST(rj_list_out);
+
+list_t rj_list_out_g;
+struct memb *rj_mem_out_g;
+
 
 /*------------------------------------------------------------------- */
 /*----------STATIC VARIABLES -----------------------------------------*/
@@ -310,6 +317,12 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
     list_init(a_list_out);
     memb_init(&a_mem_out);
 
+    list_init(rj_list_out);
+    memb_init(&rj_mem_out);
+
+    rj_list_out_g = rj_list_out;
+    rj_mem_out_g  = &rj_mem_out;
+
     t_list_out_g = t_list_out;
     t_mem_out_g  = &t_mem_out;
 
@@ -328,11 +341,12 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
     //static accept_msg *a_msg_d;
     static accept_msg a_msg;
 
-    reject_msg *r_msg_d;
+    //reject_msg *r_msg_d;
     static reject_msg r_msg;
 
     static test_list *t_list_out_p, *t_list_out_p2;
     static accept_list *a_list_out_p, *a_list_out_p2;
+    static reject_list *rj_list_out_p, *rj_list_out_p2;
 
     //printf("Process Init: send_message_test_ar \n");
     while(1)
@@ -384,28 +398,43 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
         }else
         if(ev == e_msg_reject)
         {
-            r_msg_d = (reject_msg *) data;
-
-            if(!runicast_is_transmitting(&runicast_145)) // Si runicastt no esta TX, entra
+            if(list_length(rj_list_out))
             {
-                llenar_reject_msg(&r_msg, &r_msg_d->destination);
+                for(rj_list_out_p = list_head(rj_list_out); rj_list_out_p != NULL; rj_list_out_p = rj_list_out_p->next)
+                {
+                    //r_msg_d = (reject_msg *) data;
+                    if(!runicast_is_transmitting(&runicast_145)) // Si runicastt no esta TX, entra
+                    {
+                        llenar_reject_msg(&r_msg, &rj_list_out_p->rj_msg.destination);
+                        //No puedo decir que si envio un reject ese link esta E_REJECTED:
+                        //Pasaria de BRANCH A REJECTED. LO CUAL NO TIENE SENTIDO
+                        //become_rejected(e_list_head_g, &r_msg.destination);
+                        packetbuf_copyfrom(&r_msg, sizeof(r_msg));
+                        packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_REJECT);
+                        runicast_send(&runicast_145, &r_msg.destination, MAX_RETRANSMISSIONS);
+                        printf("Envie reject a %d\n",r_msg.destination.u8[0] );
 
-                //No puedo decir que si envio un reject ese link esta E_REJECTED:
-                //Pasaria de BRANCH A REJECTED. LO CUAL NO TIENE SENTIDO
-                //become_rejected(e_list_head_g, &r_msg.destination);
+                        //remuevo el elemento de la lista
+                        my_list_remove(rj_list_out, rj_list_out_p); //Remove a specific element from a list.
+                        memb_free(&rj_mem_out, rj_list_out_p);
+                    }
+                    else
+                    {
+                        //pospone sending the message
+                        //remuevo el elemento de la lista
+                        my_list_remove(rj_list_out, rj_list_out_p); //Remove a specific element from a list.
+                        memb_free(&rj_mem_out, rj_list_out_p);
 
-                packetbuf_copyfrom(&r_msg, sizeof(r_msg));
-                packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_REJECT);
-                runicast_send(&runicast_145, &r_msg.destination, MAX_RETRANSMISSIONS);
-                printf("Envie reject a %d\n",r_msg.destination.u8[0] );
-            }
-            else
-            {
-                //pospone sending the message
-                printf("posponer el msg de reject de %d\n", r_msg_d->destination.u8[0]);
-                llenar_reject_msg(&r_msg, &r_msg_d->destination);
-                process_post(PROCESS_CURRENT(), e_msg_reject, &r_msg);
-            }
+                        //Agrego el mismo elemento al final de la lista
+                        rj_list_out_p2 = memb_alloc(&rj_mem_out); //Alocar memoria
+                        llenar_reject_msg_list(rj_list_out_p2, &rj_list_out_p->rj_msg.destination);
+                        list_add(rj_list_out, rj_list_out_p2); //Add an item at the end of a list
+                        process_post(PROCESS_CURRENT(), e_msg_reject, NULL);
+
+                        printf("posponer el msg de reject de %d\n", rj_list_out_p2->rj_msg.destination.u8[0]);
+                    }
+                } //END for
+            } //END if hay elementos en la lista
 
         }else
         if(ev == e_msg_accept)
@@ -461,7 +490,7 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
 
     static test_list *t_list_p;
     static accept_list *a_list_out_p;
-    static reject_msg r_msg;
+    static reject_list *rj_list_out_p;
     static struct etimer et;
 
     while(1)
@@ -507,10 +536,12 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
 
 
                              //Enviar reject
-                             llenar_reject_msg (&r_msg, &t_list_p->from);
-                             process_post(&send_message_test_ar, e_msg_reject, &r_msg);
+                             rj_list_out_p = memb_alloc(&rj_mem_out); //Alocar memoria
+                             llenar_reject_msg_list(rj_list_out_p, &t_list_p->from);
+                             list_add(rj_list_out, rj_list_out_p); //Add an item at the end of a list
+                             process_post(&send_message_test_ar, e_msg_reject, NULL);
 
-                             printf("Quuuiero enviar e_msg_reject a %d \n", r_msg.destination.u8[0]);
+                             printf("Quuuiero enviar e_msg_reject a %d \n", rj_list_out_p->rj_msg.destination.u8[0]);
 
                              //Remover el dato de la lista
                              //Cuando lo saco de la lista con list_remove() el next es NULL

@@ -35,6 +35,9 @@ extern struct memb *t_mem_out_g;
 
 extern list_t a_list_out_g;
 extern struct memb *a_mem_out_g;
+
+extern list_t rj_list_out_g;
+extern struct memb *rj_mem_out_g;
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS-------------------------------------------------*/
 /*------------------------------------------------------------------- */

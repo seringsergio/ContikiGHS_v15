@@ -32,6 +32,7 @@ typedef struct report_msg report_msg;
 typedef struct report_list report_list;
 typedef struct name name;
 typedef struct accept_list accept_list;
+typedef struct reject_list reject_list;
 
 
 
@@ -78,5 +79,6 @@ uint32_t return_weight(edges *e_list_head_g,  const linkaddr_t *from);
 uint8_t nombres_iguales(name *name_str_1, name *name_str_2);
 void llenar_test_msg_list (test_list *t_list_out_p, const linkaddr_t *destination, fragment f);
 void llenar_accept_msg_list (accept_list *a_list_out_p, const linkaddr_t *destination);
+void llenar_reject_msg_list ( reject_list *rj_list_out_p,  linkaddr_t *destination);
 
 #endif /* GHS_NEIGH_H */

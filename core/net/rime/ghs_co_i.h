@@ -200,6 +200,7 @@ struct reject_msg
 struct reject_list
 {
     struct reject_list *next;
+    reject_msg rj_msg;
     linkaddr_t from;
 };
 
