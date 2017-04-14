@@ -28,6 +28,8 @@ extern list_t co_list_out_g;
 extern struct memb *co_mem_out_g;
 extern list_t i_list_out_g;
 extern struct memb *i_mem_out_g;
+extern list_t t_list_out_g;
+extern struct memb *t_mem_out_g;
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS-------------------------------------------------*/
 /*------------------------------------------------------------------- */

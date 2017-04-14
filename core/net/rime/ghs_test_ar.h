@@ -74,5 +74,6 @@ void become_accepted(edges *e_list_head_g, const linkaddr_t *from);
 void become_rejected(edges *e_list_head_g, const linkaddr_t *from);
 uint32_t return_weight(edges *e_list_head_g,  const linkaddr_t *from);
 uint8_t nombres_iguales(name *name_str_1, name *name_str_2);
+void llenar_test_msg_list (test_list *t_list_out_p, const linkaddr_t *destination, fragment f);
 
 #endif /* GHS_NEIGH_H */

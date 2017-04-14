@@ -453,7 +453,6 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
 
     static initiate_list *i_list_out_p;
     static connect_list *co_list_p;
-    static struct etimer et;
 
     //connect_msg *co_msg = (connect_msg *) msg;
 
@@ -530,11 +529,6 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
 
                     }
 
-                    //espero 7.8ms antes de enviar el siguiente msg
-                    //si envio 2 respuestas seguidas se daña el dato del post
-                    etimer_set(&et, CLOCK_SECOND / MIN_CLOCK_SECOND );
-                    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-
                 } //END for para recorrer lista
             } // END Si la lista tiene elementos
         } //END PROCESS EV==CONTINUE
@@ -551,7 +545,6 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
     list_init(i_list);
     memb_init(&i_mem);
 
-    static struct etimer et;
     static initiate_list *i_list_out_p;
 
     while(1)
@@ -612,10 +605,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                             process_post(&send_message_co_i, e_msg_initiate, NULL);
 
                         }
-                        //espero 7.8ms antes de enviar el siguiente msg
-                        //si envio 2 respuestas seguidas se daña el dato del post
-                        /*etimer_set(&et, CLOCK_SECOND / (2*MIN_CLOCK_SECOND) );
-                        PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
+
                     }
 
                     printf("TamanoLista =%d llego INITIATE from %d.%d name=%d.%02d level=%d state=%d parent=%d\n",

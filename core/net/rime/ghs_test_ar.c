@@ -69,6 +69,13 @@ void llenar_test_msg (test_msg *t_msg, const linkaddr_t *destination, fragment f
     t_msg->f.level         = f.level;
 }
 
+void llenar_test_msg_list (test_list *t_list_out_p, const linkaddr_t *destination, fragment f)
+{
+    linkaddr_copy(&t_list_out_p->t_msg.destination,  destination);
+    t_list_out_p->t_msg.f.name_str      = f.name_str;
+    t_list_out_p->t_msg.f.level         = f.level;
+}
+
 
 /* Funcion para llenar el msg de accept
 */

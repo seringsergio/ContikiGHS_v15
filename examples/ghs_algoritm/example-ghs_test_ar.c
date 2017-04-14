@@ -76,6 +76,13 @@ LIST(history_list);
 MEMB(t_mem,  test_list   , MAX_TAMANO_LISTA_MSG);
 LIST(t_list);
 
+// Lista para guardar los msg de test
+MEMB(t_mem_out,  test_list   , MAX_TAMANO_LISTA_MSG);
+LIST(t_list_out);
+
+list_t t_list_out_g;
+struct memb *t_mem_out_g;
+
 // Lista para guardar los msg de accept
 MEMB(a_mem,  accept_list   , MAX_TAMANO_LISTA_MSG);
 LIST(a_list);
@@ -224,7 +231,7 @@ PROCESS_THREAD(e_test, ev, data)
 
             uint8_t tengo_edges_de_salida = 0;
             static edges *e_aux = NULL;
-            static test_msg t_msg;
+            static test_list *t_list_out_p;
 
             for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
             {
@@ -232,8 +239,15 @@ PROCESS_THREAD(e_test, ev, data)
                 if( (e_aux->state == BASIC) || (e_aux->state == E_ACCEPTED) )
                 {
                     printf("addr=%d e_aux->state =%d \n",e_aux->addr.u8[0], e_aux->state);
-                    llenar_test_msg(&t_msg, &e_aux->addr, nd.f );
-                    process_post(&send_message_test_ar, e_msg_test, &t_msg);
+
+                    //send TEST msg
+
+                    //Agrego el mismo elemento al final de la lista
+                    t_list_out_p = memb_alloc(&t_mem_out); //Alocar memoria
+                    llenar_test_msg_list(t_list_out_p, &e_aux->addr, nd.f );
+                    list_add(t_list_out, t_list_out_p); //Add an item at the end of a list
+                    process_post(&send_message_test_ar, e_msg_test, NULL);
+
                     tengo_edges_de_salida = 1;
                     break; //Envio msg TEST al primer BASIC. Recordar que la lista esta ordenada
                     //PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
@@ -283,12 +297,18 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
     list_init(history_list);
     memb_init(&history_mem);
 
+    list_init(t_list_out);
+    memb_init(&t_mem_out);
+
+    t_list_out_g = t_list_out;
+    t_mem_out_g  = &t_mem_out;
+
     process_start(&e_test, NULL);
     process_start(&evaluar_msg_test, NULL);
     process_start(&evaluar_msg_accept, NULL);
     process_start(&evaluar_msg_reject, NULL);
 
-    static test_msg *t_msg_d;
+    //static test_msg *t_msg_d;
     static test_msg t_msg;
 
 
@@ -298,6 +318,8 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
     reject_msg *r_msg_d;
     static reject_msg r_msg;
 
+    static test_list *t_list_out_p, *t_list_out_p2;
+
     //printf("Process Init: send_message_test_ar \n");
     while(1)
     {
@@ -306,23 +328,45 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == e_msg_test)
         {
-            t_msg_d = (test_msg *) data;
+            //t_msg_d = (test_msg *) data;
 
-            //printf("Deseo enviar e_msg_test NO IF\n");
-            if(!runicast_is_transmitting(&runicast_145)) // Si runicastt no esta TX, entra
+            if(list_length(t_list_out))
             {
-                llenar_test_msg(&t_msg, &t_msg_d->destination, t_msg_d->f);
-                packetbuf_copyfrom(&t_msg, sizeof(t_msg));
-                packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, TEST);
-                runicast_send(&runicast_145, &t_msg.destination, MAX_RETRANSMISSIONS);
-                printf("Deseo enviar e_msg_test a %d\n", t_msg.destination.u8[0]);
+                for(t_list_out_p = list_head(t_list_out); t_list_out_p != NULL; t_list_out_p = t_list_out_p->next)
+                {
 
-            }else //Si runicastt esta ocupado TX, pospongo el envio del msg
-            {
-                //pospone sending the message
-                llenar_test_msg(&t_msg, &t_msg_d->destination, t_msg_d->f );
-                process_post(PROCESS_CURRENT(), e_msg_test, &t_msg);
-            }
+                    //printf("Deseo enviar e_msg_test NO IF\n");
+                    if(!runicast_is_transmitting(&runicast_145)) // Si runicastt no esta TX, entra
+                    {
+                        llenar_test_msg(&t_msg, &t_list_out_p->t_msg.destination,
+                                        t_list_out_p->t_msg.f);
+                        packetbuf_copyfrom(&t_msg, sizeof(t_msg));
+                        packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, TEST);
+                        runicast_send(&runicast_145, &t_msg.destination, MAX_RETRANSMISSIONS);
+                        printf("Deseo enviar e_msg_test a %d\n", t_msg.destination.u8[0]);
+
+                        //remuevo el elemento de la lista
+                        my_list_remove(t_list_out, t_list_out_p); //Remove a specific element from a list.
+                        memb_free(&t_mem_out, t_list_out_p);
+                    }else //Si runicastt esta ocupado TX, pospongo el envio del msg
+                    {
+                        //pospone sending the message
+
+                        //remuevo el elemento de la lista
+                        my_list_remove(t_list_out, t_list_out_p); //Remove a specific element from a list.
+                        memb_free(&t_mem_out, t_list_out_p);
+
+                        //Agrego el mismo elemento al final de la lista
+                        t_list_out_p2 = memb_alloc(&t_mem_out); //Alocar memoria
+                        llenar_test_msg_list(t_list_out_p2, &t_list_out_p->t_msg.destination,
+                                        t_list_out_p->t_msg.f);
+                        list_add(t_list_out, t_list_out_p2); //Add an item at the end of a list
+                        process_post(PROCESS_CURRENT(), e_msg_test, NULL);
+
+                    }
+                } //END FOR
+            } //END if hay elementos en la lista
+
         }else
         if(ev == e_msg_reject)
         {
