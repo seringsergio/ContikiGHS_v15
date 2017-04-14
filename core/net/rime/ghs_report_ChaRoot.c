@@ -50,6 +50,14 @@ void llenar_report_msg(report_msg *rp_msg, const linkaddr_t *destination,
     rp_msg->weight_r  = weight_r;
 }
 
+void llenar_report_msg_list(report_list *rp_list_out_p, const linkaddr_t *destination,
+                      const linkaddr_t *neighbor_r, uint32_t weight_r)
+{
+    linkaddr_copy(&rp_list_out_p->rp_msg.destination, destination);
+    linkaddr_copy(&rp_list_out_p->rp_msg.neighbor_r, neighbor_r);
+    rp_list_out_p->rp_msg.weight_r  = weight_r;
+}
+
 /* Indica que la lista ya esta completa en el caso de un CORE_NODE
 *  en el cual todos los hijos reportaron menos el OTRO_CORE_NODE
 */

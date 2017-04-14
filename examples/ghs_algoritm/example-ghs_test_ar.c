@@ -491,7 +491,7 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
     static test_list *t_list_p;
     static accept_list *a_list_out_p;
     static reject_list *rj_list_out_p;
-    static struct etimer et;
+    //static struct etimer et;
 
     while(1)
     {
@@ -575,10 +575,11 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                          }
                      }
 
+                     //OJO : Depronto funciona mejor con este codigo
                      //espero 7.8ms antes de enviar el siguiente msg
                      //si envio 2 respuestas seguidas se daña el dato del post
-                     etimer_set(&et, CLOCK_SECOND / MIN_CLOCK_SECOND );
-                     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+                     /*etimer_set(&et, CLOCK_SECOND / MIN_CLOCK_SECOND );
+                     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
                 } //FOR todos los elementos de la lista - EVALUAR
             } //Si hay elementos en la lista

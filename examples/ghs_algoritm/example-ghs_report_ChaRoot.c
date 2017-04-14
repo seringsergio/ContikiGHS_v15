@@ -69,6 +69,12 @@
  MEMB(rp_mem, report_list, MAX_TAMANO_LISTA_MSG); // Defines a memory pool for edges
  LIST(rp_list); // List that holds the neighbors we have seen thus far
 
+ MEMB(rp_mem_out, report_list, MAX_TAMANO_LISTA_MSG); // Defines a memory pool for edges
+ LIST(rp_list_out); // List that holds the neighbors we have seen thus far
+
+ list_t rp_list_out_g;
+ struct memb *rp_mem_out_g;
+
  MEMB(cr_mem, change_root_list, MAX_TAMANO_LISTA_MSG); // Defines a memory pool for edges
  LIST(cr_list); // List that holds the neighbors we have seen thus far
 
@@ -297,7 +303,8 @@ PROCESS_THREAD(e_LWOE, ev, data)
 
     while(1)
     {
-        static report_msg rp_msg; //rp = report
+        //static report_msg rp_msg; //rp = report
+        static report_list *rp_list_out_p;
         static change_root_msg cr_msg; //cr = change root
         static connect_list *co_list_out_p;
 
@@ -393,12 +400,16 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             }
 
                             nd.flags &= ~CORE_NODE;
-                            llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
-                            process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
+                            //send REPORT
+                            rp_list_out_p = memb_alloc(&rp_mem_out); //Alocar memoria
+                            llenar_report_msg_list (rp_list_out_p, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
+                            list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
+                            process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
+
                             printf("Hoja:CORE_NODE & HOJA Deseo Reportar Neigh=%d Weight=%d.%02d\n",
-                                     rp_msg.neighbor_r.u8[0],
-                                     (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
-                                     (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
+                                     rp_list_out_p->rp_msg.neighbor_r.u8[0],
+                                     (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                                     (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                             //paso a FOUND
                             //process_post(&master_co_i, e_found, NULL);
                             process_post_synch(&master_co_i, e_found, NULL);
@@ -421,12 +432,17 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 }
 
                                 //nd.flags &= ~CORE_NODE;
-                                llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
-                                process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
+
+                                //send REPORT
+                                rp_list_out_p = memb_alloc(&rp_mem_out); //Alocar memoria
+                                llenar_report_msg_list (rp_list_out_p, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
+                                list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
+                                process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
+
                                 printf("CasiCompleta:CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
-                                         rp_msg.neighbor_r.u8[0],
-                                         (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
-                                         (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
+                                         rp_list_out_p->rp_msg.neighbor_r.u8[0],
+                                         (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                                         (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
 
                                 //paso a FOUND
                                 //process_post(&master_co_i, e_found, NULL);
@@ -482,12 +498,17 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                     }
 
                                     //nd.flags &= ~CORE_NODE;
-                                    llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
-                                    process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
+
+                                    //send REPORT
+                                    rp_list_out_p = memb_alloc(&rp_mem_out); //Alocar memoria
+                                    llenar_report_msg_list (rp_list_out_p, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
+                                    list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
+                                    process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
+
                                     printf("CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
-                                             rp_msg.neighbor_r.u8[0],
-                                             (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
-                                             (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
+                                             rp_list_out_p->rp_msg.neighbor_r.u8[0],
+                                             (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                                             (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
 
                                     //paso a FOUND
                                     //process_post(&master_co_i, e_found, NULL);
@@ -502,12 +523,16 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                    }
 
                                    //nd.flags &= ~CORE_NODE;
-                                   llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.children.neighbor, nd.lwoe.children.weight );
-                                   process_post(&send_message_report_ChaRoot, e_msg_report, &rp_msg);
+                                   //send REPORT
+                                   rp_list_out_p = memb_alloc(&rp_mem_out); //Alocar memoria
+                                   llenar_report_msg_list (rp_list_out_p, &nd.parent , &nd.lwoe.children.neighbor, nd.lwoe.children.weight );
+                                   list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
+                                   process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
+
                                    printf("CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
-                                                        rp_msg.neighbor_r.u8[0],
-                                                        (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
-                                                        (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
+                                                        rp_list_out_p->rp_msg.neighbor_r.u8[0],
+                                                        (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                                                        (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                                    //paso a FOUND
                                    //process_post(&master_co_i, e_found, NULL);
                                    //nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
@@ -528,12 +553,15 @@ PROCESS_THREAD(e_LWOE, ev, data)
 
                             }
                             //send_report y paso a estado FOUND
-                            llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
-                            process_post(&send_message_report_ChaRoot, e_msg_report, &rp_msg);
+                            rp_list_out_p = memb_alloc(&rp_mem_out); //Alocar memoria
+                            llenar_report_msg_list (rp_list_out_p, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
+                            list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
+                            process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
+
                             printf("NO_CORE & BEST(ND_LWOE) Deseo Reportar Neigh=%d Weight=%d.%02d\n",
-                                                rp_msg.neighbor_r.u8[0],
-                                                (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
-                                                (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
+                                                rp_list_out_p->rp_msg.neighbor_r.u8[0],
+                                                (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                                                (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                             //paso a FOUND
                             //process_post(&master_co_i, e_found, NULL);
                             process_post_synch(&master_co_i, e_found, NULL);
@@ -550,12 +578,16 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             }
                             //send_report y paso a estado FOUND
                             // nd.lwoe.children.neighbor es neighbor_r
-                            llenar_report_msg(&rp_msg, &nd.parent , &nd.lwoe.children.neighbor, nd.lwoe.children.weight );
-                            process_post(&send_message_report_ChaRoot, e_msg_report, &rp_msg);
+
+                            rp_list_out_p = memb_alloc(&rp_mem_out); //Alocar memoria
+                            llenar_report_msg_list (rp_list_out_p, &nd.parent , &nd.lwoe.children.neighbor, nd.lwoe.children.weight );
+                            list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
+                            process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
+
                             printf("NO_CORE & BEST(CH_LWOE) Deseo Reportar Neigh=%d Weight=%d.%02d\n",
-                                                rp_msg.neighbor_r.u8[0],
-                                                (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
-                                                (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
+                                                rp_list_out_p->rp_msg.neighbor_r.u8[0],
+                                                (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                                                (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                             //paso a FOUND
                             process_post_synch(&master_co_i, e_found, NULL);
                             //process_post(&master_co_i, e_found, NULL);
@@ -570,12 +602,16 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
                             //process_post(&master_co_i, e_msg_ghs_end, NULL);
                         }
-                        llenar_report_msg(&rp_msg, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
-                        process_post(&send_message_report_ChaRoot, e_msg_report , &rp_msg);
+                        //send REPORT
+                        rp_list_out_p = memb_alloc(&rp_mem_out); //Alocar memoria
+                        llenar_report_msg_list (rp_list_out_p, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
+                        list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
+                        process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
+
                         printf("NO_CORE & HOJA Deseo Reportar Neigh=%d Weight=%d.%02d\n",
-                                            rp_msg.neighbor_r.u8[0],
-                                            (int)(rp_msg.weight_r / SEQNO_EWMA_UNITY),
-                                            (int)(((100UL * rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
+                                            rp_list_out_p->rp_msg.neighbor_r.u8[0],
+                                            (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                                            (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                          //paso a FOUND
                          process_post_synch(&master_co_i, e_found, NULL);
                          //process_post(&master_co_i, e_found, NULL);
@@ -741,7 +777,13 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
     list_init(history_list);
     memb_init(&history_mem);
 
-    static report_msg *rp_msg_d; //rp = report
+    list_init(rp_list_out);
+    memb_init(&rp_mem_out);
+
+    rp_list_out_g = rp_list_out;
+    rp_mem_out_g  = &rp_mem_out;
+
+    //static report_msg *rp_msg_d; //rp = report
     static report_msg rp_msg;
 
     static change_root_msg *cr_msg_d; //cr = change root
@@ -750,34 +792,55 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
     static informacion_msg *inf_msg_d; //information_message
     static informacion_msg inf_msg;
 
+    static report_list *rp_list_out_p, *rp_list_out_p2;
+
     while(1)
     {
         PROCESS_WAIT_EVENT(); // Wait for any event.
 
         if(ev == e_msg_report)
         {
-            rp_msg_d = (report_msg *) data;
+            if(list_length(rp_list_out))
+            {
+                for(rp_list_out_p = list_head(rp_list_out); rp_list_out_p != NULL; rp_list_out_p = rp_list_out_p->next)
+                {
 
-            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
-            {
-                llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->neighbor_r,
-                                  rp_msg_d->weight_r);
-                packetbuf_copyfrom(&rp_msg, sizeof(rp_msg));
-                packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, REPORT);
-                runicast_send(&runicast, &rp_msg.destination, MAX_RETRANSMISSIONS);
-                printf("Envie report a %d Neigh=%d Weight=%d.%02d flags=%04X\n",
-                        rp_msg.destination.u8[0],
-                        rp_msg.neighbor_r.u8[0],
-                        (int)( rp_msg.weight_r / SEQNO_EWMA_UNITY),
-                        (int)(((100UL * rp_msg.weight_r ) / SEQNO_EWMA_UNITY) % 100),
-                        nd.flags );
-            }else //Si runicast esta ocupado TX, pospongo el envio del msg
-            {
-                //pospone sending the message
-                llenar_report_msg(&rp_msg, &nd.parent, &rp_msg_d->neighbor_r,
-                                  rp_msg_d->weight_r);
-                process_post(PROCESS_CURRENT(), e_msg_report, &rp_msg);
-            }
+                //rp_msg_d = (report_msg *) data;
+
+                    if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+                    {
+                        llenar_report_msg(&rp_msg, &nd.parent, &rp_list_out_p->rp_msg.neighbor_r,
+                                          rp_list_out_p->rp_msg.weight_r);
+                        packetbuf_copyfrom(&rp_msg, sizeof(rp_msg));
+                        packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, REPORT);
+                        runicast_send(&runicast, &rp_msg.destination, MAX_RETRANSMISSIONS);
+                        printf("Envie report a %d Neigh=%d Weight=%d.%02d flags=%04X\n",
+                                rp_msg.destination.u8[0],
+                                rp_msg.neighbor_r.u8[0],
+                                (int)( rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                                (int)(((100UL * rp_msg.weight_r ) / SEQNO_EWMA_UNITY) % 100),
+                                nd.flags );
+
+                        //remuevo el elemento de la lista
+                        my_list_remove(rp_list_out, rp_list_out_p); //Remove a specific element from a list.
+                        memb_free(&rp_mem_out, rp_list_out_p);
+                    }else //Si runicast esta ocupado TX, pospongo el envio del msg
+                    {
+                        //pospone sending the message
+                        //remuevo el elemento de la lista
+                        my_list_remove(rp_list_out, rp_list_out_p); //Remove a specific element from a list.
+                        memb_free(&rp_mem_out, rp_list_out_p);
+
+                        //Agrego el mismo elemento al final de la lista
+                        rp_list_out_p2 = memb_alloc(&rp_mem_out); //Alocar memoria
+                        llenar_report_msg_list (rp_list_out_p2, &nd.parent, &rp_list_out_p->rp_msg.neighbor_r,
+                                          rp_list_out_p->rp_msg.weight_r);
+                        list_add(rp_list_out, rp_list_out_p2); //Add an item at the end of a list
+                        process_post(PROCESS_CURRENT(), e_msg_report, NULL);
+
+                    }
+                } //END for
+            } //END IF hay elementos en la lista
         }else
         if(ev == e_msg_ch_root)
         {

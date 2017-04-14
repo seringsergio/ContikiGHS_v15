@@ -109,6 +109,7 @@ void llenar_report_msg(report_msg *rp_msg, const linkaddr_t *destination,
 uint8_t lista_casi_completa( list_t rp_list);
 void llenar_msg_informacion(informacion_msg *inf_msg, uint8_t flags,
                             const linkaddr_t *destination);
-
+void llenar_report_msg_list(report_list *rp_list_out_p, const linkaddr_t *destination,
+                            const linkaddr_t *neighbor_r, uint32_t weight_r);
 
 #endif /* GHS_NEIGH_H */
