@@ -22,5 +22,5 @@ PASOS:
 java readSimulation > pnts.dat
 gnuplot
 
-./parserLogListener_vectors 12 > edges_vectors.dat & ./parserLogListener_lines > edges_lines.dat & java readSimulation > pnts.dat & gnuplot
+./parserLogListener_vectors 12 > edges_vectors.dat && ./parserLogListener_lines > edges_lines.dat && java readSimulation > pnts.dat && gnuplot
 //Copiar y pegar el contenido de gnuGraph_vectors.txt y gnuGraph_lines.txt
