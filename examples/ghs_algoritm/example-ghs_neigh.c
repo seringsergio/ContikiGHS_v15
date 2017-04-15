@@ -85,8 +85,6 @@ PROCESS(n_broadcast_neighbor_discovery, "Neighbor Discovery via Broadcast");
 PROCESS(n_link_weight_worst_case, "Assume Worst Weight for Link");
 PROCESS(master_neighbor_discovery, "GHS Control");
 
-//PROCESS(idle, "Idle process");
-
 AUTOSTART_PROCESSES(&master_neighbor_discovery, &n_broadcast_neighbor_discovery,
                      &wait, &n_link_weight_worst_case,
                      &master_co_i);
@@ -106,13 +104,14 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
 }
 static void sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-  ghs_n_send_ruc(to, retransmissions);
+  MY_DBG("runicast message sent to %d.%d, retransmissions %d\n",
+     to->u8[0], to->u8[1], retransmissions);
 }
 static void
 timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-  ghs_n_timedout_ruc(to, retransmissions);
-
+  MY_DBG("runicast message timed out when sending to %d.%d, retransmissions %d\n",
+     to->u8[0], to->u8[1], retransmissions);
 }
 static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
 							     sent_runicast,
@@ -175,8 +174,8 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
 
   //Definir eventos: neighbor discovery
   e_discovery_broadcast = process_alloc_event(); // Darle un numero al evento
-  e_weight_worst = process_alloc_event(); // Darle un numero al evento
-  e_init_master_co_i = process_alloc_event(); // Darle un numero al evento
+  e_weight_worst        = process_alloc_event(); // Darle un numero al evento
+  e_init_master_co_i    = process_alloc_event(); // Darle un numero al evento
 
   process_post(PROCESS_CURRENT(), e_discovery_broadcast, NULL);
 
@@ -233,12 +232,12 @@ PROCESS_THREAD(n_broadcast_neighbor_discovery, ev, data)
 
   broadcast_open(&n_broadcast, 129, &broadcast_call);
 
+  static struct etimer et;
+  static uint8_t seqno;
+  struct broadcast_message msg;
+
   while(1)
   {
-      static struct etimer et;
-      static uint8_t seqno;
-      struct broadcast_message msg;
-
       PROCESS_WAIT_EVENT(); // Wait for any event.
       if(ev == PROCESS_EVENT_CONTINUE)
       {
@@ -284,17 +283,17 @@ PROCESS_THREAD(n_link_weight_worst_case, ev, data)
   list_init(history_list);
   memb_init(&history_mem);
 
+  static struct etimer et;
+  static struct neighbor *n_aux = NULL;
+  struct runicast_message msg;
+
   while(1)
   {
-    static struct etimer et;
-    static struct neighbor *n_aux = NULL;
-    struct runicast_message msg;
-
     PROCESS_WAIT_EVENT(); // Wait for any event.
     if(ev == PROCESS_EVENT_CONTINUE)
     {
         /*Envio mensaje de runicast a todos mis vecinos informando mi peso = avg_seqno_gap*/
-        for(n_aux = list_head(neighbors_list); n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
+        for(n_aux = list_head(neighbors_list); n_aux != NULL; n_aux = n_aux->next) // Recorrer toda la lista
         {
             /* Delay 2-4 seconds */
             etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
@@ -310,15 +309,20 @@ PROCESS_THREAD(n_link_weight_worst_case, ev, data)
                    n_aux->addr.u8[0],
                    n_aux->addr.u8[1]);
                 runicast_send(&runicast, &n_aux->addr, MAX_RETRANSMISSIONS);
+                while (runicast_is_transmitting(&runicast))
+                {
+                    PROCESS_PAUSE();
+                }
             }else
             {
                 //Espero que esto no pase porque tengo una espera de 2 a 4 seg entre msgs
+                // ademas tengo un while
                 MY_DBG("ERROR: El runicast esta ocupado - No envie msg de AGREE ON LINK WEIGHT\n");
             }
         } //END of FOR
         process_post(&master_neighbor_discovery,e_wait_stabilization, PROCESS_CURRENT());
     }//END if ev == CONTINUE
-}//END of while
+  }//END of while
   PROCESS_END();
 }
 
@@ -341,8 +345,7 @@ PROCESS_THREAD(wait, ev, data)
 
               etimer_set(&et, CLOCK_SECOND * str_wait->seconds );
               PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-
-              //process_post(str_wait->return_process,PROCESS_EVENT_CONTINUE, NULL);
+              
               process_post_synch(str_wait->return_process,PROCESS_EVENT_CONTINUE, NULL);
 
           }

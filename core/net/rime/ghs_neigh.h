@@ -122,8 +122,6 @@ void ghs_n_copy_data( struct neighbor *dest, struct neighbor *source  );
 void ghs_n_recv_ruc(struct neighbor *n_list_head,
                     struct runicast_message *msg, const linkaddr_t *from,
                     struct memb *history_mem, list_t history_list, uint8_t seqno );
-void ghs_n_send_ruc(const linkaddr_t *to, uint8_t retransmissions);
-void ghs_n_timedout_ruc(const linkaddr_t *to, uint8_t retransmissions);
 void ghs_n_link_weight_worst_exit_handler(struct neighbor *n_list_head, const linkaddr_t *node_addr);
 void ghs_n_broadcast_neighbor_discovery_exit_handler(struct neighbor *n_list_head, const linkaddr_t *node_addr);
 void ghs_n_broadcast_recv(struct neighbor *n_list_head,

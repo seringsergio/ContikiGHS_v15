@@ -21,70 +21,8 @@ void ghs_n_copy_data( struct neighbor *dest, struct neighbor *source  )
  dest->avg_seqno_gap = source->avg_seqno_gap;
 }
 
-/* Informa de un timeout
-*/
-void ghs_n_timedout_ruc(const linkaddr_t *to, uint8_t retransmissions)
-{
-    MY_DBG("runicast message timed out when sending to %d.%d, retransmissions %d\n",
-  	 to->u8[0], to->u8[1], retransmissions);
-}
-/* Recibe un mensaje de runicast
-*/
-void ghs_n_send_ruc(const linkaddr_t *to, uint8_t retransmissions)
-{
-    MY_DBG("runicast message sent to %d.%d, retransmissions %d\n",
-       to->u8[0], to->u8[1], retransmissions);
-}
-/*---------------------------------------------------------------------------*/
-/* Funcion que recibe un mensaje de runicast: Guarda en history_list los vecinos que
-* han enviado msg y su seq. Si el avg_seqno_gap del vecino es
-*  mayor, entonces reemplazo mi avg_seqno_gap.
-*/
-void ghs_n_recv_ruc(struct neighbor *n_list_head,
-                    struct runicast_message *msg, const linkaddr_t *from,
-                    struct memb *history_mem, list_t history_list, uint8_t seqno )
-{
-    // OPTIONAL: Sender history
-    struct history_entry *e = NULL;
 
-    for(e = list_head(history_list); e != NULL; e = e->next) {
-      if(linkaddr_cmp(&e->addr, from)) { // Si las dir son iguales entra
-        break;
-      }
-    }
-    if(e == NULL) {
-      // Create new history entry
-      e = memb_alloc(history_mem);
-      if(e == NULL) {
-        e = list_chop(history_list); /* Remove oldest at full history */
-      }
-      linkaddr_copy(&e->addr, from);
-      e->seq = seqno;
-      list_push(history_list, e);
-    } else {
-      // Detect duplicate callback
-      if(e->seq == seqno) {
-        MY_DBG("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
-  	     from->u8[0], from->u8[1], seqno);
-        return;
-      }
-      // Update existing history entry
-      e->seq = seqno;
-    }
 
-    MY_DBG("runicast message received from %d.%d,with avg_seqno_gap = %d.%02d, seqno %d\n",
-  	 from->u8[0], from->u8[1],
-       (int)(msg->avg_seqno_gap / SEQNO_EWMA_UNITY),
-       (int)(((100UL * msg->avg_seqno_gap) / SEQNO_EWMA_UNITY) % 100),
-       seqno);
-
-  /* Evaluo el avg_seqno_gap del mensaje recibido, si es mayor que el mio con respecto a
-  * ese vecino, entonces reemplazo el avg_seqno_gap. Esto se hace para tener un acuerdo
-  * entre el avg_seqno_gap hacia y desde el vecino.
-  */
-  imponer_avg_seqno_gap(n_list_head, msg, from);
-
-}
 /* Evaluo el avg_seqno_gap del mensaje recibido, si es mayor que el mio con respecto a
 * ese vecino, entonces reemplazo el avg_seqno_gap. Esto se hace para tener un acuerdo
 * entre el avg_seqno_gap hacia y desde el vecino.
@@ -263,4 +201,55 @@ void llenar_wait_struct(s_wait *str_wait, uint8_t seconds, struct process *retur
 {
     str_wait->seconds = seconds;
     str_wait->return_process = return_process;
+}
+
+/*---------------------------------------------------------------------------*/
+/* Funcion que recibe un mensaje de runicast: Guarda en history_list los vecinos que
+* han enviado msg y su seq. Si el avg_seqno_gap del vecino es
+*  mayor, entonces reemplazo mi avg_seqno_gap.
+*/
+void ghs_n_recv_ruc(struct neighbor *n_list_head,
+                    struct runicast_message *msg, const linkaddr_t *from,
+                    struct memb *history_mem, list_t history_list, uint8_t seqno )
+{
+    // OPTIONAL: Sender history
+    struct history_entry *e = NULL;
+
+    for(e = list_head(history_list); e != NULL; e = e->next) {
+      if(linkaddr_cmp(&e->addr, from)) { // Si las dir son iguales entra
+        break;
+      }
+    }
+    if(e == NULL) {
+      // Create new history entry
+      e = memb_alloc(history_mem);
+      if(e == NULL) {
+        e = list_chop(history_list); /* Remove oldest at full history */
+      }
+      linkaddr_copy(&e->addr, from);
+      e->seq = seqno;
+      list_push(history_list, e);
+    } else {
+      // Detect duplicate callback
+      if(e->seq == seqno) {
+        MY_DBG("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
+  	     from->u8[0], from->u8[1], seqno);
+        return;
+      }
+      // Update existing history entry
+      e->seq = seqno;
+    }
+
+    MY_DBG("runicast message received from %d.%d,with avg_seqno_gap = %d.%02d, seqno %d\n",
+  	 from->u8[0], from->u8[1],
+       (int)(msg->avg_seqno_gap / SEQNO_EWMA_UNITY),
+       (int)(((100UL * msg->avg_seqno_gap) / SEQNO_EWMA_UNITY) % 100),
+       seqno);
+
+  /* Evaluo el avg_seqno_gap del mensaje recibido, si es mayor que el mio con respecto a
+  * ese vecino, entonces reemplazo el avg_seqno_gap. Esto se hace para tener un acuerdo
+  * entre el avg_seqno_gap hacia y desde el vecino.
+  */
+  imponer_avg_seqno_gap(n_list_head, msg, from);
+
 }
