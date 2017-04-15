@@ -127,7 +127,7 @@
     } else {
       /* Detect duplicate callback */
       if(e->seq == seqno) {
-        printf("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
+        MY_DBG("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
   	     from->u8[0], from->u8[1], seqno);
         return;
       }
@@ -142,7 +142,7 @@
           rp_list_p = memb_alloc(&rp_mem); //Alocar memoria
           if(rp_list_p == NULL)
           {
-              printf("ERROR: La lista de msg de REPORT esta llena\n");
+              MY_DBG("ERROR: La lista de msg de REPORT esta llena\n");
           }else
           {
               rp_list_p->rp_msg = *((report_msg *)msg); //msg le hago cast.Luego cojo todo el msg
@@ -157,7 +157,7 @@
            cr_list_p = memb_alloc(&cr_mem); //Alocar memoria
            if(cr_list_p == NULL)
            {
-               printf("ERROR: La lista de msg de change_root esta llena\n");
+               MY_DBG("ERROR: La lista de msg de change_root esta llena\n");
            }else
            {
                cr_list_p->cr_msg = *((change_root_msg *)msg); //msg le hago cast.Luego cojo todo el msg
@@ -172,7 +172,7 @@
            info_list_p = memb_alloc(&info_mem); //Alocar memoria
            if(info_list_p == NULL)
            {
-               printf("ERROR: La lista de msg de INFORMACION esta llena\n");
+               MY_DBG("ERROR: La lista de msg de INFORMACION esta llena\n");
            }else
            {
                //no necesito coger el mensage
@@ -186,13 +186,13 @@
  static void
  sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
  {
-   printf("runicast (report-ChaRoot)  message sent to %d.%d, retransmissions %d flags=%04X\n",
+   MY_DBG("runicast (report-ChaRoot)  message sent to %d.%d, retransmissions %d flags=%04X\n",
  	 to->u8[0], to->u8[1], retransmissions, nd.flags);
  }
  static void
  timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
  {
-   printf("runicast (report-ChaRoot) message timed out when sending to %d.%d, retransmissions %d\n",
+   MY_DBG("runicast (report-ChaRoot) message timed out when sending to %d.%d, retransmissions %d\n",
  	 to->u8[0], to->u8[1], retransmissions);
  }
  static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
@@ -231,7 +231,7 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
         {
 
                 rp_list_p = list_head(rp_list);
-                printf("TL:%d LLLego report de %d Neigh=%d Weight=%d.%02d  flags=%04X\n",
+                MY_DBG("TL:%d LLLego report de %d Neigh=%d Weight=%d.%02d  flags=%04X\n",
                     list_length(rp_list),
                     rp_list_p->from.u8[0],
                     rp_list_p->rp_msg.neighbor_r.u8[0],
@@ -239,7 +239,7 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
                     (int)(((100UL * rp_list_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100),
                     nd.flags);
 
-                printf("list_length(rp_list)=%d  \n", list_length(rp_list) );
+                MY_DBG("list_length(rp_list)=%d  \n", list_length(rp_list) );
 
                 //Si la lista esta CASI completa
                 if( lista_casi_completa(rp_list) )
@@ -250,7 +250,7 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
                 if(list_length(rp_list) >= num_hijos(e_list_head_g) ) //Si el tamano de la lista es = al num de hijos
                 {
                     //Saco el nodo con menor peso de la lista
-                    printf("Reports completos..   \n");
+                    MY_DBG("Reports completos..   \n");
 
                     //Encuentro el menor de la lista
                     lowest_rp = lowest_of_report_list(list_head(rp_list));
@@ -262,7 +262,7 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
                     nd.flags |= CH_LWOE; //Ya encontre el ND_LWOE
                     process_post_synch(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
 
-                    printf("El menor de la lista es %d weight=%d.%02d flags=%04X - downroute=%d \n",
+                    MY_DBG("El menor de la lista es %d weight=%d.%02d flags=%04X - downroute=%d \n",
                     nd.lwoe.children.neighbor.u8[0],
                     (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
                     (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100),
@@ -308,7 +308,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         {
                             if( (nd.lwoe.node.weight == INFINITO) && (nd.lwoe.children.weight==INFINITO) )
                             {
-                                printf("Los dos reportes son INFINITO\n");
+                                MY_DBG("Los dos reportes son INFINITO\n");
                                 //Paso a FOUND
                                 process_post_synch(&master_co_i, e_found, NULL);
                                 nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
@@ -316,7 +316,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
                             }else //No he terminado aun los 2 reportes NO son infinito
                             {
-                                    printf("nd.lwoe.node.weigh=%d.%02d <= nd.lwoe.children.weight=%d.%02d \n",
+                                    MY_DBG("nd.lwoe.node.weigh=%d.%02d <= nd.lwoe.children.weight=%d.%02d \n",
                                     (int)(nd.lwoe.node.weight / SEQNO_EWMA_UNITY),
                                     (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100),
                                     (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
@@ -333,7 +333,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                         list_add(co_list_out_g, co_list_out_p); //Add an item at the end of a list
                                         process_post(&send_message_co_i,  e_msg_connect, NULL);
 
-                                        printf("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
+                                        MY_DBG("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
                                     }else //Si es mejor el edge de un vecino
                                     {
                                         //send CHANGE_ROOT
@@ -342,7 +342,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                         list_add(cr_list_out, cr_list_out_p); //Add an item at the end of a list
                                         process_post(&send_message_report_ChaRoot, e_msg_ch_root, NULL);
 
-                                        printf("EEEnvie 222 CHANGE_ROOT a next_hop=%d final_destination=%d\n",
+                                        MY_DBG("EEEnvie 222 CHANGE_ROOT a next_hop=%d final_destination=%d\n",
                                         cr_list_out_p->cr_msg.next_hop.u8[0],
                                         cr_list_out_p->cr_msg.final_destination.u8[0]);
                                     }
@@ -383,7 +383,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
                                 process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
 
-                                printf("CasiCompleta:CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                                MY_DBG("CasiCompleta:CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
                                          rp_list_out_p->rp_msg.neighbor_r.u8[0],
                                          (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                          (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
@@ -397,7 +397,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 linkaddr_copy(&nd.lwoe.children.neighbor, &lowest_rp->rp_msg.neighbor_r );
                                 nd.lwoe.children.weight = lowest_rp->rp_msg.weight_r;
 
-                                printf("CasiCompleta:El menor de la lista es %d weight=%d.%02d flags=%04X - downroute=%d \n",
+                                MY_DBG("CasiCompleta:El menor de la lista es %d weight=%d.%02d flags=%04X - downroute=%d \n",
                                 nd.lwoe.children.neighbor.u8[0],
                                 (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
                                 (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100),
@@ -417,7 +417,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                     list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
                                     process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
 
-                                    printf("CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                                    MY_DBG("CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
                                              rp_list_out_p->rp_msg.neighbor_r.u8[0],
                                              (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                              (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
@@ -434,7 +434,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                    list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
                                    process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
 
-                                   printf("CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                                   MY_DBG("CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
                                                         rp_list_out_p->rp_msg.neighbor_r.u8[0],
                                                         (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                                         (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
@@ -456,7 +456,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
                             process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
 
-                            printf("NO_CORE & BEST(ND_LWOE) Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                            MY_DBG("NO_CORE & BEST(ND_LWOE) Deseo Reportar Neigh=%d Weight=%d.%02d\n",
                                                 rp_list_out_p->rp_msg.neighbor_r.u8[0],
                                                 (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                                 (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
@@ -476,7 +476,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
                             process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
 
-                            printf("NO_CORE & BEST(CH_LWOE) Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                            MY_DBG("NO_CORE & BEST(CH_LWOE) Deseo Reportar Neigh=%d Weight=%d.%02d\n",
                                                 rp_list_out_p->rp_msg.neighbor_r.u8[0],
                                                 (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                                 (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
@@ -497,7 +497,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
                         process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
 
-                        printf("NO_CORE & HOJA Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                        MY_DBG("NO_CORE & HOJA Deseo Reportar Neigh=%d Weight=%d.%02d\n",
                                             rp_list_out_p->rp_msg.neighbor_r.u8[0],
                                             (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                             (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
@@ -537,7 +537,7 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
                     if(linkaddr_cmp(&cr_list_p->cr_msg.final_destination, &linkaddr_node_addr)) //Entra si las direcciones son iguales
                     {
                         //El msg de CHANGE_ROOT ES PARA MI
-                        printf("El msg de ChangeRooot es para mi, from=%d\n",cr_list_p->from.u8[0]);
+                        MY_DBG("El msg de ChangeRooot es para mi, from=%d\n",cr_list_p->from.u8[0]);
 
                         become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root
 
@@ -547,7 +547,7 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
                         list_add(co_list_out_g, co_list_out_p); //Add an item at the end of a list
                         process_post(&send_message_co_i,  e_msg_connect, NULL);
 
-                        printf("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
+                        MY_DBG("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
 
                     }else//Si el change_root NO es para mi
                     {
@@ -556,11 +556,11 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
                         if(  (linkaddr_cmp(&cr_list_p->from,&nd.otro_core_node)) &&
                              (nd.flags & FRAGMENTO_LWOE) )
                         {
-                            printf("ChangeRoot NO es para mi - NO Reenvio el CHANGE_ROOT porque YO ya lo mande\n");
+                            MY_DBG("ChangeRoot NO es para mi - NO Reenvio el CHANGE_ROOT porque YO ya lo mande\n");
                         }else
                         {
                             nd.flags |= FRAGMENTO_LWOE;
-                            printf("ChangeRoot NO es para mi\n");
+                            MY_DBG("ChangeRoot NO es para mi\n");
 
                             //send CHANGE_ROOT
                             cr_list_out_p = memb_alloc(&cr_mem_out); //Alocar memoria
@@ -568,7 +568,7 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
                             list_add(cr_list_out, cr_list_out_p); //Add an item at the end of a list
                             process_post(&send_message_report_ChaRoot, e_msg_ch_root, NULL);
 
-                            printf("REEEnvie  CHANGE_ROOT a next_hop=%d final_destination=%d\n",
+                            MY_DBG("REEEnvie  CHANGE_ROOT a next_hop=%d final_destination=%d\n",
                                     cr_list_out_p->cr_msg.next_hop.u8[0],
                                     cr_list_out_p->cr_msg.final_destination.u8[0]);
                         }
@@ -606,7 +606,7 @@ PROCESS_THREAD(evaluar_msg_info, ev, data)
             {
                 for(info_list_p = list_head(info_list); info_list_p != NULL; info_list_p = info_list_p->next)
                 {
-                    printf("llego informacion de =%d\n", info_list_p->from.u8[0]);
+                    MY_DBG("llego informacion de =%d\n", info_list_p->from.u8[0]);
 
                     //dejo de ser core_node
                     nd.flags &= ~CORE_NODE;
@@ -695,7 +695,7 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
                         packetbuf_copyfrom(&rp_msg, sizeof(rp_msg));
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, REPORT);
                         runicast_send(&runicast, &rp_msg.destination, MAX_RETRANSMISSIONS);
-                        printf("Envie report a %d Neigh=%d Weight=%d.%02d flags=%04X\n",
+                        MY_DBG("Envie report a %d Neigh=%d Weight=%d.%02d flags=%04X\n",
                                 rp_msg.destination.u8[0],
                                 rp_msg.neighbor_r.u8[0],
                                 (int)( rp_msg.weight_r / SEQNO_EWMA_UNITY),
@@ -728,7 +728,7 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
                             packetbuf_copyfrom(&cr_msg, sizeof(cr_msg));
                             packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, CHANGE_ROOT);
                             runicast_send(&runicast, &cr_msg.next_hop, MAX_RETRANSMISSIONS);
-                            printf("Envie CHANGE_RooT next_hop=%d final_destination=%d\n",
+                            MY_DBG("Envie CHANGE_RooT next_hop=%d final_destination=%d\n",
                                     cr_msg.next_hop.u8[0],
                                     cr_msg.final_destination.u8[0]
                                     );
@@ -762,7 +762,7 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
                         packetbuf_copyfrom(&info_msg, sizeof(info_msg));
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INFORMATION);
                         runicast_send(&runicast, &info_msg.destination, MAX_RETRANSMISSIONS);
-                        printf("Envie INFORMATION msg TO=%d\n",
+                        MY_DBG("Envie INFORMATION msg TO=%d\n",
                                 info_msg.destination.u8[0]);
 
                         //remuevo el elemento de la lista

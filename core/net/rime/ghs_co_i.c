@@ -8,7 +8,6 @@
 
 /* FUNCION que imprime el resultado final final
 */
-
 void print_final_result()
 {
 
@@ -17,7 +16,7 @@ void print_final_result()
     for(e_aux = e_list_head_g; e_aux != NULL; e_aux = e_aux->next) // Recorrer toda la lista
     {
         if(linkaddr_cmp(&e_aux->addr, &nd.parent)) //Solo muestro mi padre
-        {
+        {    
             printf("%s %d %d %d.%02d %d %d.%02d \n",
             string,
             linkaddr_node_addr.u8[0],
@@ -61,7 +60,7 @@ void print_edges_list(edges *e_list_head, char *string,  const linkaddr_t *node_
 
     for(e_aux = e_list_head; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
     {
-        printf("%s %d %d %d.%02d %d \n",
+        MY_DBG("%s %d %d %d.%02d %d \n",
               string,
               node_addr->u8[0],
               e_aux->addr.u8[0],
@@ -179,7 +178,7 @@ void llenar_name_str(name *name_str, uint32_t weight, linkaddr_t *core_node_2)
 */
 void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, list_t edges_list)
 {
-    printf("Process Init: master_co_i \n");
+    MY_DBG("Process Init: master_co_i \n");
 
     //Variables locales
     linkaddr_t *lwoe_init; //LWOE inicial. Es el edge con menor weight

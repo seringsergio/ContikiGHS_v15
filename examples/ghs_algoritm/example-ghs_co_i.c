@@ -129,7 +129,7 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
    } else {
      // Detect duplicate callback
      if(e->seq == seqno) {
-       printf("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
+       MY_DBG("runicast (co-i) message received from %d.%d, seqno %d (DUPLICATE)\n",
         from->u8[0], from->u8[1], seqno);
        return;
      }
@@ -147,7 +147,7 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
        co_list_p = memb_alloc(&co_mem); //Alocar memoria
        if(co_list_p == NULL)
        {
-           printf("ERROR: La lista de msg de connect esta llena\n");
+           MY_DBG("ERROR: La lista de msg de connect esta llena\n");
        }else
        {
            co_list_p->co_msg = *((connect_msg *)msg); //msg le hago cast.Luego cojo todo el msg
@@ -164,7 +164,7 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
        i_list_p = memb_alloc(&i_mem); //Alocar memoria
        if(i_list_p == NULL)
        {
-          printf("ERROR: La lista de msg de initiate esta llena\n");
+          MY_DBG("ERROR: La lista de msg de initiate esta llena\n");
        }else
        {
           i_list_p->i_msg = *((initiate_msg *)msg); //msg le hago cast.Luego cojo todo el msg
@@ -183,13 +183,13 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
 }
 static void sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-  printf("runicast (co-i) message sent to %d.%d, retransmissions %d\n",
+  MY_DBG("runicast (co-i) message sent to %d.%d, retransmissions %d\n",
      to->u8[0], to->u8[1], retransmissions);
 }
 static void
 timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-    printf("runicast (co-i) message timed out when sending to %d.%d, retransmissions %d\n",
+    MY_DBG("runicast (co-i) message timed out when sending to %d.%d, retransmissions %d\n",
      to->u8[0], to->u8[1], retransmissions);
 }
 static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
@@ -257,13 +257,13 @@ PROCESS_THREAD(master_co_i, ev, data)
             //Me voy al estado found
             //virtualmente porque no quiero resetear ND_LWOE ni CH_LWOE
             nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
-            printf("Estoy en FOUND virtual \n");
+            MY_DBG("Estoy en FOUND virtual \n");
 
         }else
         if (ev == e_found)
         {
             //Espero instrucciones de change_root o initiate
-            printf("Estoy en FOUND \n");
+            MY_DBG("Estoy en FOUND \n");
 
             //Reinicio variables
             nd.flags &= ~ND_LWOE;
@@ -276,7 +276,7 @@ PROCESS_THREAD(master_co_i, ev, data)
         if (ev == e_find)
         {
             nd.flags &= ~FRAGMENTO_LWOE; //No he encontrado el LWOE del fragmento
-            printf("Estoy en FIND \n");
+            MY_DBG("Estoy en FIND \n");
             process_post_synch(&e_test, PROCESS_EVENT_CONTINUE, NULL);
 
         }else
@@ -312,7 +312,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                     {
                         if(state_is_branch(&co_list_p->from, e_list_head_g)) // Caso inicial. Fragmentos con 1 nodo
                         {
-                            printf("Tamano lista=%d Evaluo ConNect de %d con Mismo level, level=%d \n",
+                            MY_DBG("Tamano lista=%d Evaluo ConNect de %d con Mismo level, level=%d \n",
                             list_length(co_list),
                              co_list_p->from.u8[0],
                              co_list_p->co_msg.level);
@@ -339,7 +339,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
 
                         }else //Si el estado NO es branch (El proceso postpones processing CONECT)
                         {
-                            printf("Tamano lista=%d Pospone ConNect de %d con level=%d nd.f.level=%d \n",
+                            MY_DBG("Tamano lista=%d Pospone ConNect de %d con level=%d nd.f.level=%d \n",
                             list_length(co_list),
                              co_list_p->from.u8[0],
                              co_list_p->co_msg.level, nd.f.level);
@@ -351,7 +351,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                     }else
                     if(co_list_p->co_msg.level < nd.f.level)
                     {
-                        printf("Tamano lista=%d EvaluOO ConNect de %d con level=%d \n",
+                        MY_DBG("Tamano lista=%d EvaluOO ConNect de %d con level=%d \n",
                         list_length(co_list),
                          co_list_p->from.u8[0],
                          co_list_p->co_msg.level);
@@ -408,7 +408,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                     {
                         linkaddr_copy(&nd.otro_core_node, &i_list_p->from);
                         nd.flags |= CORE_NODE;
-                        printf("Soy CORE_NORE 2\n");
+                        MY_DBG("Soy CORE_NORE 2\n");
                     }
 
                     if(i_list_p->i_msg.nd_state == FIND) //si cambio de estado a FIND
@@ -417,7 +417,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                         //process_post(&master_co_i,  e_find, NULL);
                         process_post_synch(&master_co_i,  e_find, NULL);
                         nd.state = FIND;  //Para saber en que estado estoy en cualquier parte
-                        printf("Deseo postear FIND\n");
+                        MY_DBG("Deseo postear FIND\n");
                     }else
                     if(i_list_p->i_msg.nd_state == FOUND) //si cambio de estado a FOUND
                     {
@@ -445,7 +445,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                     // envio el post aca para no enviarlo multiples veces dentro del for anterior
                     process_post(&send_message_co_i, e_msg_initiate, NULL);
 
-                    printf("TamanoLista =%d llego INITIATE from %d.%d name=%d.%02d level=%d state=%d parent=%d\n",
+                    MY_DBG("TamanoLista =%d llego INITIATE from %d.%d name=%d.%02d level=%d state=%d parent=%d\n",
                           list_length(i_list),
                           i_list_p->from.u8[0], i_list_p->from.u8[1],
                           (int)(nd.f.name_str.weight / SEQNO_EWMA_UNITY),
@@ -524,7 +524,7 @@ PROCESS_THREAD(send_message_co_i, ev, data)
                         packetbuf_copyfrom(&co_msg, sizeof(co_msg));
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, CONNECT);
                         runicast_send(&runicast, &co_msg.destination, MAX_RETRANSMISSIONS);
-                        printf("Envio CONECT to %d , level=%d \n", co_msg.destination.u8[0], co_msg.level);
+                        MY_DBG("Envio CONECT to %d , level=%d \n", co_msg.destination.u8[0], co_msg.level);
 
                         //remuevo el elemento de la lista
                         my_list_remove(co_list_out, co_list_out_p); //Remove a specific element from a list.
@@ -557,7 +557,7 @@ PROCESS_THREAD(send_message_co_i, ev, data)
                         packetbuf_copyfrom(&i_msg, sizeof(i_msg));
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INITIATE);
                         runicast_send(&runicast, &i_msg.destination, MAX_RETRANSMISSIONS);
-                        printf("Envio initiate a %d level= %d name=%d.%02d flags=%04X\n", i_msg.destination.u8[0],
+                        MY_DBG("Envio initiate a %d level= %d name=%d.%02d flags=%04X\n", i_msg.destination.u8[0],
                         i_msg.f.level,
                         (int)(i_msg.f.name_str.weight / SEQNO_EWMA_UNITY),
                         (int)(((100UL * i_msg.f.name_str.weight) / SEQNO_EWMA_UNITY) % 100),

@@ -154,7 +154,7 @@ static const struct broadcast_callbacks broadcast_call = {n_broadcast_recv};
 */
 static void master_neighbor_discovery_exit_handler(void)
 {
-    printf("Process Exit: master_neighbor_discovery \n");
+    MY_DBG("Process Exit: master_neighbor_discovery \n");
 }
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS------------------------------------------------*/
@@ -255,7 +255,7 @@ PROCESS_THREAD(n_broadcast_neighbor_discovery, ev, data)
             msg.seqno = seqno;
             packetbuf_copyfrom(&msg, sizeof(struct broadcast_message));
             broadcast_send(&n_broadcast);
-            printf("Este es broadcast vecinos\n");
+            MY_DBG("Este es broadcast vecinos\n");
             seqno++;
           }
           process_post(&master_neighbor_discovery,e_wait_stabilization, PROCESS_CURRENT());
@@ -304,7 +304,7 @@ PROCESS_THREAD(n_link_weight_worst_case, ev, data)
             {
                 msg.avg_seqno_gap = n_aux->avg_seqno_gap; //llenar el msg
                 packetbuf_copyfrom(&msg, sizeof(msg));
-                printf("%u.%u: sending runicast to address %u.%u\n",
+                MY_DBG("%u.%u: sending runicast to address %u.%u\n",
                    linkaddr_node_addr.u8[0],
                    linkaddr_node_addr.u8[1],
                    n_aux->addr.u8[0],
@@ -313,7 +313,7 @@ PROCESS_THREAD(n_link_weight_worst_case, ev, data)
             }else
             {
                 //Espero que esto no pase porque tengo una espera de 2 a 4 seg entre msgs
-                printf("ERROR: El runicast esta ocupado - No envie msg de AGREE ON LINK WEIGHT\n");
+                MY_DBG("ERROR: El runicast esta ocupado - No envie msg de AGREE ON LINK WEIGHT\n");
             }
         } //END of FOR
         process_post(&master_neighbor_discovery,e_wait_stabilization, PROCESS_CURRENT());

@@ -140,7 +140,7 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
    } else {
      /* Detect duplicate callback */
      if(e->seq == seqno) {
-       printf("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
+       MY_DBG("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
  	     from->u8[0], from->u8[1], seqno);
        return;
      }
@@ -156,7 +156,7 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
           t_list_p = memb_alloc(&t_mem); //Alocar memoria
           if(t_list_p == NULL)
           {
-              printf("ERROR: La lista de msg de test esta llena\n");
+              MY_DBG("ERROR: La lista de msg de test esta llena\n");
           }else
           {
               t_list_p->t_msg = *((test_msg *)msg); //msg le hago cast.Luego cojo todo el msg
@@ -171,7 +171,7 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
           a_list_p = memb_alloc(&a_mem); //Alocar memoria
           if(a_list_p == NULL)
           {
-              printf("ERROR: La lista de msg de accept esta llena\n");
+              MY_DBG("ERROR: La lista de msg de accept esta llena\n");
           }else
           {
               linkaddr_copy(&a_list_p->from, from);
@@ -185,7 +185,7 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
           rj_list_p = memb_alloc(&rj_mem); //Alocar memoria
           if(rj_list_p == NULL)
           {
-              printf("ERROR: La lista de msg de Reject esta llena\n");
+              MY_DBG("ERROR: La lista de msg de Reject esta llena\n");
           }else
           {
               linkaddr_copy(&rj_list_p->from, from);
@@ -198,13 +198,13 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 static void
 sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-  printf("runicastt (test-ar) message sent to %d.%d, retransmissions %d\n",
+  MY_DBG("runicastt (test-ar) message sent to %d.%d, retransmissions %d\n",
 	 to->u8[0], to->u8[1], retransmissions);
 }
 static void
 timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-  printf("runicastt (test-ar) message timed out when sending to %d.%d, retransmissions %d\n",
+  MY_DBG("runicastt (test-ar) message timed out when sending to %d.%d, retransmissions %d\n",
 	 to->u8[0], to->u8[1], retransmissions);
 }
 static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
@@ -232,7 +232,7 @@ PROCESS_THREAD(e_test, ev, data)
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if (ev == PROCESS_EVENT_CONTINUE)
         {
-            printf("CONTINUE e_test level=%d\n ", nd.f.level);
+            MY_DBG("CONTINUE e_test level=%d\n ", nd.f.level);
             print_edges_list(e_list_head_g, string,  &linkaddr_node_addr);
 
             tengo_edges_de_salida = 0;
@@ -241,7 +241,7 @@ PROCESS_THREAD(e_test, ev, data)
                 //un rejected nunca se vuelve a testear
                 if( (e_aux->state == BASIC) || (e_aux->state == E_ACCEPTED) )
                 {
-                    printf("addr=%d e_aux->state =%d \n",e_aux->addr.u8[0], e_aux->state);
+                    MY_DBG("addr=%d e_aux->state =%d \n",e_aux->addr.u8[0], e_aux->state);
 
                     //send TEST msg
                     t_list_out_p = memb_alloc(&t_mem_out); //Alocar memoria
@@ -257,8 +257,8 @@ PROCESS_THREAD(e_test, ev, data)
 
             if(tengo_edges_de_salida == 0)
             {
-                //NO BORRAR! : printf("No tengo_edges_de_salida. INFINITO = %" PRIu32 "\n", INFINITO);
-                printf("No tengo edge de salida \n");
+                //NO BORRAR! : MY_DBG("No tengo_edges_de_salida. INFINITO = %" PRIu32 "\n", INFINITO);
+                MY_DBG("No tengo edge de salida \n");
                 nd.lwoe.node.weight = INFINITO;
                 nd.flags |= ND_LWOE; //Ya encontre el ND_LWOE. Porque no tengo edges de salida
                 process_post_synch(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
@@ -291,7 +291,7 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                 {
                      if(t_list_p->t_msg.f.level > nd.f.level)
                      {
-                         printf("TL=%d  Pospone un TEsT msg from %d con name=%d.%02d, level=%d > nd.f.level=%d \n",
+                         MY_DBG("TL=%d  Pospone un TEsT msg from %d con name=%d.%02d, level=%d > nd.f.level=%d \n",
                          list_length(t_list),
                          t_list_p->from.u8[0],
                          (int)(t_list_p->t_msg.f.name_str.weight / SEQNO_EWMA_UNITY),
@@ -310,7 +310,7 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                      {
                          if(  nombres_iguales(  &(t_list_p->t_msg.f.name_str) , &(nd.f.name_str)   )   )
                          {
-                             printf("TL=%d  evaluo un TEsT msg from %d con name=%d.%02d, level=%d > nd.f.level=%d \n",
+                             MY_DBG("TL=%d  evaluo un TEsT msg from %d con name=%d.%02d, level=%d > nd.f.level=%d \n",
                              list_length(t_list),
                              t_list_p->from.u8[0],
                              (int)(t_list_p->t_msg.f.name_str.weight / SEQNO_EWMA_UNITY),
@@ -324,7 +324,7 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                              list_add(rj_list_out, rj_list_out_p); //Add an item at the end of a list
                              process_post(&send_message_test_ar, e_msg_reject, NULL);
 
-                             printf("Quuuiero enviar e_msg_reject a %d \n", rj_list_out_p->rj_msg.destination.u8[0]);
+                             MY_DBG("Quuuiero enviar e_msg_reject a %d \n", rj_list_out_p->rj_msg.destination.u8[0]);
 
                              //Remover el dato de la lista
                              //Cuando lo saco de la lista con list_remove() el next es NULL
@@ -334,7 +334,7 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
 
                          }else
                          {
-                             printf("TL=%d  evaluo un TEsT msg from %d con name=%d.%02d, level=%d > nd.f.level=%d \n",
+                             MY_DBG("TL=%d  evaluo un TEsT msg from %d con name=%d.%02d, level=%d > nd.f.level=%d \n",
                              list_length(t_list),
                              t_list_p->from.u8[0],
                              (int)(t_list_p->t_msg.f.name_str.weight / SEQNO_EWMA_UNITY),
@@ -353,7 +353,7 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                              //Por eso creo mi propio my_list_remove(), donde el next no es NULL
                              my_list_remove(t_list, t_list_p); //Remove a specific element from a list.
                              memb_free(&t_mem, t_list_p);
-                             printf("Quuuiero enviar e_msg_accept a %d \n", a_list_out_p->a_msg.destination.u8[0]);
+                             MY_DBG("Quuuiero enviar e_msg_accept a %d \n", a_list_out_p->a_msg.destination.u8[0]);
                          }
                      }
                 } //FOR todos los elementos de la lista - EVALUAR
@@ -383,7 +383,7 @@ PROCESS_THREAD(evaluar_msg_accept, ev, data)
             {
                 for(a_list_p = list_head(a_list); a_list_p != NULL; a_list_p = a_list_p->next)
                 {
-                    printf("llego AcCept de %d.  flags=%04X \n ",
+                    MY_DBG("llego AcCept de %d.  flags=%04X \n ",
                     a_list_p->from.u8[0], nd.flags);
 
                     become_accepted(e_list_head_g, &a_list_p->from);
@@ -428,12 +428,12 @@ PROCESS_THREAD(evaluar_msg_reject, ev, data)
                 {
                     if(state_is_branch(&rj_list_p->from,  e_list_head_g))
                     {
-                        printf("Llego REJECT de %d. Pero no puedo asignar el estado YA SOY BRANCH\n"
+                        MY_DBG("Llego REJECT de %d. Pero no puedo asignar el estado YA SOY BRANCH\n"
                               , rj_list_p->from.u8[0]);
 
                     }else
                     {
-                        printf("Asumo Reject q llego  de %d \n", rj_list_p->from.u8[0]);
+                        MY_DBG("Asumo Reject q llego  de %d \n", rj_list_p->from.u8[0]);
                         become_rejected(e_list_head_g, &rj_list_p->from);
                     }
 
@@ -519,7 +519,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, TEST);
                         runicast_send(&runicast, &t_msg.destination, MAX_RETRANSMISSIONS);
 
-                        printf("Deseo enviar e_msg_test a %d\n", t_msg.destination.u8[0]);
+                        MY_DBG("Deseo enviar e_msg_test a %d\n", t_msg.destination.u8[0]);
                         //remuevo el elemento de la lista
                         my_list_remove(t_list_out, t_list_out_p); //Remove a specific element from a list.
                         memb_free(&t_mem_out, t_list_out_p);
@@ -530,7 +530,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                         list_remove(t_list_out, t_list_out_p); //Remove a specific element from a list.
                         list_add(t_list_out, t_list_out_p);//	Add an item at the end of a list.
                         process_post(PROCESS_CURRENT(), e_msg_test, NULL);
-                        printf("posponer el msg de test de %d\n", t_list_out_p->t_msg.destination.u8[0]);
+                        MY_DBG("posponer el msg de test de %d\n", t_list_out_p->t_msg.destination.u8[0]);
 
                     }
                 } //END FOR
@@ -549,7 +549,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                         packetbuf_copyfrom(&r_msg, sizeof(r_msg));
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_REJECT);
                         runicast_send(&runicast, &r_msg.destination, MAX_RETRANSMISSIONS);
-                        printf("Envie reject a %d\n",r_msg.destination.u8[0] );
+                        MY_DBG("Envie reject a %d\n",r_msg.destination.u8[0] );
 
                         //remuevo el elemento de la lista
                         my_list_remove(rj_list_out, rj_list_out_p); //Remove a specific element from a list.
@@ -562,7 +562,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                         list_remove(rj_list_out, rj_list_out_p); //Remove a specific element from a list.
                         list_add(rj_list_out, rj_list_out_p); //Add an item at the end of a list.
                         process_post(PROCESS_CURRENT(), e_msg_reject, NULL);
-                        printf("posponer el msg de reject de %d\n", rj_list_out_p->rj_msg.destination.u8[0]);
+                        MY_DBG("posponer el msg de reject de %d\n", rj_list_out_p->rj_msg.destination.u8[0]);
                     }
                 } //END for
             } //END if hay elementos en la lista
@@ -581,7 +581,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_ACCEPT);
                         runicast_send(&runicast, &a_msg.destination, MAX_RETRANSMISSIONS);
 
-                        printf("Envie accept a %d \n",a_msg.destination.u8[0]);
+                        MY_DBG("Envie accept a %d \n",a_msg.destination.u8[0]);
                         //remuevo el elemento de la lista
                         my_list_remove(a_list_out, a_list_out_p); //Remove a specific element from a list.
                         memb_free(&a_mem_out, a_list_out_p);
@@ -592,7 +592,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                         list_remove(a_list_out, a_list_out_p); //Remove a specific element from a list.
                         list_add(a_list_out, a_list_out_p); 	//Add an item at the end of a list.
                         process_post(PROCESS_CURRENT(), e_msg_accept, NULL);
-                        printf("posponer el msg de accept de %d\n", a_list_out_p->a_msg.destination.u8[0]);
+                        MY_DBG("posponer el msg de accept de %d\n", a_list_out_p->a_msg.destination.u8[0]);
                     }
                 } //END for
             } //END IF hay elementos en la lista

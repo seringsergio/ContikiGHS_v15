@@ -25,14 +25,14 @@ void ghs_n_copy_data( struct neighbor *dest, struct neighbor *source  )
 */
 void ghs_n_timedout_ruc(const linkaddr_t *to, uint8_t retransmissions)
 {
-    printf("runicast message timed out when sending to %d.%d, retransmissions %d\n",
+    MY_DBG("runicast message timed out when sending to %d.%d, retransmissions %d\n",
   	 to->u8[0], to->u8[1], retransmissions);
 }
 /* Recibe un mensaje de runicast
 */
 void ghs_n_send_ruc(const linkaddr_t *to, uint8_t retransmissions)
 {
-    printf("runicast message sent to %d.%d, retransmissions %d\n",
+    MY_DBG("runicast message sent to %d.%d, retransmissions %d\n",
        to->u8[0], to->u8[1], retransmissions);
 }
 /*---------------------------------------------------------------------------*/
@@ -64,7 +64,7 @@ void ghs_n_recv_ruc(struct neighbor *n_list_head,
     } else {
       // Detect duplicate callback
       if(e->seq == seqno) {
-        printf("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
+        MY_DBG("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
   	     from->u8[0], from->u8[1], seqno);
         return;
       }
@@ -72,7 +72,7 @@ void ghs_n_recv_ruc(struct neighbor *n_list_head,
       e->seq = seqno;
     }
 
-    printf("runicast message received from %d.%d,with avg_seqno_gap = %d.%02d, seqno %d\n",
+    MY_DBG("runicast message received from %d.%d,with avg_seqno_gap = %d.%02d, seqno %d\n",
   	 from->u8[0], from->u8[1],
        (int)(msg->avg_seqno_gap / SEQNO_EWMA_UNITY),
        (int)(((100UL * msg->avg_seqno_gap) / SEQNO_EWMA_UNITY) % 100),
@@ -131,7 +131,7 @@ void ghs_n_link_weight_worst_exit_handler(struct neighbor *n_list_head, const li
 void ghs_n_broadcast_neighbor_discovery_exit_handler(struct neighbor *n_list_head,
                                                      const linkaddr_t *node_addr)
 {
-    printf("Process exited: Neighbor Discovery via Broadcast\n\r");
+    MY_DBG("Process exited: Neighbor Discovery via Broadcast\n\r");
 
     /* Show the whole list */
     //char string[] = "REEEAD";
@@ -210,7 +210,7 @@ void print_neighbor_list(struct neighbor *n_list_head, char *string, const linka
     /* Show the whole list */
     for(n_aux = n_list_head; n_aux != NULL; n_aux = list_item_next(n_aux)) // Recorrer toda la lista
     {
-      printf("%s %d %d %d.%02d \n  ",
+      MY_DBG("%s %d %d %d.%02d \n  ",
        string,
        node_addr->u8[0],
        n_aux->addr.u8[0],
