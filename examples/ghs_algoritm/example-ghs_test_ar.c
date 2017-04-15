@@ -552,9 +552,9 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
     //reject_msg *r_msg_d;
     static reject_msg r_msg;
 
-    static test_list *t_list_out_p, *t_list_out_p2;
-    static accept_list *a_list_out_p, *a_list_out_p2;
-    static reject_list *rj_list_out_p, *rj_list_out_p2;
+    static test_list *t_list_out_p;
+    static accept_list *a_list_out_p;
+    static reject_list *rj_list_out_p;
 
     //printf("Process Init: send_message_test_ar \n");
     while(1)
@@ -588,16 +588,8 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                     }else //Si runicastt esta ocupado TX, pospongo el envio del msg
                     {
                         //pospone sending the message
-
-                        //remuevo el elemento de la lista
-                        my_list_remove(t_list_out, t_list_out_p); //Remove a specific element from a list.
-                        memb_free(&t_mem_out, t_list_out_p);
-
-                        //Agrego el mismo elemento al final de la lista
-                        t_list_out_p2 = memb_alloc(&t_mem_out); //Alocar memoria
-                        llenar_test_msg_list(t_list_out_p2, &t_list_out_p->t_msg.destination,
-                                        t_list_out_p->t_msg.f);
-                        list_add(t_list_out, t_list_out_p2);//	Add an item at the end of a list. 
+                        list_remove(t_list_out, t_list_out_p); //Remove a specific element from a list.
+                        list_add(t_list_out, t_list_out_p);//	Add an item at the end of a list.
                         process_post(PROCESS_CURRENT(), e_msg_test, NULL);
                         printf("posponer el msg de test de %d\n", t_list_out_p->t_msg.destination.u8[0]);
 
@@ -632,17 +624,10 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                     else
                     {
                         //pospone sending the message
-                        //remuevo el elemento de la lista
-                        my_list_remove(rj_list_out, rj_list_out_p); //Remove a specific element from a list.
-                        memb_free(&rj_mem_out, rj_list_out_p);
-
-                        //Agrego el mismo elemento al final de la lista
-                        rj_list_out_p2 = memb_alloc(&rj_mem_out); //Alocar memoria
-                        llenar_reject_msg_list(rj_list_out_p2, &rj_list_out_p->rj_msg.destination);
-                        list_add(rj_list_out, rj_list_out_p2); //Add an item at the end of a list.
+                        list_remove(rj_list_out, rj_list_out_p); //Remove a specific element from a list.
+                        list_add(rj_list_out, rj_list_out_p); //Add an item at the end of a list.
                         process_post(PROCESS_CURRENT(), e_msg_reject, NULL);
-
-                        printf("posponer el msg de reject de %d\n", rj_list_out_p2->rj_msg.destination.u8[0]);
+                        printf("posponer el msg de reject de %d\n", rj_list_out_p->rj_msg.destination.u8[0]);
                     }
                 } //END for
             } //END if hay elementos en la lista
@@ -671,18 +656,11 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                     }else //Si runicastt esta ocupado TX, pospongo el envio del msg
                     {
                         //pospone sending the message
-                        //remuevo el elemento de la lista
-                        my_list_remove(a_list_out, a_list_out_p); //Remove a specific element from a list.
-                        memb_free(&a_mem_out, a_list_out_p);
 
-                        //Agrego el mismo elemento al final de la lista
-                        a_list_out_p2 = memb_alloc(&a_mem_out); //Alocar memoria
-                        llenar_accept_msg_list(a_list_out_p2, &a_list_out_p->a_msg.destination);
-                        list_add(a_list_out, a_list_out_p2); 	//Add an item at the end of a list.
+                        list_remove(a_list_out, a_list_out_p); //Remove a specific element from a list.
+                        list_add(a_list_out, a_list_out_p); 	//Add an item at the end of a list.
                         process_post(PROCESS_CURRENT(), e_msg_accept, NULL);
-
                         printf("posponer el msg de accept de %d\n", a_list_out_p->a_msg.destination.u8[0]);
-
                     }
                 } //END for
             } //END IF hay elementos en la lista

@@ -153,8 +153,6 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
            linkaddr_copy(&co_list_p->from, from);
            list_add(co_list, co_list_p); //Add an item at the end of a list.
            process_post_synch(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
-           //process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
-           //process_poll(&evaluar_msg_co);
        }
 
    }else
@@ -172,15 +170,11 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
           linkaddr_copy(&i_list_p->from, from);
           list_add(i_list, i_list_p); //Add an item at the end of a list.
           process_post_synch(&evaluar_msg_i, PROCESS_EVENT_CONTINUE, NULL);
-          //process_post(&evaluar_msg_i, PROCESS_EVENT_CONTINUE, NULL);
-          //process_poll(&evaluar_msg_i);
 
           //LLamar al proceso para que evalue el pospone agregado o actualizado
           // Se hace aca porque el INITIATE es quien cambia el level del fragmento
           process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
           process_post(&evaluar_msg_test, PROCESS_EVENT_CONTINUE, NULL ) ;
-          //process_post_synch(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
-          //process_post_synch(&evaluar_msg_test, PROCESS_EVENT_CONTINUE, NULL ) ;
        }
 
    } //END if msg es INITIATE
@@ -201,13 +195,6 @@ static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
 							     sent_runicast,
 							     timedout_runicast};
 
-/* Exit handler de master_co_i
-*/
-static void master_co_i_exit_handler(void)
-{
-    //runicast_close(&runicast);//Cierro la conexion runicast
-    //printf("Process Exit: master_co_i \n");
-}
 /*------------------------------------------------------------------- */
 /*----------PROCESSES------- -----------------------------------------*/
 /*------------------------------------------------------------------- */
@@ -216,7 +203,6 @@ PROCESS(master_co_i, "Proceso master de los msg connect-initiate");
 PROCESS(send_message_co_i, "Enviar msg de connect - initiate");
 PROCESS(evaluar_msg_co, "Evaluar Mensaje de Connect");
 PROCESS(evaluar_msg_i, "Evaluar Mensaje de initiate");
-
 
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS------------------------------------------------*/
@@ -227,14 +213,11 @@ PROCESS(evaluar_msg_i, "Evaluar Mensaje de initiate");
 PROCESS_THREAD(master_co_i, ev, data)
 {
 
-    PROCESS_EXITHANDLER(master_co_i_exit_handler());
     PROCESS_BEGIN();
 
     /* OPTIONAL: Sender history */
     list_init(edges_list);
     memb_init(&edges_memb);
-
-    //Definir eventos: master find found
 
     static connect_list *co_list_out_p;
     static s_wait str_wait;
@@ -261,14 +244,12 @@ PROCESS_THREAD(master_co_i, ev, data)
             //Espero a que todos hayan inicializado la conexion del connect antes de seguir
             //Ademas, SI NO ESPERO LA LISTA SE IMPRIME MAL: RARO X 2
             llenar_wait_struct(&str_wait, WAIT_NETWORK_STABILIZATION, PROCESS_CURRENT()  );
-            //process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
             process_post_synch(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
 
             //Envio Connect INICIAL con level = 0
             co_list_out_p = memb_alloc(&co_mem_out); //Alocar memoria
             llenar_connect_msg_list (co_list_out_p, nd.f.level, &nd.lwoe.node.neighbor);
-            //meter mensaje a la lista de msg de co salientes: co_list_out
             list_add(co_list_out, co_list_out_p); //Add an item at the end of a list
             process_post(&send_message_co_i,  e_msg_connect, NULL);
 
@@ -296,7 +277,6 @@ PROCESS_THREAD(master_co_i, ev, data)
             nd.flags &= ~FRAGMENTO_LWOE; //No he encontrado el LWOE del fragmento
             printf("Estoy en FIND \n");
             process_post_synch(&e_test, PROCESS_EVENT_CONTINUE, NULL);
-            //process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
 
         }else
         if(ev == e_msg_ghs_end)
@@ -318,11 +298,8 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
     static initiate_list *i_list_out_p;
     static connect_list *co_list_p;
 
-    //connect_msg *co_msg = (connect_msg *) msg;
-
     while(1)
     {
-        //PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_POLL);
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
@@ -330,7 +307,6 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
             {
                 for(co_list_p = list_head(co_list); co_list_p != NULL; co_list_p = co_list_p->next)
                 {
-
                     if(co_list_p->co_msg.level == nd.f.level) //Si los dos fragmentos tienen el mismo nivel
                     {
                         if(state_is_branch(&co_list_p->from, e_list_head_g)) // Caso inicial. Fragmentos con 1 nodo
@@ -410,20 +386,18 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
     memb_init(&i_mem);
 
     static initiate_list *i_list_out_p;
+    static initiate_list *i_list_p;
+    static edges *e_aux;
 
     while(1)
     {
-        //PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_POLL);
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
             if(list_length(i_list))
             {
-                static initiate_list *i_list_p;
                 for(i_list_p = list_head(i_list); i_list_p != NULL; i_list_p = i_list_p->next)
                 {
-                    //initiate_msg *i_msg = (initiate_msg *) msg;
-
                     nd.f.name_str  = i_list_p->i_msg.f.name_str;
                     nd.f.level     = i_list_p->i_msg.f.level;
                     nd.state       = i_list_p->i_msg.nd_state;
@@ -453,7 +427,6 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                     }
 
                     //Reenvio el msg por todas las BRANCHES
-                    static edges *e_aux;
                     for(e_aux = e_list_head_g; e_aux != NULL; e_aux = e_aux->next) // Recorrer toda la lista
                     {
                         //Propagar el INITIATE por las otras ramas
@@ -466,11 +439,10 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                             llenar_initiate_msg_list(i_list_out_p, i_list_p->i_msg.f.name_str, i_list_p->i_msg.f.level,
                                                i_list_p->i_msg.nd_state, &e_aux->addr, ~BECOME_CORE_NODE);
                             list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
-                            process_post(&send_message_co_i, e_msg_initiate, NULL);
-
                         }
-
                     }
+                    // envio el post aca para no enviarlo multiples veces dentro del for anterior
+                    process_post(&send_message_co_i, e_msg_initiate, NULL);
 
                     printf("TamanoLista =%d llego INITIATE from %d.%d name=%d.%02d level=%d state=%d parent=%d\n",
                           list_length(i_list),
@@ -498,6 +470,10 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
 PROCESS_THREAD(send_message_co_i, ev, data)
 {
     PROCESS_BEGIN();
+
+    process_start(&evaluar_msg_co, NULL );
+    process_start(&evaluar_msg_i, NULL );
+
     runicast_open(&runicast, 144, &runicast_callbacks);
 
     //Proceso co_i
@@ -508,10 +484,6 @@ PROCESS_THREAD(send_message_co_i, ev, data)
     e_msg_connect = process_alloc_event(); // Darle un numero al evento
     e_msg_initiate = process_alloc_event();  // Darle un numero al evento
 
-    process_start(&evaluar_msg_co, NULL );
-    process_start(&evaluar_msg_i, NULL );
-
-    /* OPTIONAL: Sender history */
     list_init(history_list);
     memb_init(&history_mem);
 
@@ -533,8 +505,8 @@ PROCESS_THREAD(send_message_co_i, ev, data)
     //static initiate_msg *msg_d;
     static initiate_msg  i_msg;
 
-    static connect_list *co_list_out_p, *co_list_out_p2;
-    static initiate_list *i_list_out_p, *i_list_out_p2;
+    static connect_list *co_list_out_p;
+    static initiate_list *i_list_out_p;
 
     while(1)
     {
@@ -545,8 +517,6 @@ PROCESS_THREAD(send_message_co_i, ev, data)
             {
                 for(co_list_out_p = list_head(co_list_out); co_list_out_p != NULL; co_list_out_p = co_list_out_p->next)
                 {
-                    //c_msg_d = (connect_msg *) data;
-
                     if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
                     {
                         llenar_connect_msg (&co_msg, co_list_out_p->co_msg.level, &co_list_out_p->co_msg.destination);
@@ -562,14 +532,8 @@ PROCESS_THREAD(send_message_co_i, ev, data)
                     }else //Si runicast esta ocupado TX, pospongo el envio del msg
                     {
                         //pospone sending the message
-                        //remuevo el elemento de la lista
-                        my_list_remove(co_list_out, co_list_out_p); //Remove a specific element from a list.
-                        memb_free(&co_mem_out, co_list_out_p);
-
-                        //Agrego el mismo elemento al final de la lista
-                        co_list_out_p2 = memb_alloc(&co_mem_out); //Alocar memoria
-                        llenar_connect_msg_list (co_list_out_p2, co_list_out_p->co_msg.level, &co_list_out_p->co_msg.destination);
-                        list_add(co_list_out, co_list_out_p2); //Add an item at the end of a list
+                        list_remove(co_list_out, co_list_out_p); //Remove a specific element from a list.
+                        list_add(co_list_out, co_list_out_p); //Add an item at the end of a list
                         process_post(PROCESS_CURRENT(), e_msg_connect, NULL);
                     }
                 } //END for recorrer la lista
@@ -577,8 +541,6 @@ PROCESS_THREAD(send_message_co_i, ev, data)
         }else
         if(ev == e_msg_initiate)
         {
-            //msg_d = (initiate_msg *) data;
-
             if(list_length(i_list_out))
             {
                 for(i_list_out_p = list_head(i_list_out); i_list_out_p != NULL; i_list_out_p = i_list_out_p->next)
@@ -606,19 +568,8 @@ PROCESS_THREAD(send_message_co_i, ev, data)
                     }else //Si runicast esta ocupado TX, pospongo el envio del msg
                     {
                         //pospone sending the message
-                        //remuevo el elemento de la lista
-                        my_list_remove(i_list_out, i_list_out_p); //Remove a specific element from a list.
-                        memb_free(&i_mem_out, i_list_out_p);
-
-                        //Agrego el mismo elemento al final de la lista
-                        i_list_out_p2 = memb_alloc(&i_mem_out); //Alocar memoria
-                        llenar_initiate_msg_list(i_list_out_p2,
-                                                 i_list_out_p->i_msg.f.name_str,
-                                                 i_list_out_p->i_msg.f.level,
-                                                 i_list_out_p->i_msg.nd_state,
-                                                 &i_list_out_p->i_msg.destination,
-                                                 i_list_out_p->i_msg.flags );
-                        list_add(i_list_out, i_list_out_p2); //Add an item at the end of a list
+                        list_remove(i_list_out, i_list_out_p); //Remove a specific element from a list.
+                        list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
                         process_post(PROCESS_CURRENT(), e_msg_initiate, NULL);
                     }
                 } //END for

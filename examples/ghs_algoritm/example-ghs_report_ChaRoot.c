@@ -773,9 +773,9 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
     //static informacion_msg *inf_msg_d; //information_message
     static informacion_msg info_msg;
 
-    static report_list *rp_list_out_p, *rp_list_out_p2;
-    static change_root_list *cr_list_out_p, *cr_list_out_p2;
-    static informacion_list *info_list_out_p, *info_list_out_p2;
+    static report_list *rp_list_out_p;
+    static change_root_list *cr_list_out_p;
+    static informacion_list *info_list_out_p;
 
     while(1)
     {
@@ -810,15 +810,8 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
                     }else //Si runicast esta ocupado TX, pospongo el envio del msg
                     {
                         //pospone sending the message
-                        //remuevo el elemento de la lista
-                        my_list_remove(rp_list_out, rp_list_out_p); //Remove a specific element from a list.
-                        memb_free(&rp_mem_out, rp_list_out_p);
-
-                        //Agrego el mismo elemento al final de la lista
-                        rp_list_out_p2 = memb_alloc(&rp_mem_out); //Alocar memoria
-                        llenar_report_msg_list (rp_list_out_p2, &nd.parent, &rp_list_out_p->rp_msg.neighbor_r,
-                                          rp_list_out_p->rp_msg.weight_r);
-                        list_add(rp_list_out, rp_list_out_p2); //Add an item at the end of a list
+                        list_remove(rp_list_out, rp_list_out_p); //Remove a specific element from a list.
+                        list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
                         process_post(PROCESS_CURRENT(), e_msg_report, NULL);
 
                     }
@@ -852,15 +845,8 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
                         }else //Si runicast esta ocupado TX, pospongo el envio del msg
                         {
                             //pospone sending the message
-                            //remuevo el elemento de la lista
-                            my_list_remove(cr_list_out, cr_list_out_p); //Remove a specific element from a list.
-                            memb_free(&cr_mem_out, cr_list_out_p);
-
-                            //Agrego el mismo elemento al final de la lista
-                            cr_list_out_p2 = memb_alloc(&cr_mem_out); //Alocar memoria
-                            llenar_change_root_list (cr_list_out_p2, &cr_list_out_p->cr_msg.next_hop,
-                                               &cr_list_out_p->cr_msg.final_destination);
-                            list_add(cr_list_out, cr_list_out_p2); //Add an item at the end of a list
+                            list_remove(cr_list_out, cr_list_out_p); //Remove a specific element from a list.
+                            list_add(cr_list_out, cr_list_out_p); //Add an item at the end of a list
                             process_post(PROCESS_CURRENT(), e_msg_ch_root, NULL);
                         }
                 } //END for
@@ -892,16 +878,8 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
                     }else //Si runicast esta ocupado TX, pospongo el envio del msg
                     {
                         //pospone sending the message
-                        //remuevo el elemento de la lista
-                        my_list_remove(info_list_out, info_list_out_p); //Remove a specific element from a list.
-                        memb_free(&info_mem_out, info_list_out_p);
-
-                        //Agrego el mismo elemento al final de la lista
-                        info_list_out_p2 = memb_alloc(&info_mem_out); //Alocar memoria
-                        llenar_msg_informacion_list (info_list_out_p2,
-                                               info_list_out_p->info_msg.flags,
-                                               &info_list_out_p->info_msg.destination);
-                        list_add(info_list_out, info_list_out_p2); //Add an item at the end of a list
+                        list_remove(info_list_out, info_list_out_p); //Remove a specific element from a list.
+                        list_add(info_list_out, info_list_out_p); //Add an item at the end of a list
                         process_post(PROCESS_CURRENT(), e_msg_information, NULL);
                     }
                 } //END for
