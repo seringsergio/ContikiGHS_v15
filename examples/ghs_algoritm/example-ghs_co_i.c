@@ -307,142 +307,6 @@ PROCESS_THREAD(master_co_i, ev, data)
     PROCESS_END();
 }
 
-
-/* Proceso para enviar mensajes
-*/
-PROCESS_THREAD(send_message_co_i, ev, data)
-{
-    PROCESS_BEGIN();
-    runicast_open(&runicast, 144, &runicast_callbacks);
-
-    //Proceso co_i
-    //estados
-    e_found = process_alloc_event(); // Darle un numero al evento
-    e_find = process_alloc_event(); // Darle un numero al evento
-    //msg
-    e_msg_connect = process_alloc_event(); // Darle un numero al evento
-    e_msg_initiate = process_alloc_event();  // Darle un numero al evento
-
-    process_start(&evaluar_msg_co, NULL );
-    process_start(&evaluar_msg_i, NULL );
-
-    /* OPTIONAL: Sender history */
-    list_init(history_list);
-    memb_init(&history_mem);
-
-    list_init(co_list_out);
-    memb_init(&co_mem_out);
-
-    list_init(i_list_out);
-    memb_init(&i_mem_out);
-
-    co_list_out_g = co_list_out;
-    co_mem_out_g  = &co_mem_out;
-
-    i_list_out_g = i_list_out;
-    i_mem_out_g  = &i_mem_out;
-
-    //static connect_msg *c_msg_d;
-    static connect_msg co_msg;
-
-    //static initiate_msg *msg_d;
-    static initiate_msg  i_msg;
-
-    static connect_list *co_list_out_p, *co_list_out_p2;
-    static initiate_list *i_list_out_p, *i_list_out_p2;
-
-    while(1)
-    {
-        PROCESS_WAIT_EVENT(); // Wait for any event.
-        if(ev == e_msg_connect)
-        {
-            if(list_length(co_list_out))
-            {
-                for(co_list_out_p = list_head(co_list_out); co_list_out_p != NULL; co_list_out_p = co_list_out_p->next)
-                {
-                    //c_msg_d = (connect_msg *) data;
-
-                    if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
-                    {
-                        llenar_connect_msg (&co_msg, co_list_out_p->co_msg.level, &co_list_out_p->co_msg.destination);
-                        packetbuf_copyfrom(&co_msg, sizeof(co_msg));
-                        packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, CONNECT);
-                        runicast_send(&runicast, &co_msg.destination, MAX_RETRANSMISSIONS);
-                        printf("Envio CONECT to %d , level=%d \n", co_msg.destination.u8[0], co_msg.level);
-
-                        //remuevo el elemento de la lista
-                        my_list_remove(co_list_out, co_list_out_p); //Remove a specific element from a list.
-                        memb_free(&co_mem_out, co_list_out_p);
-
-                    }else //Si runicast esta ocupado TX, pospongo el envio del msg
-                    {
-                        //pospone sending the message
-                        //remuevo el elemento de la lista
-                        my_list_remove(co_list_out, co_list_out_p); //Remove a specific element from a list.
-                        memb_free(&co_mem_out, co_list_out_p);
-
-                        //Agrego el mismo elemento al final de la lista
-                        co_list_out_p2 = memb_alloc(&co_mem_out); //Alocar memoria
-                        llenar_connect_msg_list (co_list_out_p2, co_list_out_p->co_msg.level, &co_list_out_p->co_msg.destination);
-                        list_add(co_list_out, co_list_out_p2); //Add an item at the end of a list
-                        process_post(PROCESS_CURRENT(), e_msg_connect, NULL);
-                    }
-                } //END for recorrer la lista
-            } //END si hay elementos en la lista
-        }else
-        if(ev == e_msg_initiate)
-        {
-            //msg_d = (initiate_msg *) data;
-
-            if(list_length(i_list_out))
-            {
-                for(i_list_out_p = list_head(i_list_out); i_list_out_p != NULL; i_list_out_p = i_list_out_p->next)
-                {
-                    if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
-                    {
-                        llenar_initiate_msg(&i_msg,
-                                            i_list_out_p->i_msg.f.name_str,
-                                            i_list_out_p->i_msg.f.level,
-                                            i_list_out_p->i_msg.nd_state,
-                                            &i_list_out_p->i_msg.destination,
-                                            i_list_out_p->i_msg.flags );
-                        packetbuf_copyfrom(&i_msg, sizeof(i_msg));
-                        packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INITIATE);
-                        runicast_send(&runicast, &i_msg.destination, MAX_RETRANSMISSIONS);
-                        printf("Envio initiate a %d level= %d name=%d.%02d flags=%04X\n", i_msg.destination.u8[0],
-                        i_msg.f.level,
-                        (int)(i_msg.f.name_str.weight / SEQNO_EWMA_UNITY),
-                        (int)(((100UL * i_msg.f.name_str.weight) / SEQNO_EWMA_UNITY) % 100),
-                         nd.flags);
-
-                         //remuevo el elemento de la lista
-                         my_list_remove(i_list_out, i_list_out_p); //Remove a specific element from a list.
-                         memb_free(&i_mem_out, i_list_out_p);
-                    }else //Si runicast esta ocupado TX, pospongo el envio del msg
-                    {
-                        //pospone sending the message
-                        //remuevo el elemento de la lista
-                        my_list_remove(i_list_out, i_list_out_p); //Remove a specific element from a list.
-                        memb_free(&i_mem_out, i_list_out_p);
-
-                        //Agrego el mismo elemento al final de la lista
-                        i_list_out_p2 = memb_alloc(&i_mem_out); //Alocar memoria
-                        llenar_initiate_msg_list(i_list_out_p2,
-                                                 i_list_out_p->i_msg.f.name_str,
-                                                 i_list_out_p->i_msg.f.level,
-                                                 i_list_out_p->i_msg.nd_state,
-                                                 &i_list_out_p->i_msg.destination,
-                                                 i_list_out_p->i_msg.flags );
-                        list_add(i_list_out, i_list_out_p2); //Add an item at the end of a list
-                        process_post(PROCESS_CURRENT(), e_msg_initiate, NULL);
-                    }
-                } //END for
-            } //END if hay elementos en la lista
-        }
-    } //END of while
-    PROCESS_END();
-}
-
 PROCESS_THREAD(evaluar_msg_co, ev, data)
 {
     PROCESS_BEGIN();
@@ -627,3 +491,139 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
     } //end of while
     PROCESS_END();
 } //END of PROCESS THREAD evaluar_msg_i
+
+
+/* Proceso para enviar mensajes
+*/
+PROCESS_THREAD(send_message_co_i, ev, data)
+{
+    PROCESS_BEGIN();
+    runicast_open(&runicast, 144, &runicast_callbacks);
+
+    //Proceso co_i
+    //estados
+    e_found = process_alloc_event(); // Darle un numero al evento
+    e_find = process_alloc_event(); // Darle un numero al evento
+    //msg
+    e_msg_connect = process_alloc_event(); // Darle un numero al evento
+    e_msg_initiate = process_alloc_event();  // Darle un numero al evento
+
+    process_start(&evaluar_msg_co, NULL );
+    process_start(&evaluar_msg_i, NULL );
+
+    /* OPTIONAL: Sender history */
+    list_init(history_list);
+    memb_init(&history_mem);
+
+    list_init(co_list_out);
+    memb_init(&co_mem_out);
+
+    list_init(i_list_out);
+    memb_init(&i_mem_out);
+
+    co_list_out_g = co_list_out;
+    co_mem_out_g  = &co_mem_out;
+
+    i_list_out_g = i_list_out;
+    i_mem_out_g  = &i_mem_out;
+
+    //static connect_msg *c_msg_d;
+    static connect_msg co_msg;
+
+    //static initiate_msg *msg_d;
+    static initiate_msg  i_msg;
+
+    static connect_list *co_list_out_p, *co_list_out_p2;
+    static initiate_list *i_list_out_p, *i_list_out_p2;
+
+    while(1)
+    {
+        PROCESS_WAIT_EVENT(); // Wait for any event.
+        if(ev == e_msg_connect)
+        {
+            if(list_length(co_list_out))
+            {
+                for(co_list_out_p = list_head(co_list_out); co_list_out_p != NULL; co_list_out_p = co_list_out_p->next)
+                {
+                    //c_msg_d = (connect_msg *) data;
+
+                    if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+                    {
+                        llenar_connect_msg (&co_msg, co_list_out_p->co_msg.level, &co_list_out_p->co_msg.destination);
+                        packetbuf_copyfrom(&co_msg, sizeof(co_msg));
+                        packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, CONNECT);
+                        runicast_send(&runicast, &co_msg.destination, MAX_RETRANSMISSIONS);
+                        printf("Envio CONECT to %d , level=%d \n", co_msg.destination.u8[0], co_msg.level);
+
+                        //remuevo el elemento de la lista
+                        my_list_remove(co_list_out, co_list_out_p); //Remove a specific element from a list.
+                        memb_free(&co_mem_out, co_list_out_p);
+
+                    }else //Si runicast esta ocupado TX, pospongo el envio del msg
+                    {
+                        //pospone sending the message
+                        //remuevo el elemento de la lista
+                        my_list_remove(co_list_out, co_list_out_p); //Remove a specific element from a list.
+                        memb_free(&co_mem_out, co_list_out_p);
+
+                        //Agrego el mismo elemento al final de la lista
+                        co_list_out_p2 = memb_alloc(&co_mem_out); //Alocar memoria
+                        llenar_connect_msg_list (co_list_out_p2, co_list_out_p->co_msg.level, &co_list_out_p->co_msg.destination);
+                        list_add(co_list_out, co_list_out_p2); //Add an item at the end of a list
+                        process_post(PROCESS_CURRENT(), e_msg_connect, NULL);
+                    }
+                } //END for recorrer la lista
+            } //END si hay elementos en la lista
+        }else
+        if(ev == e_msg_initiate)
+        {
+            //msg_d = (initiate_msg *) data;
+
+            if(list_length(i_list_out))
+            {
+                for(i_list_out_p = list_head(i_list_out); i_list_out_p != NULL; i_list_out_p = i_list_out_p->next)
+                {
+                    if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+                    {
+                        llenar_initiate_msg(&i_msg,
+                                            i_list_out_p->i_msg.f.name_str,
+                                            i_list_out_p->i_msg.f.level,
+                                            i_list_out_p->i_msg.nd_state,
+                                            &i_list_out_p->i_msg.destination,
+                                            i_list_out_p->i_msg.flags );
+                        packetbuf_copyfrom(&i_msg, sizeof(i_msg));
+                        packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INITIATE);
+                        runicast_send(&runicast, &i_msg.destination, MAX_RETRANSMISSIONS);
+                        printf("Envio initiate a %d level= %d name=%d.%02d flags=%04X\n", i_msg.destination.u8[0],
+                        i_msg.f.level,
+                        (int)(i_msg.f.name_str.weight / SEQNO_EWMA_UNITY),
+                        (int)(((100UL * i_msg.f.name_str.weight) / SEQNO_EWMA_UNITY) % 100),
+                         nd.flags);
+
+                         //remuevo el elemento de la lista
+                         my_list_remove(i_list_out, i_list_out_p); //Remove a specific element from a list.
+                         memb_free(&i_mem_out, i_list_out_p);
+                    }else //Si runicast esta ocupado TX, pospongo el envio del msg
+                    {
+                        //pospone sending the message
+                        //remuevo el elemento de la lista
+                        my_list_remove(i_list_out, i_list_out_p); //Remove a specific element from a list.
+                        memb_free(&i_mem_out, i_list_out_p);
+
+                        //Agrego el mismo elemento al final de la lista
+                        i_list_out_p2 = memb_alloc(&i_mem_out); //Alocar memoria
+                        llenar_initiate_msg_list(i_list_out_p2,
+                                                 i_list_out_p->i_msg.f.name_str,
+                                                 i_list_out_p->i_msg.f.level,
+                                                 i_list_out_p->i_msg.nd_state,
+                                                 &i_list_out_p->i_msg.destination,
+                                                 i_list_out_p->i_msg.flags );
+                        list_add(i_list_out, i_list_out_p2); //Add an item at the end of a list
+                        process_post(PROCESS_CURRENT(), e_msg_initiate, NULL);
+                    }
+                } //END for
+            } //END if hay elementos en la lista
+        }
+    } //END of while
+    PROCESS_END();
+}

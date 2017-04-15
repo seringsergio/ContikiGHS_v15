@@ -319,17 +319,17 @@ PROCESS_THREAD(e_LWOE, ev, data)
         //static change_root_msg cr_msg; //cr = change root
         static change_root_list *cr_list_out_p;
         static connect_list *co_list_out_p;
+        static informacion_list *info_list_out_p;
 
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
-                if(nd.flags & CORE_NODE)
+                //Si soy core_node && no he encontrado el LWOE del fragmento
+                if( (nd.flags & CORE_NODE) && (!(nd.flags & FRAGMENTO_LWOE))  )
                 {
-                        printf("nd.flags=%04X\n", nd.flags);
+                        //Si ya encontre el LWOE mio y de mis hijos
                         if( (nd.flags & ND_LWOE) && (nd.flags & CH_LWOE) )
                         {
-                            printf("Entraaa nd.flags=%04X\n", nd.flags);
-
                             if( (nd.lwoe.node.weight == INFINITO) && (nd.lwoe.children.weight==INFINITO) )
                             {
                                 printf("Los dos reportes son INFINITO\n");
@@ -340,39 +340,28 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 //paso a END
                                 process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
                                 //process_post(&master_co_i, e_msg_ghs_end, NULL);
-                            }else
+                            }else //No he terminado aun los 2 reportes NO son infinito
                             {
-                                if(!(nd.flags & FRAGMENTO_LWOE))
-                                {
                                     printf("nd.lwoe.node.weigh=%d.%02d <= nd.lwoe.children.weight=%d.%02d \n",
                                     (int)(nd.lwoe.node.weight / SEQNO_EWMA_UNITY),
                                     (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100),
                                     (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
                                     (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100)     );
 
-                                    if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
+                                    if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //mejor children o mi edge?
                                     {
-                                        nd.flags &= ~CORE_NODE;
                                         //envio CHANGE_ROOT imaginario
                                         become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root
 
                                         //Envio CONNECT msg
                                         co_list_out_p = memb_alloc(co_mem_out_g); //Alocar memoria
                                         llenar_connect_msg_list (co_list_out_p, nd.f.level, &nd.lwoe.node.neighbor);
-                                        //meter mensaje a la lista de msg de co salientes: co_list_out
                                         list_add(co_list_out_g, co_list_out_p); //Add an item at the end of a list
                                         process_post(&send_message_co_i,  e_msg_connect, NULL);
+
                                         printf("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
-                                        //paso a FOUND
-                                        process_post_synch(&master_co_i, e_found, NULL);
-                                        //process_post(&master_co_i, e_found, NULL);
-
-                                        nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
-
                                     }else //Si es mejor el edge de un vecino
                                     {
-                                        //send change_root y dejo de ser CORE_NODE
-                                        nd.flags &= ~CORE_NODE;
 
                                         //send CHANGE_ROOT
                                         cr_list_out_p = memb_alloc(&cr_mem_out); //Alocar memoria
@@ -383,12 +372,12 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                         printf("EEEnvie 222 CHANGE_ROOT a next_hop=%d final_destination=%d\n",
                                         cr_list_out_p->cr_msg.next_hop.u8[0],
                                         cr_list_out_p->cr_msg.final_destination.u8[0]);
-
-                                        //paso a FOUND
-                                        process_post_synch(&master_co_i, e_found, NULL);
-                                        //process_post(&master_co_i, e_found, NULL);
-                                        nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                                     }
+                                    //Dejo de ser core node
+                                    nd.flags &= ~CORE_NODE;
+                                    //paso a FOUND
+                                    process_post_synch(&master_co_i, e_found, NULL);
+                                    nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
 
                                     //Ya encontre el LWOE del fragmento. No reenvio CHANGE_ROOT
                                     //del otro CORE_NODE
@@ -397,50 +386,13 @@ PROCESS_THREAD(e_LWOE, ev, data)
 
                                     //send mensaje de informacion info para que el
                                     // otro core_node deje de ser core_node
-                                    static informacion_list *info_list_out_p;
                                     info_list_out_p = memb_alloc(&info_mem_out); //Alocar memoria
                                     llenar_msg_informacion_list (info_list_out_p, NO_SEA_CORE_NODE, &nd.otro_core_node );
                                     list_add(info_list_out, info_list_out_p); //Add an item at the end of a list
                                     process_post_synch(&send_message_report_ChaRoot, e_msg_information, NULL);
-
-
-                                }else
-                                {
-                                    //paso a FOUND
-                                    process_post_synch(&master_co_i, e_found, NULL);
-                                    //process_post(&master_co_i, e_found, NULL);
-
-                                    nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
-                                }
+                                    //OJO: es el unico &send_message que va synch :) no se porque
                             } //SI los dos valores son INFINITO acabo GHS
-                        }else //SI NO estan seteados los dos. Pero soy hoja...
-                        if( (es_Hoja()) && (nd.flags & ND_LWOE) )
-                        {
-                            if(nd.lwoe.node.weight == INFINITO)
-                            {
-                                //process_post(&master_co_i, e_msg_ghs_end, NULL);
-                                process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
-
-                            }
-
-                            nd.flags &= ~CORE_NODE;
-                            //send REPORT
-                            rp_list_out_p = memb_alloc(&rp_mem_out); //Alocar memoria
-                            llenar_report_msg_list (rp_list_out_p, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
-                            list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
-                            process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
-
-                            printf("Hoja:CORE_NODE & HOJA Deseo Reportar Neigh=%d Weight=%d.%02d\n",
-                                     rp_list_out_p->rp_msg.neighbor_r.u8[0],
-                                     (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
-                                     (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
-                            //paso a FOUND
-                            //process_post(&master_co_i, e_found, NULL);
-                            process_post_synch(&master_co_i, e_found, NULL);
-
-                            nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
-                        }
-                        else //SI NO estan seteados los dos. Pero soy lista CASI completa(solo falta el otro core_node)
+                        }else //SI NO estan seteados los dos. Pero soy lista CASI completa(solo falta el otro core_node)
                         if( (lista_casi_completa(rp_list)) && (nd.flags & ND_LWOE) )
                         {  //No puedo pasar a FOUND ni ~CORE_NODE porque tengo q esperar
                             //a que al menos 1 de los 2 CORE_NODES envie change_root.
@@ -454,9 +406,6 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                     process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
 
                                 }
-
-                                //nd.flags &= ~CORE_NODE;
-
                                 //send REPORT
                                 rp_list_out_p = memb_alloc(&rp_mem_out); //Alocar memoria
                                 llenar_report_msg_list (rp_list_out_p, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
@@ -467,11 +416,6 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                          rp_list_out_p->rp_msg.neighbor_r.u8[0],
                                          (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                          (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
-
-                                //paso a FOUND
-                                //process_post(&master_co_i, e_found, NULL);
-                                //nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
-
                             }else //Si la lista tiene reportes, tengo HIJOS
                             {
                                 //report_list *rp_list_p;
@@ -489,7 +433,6 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                         lowest_rp     = rp_str;
                                     }
                                 }
-
 
                                 //guardo el menor hijo como el mejor edge
                                 linkaddr_copy( &nd.downroute , &lowest_rp->from);
@@ -565,7 +508,6 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             }
                         }
                 }else //NO soy el CORE_NODE
-                {
                     if( (nd.flags & ND_LWOE) && (nd.flags & CH_LWOE) )
                     {
                         if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
@@ -589,7 +531,6 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             //paso a FOUND
                             //process_post(&master_co_i, e_found, NULL);
                             process_post_synch(&master_co_i, e_found, NULL);
-
                             nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
 
                         }else //Si es mejor el edge de un vecino
@@ -641,7 +582,6 @@ PROCESS_THREAD(e_LWOE, ev, data)
                          //process_post(&master_co_i, e_found, NULL);
                          nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                     }
-                } //END no soy core node
         } //IF ev == CONTINUE
     } //end of while
 
@@ -770,7 +710,6 @@ PROCESS_THREAD(evaluar_msg_info, ev, data)
                     //paso a FOUND
                     process_post_synch(&master_co_i, e_found, NULL);
                     //process_post(&master_co_i, e_found, NULL);
-
                     nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
 
                     //remuevo el elemento de la lista

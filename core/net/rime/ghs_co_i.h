@@ -30,7 +30,7 @@
 #define ND_LWOE             0x02
 #define CH_LWOE             0x04
 #define CORE_NODE           0x08
-#define FRAGMENTO_LWOE      0x10
+#define FRAGMENTO_LWOE      0x10 //No he encontrado el LWOE del fragmento
 
 //Banderas de initiate_msg
 #define BECOME_CORE_NODE 0x01

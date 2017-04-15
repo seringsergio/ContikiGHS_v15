@@ -109,7 +109,7 @@ uint8_t num_hijos(edges *e_list_head)
 
     if(nd.flags & CORE_NODE)
     {
-        return (numero_hijos); //aca el padre tambien es hijo al mismo tiempo
+        return (numero_hijos); //aca el padre (el otro core_node) tambien es hijo al mismo tiempo
     }else
     {
         return (numero_hijos - 1); //menos la branch del padre

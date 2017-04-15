@@ -286,200 +286,6 @@ PROCESS_THREAD(e_test, ev, data)
     PROCESS_END();
 }
 
-
-
-/* Proceso que envia msg de test - accept - reject
-*/
-PROCESS_THREAD(send_message_test_ar, ev, data)
-{
-    PROCESS_EXITHANDLER();
-    PROCESS_BEGIN();
-
-    runicast_open(&runicast_145, 145, &runicast_callbacks); //el 144 ya esta usado
-
-    //proceso test_ar
-    //estados
-    e_evaluate_test       = process_alloc_event(); // Darle un numero al evento
-    e_nd_lwoe             = process_alloc_event(); // Darle un numero al evento
-    e_ch_lwoe             = process_alloc_event(); // Darle un numero al evento
-    //msg
-    e_msg_test            = process_alloc_event(); // Darle un numero al evento
-    e_msg_reject          = process_alloc_event(); // Darle un numero al evento
-    e_msg_accept          = process_alloc_event(); // Darle un numero al evento
-
-    /* OPTIONAL: Sender history */
-    list_init(history_list);
-    memb_init(&history_mem);
-
-    list_init(t_list_out);
-    memb_init(&t_mem_out);
-
-    list_init(a_list_out);
-    memb_init(&a_mem_out);
-
-    list_init(rj_list_out);
-    memb_init(&rj_mem_out);
-
-    rj_list_out_g = rj_list_out;
-    rj_mem_out_g  = &rj_mem_out;
-
-    t_list_out_g = t_list_out;
-    t_mem_out_g  = &t_mem_out;
-
-    a_list_out_g = a_list_out;
-    a_mem_out_g  = &a_mem_out;
-
-    process_start(&e_test, NULL);
-    process_start(&evaluar_msg_test, NULL);
-    process_start(&evaluar_msg_accept, NULL);
-    process_start(&evaluar_msg_reject, NULL);
-
-    //static test_msg *t_msg_d;
-    static test_msg t_msg;
-
-
-    //static accept_msg *a_msg_d;
-    static accept_msg a_msg;
-
-    //reject_msg *r_msg_d;
-    static reject_msg r_msg;
-
-    static test_list *t_list_out_p, *t_list_out_p2;
-    static accept_list *a_list_out_p, *a_list_out_p2;
-    static reject_list *rj_list_out_p, *rj_list_out_p2;
-
-    //printf("Process Init: send_message_test_ar \n");
-    while(1)
-    {
-        //static struct etimer et;
-
-        PROCESS_WAIT_EVENT(); // Wait for any event.
-        if(ev == e_msg_test)
-        {
-            //t_msg_d = (test_msg *) data;
-
-            if(list_length(t_list_out))
-            {
-                for(t_list_out_p = list_head(t_list_out); t_list_out_p != NULL; t_list_out_p = t_list_out_p->next)
-                {
-
-                    //printf("Deseo enviar e_msg_test NO IF\n");
-                    if(!runicast_is_transmitting(&runicast_145)) // Si runicastt no esta TX, entra
-                    {
-                        llenar_test_msg(&t_msg, &t_list_out_p->t_msg.destination,
-                                        t_list_out_p->t_msg.f);
-                        packetbuf_copyfrom(&t_msg, sizeof(t_msg));
-                        packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, TEST);
-                        runicast_send(&runicast_145, &t_msg.destination, MAX_RETRANSMISSIONS);
-                        printf("Deseo enviar e_msg_test a %d\n", t_msg.destination.u8[0]);
-
-                        //remuevo el elemento de la lista
-                        my_list_remove(t_list_out, t_list_out_p); //Remove a specific element from a list.
-                        memb_free(&t_mem_out, t_list_out_p);
-                    }else //Si runicastt esta ocupado TX, pospongo el envio del msg
-                    {
-                        //pospone sending the message
-
-                        //remuevo el elemento de la lista
-                        my_list_remove(t_list_out, t_list_out_p); //Remove a specific element from a list.
-                        memb_free(&t_mem_out, t_list_out_p);
-
-                        //Agrego el mismo elemento al final de la lista
-                        t_list_out_p2 = memb_alloc(&t_mem_out); //Alocar memoria
-                        llenar_test_msg_list(t_list_out_p2, &t_list_out_p->t_msg.destination,
-                                        t_list_out_p->t_msg.f);
-                        list_add(t_list_out, t_list_out_p2); //Add an item at the end of a list
-                        process_post(PROCESS_CURRENT(), e_msg_test, NULL);
-
-                    }
-                } //END FOR
-            } //END if hay elementos en la lista
-
-        }else
-        if(ev == e_msg_reject)
-        {
-            if(list_length(rj_list_out))
-            {
-                for(rj_list_out_p = list_head(rj_list_out); rj_list_out_p != NULL; rj_list_out_p = rj_list_out_p->next)
-                {
-                    //r_msg_d = (reject_msg *) data;
-                    if(!runicast_is_transmitting(&runicast_145)) // Si runicastt no esta TX, entra
-                    {
-                        llenar_reject_msg(&r_msg, &rj_list_out_p->rj_msg.destination);
-                        //No puedo decir que si envio un reject ese link esta E_REJECTED:
-                        //Pasaria de BRANCH A REJECTED. LO CUAL NO TIENE SENTIDO
-                        //become_rejected(e_list_head_g, &r_msg.destination);
-                        packetbuf_copyfrom(&r_msg, sizeof(r_msg));
-                        packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_REJECT);
-                        runicast_send(&runicast_145, &r_msg.destination, MAX_RETRANSMISSIONS);
-                        printf("Envie reject a %d\n",r_msg.destination.u8[0] );
-
-                        //remuevo el elemento de la lista
-                        my_list_remove(rj_list_out, rj_list_out_p); //Remove a specific element from a list.
-                        memb_free(&rj_mem_out, rj_list_out_p);
-                    }
-                    else
-                    {
-                        //pospone sending the message
-                        //remuevo el elemento de la lista
-                        my_list_remove(rj_list_out, rj_list_out_p); //Remove a specific element from a list.
-                        memb_free(&rj_mem_out, rj_list_out_p);
-
-                        //Agrego el mismo elemento al final de la lista
-                        rj_list_out_p2 = memb_alloc(&rj_mem_out); //Alocar memoria
-                        llenar_reject_msg_list(rj_list_out_p2, &rj_list_out_p->rj_msg.destination);
-                        list_add(rj_list_out, rj_list_out_p2); //Add an item at the end of a list
-                        process_post(PROCESS_CURRENT(), e_msg_reject, NULL);
-
-                        printf("posponer el msg de reject de %d\n", rj_list_out_p2->rj_msg.destination.u8[0]);
-                    }
-                } //END for
-            } //END if hay elementos en la lista
-
-        }else
-        if(ev == e_msg_accept)
-        {
-            if(list_length(a_list_out))
-            {
-                for(a_list_out_p = list_head(a_list_out); a_list_out_p != NULL; a_list_out_p = a_list_out_p->next)
-                {
-                    //a_msg_d = (accept_msg *) data;
-
-                    if(!runicast_is_transmitting(&runicast_145)) // Si runicastt no esta TX, entra
-                    {
-                        llenar_accept_msg(&a_msg, &a_list_out_p->a_msg.destination);
-                        packetbuf_copyfrom(&a_msg, sizeof(a_msg));
-                        packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_ACCEPT);
-                        runicast_send(&runicast_145, &a_msg.destination, MAX_RETRANSMISSIONS);
-                        printf("Envie accept a %d \n",a_msg.destination.u8[0]);
-
-                        //remuevo el elemento de la lista
-                        my_list_remove(a_list_out, a_list_out_p); //Remove a specific element from a list.
-                        memb_free(&a_mem_out, a_list_out_p);
-                    }else //Si runicastt esta ocupado TX, pospongo el envio del msg
-                    {
-                        //pospone sending the message
-                        //remuevo el elemento de la lista
-                        my_list_remove(a_list_out, a_list_out_p); //Remove a specific element from a list.
-                        memb_free(&a_mem_out, a_list_out_p);
-
-                        //Agrego el mismo elemento al final de la lista
-                        a_list_out_p2 = memb_alloc(&a_mem_out); //Alocar memoria
-                        llenar_accept_msg_list(a_list_out_p2, &a_list_out_p->a_msg.destination);
-                        list_add(a_list_out, a_list_out_p2); //Add an item at the end of a list
-                        process_post(PROCESS_CURRENT(), e_msg_accept, NULL);
-
-
-                    }
-                } //END for
-            } //END IF hay elementos en la lista
-        }
-    } //end of while
-
-    PROCESS_END();
-}
-
-
 PROCESS_THREAD(evaluar_msg_test, ev, data)
 {
     PROCESS_BEGIN();
@@ -688,4 +494,195 @@ PROCESS_THREAD(evaluar_msg_reject, ev, data)
 
     PROCESS_END();
 
+}
+
+/* Proceso que envia msg de test - accept - reject
+*/
+PROCESS_THREAD(send_message_test_ar, ev, data)
+{
+    PROCESS_EXITHANDLER();
+    PROCESS_BEGIN();
+
+    runicast_open(&runicast_145, 145, &runicast_callbacks); //el 144 ya esta usado
+
+    //proceso test_ar
+    //estados
+    e_evaluate_test       = process_alloc_event(); // Darle un numero al evento
+    e_nd_lwoe             = process_alloc_event(); // Darle un numero al evento
+    e_ch_lwoe             = process_alloc_event(); // Darle un numero al evento
+    //msg
+    e_msg_test            = process_alloc_event(); // Darle un numero al evento
+    e_msg_reject          = process_alloc_event(); // Darle un numero al evento
+    e_msg_accept          = process_alloc_event(); // Darle un numero al evento
+
+    /* OPTIONAL: Sender history */
+    list_init(history_list);
+    memb_init(&history_mem);
+
+    list_init(t_list_out);
+    memb_init(&t_mem_out);
+
+    list_init(a_list_out);
+    memb_init(&a_mem_out);
+
+    list_init(rj_list_out);
+    memb_init(&rj_mem_out);
+
+    rj_list_out_g = rj_list_out;
+    rj_mem_out_g  = &rj_mem_out;
+
+    t_list_out_g = t_list_out;
+    t_mem_out_g  = &t_mem_out;
+
+    a_list_out_g = a_list_out;
+    a_mem_out_g  = &a_mem_out;
+
+    process_start(&e_test, NULL);
+    process_start(&evaluar_msg_test, NULL);
+    process_start(&evaluar_msg_accept, NULL);
+    process_start(&evaluar_msg_reject, NULL);
+
+    //static test_msg *t_msg_d;
+    static test_msg t_msg;
+
+
+    //static accept_msg *a_msg_d;
+    static accept_msg a_msg;
+
+    //reject_msg *r_msg_d;
+    static reject_msg r_msg;
+
+    static test_list *t_list_out_p, *t_list_out_p2;
+    static accept_list *a_list_out_p, *a_list_out_p2;
+    static reject_list *rj_list_out_p, *rj_list_out_p2;
+
+    //printf("Process Init: send_message_test_ar \n");
+    while(1)
+    {
+        //static struct etimer et;
+
+        PROCESS_WAIT_EVENT(); // Wait for any event.
+        if(ev == e_msg_test)
+        {
+            //t_msg_d = (test_msg *) data;
+
+            if(list_length(t_list_out))
+            {
+                for(t_list_out_p = list_head(t_list_out); t_list_out_p != NULL; t_list_out_p = t_list_out_p->next)
+                {
+
+                    //printf("Deseo enviar e_msg_test NO IF\n");
+                    if(!runicast_is_transmitting(&runicast_145)) // Si runicastt no esta TX, entra
+                    {
+                        llenar_test_msg(&t_msg, &t_list_out_p->t_msg.destination,
+                                        t_list_out_p->t_msg.f);
+                        packetbuf_copyfrom(&t_msg, sizeof(t_msg));
+                        packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, TEST);
+                        runicast_send(&runicast_145, &t_msg.destination, MAX_RETRANSMISSIONS);
+                        printf("Deseo enviar e_msg_test a %d\n", t_msg.destination.u8[0]);
+
+                        //remuevo el elemento de la lista
+                        my_list_remove(t_list_out, t_list_out_p); //Remove a specific element from a list.
+                        memb_free(&t_mem_out, t_list_out_p);
+                    }else //Si runicastt esta ocupado TX, pospongo el envio del msg
+                    {
+                        //pospone sending the message
+
+                        //remuevo el elemento de la lista
+                        my_list_remove(t_list_out, t_list_out_p); //Remove a specific element from a list.
+                        memb_free(&t_mem_out, t_list_out_p);
+
+                        //Agrego el mismo elemento al final de la lista
+                        t_list_out_p2 = memb_alloc(&t_mem_out); //Alocar memoria
+                        llenar_test_msg_list(t_list_out_p2, &t_list_out_p->t_msg.destination,
+                                        t_list_out_p->t_msg.f);
+                        list_add(t_list_out, t_list_out_p2); //Add an item at the end of a list
+                        process_post(PROCESS_CURRENT(), e_msg_test, NULL);
+
+                    }
+                } //END FOR
+            } //END if hay elementos en la lista
+
+        }else
+        if(ev == e_msg_reject)
+        {
+            if(list_length(rj_list_out))
+            {
+                for(rj_list_out_p = list_head(rj_list_out); rj_list_out_p != NULL; rj_list_out_p = rj_list_out_p->next)
+                {
+                    //r_msg_d = (reject_msg *) data;
+                    if(!runicast_is_transmitting(&runicast_145)) // Si runicastt no esta TX, entra
+                    {
+                        llenar_reject_msg(&r_msg, &rj_list_out_p->rj_msg.destination);
+                        //No puedo decir que si envio un reject ese link esta E_REJECTED:
+                        //Pasaria de BRANCH A REJECTED. LO CUAL NO TIENE SENTIDO
+                        //become_rejected(e_list_head_g, &r_msg.destination);
+                        packetbuf_copyfrom(&r_msg, sizeof(r_msg));
+                        packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_REJECT);
+                        runicast_send(&runicast_145, &r_msg.destination, MAX_RETRANSMISSIONS);
+                        printf("Envie reject a %d\n",r_msg.destination.u8[0] );
+
+                        //remuevo el elemento de la lista
+                        my_list_remove(rj_list_out, rj_list_out_p); //Remove a specific element from a list.
+                        memb_free(&rj_mem_out, rj_list_out_p);
+                    }
+                    else
+                    {
+                        //pospone sending the message
+                        //remuevo el elemento de la lista
+                        my_list_remove(rj_list_out, rj_list_out_p); //Remove a specific element from a list.
+                        memb_free(&rj_mem_out, rj_list_out_p);
+
+                        //Agrego el mismo elemento al final de la lista
+                        rj_list_out_p2 = memb_alloc(&rj_mem_out); //Alocar memoria
+                        llenar_reject_msg_list(rj_list_out_p2, &rj_list_out_p->rj_msg.destination);
+                        list_add(rj_list_out, rj_list_out_p2); //Add an item at the end of a list
+                        process_post(PROCESS_CURRENT(), e_msg_reject, NULL);
+
+                        printf("posponer el msg de reject de %d\n", rj_list_out_p2->rj_msg.destination.u8[0]);
+                    }
+                } //END for
+            } //END if hay elementos en la lista
+
+        }else
+        if(ev == e_msg_accept)
+        {
+            if(list_length(a_list_out))
+            {
+                for(a_list_out_p = list_head(a_list_out); a_list_out_p != NULL; a_list_out_p = a_list_out_p->next)
+                {
+                    //a_msg_d = (accept_msg *) data;
+
+                    if(!runicast_is_transmitting(&runicast_145)) // Si runicastt no esta TX, entra
+                    {
+                        llenar_accept_msg(&a_msg, &a_list_out_p->a_msg.destination);
+                        packetbuf_copyfrom(&a_msg, sizeof(a_msg));
+                        packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_ACCEPT);
+                        runicast_send(&runicast_145, &a_msg.destination, MAX_RETRANSMISSIONS);
+                        printf("Envie accept a %d \n",a_msg.destination.u8[0]);
+
+                        //remuevo el elemento de la lista
+                        my_list_remove(a_list_out, a_list_out_p); //Remove a specific element from a list.
+                        memb_free(&a_mem_out, a_list_out_p);
+                    }else //Si runicastt esta ocupado TX, pospongo el envio del msg
+                    {
+                        //pospone sending the message
+                        //remuevo el elemento de la lista
+                        my_list_remove(a_list_out, a_list_out_p); //Remove a specific element from a list.
+                        memb_free(&a_mem_out, a_list_out_p);
+
+                        //Agrego el mismo elemento al final de la lista
+                        a_list_out_p2 = memb_alloc(&a_mem_out); //Alocar memoria
+                        llenar_accept_msg_list(a_list_out_p2, &a_list_out_p->a_msg.destination);
+                        list_add(a_list_out, a_list_out_p2); //Add an item at the end of a list
+                        process_post(PROCESS_CURRENT(), e_msg_accept, NULL);
+
+
+                    }
+                } //END for
+            } //END IF hay elementos en la lista
+        }
+    } //end of while
+
+    PROCESS_END();
 }
