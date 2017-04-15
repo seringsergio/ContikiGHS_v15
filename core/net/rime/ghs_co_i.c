@@ -6,9 +6,6 @@
 /*---------------- FUNCIONES-----------------------------------------*/
 /*-------------------------------------------------------------------*/
 
-node nd; //nd es node....n es neighbor
-
-
 /* FUNCION que imprime el resultado final final
 */
 
@@ -86,7 +83,6 @@ void become_branch(edges *e_list_head, const linkaddr_t *node_addr)
         if(linkaddr_cmp(&e_aux->addr, node_addr)) //Entra si las direcciones son iguales
         {
             e_aux->state = BRANCH;
-            //nd.num_branches = nd.num_branches + 1;
             break;
         }
     }
@@ -210,8 +206,6 @@ void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, lis
     //Setear LWOE del nodo
     linkaddr_copy(&nd.lwoe.node.neighbor, lwoe_init);
     nd.lwoe.node.weight = return_weight( list_head(edges_list), lwoe_init);
-    /*nd.flags |= ND_LWOE; //Ya encontre el ND_LWOE
-    process_post(e_LWOE, PROCESS_EVENT_CONTINUE, NULL);*/
 
     //imprimir la info que tome de fill_edges_list y guarde en edges_list
     print_edges_list(list_head(edges_list), string, &linkaddr_node_addr);

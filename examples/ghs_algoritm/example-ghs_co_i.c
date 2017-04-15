@@ -56,7 +56,8 @@
 /*------------------------------------------------------------------- */
 /*----------GLOBAL VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
-//node nd; //nd es node....n es neighbor
+
+node nd; //nd es node....n es neighbor
 
 MEMB(edges_memb, edges, MAX_NUM_EDGES); // Defines a memory pool for edges
 LIST(edges_list); // List that holds the neighbors we have seen thus far

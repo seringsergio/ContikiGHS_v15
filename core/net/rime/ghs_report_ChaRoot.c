@@ -9,7 +9,25 @@
 /*---------------- FUNCIONES ----------------------------------------*/
 /*-------------------------------------------------------------------*/
 
+report_list * lowest_of_report_list(report_list *rp_list_head)
+{
+   report_list *rp_str = NULL;
+   uint32_t lowest_weight;
+   report_list *lowest_rp = NULL;
 
+   for(rp_str = rp_list_head, lowest_weight = rp_str->rp_msg.weight_r,
+       lowest_rp = rp_str;
+       rp_str != NULL; rp_str = rp_str->next)
+   {
+       if(rp_str->rp_msg.weight_r < lowest_weight)
+       {
+           lowest_weight = rp_str->rp_msg.weight_r;
+           lowest_rp     = rp_str;
+       }
+   }
+
+   return lowest_rp;
+}
 /* Funcion para llenar el msg de change root
 */
 void llenar_change_root(change_root_msg *cr_msg, const linkaddr_t *next_hop,
@@ -81,12 +99,10 @@ uint8_t lista_casi_completa( list_t rp_list)
     uint8_t no_falta_core_node = 0;
     uint8_t lista_completa = 0;
 
-// SI SOY CORE_NODE
-//SI solamente falta 1 hijo
-// Y ese hijo faltante es el OTRO_CORE_NODE
-//Entonces: La lista esta CASI completa
-
-
+    // SI SOY CORE_NODE
+    //SI solamente falta 1 hijo
+    // Y ese hijo faltante es el OTRO_CORE_NODE
+    //Entonces: La lista esta CASI completa
     if(nd.flags & CORE_NODE) //SI SOY CORE_NODE
     {
         if( list_length(rp_list) == (num_hijos(e_list_head_g)-1)  )  //ME FALTA SOLAMENTE 1 HIJO
