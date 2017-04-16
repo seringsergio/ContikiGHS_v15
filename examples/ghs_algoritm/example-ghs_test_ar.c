@@ -299,9 +299,18 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                          t_list_p->t_msg.f.level,
                          nd.f.level);
 
-                         //Pospones processing the incomming test msg, until (t_msg->f.level < nd.f.level)
-                         //No uso my_list_remove() porque no me importa donde quede
-                         //apuntando el NEXT
+                         //tengo q volver al mismo proceso porque el
+                         // apuntador a next va a quedar en NULL.
+                         // Si no es el ultimo, lo vuelvo a llamar
+                         if(t_list_p->next != NULL)
+                         {
+                             MY_DBG("Vuelvo a llamar el evaluar test  \n");
+                             //OJO: aca el llamado no es synch
+                             process_post(PROCESS_CURRENT(), PROCESS_EVENT_CONTINUE, NULL );
+                         }
+                         //EL Apuntador a next queda = a NULL
+                         //Se sale del for -- por eso el anterior post aaaasynchrono.
+                         //Ademas. Pospones processing the incomming test msg, until (t_msg->f.level < nd.f.level)
                          list_remove(t_list, t_list_p); //Remove a specific element from a list.
                          list_add(t_list, t_list_p); //Add an item at the end of a list.
 
