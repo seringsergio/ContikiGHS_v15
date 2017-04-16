@@ -93,6 +93,8 @@ LIST(i_list_out);
 list_t i_list_out_g;
 struct memb *i_mem_out_g;
 
+uint8_t cont_e_pos_co_msg;  //Contador para evaluar los pospone solo X veces
+
 /*------------------------------------------------------------------- */
 /*----------STATIC VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
@@ -143,6 +145,7 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
    // Evaluo el tipo de msg que llego
    if(msg_type == CONNECT)
    {
+       cont_e_pos_co_msg = 0;
        connect_list *co_list_p;
        co_list_p = memb_alloc(&co_mem); //Alocar memoria
        if(co_list_p == NULL)
@@ -349,18 +352,17 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                              //tengo q volver al mismo proceso porque el
                              // apuntador a next va a quedar en NULL.
                              // Si no es el ultimo, lo vuelvo a llamar
-                             if(co_list_p->next != NULL)
+                             if(  (co_list_p->next != NULL) && (cont_e_pos_co_msg < list_length(co_list) ) )
                              {
+                                 cont_e_pos_co_msg = cont_e_pos_co_msg + 1;
                                  MY_DBG("Vuelvo a llamar el evaluar conect  \n");
                                  //OJO: aca el llamado no es synch
                                  process_post(PROCESS_CURRENT(), PROCESS_EVENT_CONTINUE, NULL );
                              }
-
                              //EL Apuntador a next queda = a NULL
                              //Se sale del for -- por eso el anterior post aaaasynchrono
                              list_remove(co_list, co_list_p); //Remove a specific element from a list.
                              list_add(co_list, co_list_p); //Add an item at the end of a list.
-
                         } //FIN de pospone connect
                     }else
                     if(co_list_p->co_msg.level < nd.f.level)

@@ -105,7 +105,7 @@ LIST(rj_list_out);
 list_t rj_list_out_g;
 struct memb *rj_mem_out_g;
 
-uint8_t cont_e_pospone_test_msg;  //Contador para evaluar los pospone solo X veces
+uint8_t cont_e_pos_t_msg;  //Contador para evaluar los pospone solo X veces
 /*------------------------------------------------------------------- */
 /*----------STATIC VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
@@ -152,7 +152,7 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
       // Evaluo el tipo de msg que llego
       if(msg_type == TEST)
       {
-          cont_e_pospone_test_msg = 0;
+          cont_e_pos_t_msg = 0;
 
           test_list *t_list_p;
           t_list_p = memb_alloc(&t_mem); //Alocar memoria
@@ -304,9 +304,9 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                          //tengo q volver al mismo proceso porque el
                          // apuntador a next va a quedar en NULL.
                          // Si no es el ultimo, lo vuelvo a llamar
-                         if( (t_list_p->next != NULL) && (cont_e_pospone_test_msg < list_length(t_list)) )
+                         if( (t_list_p->next != NULL) && (cont_e_pos_t_msg < list_length(t_list)) )
                          {
-                             cont_e_pospone_test_msg = cont_e_pospone_test_msg + 1;
+                             cont_e_pos_t_msg = cont_e_pos_t_msg + 1;
                              MY_DBG("Vuelvo a llamar el evaluar test  \n");
                              //OJO: aca el llamado no es synch
                              process_post(PROCESS_CURRENT(), PROCESS_EVENT_CONTINUE, NULL );
