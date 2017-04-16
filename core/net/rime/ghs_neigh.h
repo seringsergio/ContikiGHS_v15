@@ -21,7 +21,7 @@ typedef struct wait s_wait;
 /*----------- PARAMETROS ------------------------------------------------ */
 /*------------------------------------------------------------------- */
 
-#define MAX_NODOS_EN_RED 12
+#define MAX_NODOS_EN_RED 13
 #define MAX_NEIGHBORS 16 // This defines the maximum amount of neighbors we can remember.
 #define MAX_RETRANSMISSIONS 100 //TIENE que esta en min 100
 #define NUM_HISTORY_ENTRIES MAX_NEIGHBORS //Numero de entradas los 16 vecinos posibles

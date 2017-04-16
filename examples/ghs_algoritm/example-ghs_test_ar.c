@@ -530,7 +530,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                         list_remove(t_list_out, t_list_out_p); //Remove a specific element from a list.
                         list_add(t_list_out, t_list_out_p);//	Add an item at the end of a list.
                         process_post(PROCESS_CURRENT(), e_msg_test, NULL);
-                        MY_DBG("posponer el msg de test de %d\n", t_list_out_p->t_msg.destination.u8[0]);
+                        //MY_DBG("posponer el msg de test de %d\n", t_list_out_p->t_msg.destination.u8[0]);
 
                     }
                 } //END FOR
@@ -562,7 +562,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                         list_remove(rj_list_out, rj_list_out_p); //Remove a specific element from a list.
                         list_add(rj_list_out, rj_list_out_p); //Add an item at the end of a list.
                         process_post(PROCESS_CURRENT(), e_msg_reject, NULL);
-                        MY_DBG("posponer el msg de reject de %d\n", rj_list_out_p->rj_msg.destination.u8[0]);
+                        //MY_DBG("posponer el msg de reject de %d\n", rj_list_out_p->rj_msg.destination.u8[0]);
                     }
                 } //END for
             } //END if hay elementos en la lista
@@ -592,7 +592,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                         list_remove(a_list_out, a_list_out_p); //Remove a specific element from a list.
                         list_add(a_list_out, a_list_out_p); 	//Add an item at the end of a list.
                         process_post(PROCESS_CURRENT(), e_msg_accept, NULL);
-                        MY_DBG("posponer el msg de accept de %d\n", a_list_out_p->a_msg.destination.u8[0]);
+                        //MY_DBG("posponer el msg de accept de %d\n", a_list_out_p->a_msg.destination.u8[0]);
                     }
                 } //END for
             } //END IF hay elementos en la lista

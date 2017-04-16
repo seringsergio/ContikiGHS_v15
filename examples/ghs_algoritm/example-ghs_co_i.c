@@ -153,6 +153,7 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
            co_list_p->co_msg = *((connect_msg *)msg); //msg le hago cast.Luego cojo todo el msg
            linkaddr_copy(&co_list_p->from, from);
            list_add(co_list, co_list_p); //Add an item at the end of a list.
+           MY_DBG("llego connect de from %d\n",from->u8[0] );
            process_post_synch(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
        }
 
@@ -241,6 +242,7 @@ PROCESS_THREAD(master_co_i, ev, data)
             //Inicializar el master_co_i
             init_master_co_i(data, &edges_memb, edges_list);
             become_branch(list_head(edges_list),  &nd.lwoe.node.neighbor ); //become branch inicial level = 0
+            MY_DBG("primer become branch nodo = %d  \n", nd.lwoe.node.neighbor.u8[0]);
 
             //Espero a que todos hayan inicializado la conexion del connect antes de seguir
             //Ademas, SI NO ESPERO LA LISTA SE IMPRIME MAL: RARO X 2
@@ -340,12 +342,24 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                         }else //Si el estado NO es branch (El proceso postpones processing CONECT)
                         {
                             MY_DBG("Tamano lista=%d Pospone ConNect de %d con level=%d nd.f.level=%d \n",
-                            list_length(co_list),
+                             list_length(co_list),
                              co_list_p->from.u8[0],
                              co_list_p->co_msg.level, nd.f.level);
 
-                            list_remove(co_list, co_list_p); //Remove a specific element from a list.
-                            list_add(co_list, co_list_p); //Add an item at the end of a list.
+                             //tengo q volver al mismo proceso porque el
+                             // apuntador a next va a quedar en NULL.
+                             // Si no es el ultimo, lo vuelvo a llamar
+                             if(co_list_p->next != NULL)
+                             {
+                                 MY_DBG("Vuelvo a llamar el evaluar conect  \n");
+                                 //OJO: aca el llamado no es synch
+                                 process_post(PROCESS_CURRENT(), PROCESS_EVENT_CONTINUE, NULL );
+                             }
+
+                             //EL Apuntador a next queda = a NULL
+                             //Se sale del for -- por eso el anterior post aaaasynchrono
+                             list_remove(co_list, co_list_p); //Remove a specific element from a list.
+                             list_add(co_list, co_list_p); //Add an item at the end of a list.
 
                         } //FIN de pospone connect
                     }else
