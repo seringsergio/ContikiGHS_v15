@@ -59,7 +59,7 @@ void ghs_n_link_weight_worst_exit_handler(struct neighbor *n_list_head, const li
     sort_neighbor_list(n_list_head);
 
     /* Show the whole list */
-    //char string[] = "REEAD";
+    //char string[] = "REEED___";
     //print_neighbor_list(n_list_head, string, node_addr );
 }
 /*---------------------------------------------------------------------------*/
@@ -72,7 +72,7 @@ void ghs_n_broadcast_neighbor_discovery_exit_handler(struct neighbor *n_list_hea
     MY_DBG("Process exited: Neighbor Discovery via Broadcast\n\r");
 
     /* Show the whole list */
-    //char string[] = "REEEAD";
+    //char string[] = "REED___";
     //print_neighbor_list(n_list_head, string, node_addr );
 }
 

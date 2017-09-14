@@ -32,7 +32,8 @@
 
 /**
  * \file
- *         Gallagher-Humblet-Spira (GHS) Algorithm
+ *         Gallagher-Humblet-Spira (GHS) Algorithm:
+ *         Neighbor Discovery
  * \author
  *         Sergio Diaz <diaz-sergio@javeriana.edu.co>
  *
@@ -42,7 +43,12 @@
  *         2. /home/sergiodiaz/Desktop/contiki/core/net/rime/ghs_co_i.h.c
  *         3. /home/sergiodiaz/Desktop/contiki/core/net/rime/ghs_test_ar.h.c
  *         4. /home/sergiodiaz/Desktop/contiki/core/net/rime/ghs_report_ChaRoot.h.c
+ *
+ *  \Comentarios
+ *  1. Esta basado en el codigo rime/example-neighbors.c
+ *     https://github.com/contiki-os/contiki/blob/master/examples/rime/example-neighbors.c
  */
+
  /*------------------------------------------------------------------- */
  /*----------- INCLUDES ------------------------------------------------ */
  /*------------------------------------------------------------------- */
@@ -54,7 +60,6 @@
 #include "net/rime/rime.h" //Aca esta ghs_neigh.h
 #include "ghs_algorithm.h"
 #include <stdio.h>
-
 
 /*------------------------------------------------------------------- */
 /*----------GLOBAL VARIABLES -----------------------------------------*/
@@ -190,7 +195,7 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
     {
         process_post(&n_broadcast_neighbor_discovery,PROCESS_EVENT_CONTINUE, NULL);
     }else
-    if(ev == e_wait_stabilization)
+    if(ev == e_wait_stabilization) //Espero hasta q se envien los broadcast o unicast
     {
         last_process = (struct process *) data;
         if(last_process == &n_broadcast_neighbor_discovery)
@@ -216,7 +221,11 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
     }else
     if(ev == e_init_master_co_i)
     {
-        process_post(&master_co_i, e_init_master_co_i, list_head(neighbors_list));
+        //MOD:
+        char string[] = "READ";
+        print_neighbor_list(list_head(neighbors_list), string, &linkaddr_node_addr);
+        
+        //process_post(&master_co_i, e_init_master_co_i, list_head(neighbors_list));
     }
 }//End of while
   PROCESS_END();
