@@ -19,7 +19,15 @@ uint32_t return_weight(edges *e_list_head_g,  const linkaddr_t *from)
             break;
         }
     }
-    return (e_aux->weight);
+
+    if(e_aux == NULL)
+    {
+        MY_DBG("ERROR: El vecino (from) no fue encontrado en la lista (e_list_head_g) \n");
+        return INFINITO;
+    }else
+    {
+        return (e_aux->weight); //retorno el peso del vecino
+    }
 }
 
 

@@ -16,7 +16,7 @@ void print_final_result()
     for(e_aux = e_list_head_g; e_aux != NULL; e_aux = e_aux->next) // Recorrer toda la lista
     {
         if(linkaddr_cmp(&e_aux->addr, &nd.parent)) //Solo muestro mi padre
-        {    
+        {
             printf("%s %d %d %d.%02d %d %d.%02d \n",
             string,
             linkaddr_node_addr.u8[0],
@@ -46,7 +46,7 @@ void fill_edges_list(list_t edges_list, struct memb *edges_memb, struct neighbor
         linkaddr_copy(&e->addr,  &n_aux->addr);
         e -> weight = n_aux -> avg_seqno_gap;
 
-        list_add(edges_list, e); //Agregarlo a la lista
+        list_add(edges_list, e); //Add an item at the end of a list
     }
 
 }
@@ -85,6 +85,15 @@ void become_branch(edges *e_list_head, const linkaddr_t *node_addr)
             break;
         }
     }
+
+    if(e_aux == NULL)
+    {
+        MY_DBG("ERROR: no se encontro vecino en la lista de edges\n");
+    }
+
+    //Si se vuelve alguien branch toca evaluar los mensajes de connect.
+    //Porque en el texto dice  "qp is or becomes a branch edge" pg. 83 del PDF
+    process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL); // "qp is or becomes a branch edge"
 }
 
 /* Funcion que devuelve el numero de hijos
@@ -144,7 +153,15 @@ uint32_t weight_with_edge(const linkaddr_t *addr,  edges *e_list_head)
             break;
         }
     }
-    return (e_aux->weight);
+
+    if(e_aux == NULL)
+    {
+        MY_DBG("ERROR: El vecino no existe dentro de la lista de edges\n");
+        return INFINITO;
+    }else
+    {
+        return (e_aux->weight);
+    }
 }
 /*Funcion para saber si el estado de un edge es branch. Se busca por addr
 */
@@ -158,12 +175,19 @@ uint8_t state_is_branch(const linkaddr_t *addr,  edges *e_list_head)
             break;
         }
     }
-    if(e_aux->state == BRANCH)
+    if (e_aux == NULL)
     {
-        return 1;
+        MY_DBG("ERROR: El nodo (addr) no esta en mi lista de edges (vecinos)");
+        return 0; //Digo q no es branch. Ni siquiera es vecino
     }else
     {
-        return 0;
+        if(e_aux->state == BRANCH)
+        {
+            return 1;
+        }else
+        {
+            return 0;
+        }
     }
 }
 
@@ -184,13 +208,19 @@ void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, lis
     linkaddr_t *lwoe_init; //LWOE inicial. Es el edge con menor weight
     char string[] = "READ";
 
-    //Inicializacion de Variables globales
+    //Inicializacion de "struct node"
+    nd.state = FOUND;   //Inicio en FOUND porque ya se que el Basic edge con menor peso es el LWOE
+    MY_DBG("Estoy en FOUND virtual \n"); //virtualmente porque no quiero resetear ND_LWOE ni CH_LWOE
     nd.flags = 0;
-    llenar_name_str(&nd.f.name_str, 0, &linkaddr_node_addr);
-    nd.f.level = 0;
+    llenar_name_str(&nd.f.name_str, 0, &linkaddr_node_addr); //Inicio weight con 0
+    nd.f.level = 0; //Inicio level con 0
+        linkaddr_copy(&nd.parent, &linkaddr_node_addr); //yo mismo soy mi padre
     nd.lwoe.node.weight = INFINITO;
+        linkaddr_copy(&nd.lwoe.node.neighbor, &linkaddr_node_addr); //si peso es infinito, yo soy vecino
     nd.lwoe.children.weight = INFINITO;
+        linkaddr_copy(&nd.lwoe.children.neighbor, &linkaddr_node_addr); //si peso es infinito, yo soy vecino
     nd.num_branches = 0;
+        linkaddr_copy(&nd.downroute, &linkaddr_node_addr); //yo mismo soy downroute
     linkaddr_copy(&nd.otro_core_node, &linkaddr_node_addr); //otro core node soy YO
 
     //Tomar info de master_neighbor_discovery
@@ -199,12 +229,16 @@ void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, lis
     // llenar la variable global con la cabeza de la lista
     e_list_head_g = list_head(edges_list);
 
-    // Vuelve Branch el basic edge con menor peso
+    // Devuelve el basic edge con menor peso
     lwoe_init = least_basic_edge(list_head(edges_list));
 
     //Setear LWOE del nodo
     linkaddr_copy(&nd.lwoe.node.neighbor, lwoe_init);
     nd.lwoe.node.weight = return_weight( list_head(edges_list), lwoe_init);
+
+    // Volver el basic edge con menor peso branch
+    become_branch(list_head(edges_list),  &nd.lwoe.node.neighbor ); //become branch inicial level = 0
+    MY_DBG("primer become branch nodo = %d  \n", nd.lwoe.node.neighbor.u8[0]);
 
     //imprimir la info que tome de fill_edges_list y guarde en edges_list
     print_edges_list(list_head(edges_list), string, &linkaddr_node_addr);

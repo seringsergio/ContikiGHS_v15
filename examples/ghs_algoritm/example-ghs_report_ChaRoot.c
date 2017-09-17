@@ -326,6 +326,9 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                     {
                                         //envio CHANGE_ROOT imaginario
                                         become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root
+                                        //Si alguien se vuelve branch evaluo si hay msg de connect pendientes:
+                                        //Corresponde al texto "qp is or becomes a branch edge"
+                                        //process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
 
                                         //Envio CONNECT msg
                                         co_list_out_p = memb_alloc(co_mem_out_g); //Alocar memoria
@@ -540,6 +543,9 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
                         MY_DBG("El msg de ChangeRooot es para mi, from=%d\n",cr_list_p->from.u8[0]);
 
                         become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root
+                        //Si alguien se vuelve branch evaluo si hay msg de connect pendientes:
+                        //Corresponde al texto "qp is or becomes a branch edge"
+                        //process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
 
                         //Envio CONNECT
                         co_list_out_p = memb_alloc(co_mem_out_g); //Alocar memoria

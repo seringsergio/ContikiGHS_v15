@@ -1,430 +1,404 @@
 00:00.353	ID:8	Rime started with address 8.0
-00:00.361	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-76ccbda started. Node id is set to 8.
+00:00.361	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-a363e1b started. Node id is set to 8.
 00:00.370	ID:8	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.382	ID:8	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.471	ID:11	Rime started with address 11.0
-00:00.479	ID:11	MAC 0b:00:00:00:00:00:00:00 Contiki-76ccbda started. Node id is set to 11.
-00:00.488	ID:11	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.500	ID:11	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.516	ID:2	Rime started with address 2.0
-00:00.525	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-76ccbda started. Node id is set to 2.
+00:00.525	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-a363e1b started. Node id is set to 2.
 00:00.531	ID:6	Rime started with address 6.0
 00:00.534	ID:2	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.539	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-76ccbda started. Node id is set to 6.
+00:00.539	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-a363e1b started. Node id is set to 6.
 00:00.545	ID:2	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.548	ID:6	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.560	ID:6	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.628	ID:4	Rime started with address 4.0
-00:00.637	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-76ccbda started. Node id is set to 4.
+00:00.637	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-a363e1b started. Node id is set to 4.
 00:00.646	ID:4	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.658	ID:4	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.662	ID:1	Rime started with address 1.0
-00:00.671	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-76ccbda started. Node id is set to 1.
+00:00.671	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-a363e1b started. Node id is set to 1.
 00:00.680	ID:1	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.682	ID:7	Rime started with address 7.0
-00:00.690	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-76ccbda started. Node id is set to 7.
+00:00.690	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-a363e1b started. Node id is set to 7.
 00:00.692	ID:1	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.699	ID:7	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.711	ID:7	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.837	ID:10	Rime started with address 10.0
-00:00.845	ID:10	MAC 0a:00:00:00:00:00:00:00 Contiki-76ccbda started. Node id is set to 10.
-00:00.855	ID:10	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.866	ID:10	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.874	ID:12	Rime started with address 12.0
-00:00.883	ID:12	MAC 0c:00:00:00:00:00:00:00 Contiki-76ccbda started. Node id is set to 12.
-00:00.892	ID:12	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.904	ID:12	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.988	ID:9	Rime started with address 9.0
 00:00.995	ID:5	Rime started with address 5.0
-00:00.997	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-76ccbda started. Node id is set to 9.
-00:01.004	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-76ccbda started. Node id is set to 5.
+00:00.997	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-a363e1b started. Node id is set to 9.
+00:01.004	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-a363e1b started. Node id is set to 5.
 00:01.006	ID:9	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:01.013	ID:5	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:01.018	ID:9	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:01.024	ID:5	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:01.179	ID:3	Rime started with address 3.0
-00:01.188	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-76ccbda started. Node id is set to 3.
+00:01.188	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-a363e1b started. Node id is set to 3.
 00:01.197	ID:3	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:01.209	ID:3	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:02.693	ID:2	Este es broadcast vecinos
 00:03.117	ID:7	Este es broadcast vecinos
 00:03.127	ID:9	Este es broadcast vecinos
-00:03.567	ID:12	Este es broadcast vecinos
 00:03.639	ID:8	Este es broadcast vecinos
 00:03.727	ID:5	Este es broadcast vecinos
-00:03.826	ID:10	Este es broadcast vecinos
 00:03.988	ID:1	Este es broadcast vecinos
 00:04.114	ID:6	Este es broadcast vecinos
 00:04.208	ID:3	Este es broadcast vecinos
-00:04.311	ID:11	Este es broadcast vecinos
 00:04.508	ID:4	Este es broadcast vecinos
 00:05.263	ID:2	Este es broadcast vecinos
 00:05.595	ID:9	Este es broadcast vecinos
-00:06.278	ID:12	Este es broadcast vecinos
-00:06.341	ID:6	Este es broadcast vecinos
+00:06.340	ID:6	Este es broadcast vecinos
 00:06.539	ID:5	Este es broadcast vecinos
 00:06.694	ID:8	Este es broadcast vecinos
 00:06.757	ID:7	Este es broadcast vecinos
 00:07.144	ID:1	Este es broadcast vecinos
-00:07.609	ID:11	Este es broadcast vecinos
-00:07.709	ID:10	Este es broadcast vecinos
-00:07.798	ID:9	Este es broadcast vecinos
 00:07.907	ID:4	Este es broadcast vecinos
+00:07.908	ID:9	Este es broadcast vecinos
 00:08.130	ID:2	Este es broadcast vecinos
 00:08.193	ID:3	Este es broadcast vecinos
 00:08.836	ID:5	Este es broadcast vecinos
 00:09.114	ID:6	Este es broadcast vecinos
-00:09.334	ID:8	Este es broadcast vecinos
 00:09.535	ID:1	Este es broadcast vecinos
-00:09.911	ID:12	Este es broadcast vecinos
 00:10.007	ID:7	Este es broadcast vecinos
-00:10.384	ID:9	Este es broadcast vecinos
-00:10.389	ID:10	Este es broadcast vecinos
-00:10.764	ID:11	Este es broadcast vecinos
+00:10.389	ID:8	Este es broadcast vecinos
+00:10.415	ID:9	Este es broadcast vecinos
 00:11.099	ID:2	Este es broadcast vecinos
-00:11.536	ID:3	Este es broadcast vecinos
-00:11.608	ID:8	Este es broadcast vecinos
+00:11.106	ID:3	Este es broadcast vecinos
 00:11.641	ID:5	Este es broadcast vecinos
 00:11.727	ID:4	Este es broadcast vecinos
 00:11.864	ID:6	Este es broadcast vecinos
-00:12.333	ID:12	Este es broadcast vecinos
 00:12.558	ID:1	Este es broadcast vecinos
-00:12.697	ID:9	Este es broadcast vecinos
-00:12.702	ID:7	Este es broadcast vecinos
-00:12.920	ID:10	Este es broadcast vecinos
 00:13.138	ID:2	Este es broadcast vecinos
-00:13.241	ID:11	Este es broadcast vecinos
+00:13.184	ID:3	Este es broadcast vecinos
+00:13.623	ID:8	Este es broadcast vecinos
 00:13.797	ID:5	Este es broadcast vecinos
-00:13.858	ID:8	Este es broadcast vecinos
+00:13.999	ID:7	Este es broadcast vecinos
 00:14.059	ID:6	Este es broadcast vecinos
-00:14.450	ID:3	Este es broadcast vecinos
+00:14.212	ID:9	Este es broadcast vecinos
 00:14.558	ID:1	Este es broadcast vecinos
 00:14.586	ID:4	Este es broadcast vecinos
-00:14.763	ID:12	Este es broadcast vecinos
-00:14.937	ID:7	Este es broadcast vecinos
-00:15.205	ID:9	Este es broadcast vecinos
-00:15.271	ID:10	Este es broadcast vecinos
-00:15.632	ID:11	Este es broadcast vecinos
 00:15.842	ID:2	Este es broadcast vecinos
-00:16.528	ID:3	Este es broadcast vecinos
-00:16.704	ID:4	Este es broadcast vecinos
+00:16.145	ID:3	Este es broadcast vecinos
+00:16.616	ID:8	Este es broadcast vecinos
 00:17.003	ID:1	Este es broadcast vecinos
-00:17.188	ID:5	Este es broadcast vecinos
-00:17.553	ID:8	Este es broadcast vecinos
-00:17.794	ID:6	Este es broadcast vecinos
-00:18.037	ID:10	Este es broadcast vecinos
-00:18.043	ID:12	Este es broadcast vecinos
-00:18.077	ID:11	Este es broadcast vecinos
+00:17.153	ID:6	Este es broadcast vecinos
+00:17.189	ID:9	Este es broadcast vecinos
+00:17.274	ID:5	Este es broadcast vecinos
+00:17.593	ID:7	Este es broadcast vecinos
+00:17.805	ID:4	Este es broadcast vecinos
 00:18.927	ID:2	Este es broadcast vecinos
-00:18.929	ID:7	Este es broadcast vecinos
-00:19.002	ID:9	Este es broadcast vecinos
-00:19.211	ID:5	Este es broadcast vecinos
-00:19.489	ID:3	Este es broadcast vecinos
-00:19.923	ID:4	Este es broadcast vecinos
-00:20.745	ID:1	Este es broadcast vecinos
-00:20.788	ID:8	Este es broadcast vecinos
-00:21.061	ID:11	Este es broadcast vecinos
-00:21.286	ID:6	Este es broadcast vecinos
-00:21.306	ID:9	Este es broadcast vecinos
-00:21.559	ID:12	Este es broadcast vecinos
+00:19.333	ID:3	Este es broadcast vecinos
+00:19.689	ID:9	Este es broadcast vecinos
+00:19.804	ID:7	Este es broadcast vecinos
+00:19.826	ID:8	Este es broadcast vecinos
+00:19.988	ID:1	Este es broadcast vecinos
+00:20.664	ID:5	Este es broadcast vecinos
+00:20.817	ID:6	Este es broadcast vecinos
+00:21.094	ID:4	Este es broadcast vecinos
 00:21.740	ID:2	Este es broadcast vecinos
-00:21.935	ID:10	Este es broadcast vecinos
-00:22.211	ID:5	Este es broadcast vecinos
-00:22.523	ID:7	Este es broadcast vecinos
-00:22.677	ID:3	Este es broadcast vecinos
-00:23.089	ID:1	Este es broadcast vecinos
-00:23.211	ID:4	Este es broadcast vecinos
-00:23.629	ID:12	Este es broadcast vecinos
-00:23.780	ID:8	Este es broadcast vecinos
-00:24.379	ID:6	Este es broadcast vecinos
-00:24.687	ID:7	Este es broadcast vecinos
+00:21.931	ID:9	Este es broadcast vecinos
+00:22.264	ID:8	Este es broadcast vecinos
+00:22.687	ID:5	Este es broadcast vecinos
+00:23.215	ID:3	Este es broadcast vecinos
+00:23.242	ID:7	Este es broadcast vecinos
+00:23.730	ID:1	Este es broadcast vecinos
+00:24.048	ID:4	Este es broadcast vecinos
+00:24.397	ID:8	Este es broadcast vecinos
+00:24.645	ID:6	Este es broadcast vecinos
 00:24.748	ID:2	Este es broadcast vecinos
-00:24.804	ID:11	Este es broadcast vecinos
-00:24.962	ID:9	Este es broadcast vecinos
-00:25.310	ID:10	Este es broadcast vecinos
-00:25.656	ID:5	Este es broadcast vecinos
-00:25.739	ID:12	Este es broadcast vecinos
-00:26.165	ID:4	Este es broadcast vecinos
-00:26.373	ID:8	Este es broadcast vecinos
-00:26.559	ID:3	Este es broadcast vecinos
-00:27.003	ID:1	Este es broadcast vecinos
-00:27.015	ID:7	Este es broadcast vecinos
+00:24.775	ID:9	Este es broadcast vecinos
+00:25.687	ID:5	Este es broadcast vecinos
+00:26.073	ID:1	Este es broadcast vecinos
+00:26.383	ID:4	Este es broadcast vecinos
+00:26.843	ID:7	Este es broadcast vecinos
+00:26.887	ID:3	Este es broadcast vecinos
 00:27.045	ID:2	Este es broadcast vecinos
-00:27.147	ID:11	Este es broadcast vecinos
-00:27.462	ID:9	Este es broadcast vecinos
-00:27.630	ID:10	Este es broadcast vecinos
-00:28.044	ID:6	Este es broadcast vecinos
-00:28.106	ID:12	Este es broadcast vecinos
-00:28.501	ID:4	Este es broadcast vecinos
-00:29.226	ID:7	Este es broadcast vecinos
-00:29.335	ID:11	Este es broadcast vecinos
-00:29.538	ID:8	Este es broadcast vecinos
-00:29.641	ID:5	Este es broadcast vecinos
+00:27.189	ID:9	Este es broadcast vecinos
+00:27.319	ID:8	Este es broadcast vecinos
+00:28.356	ID:6	Este es broadcast vecinos
+00:29.134	ID:5	Este es broadcast vecinos
+00:29.446	ID:4	Este es broadcast vecinos
+00:29.568	ID:3	Este es broadcast vecinos
+00:29.650	ID:9	Este es broadcast vecinos
 00:29.849	ID:2	Este es broadcast vecinos
-00:30.081	ID:1	Este es broadcast vecinos
-00:30.231	ID:3	Este es broadcast vecinos
-00:30.408	ID:9	Este es broadcast vecinos
-00:30.575	ID:12	Este es broadcast vecinos
-00:30.990	ID:10	Este es broadcast vecinos
-00:31.563	ID:4	Este es broadcast vecinos
-00:31.872	ID:6	Este es broadcast vecinos
+00:29.859	ID:7	Este es broadcast vecinos
+00:29.988	ID:1	Este es broadcast vecinos
+00:30.248	ID:8	Este es broadcast vecinos
+00:31.294	ID:6	Este es broadcast vecinos
+00:31.704	ID:4	Este es broadcast vecinos
 00:32.005	ID:2	Este es broadcast vecinos
-00:32.384	ID:5	Este es broadcast vecinos
-00:32.663	ID:7	Este es broadcast vecinos
-00:32.866	ID:8	Este es broadcast vecinos
-00:32.911	ID:3	Este es broadcast vecinos
-00:33.014	ID:11	Este es broadcast vecinos
-00:33.607	ID:10	Este es broadcast vecinos
-00:33.821	ID:4	Este es broadcast vecinos
-00:33.892	ID:9	Este es broadcast vecinos
-00:34.042	ID:1	Este es broadcast vecinos
-00:34.114	ID:12	Este es broadcast vecinos
-00:35.443	ID:3	Este es broadcast vecinos
+00:32.099	ID:3	Este es broadcast vecinos
+00:32.337	ID:9	Este es broadcast vecinos
+00:32.850	ID:8	Este es broadcast vecinos
+00:33.007	ID:7	Este es broadcast vecinos
+00:33.066	ID:1	Este es broadcast vecinos
+00:33.117	ID:5	Este es broadcast vecinos
+00:33.926	ID:6	Este es broadcast vecinos
+00:34.251	ID:4	Este es broadcast vecinos
+00:34.450	ID:3	Este es broadcast vecinos
+00:34.866	ID:8	Este es broadcast vecinos
 00:35.482	ID:2	Este es broadcast vecinos
-00:35.582	ID:6	Este es broadcast vecinos
-00:35.727	ID:5	Este es broadcast vecinos
-00:35.796	ID:7	Este es broadcast vecinos
-00:36.076	ID:8	Este es broadcast vecinos
-00:36.134	ID:9	Este es broadcast vecinos
-00:36.230	ID:1	Este es broadcast vecinos
-00:36.317	ID:12	Este es broadcast vecinos
-00:36.368	ID:4	Este es broadcast vecinos
-00:36.546	ID:11	Este es broadcast vecinos
-00:37.326	ID:10	Este es broadcast vecinos
-00:37.794	ID:3	Este es broadcast vecinos
-00:38.423	ID:4	Este es broadcast vecinos
-00:38.514	ID:8	Este es broadcast vecinos
-00:38.520	ID:6	Este es broadcast vecinos
-00:38.629	ID:12	Este es broadcast vecinos
-00:38.641	ID:5	Este es broadcast vecinos
+00:35.720	ID:9	Este es broadcast vecinos
+00:35.859	ID:5	Este es broadcast vecinos
+00:36.305	ID:4	Este es broadcast vecinos
+00:36.632	ID:7	Este es broadcast vecinos
+00:37.014	ID:8	Este es broadcast vecinos
+00:37.026	ID:1	Este es broadcast vecinos
+00:37.215	ID:3	Este es broadcast vecinos
+00:37.348	ID:6	Este es broadcast vecinos
+00:38.711	ID:4	Este es broadcast vecinos
 00:38.873	ID:2	Este es broadcast vecinos
-00:38.978	ID:9	Este es broadcast vecinos
-00:39.113	ID:1	Este es broadcast vecinos
-00:39.718	ID:7	Este es broadcast vecinos
-00:39.897	ID:11	Este es broadcast vecinos
-00:40.559	ID:3	Este es broadcast vecinos
-00:40.647	ID:8	Este es broadcast vecinos
-00:40.719	ID:5	Este es broadcast vecinos
-00:40.829	ID:4	Este es broadcast vecinos
+00:38.892	ID:9	Este es broadcast vecinos
+00:39.203	ID:5	Este es broadcast vecinos
+00:39.214	ID:1	Este es broadcast vecinos
+00:39.639	ID:8	Este es broadcast vecinos
+00:40.202	ID:7	Este es broadcast vecinos
+00:40.778	ID:6	Este es broadcast vecinos
 00:40.896	ID:2	Este es broadcast vecinos
-00:40.934	ID:12	Este es broadcast vecinos
-00:41.115	ID:10	Este es broadcast vecinos
-00:41.153	ID:6	Este es broadcast vecinos
-00:41.439	ID:9	Este es broadcast vecinos
-00:41.785	ID:1	Este es broadcast vecinos
-00:43.320	ID:7	Este es broadcast vecinos
-00:43.434	ID:6	Este es broadcast vecinos
-00:43.555	ID:4	Este es broadcast vecinos
-00:43.569	ID:8	Este es broadcast vecinos
-00:43.663	ID:11	Este es broadcast vecinos
-00:43.680	ID:5	Este es broadcast vecinos
+00:41.071	ID:9	Este es broadcast vecinos
+00:41.114	ID:3	Este es broadcast vecinos
+00:41.438	ID:4	Este es broadcast vecinos
+00:42.097	ID:1	Este es broadcast vecinos
+00:42.117	ID:5	Este es broadcast vecinos
+00:42.209	ID:8	Este es broadcast vecinos
+00:43.103	ID:9	Este es broadcast vecinos
+00:43.812	ID:7	Este es broadcast vecinos
+00:43.879	ID:6	Este es broadcast vecinos
 00:43.896	ID:2	Este es broadcast vecinos
-00:43.911	ID:12	Este es broadcast vecinos
-00:44.127	ID:9	Este es broadcast vecinos
-00:44.458	ID:3	Este es broadcast vecinos
-00:44.568	ID:10	Este es broadcast vecinos
-00:45.464	ID:1	Este es broadcast vecinos
-00:46.335	ID:7	Este es broadcast vecinos
-00:46.411	ID:12	Este es broadcast vecinos
-00:46.498	ID:8	Este es broadcast vecinos
-00:46.536	ID:6	Este es broadcast vecinos
-00:46.561	ID:11	Este es broadcast vecinos
-00:46.867	ID:5	Este es broadcast vecinos
-00:47.196	ID:4	Este es broadcast vecinos
-00:47.326	ID:10	Este es broadcast vecinos
+00:44.196	ID:5	Este es broadcast vecinos
+00:44.489	ID:3	Este es broadcast vecinos
+00:44.769	ID:1	Este es broadcast vecinos
+00:44.819	ID:8	Este es broadcast vecinos
+00:45.079	ID:4	Este es broadcast vecinos
+00:46.395	ID:6	Este es broadcast vecinos
+00:46.809	ID:3	Este es broadcast vecinos
+00:46.955	ID:9	Este es broadcast vecinos
+00:47.156	ID:5	Este es broadcast vecinos
 00:47.342	ID:2	Este es broadcast vecinos
-00:47.509	ID:9	Este es broadcast vecinos
-00:47.833	ID:3	Este es broadcast vecinos
-00:48.921	ID:11	Este es broadcast vecinos
-00:48.995	ID:1	Este es broadcast vecinos
-00:49.051	ID:6	Este es broadcast vecinos
-00:49.484	ID:7	Este es broadcast vecinos
-00:50.153	ID:3	Este es broadcast vecinos
-00:50.280	ID:8	Este es broadcast vecinos
-00:50.373	ID:10	Este es broadcast vecinos
-00:50.446	ID:4	Este es broadcast vecinos
-00:50.750	ID:5	Este es broadcast vecinos
-00:51.700	ID:6	Este es broadcast vecinos
-00:52.347	ID:1	Este es broadcast vecinos
-00:52.538	ID:11	Este es broadcast vecinos
-00:52.927	ID:10	Este es broadcast vecinos
-00:53.109	ID:7	Este es broadcast vecinos
-00:53.512	ID:3	Este es broadcast vecinos
-01:38.553	ID:12	Process exited: Neighbor Discovery via Broadcast
+00:47.679	ID:7	Este es broadcast vecinos
+00:47.788	ID:8	Este es broadcast vecinos
+00:48.352	ID:4	Este es broadcast vecinos
+00:48.448	ID:1	Este es broadcast vecinos
+00:49.044	ID:6	Este es broadcast vecinos
+00:50.169	ID:3	Este es broadcast vecinos
+00:50.344	ID:5	Este es broadcast vecinos
+00:51.602	ID:4	Este es broadcast vecinos
+00:51.648	ID:7	Este es broadcast vecinos
+00:51.980	ID:1	Este es broadcast vecinos
+00:52.169	ID:6	Este es broadcast vecinos
+00:52.786	ID:3	Este es broadcast vecinos
+00:54.687	ID:7	Este es broadcast vecinos
+00:58.390	ID:7	Este es broadcast vecinos
+01:39.096	ID:9	Process exited: Neighbor Discovery via Broadcast
 01:39.483	ID:2	Process exited: Neighbor Discovery via Broadcast
-01:39.643	ID:9	Process exited: Neighbor Discovery via Broadcast
-01:40.794	ID:12	12.0: sending runicast to address 2.0
-01:40.914	ID:2	runicast message received from 12.0,with avg_seqno_gap = 1.28, seqno 0
-01:41.018	ID:12	runicast message sent to 2.0, retransmissions 1
-01:42.421	ID:8	Process exited: Neighbor Discovery via Broadcast
-01:42.588	ID:4	Process exited: Neighbor Discovery via Broadcast
-01:42.815	ID:9	9.0: sending runicast to address 8.0
-01:42.874	ID:8	runicast message received from 9.0,with avg_seqno_gap = 1.29, seqno 0
-01:42.892	ID:5	Process exited: Neighbor Discovery via Broadcast
-01:43.007	ID:9	runicast message sent to 8.0, retransmissions 1
-01:43.467	ID:2	2.0: sending runicast to address 12.0
-01:43.522	ID:12	runicast message received from 2.0,with avg_seqno_gap = 1.36, seqno 0
-01:43.660	ID:2	runicast message sent to 12.0, retransmissions 1
-01:43.842	ID:6	Process exited: Neighbor Discovery via Broadcast
-01:43.865	ID:12	12.0: sending runicast to address 10.0
-01:43.981	ID:10	runicast message received from 12.0,with avg_seqno_gap = 1.53, seqno 1
-01:44.017	ID:12	runicast message sent to 10.0, retransmissions 1
-01:44.489	ID:1	Process exited: Neighbor Discovery via Broadcast
-01:44.570	ID:8	8.0: sending runicast to address 12.0
-01:44.646	ID:12	runicast message received from 8.0,with avg_seqno_gap = 1.15, seqno 0
-01:44.680	ID:11	Process exited: Neighbor Discovery via Broadcast
-01:44.746	ID:8	runicast message sent to 12.0, retransmissions 1
-01:45.069	ID:10	Process exited: Neighbor Discovery via Broadcast
-01:45.190	ID:9	9.0: sending runicast to address 6.0
-01:45.250	ID:7	Process exited: Neighbor Discovery via Broadcast
-01:45.283	ID:4	4.0: sending runicast to address 6.0
-01:45.302	ID:6	runicast message received from 9.0,with avg_seqno_gap = 1.23, seqno 1
-01:45.428	ID:6	runicast message received from 4.0,with avg_seqno_gap = 1.18, seqno 0
-01:45.521	ID:4	runicast message sent to 6.0, retransmissions 1
-01:45.633	ID:9	runicast message sent to 6.0, retransmissions 1
-01:45.647	ID:3	Process exited: Neighbor Discovery via Broadcast
-01:46.405	ID:2	2.0: sending runicast to address 11.0
-01:46.435	ID:12	12.0: sending runicast to address 1.0
-01:46.494	ID:11	runicast message received from 2.0,with avg_seqno_gap = 1.75, seqno 1
-01:46.563	ID:5	5.0: sending runicast to address 7.0
-01:46.662	ID:2	runicast message sent to 11.0, retransmissions 1
-01:46.704	ID:7	runicast message received from 5.0,with avg_seqno_gap = 1.12, seqno 0
-01:46.966	ID:6	6.0: sending runicast to address 4.0
-01:47.151	ID:4	runicast message received from 6.0,with avg_seqno_gap = 1.96, seqno 0
-01:47.263	ID:5	runicast message sent to 7.0, retransmissions 1
-01:47.374	ID:8	8.0: sending runicast to address 11.0
-01:47.398	ID:11	11.0: sending runicast to address 2.0
-01:47.666	ID:9	9.0: sending runicast to address 11.0
-01:47.788	ID:2	runicast message received from 11.0,with avg_seqno_gap = 1.75, seqno 0
-01:47.799	ID:6	runicast message sent to 4.0, retransmissions 1
-01:47.976	ID:10	10.0: sending runicast to address 12.0
-01:48.254	ID:1	1.0: sending runicast to address 12.0
-01:48.263	ID:3	3.0: sending runicast to address 1.0
-01:48.540	ID:2	runicast message received from 11.0, seqno 0 (DUPLICATE)
-01:48.743	ID:11	runicast message received from 8.0,with avg_seqno_gap = 1.27, seqno 1
-01:48.821	ID:7	7.0: sending runicast to address 5.0
-01:49.018	ID:5	runicast message received from 7.0,with avg_seqno_gap = 1.70, seqno 0
-01:49.946	ID:5	5.0: sending runicast to address 3.0
-01:51.170	ID:6	6.0: sending runicast to address 9.0
-01:51.200	ID:3	runicast message received from 5.0,with avg_seqno_gap = 1.00, seqno 1
-01:51.260	ID:9	runicast message received from 6.0,with avg_seqno_gap = 1.28, seqno 1
-01:51.262	ID:5	runicast message sent to 3.0, retransmissions 0
-01:51.299	ID:6	runicast message sent to 9.0, retransmissions 1
-01:51.449	ID:3	runicast message received from 5.0, seqno 1 (DUPLICATE)
-01:51.493	ID:11	runicast message received from 9.0,with avg_seqno_gap = 1.18, seqno 2
-01:51.558	ID:1	runicast message received from 3.0,with avg_seqno_gap = 1.05, seqno 0
-01:51.616	ID:11	runicast message received from 9.0, seqno 2 (DUPLICATE)
-01:53.411	ID:2	runicast message received from 11.0, seqno 0 (DUPLICATE)
-01:53.537	ID:2	runicast message received from 11.0, seqno 0 (DUPLICATE)
-01:53.631	ID:9	runicast message sent to 11.0, retransmissions 5
-01:54.016	ID:5	runicast message received from 7.0, seqno 0 (DUPLICATE)
-01:54.771	ID:6	6.0: sending runicast to address 8.0
-01:58.615	ID:11	runicast message sent to 2.0, retransmissions 8
-01:58.661	ID:2	runicast message received from 11.0, seqno 0 (DUPLICATE)
-01:58.714	ID:2	runicast message received from 11.0, seqno 0 (DUPLICATE)
-01:58.722	ID:2	runicast message received from 11.0, seqno 0 (DUPLICATE)
-01:58.790	ID:2	runicast message received from 11.0, seqno 0 (DUPLICATE)
-01:58.807	ID:1	runicast message received from 3.0, seqno 0 (DUPLICATE)
-02:01.742	ID:11	11.0: sending runicast to address 9.0
-02:03.072	ID:3	runicast message sent to 1.0, retransmissions 13
-02:03.771	ID:12	runicast message received from 1.0,with avg_seqno_gap = 1.89, seqno 0
-02:06.136	ID:9	runicast message received from 11.0,with avg_seqno_gap = 1.18, seqno 1
-02:06.267	ID:5	runicast message received from 7.0, seqno 0 (DUPLICATE)
-02:06.716	ID:3	3.0: sending runicast to address 5.0
-02:07.390	ID:5	runicast message received from 7.0, seqno 0 (DUPLICATE)
-02:08.313	ID:1	runicast message received from 12.0,with avg_seqno_gap = 1.29, seqno 2
-02:08.390	ID:5	runicast message received from 7.0, seqno 0 (DUPLICATE)
-02:09.393	ID:5	runicast message received from 7.0, seqno 0 (DUPLICATE)
-02:09.952	ID:7	runicast message sent to 5.0, retransmissions 21
-02:11.935	ID:1	runicast message received from 12.0, seqno 2 (DUPLICATE)
-02:12.135	ID:9	runicast message received from 11.0, seqno 1 (DUPLICATE)
-02:12.147	ID:12	runicast message received from 10.0,with avg_seqno_gap = 1.53, seqno 0
-02:15.618	ID:11	runicast message received from 8.0, seqno 1 (DUPLICATE)
-02:15.766	ID:5	runicast message received from 3.0,with avg_seqno_gap = 1.39, seqno 1
-02:18.623	ID:8	runicast message sent to 11.0, retransmissions 29
-02:18.647	ID:12	runicast message received from 1.0, seqno 0 (DUPLICATE)
-02:18.758	ID:9	runicast message received from 11.0, seqno 1 (DUPLICATE)
-02:18.768	ID:12	runicast message received from 1.0, seqno 0 (DUPLICATE)
-02:18.895	ID:12	runicast message received from 1.0, seqno 0 (DUPLICATE)
-02:19.366	ID:11	runicast message received from 8.0, seqno 1 (DUPLICATE)
-02:19.806	ID:1	runicast message sent to 12.0, retransmissions 29
-02:20.641	ID:5	runicast message received from 3.0, seqno 1 (DUPLICATE)
-02:21.851	ID:8	8.0: sending runicast to address 9.0
-02:23.308	ID:1	1.0: sending runicast to address 3.0
-02:23.481	ID:10	runicast message sent to 12.0, retransmissions 32
-02:23.635	ID:9	runicast message received from 11.0, seqno 1 (DUPLICATE)
-02:26.133	ID:9	runicast message received from 11.0, seqno 1 (DUPLICATE)
-02:28.557	ID:1	runicast message received from 12.0, seqno 2 (DUPLICATE)
-02:28.768	ID:12	runicast message sent to 1.0, retransmissions 39
-02:28.866	ID:11	runicast message sent to 9.0, retransmissions 26
-02:28.890	ID:5	runicast message received from 3.0, seqno 1 (DUPLICATE)
-02:28.948	ID:3	runicast message sent to 5.0, retransmissions 22
-02:29.260	ID:9	runicast message received from 8.0,with avg_seqno_gap = 1.29, seqno 2
-02:29.385	ID:9	runicast message received from 8.0, seqno 2 (DUPLICATE)
-02:29.394	ID:12	runicast message received from 10.0, seqno 0 (DUPLICATE)
-02:29.520	ID:12	runicast message received from 10.0, seqno 0 (DUPLICATE)
-02:29.827	ID:3	runicast message received from 1.0,with avg_seqno_gap = 1.26, seqno 1
-02:30.076	ID:3	runicast message received from 1.0, seqno 1 (DUPLICATE)
-02:30.084	ID:3	runicast message received from 1.0, seqno 1 (DUPLICATE)
-02:30.201	ID:3	runicast message received from 1.0, seqno 1 (DUPLICATE)
-02:30.326	ID:3	runicast message received from 1.0, seqno 1 (DUPLICATE)
-02:30.450	ID:3	runicast message received from 1.0, seqno 1 (DUPLICATE)
-02:30.458	ID:3	runicast message received from 1.0, seqno 1 (DUPLICATE)
-02:30.574	ID:3	runicast message received from 1.0, seqno 1 (DUPLICATE)
-02:30.747	ID:8	runicast message sent to 9.0, retransmissions 2
-02:31.057	ID:1	runicast message sent to 3.0, retransmissions 8
-02:31.749	ID:8	runicast message received from 6.0,with avg_seqno_gap = 1.82, seqno 2
-02:31.872	ID:8	runicast message received from 6.0, seqno 2 (DUPLICATE)
-02:31.898	ID:11	11.0: sending runicast to address 8.0
-02:32.374	ID:8	runicast message received from 6.0, seqno 2 (DUPLICATE)
-02:32.498	ID:8	runicast message received from 6.0, seqno 2 (DUPLICATE)
-02:32.514	ID:12	12.0: sending runicast to address 8.0
-02:32.638	ID:9	runicast message received from 8.0, seqno 2 (DUPLICATE)
-02:32.758	ID:9	runicast message received from 8.0, seqno 2 (DUPLICATE)
-02:32.883	ID:9	runicast message received from 8.0, seqno 2 (DUPLICATE)
-02:33.008	ID:9	runicast message received from 8.0, seqno 2 (DUPLICATE)
-02:33.132	ID:8	8.0: sending runicast to address 6.0
-02:33.135	ID:9	runicast message received from 8.0, seqno 2 (DUPLICATE)
-02:33.259	ID:9	runicast message received from 8.0, seqno 2 (DUPLICATE)
-02:33.378	ID:8	runicast message received from 6.0, seqno 2 (DUPLICATE)
-02:33.749	ID:8	runicast message received from 11.0,with avg_seqno_gap = 1.32, seqno 2
-02:33.864	ID:11	runicast message sent to 8.0, retransmissions 2
-02:34.300	ID:6	runicast message sent to 8.0, retransmissions 38
-02:34.428	ID:6	runicast message received from 8.0,with avg_seqno_gap = 1.82, seqno 3
-02:34.550	ID:6	runicast message received from 8.0, seqno 3 (DUPLICATE)
-02:34.875	ID:8	runicast message received from 12.0,with avg_seqno_gap = 1.58, seqno 3
-02:34.999	ID:8	runicast message received from 12.0, seqno 3 (DUPLICATE)
-02:35.124	ID:8	runicast message received from 12.0, seqno 3 (DUPLICATE)
-02:35.176	ID:6	runicast message received from 8.0, seqno 3 (DUPLICATE)
-02:35.269	ID:12	runicast message sent to 8.0, retransmissions 3
-02:36.176	ID:6	runicast message received from 8.0, seqno 3 (DUPLICATE)
-02:36.872	ID:8	runicast message sent to 6.0, retransmissions 5
-02:36.892	ID:8	runicast message received from 6.0, seqno 2 (DUPLICATE)
-02:37.517	ID:4	READ 4 6 1.96 
-02:38.662	ID:2	READ 2 12 1.36 
-02:38.663	ID:2	  READ 2 11 1.75 
-02:43.259	ID:5	READ 5 3 1.39 
-02:43.260	ID:5	  READ 5 7 1.70 
-02:45.634	ID:9	READ 9 11 1.18 
-02:45.636	ID:9	  READ 9 6 1.28 
-02:45.638	ID:9	  READ 9 8 1.29 
-03:01.952	ID:7	READ 7 5 1.70 
-03:15.482	ID:10	READ 10 12 1.53 
-03:20.950	ID:3	READ 3 1 1.26 
-03:20.951	ID:3	  READ 3 5 1.39 
-03:23.058	ID:1	READ 1 3 1.26 
-03:23.059	ID:1	  READ 1 12 1.89 
-03:25.866	ID:11	READ 11 9 1.18 
-03:25.868	ID:11	  READ 11 8 1.32 
-03:25.870	ID:11	  READ 11 2 1.75 
-03:26.301	ID:6	READ 6 9 1.28 
-03:26.303	ID:6	  READ 6 8 1.82 
-03:26.305	ID:6	  READ 6 4 1.96 
-03:27.270	ID:12	READ 12 2 1.36 
-03:27.272	ID:12	  READ 12 10 1.53 
-03:27.274	ID:12	  READ 12 8 1.58 
-03:27.276	ID:12	  READ 12 1 1.89 
-03:28.873	ID:8	READ 8 9 1.29 
-03:28.875	ID:8	  READ 8 11 1.32 
-03:28.877	ID:8	  READ 8 12 1.58 
-03:28.879	ID:8	  READ 8 6 1.82 
+01:39.789	ID:8	Process exited: Neighbor Discovery via Broadcast
+01:41.361	ID:9	9.0: sending runicast to address 7.0
+01:41.454	ID:7	runicast message received from 9.0,with avg_seqno_gap = 1.00, seqno 0
+01:41.506	ID:9	runicast message sent to 7.0, retransmissions 1
+01:42.486	ID:5	Process exited: Neighbor Discovery via Broadcast
+01:42.492	ID:8	8.0: sending runicast to address 7.0
+01:42.578	ID:7	runicast message received from 8.0,with avg_seqno_gap = 1.18, seqno 0
+01:42.620	ID:8	runicast message sent to 7.0, retransmissions 1
+01:43.467	ID:2	2.0: sending runicast to address 5.0
+01:43.517	ID:5	runicast message received from 2.0,with avg_seqno_gap = 1.38, seqno 0
+01:43.660	ID:2	runicast message sent to 5.0, retransmissions 1
+01:43.744	ID:4	Process exited: Neighbor Discovery via Broadcast
+01:44.121	ID:1	Process exited: Neighbor Discovery via Broadcast
+01:44.310	ID:6	Process exited: Neighbor Discovery via Broadcast
+01:44.908	ID:9	9.0: sending runicast to address 6.0
+01:44.928	ID:3	Process exited: Neighbor Discovery via Broadcast
+01:45.054	ID:6	runicast message received from 9.0,with avg_seqno_gap = 1.07, seqno 1
+01:45.132	ID:9	runicast message sent to 6.0, retransmissions 1
+01:45.710	ID:8	8.0: sending runicast to address 9.0
+01:45.760	ID:9	runicast message received from 8.0,with avg_seqno_gap = 1.19, seqno 1
+01:45.872	ID:8	runicast message sent to 9.0, retransmissions 1
+01:46.368	ID:5	5.0: sending runicast to address 2.0
+01:46.406	ID:2	2.0: sending runicast to address 1.0
+01:46.416	ID:2	runicast message received from 5.0,with avg_seqno_gap = 1.95, seqno 0
+01:46.439	ID:4	4.0: sending runicast to address 5.0
+01:46.934	ID:1	runicast message received from 2.0,with avg_seqno_gap = 1.73, seqno 1
+01:47.014	ID:5	runicast message sent to 2.0, retransmissions 1
+01:47.160	ID:2	runicast message sent to 1.0, retransmissions 1
+01:47.380	ID:6	6.0: sending runicast to address 9.0
+01:47.473	ID:1	1.0: sending runicast to address 2.0
+01:47.511	ID:9	runicast message received from 6.0,with avg_seqno_gap = 1.57, seqno 0
+01:47.537	ID:2	runicast message received from 1.0,with avg_seqno_gap = 1.73, seqno 0
+01:47.549	ID:6	runicast message sent to 9.0, retransmissions 1
+01:47.556	ID:1	runicast message sent to 2.0, retransmissions 1
+01:47.642	ID:5	runicast message received from 4.0,with avg_seqno_gap = 1.41, seqno 0
+01:47.771	ID:4	runicast message sent to 5.0, retransmissions 2
+01:48.010	ID:9	9.0: sending runicast to address 8.0
+01:48.124	ID:8	runicast message received from 9.0,with avg_seqno_gap = 1.19, seqno 2
+01:48.257	ID:9	runicast message sent to 8.0, retransmissions 1
+01:48.646	ID:3	3.0: sending runicast to address 1.0
+01:48.682	ID:1	runicast message received from 3.0,with avg_seqno_gap = 1.41, seqno 0
+01:48.686	ID:8	8.0: sending runicast to address 5.0
+01:48.822	ID:3	runicast message sent to 1.0, retransmissions 1
+01:48.893	ID:5	runicast message received from 8.0,with avg_seqno_gap = 1.19, seqno 2
+01:48.995	ID:8	runicast message sent to 5.0, retransmissions 1
+01:49.933	ID:1	1.0: sending runicast to address 3.0
+01:50.076	ID:3	runicast message received from 1.0,with avg_seqno_gap = 1.41, seqno 1
+01:50.181	ID:1	runicast message sent to 3.0, retransmissions 1
+01:50.524	ID:7	Process exited: Neighbor Discovery via Broadcast
+01:50.661	ID:6	6.0: sending runicast to address 3.0
+01:50.688	ID:5	5.0: sending runicast to address 4.0
+01:50.701	ID:3	runicast message received from 6.0,with avg_seqno_gap = 1.29, seqno 1
+01:51.174	ID:6	runicast message sent to 3.0, retransmissions 1
+01:51.768	ID:4	4.0: sending runicast to address 6.0
+01:51.778	ID:4	runicast message received from 5.0,with avg_seqno_gap = 1.41, seqno 1
+01:51.888	ID:5	runicast message sent to 4.0, retransmissions 2
+01:51.928	ID:6	runicast message received from 4.0,with avg_seqno_gap = 1.50, seqno 1
+01:52.021	ID:4	runicast message sent to 6.0, retransmissions 1
+01:52.609	ID:7	7.0: sending runicast to address 9.0
+01:52.615	ID:3	3.0: sending runicast to address 6.0
+01:54.545	ID:6	6.0: sending runicast to address 4.0
+01:54.571	ID:5	5.0: sending runicast to address 8.0
+01:55.625	ID:8	runicast message received from 5.0,with avg_seqno_gap = 1.39, seqno 2
+01:55.763	ID:5	runicast message sent to 8.0, retransmissions 2
+01:55.802	ID:6	runicast message received from 3.0,with avg_seqno_gap = 1.29, seqno 1
+01:55.824	ID:3	runicast message sent to 6.0, retransmissions 4
+01:55.900	ID:4	runicast message received from 6.0,with avg_seqno_gap = 1.50, seqno 2
+01:56.023	ID:4	runicast message received from 6.0, seqno 2 (DUPLICATE)
+01:56.299	ID:6	runicast message sent to 4.0, retransmissions 2
+01:56.509	ID:9	runicast message received from 7.0,with avg_seqno_gap = 1.00, seqno 0
+01:56.576	ID:7	runicast message sent to 9.0, retransmissions 4
+02:00.383	ID:7	7.0: sending runicast to address 8.0
+02:00.500	ID:8	runicast message received from 7.0,with avg_seqno_gap = 1.18, seqno 1
+02:00.576	ID:7	runicast message sent to 8.0, retransmissions 1
+02:39.163	ID:2	Process Exit: master_neighbor_discovery 
+02:39.170	ID:2	Process Init: master_co_i 
+02:39.172	ID:2	Estoy en FOUND virtual 
+02:39.174	ID:2	primer become branch nodo = 1  
+02:39.176	ID:2	READ 2 1 1.73 2 
+02:39.178	ID:2	READ 2 5 1.95 1 
+02:40.260	ID:9	Process Exit: master_neighbor_discovery 
+02:40.268	ID:9	Process Init: master_co_i 
+02:40.269	ID:9	Estoy en FOUND virtual 
+02:40.272	ID:9	primer become branch nodo = 7  
+02:40.274	ID:9	READ 9 7 1.00 2 
+02:40.276	ID:9	READ 9 8 1.19 1 
+02:40.278	ID:9	READ 9 6 1.57 1 
+02:40.992	ID:8	Process Exit: master_neighbor_discovery 
+02:41.000	ID:8	Process Init: master_co_i 
+02:41.002	ID:8	Estoy en FOUND virtual 
+02:41.004	ID:8	primer become branch nodo = 7  
+02:41.006	ID:8	READ 8 7 1.18 2 
+02:41.008	ID:8	READ 8 9 1.19 1 
+02:41.010	ID:8	READ 8 5 1.39 1 
+02:42.184	ID:1	Process Exit: master_neighbor_discovery 
+02:42.192	ID:1	Process Init: master_co_i 
+02:42.193	ID:1	Estoy en FOUND virtual 
+02:42.196	ID:1	primer become branch nodo = 3  
+02:42.198	ID:1	READ 1 3 1.41 2 
+02:42.199	ID:1	READ 1 2 1.73 1 
+02:44.025	ID:4	Process Exit: master_neighbor_discovery 
+02:44.033	ID:4	Process Init: master_co_i 
+02:44.034	ID:4	Estoy en FOUND virtual 
+02:44.037	ID:4	primer become branch nodo = 5  
+02:44.039	ID:4	READ 4 5 1.41 2 
+02:44.041	ID:4	READ 4 6 1.50 1 
+02:47.767	ID:5	Process Exit: master_neighbor_discovery 
+02:47.774	ID:5	Process Init: master_co_i 
+02:47.776	ID:5	Estoy en FOUND virtual 
+02:47.779	ID:5	primer become branch nodo = 8  
+02:47.781	ID:5	READ 5 8 1.39 2 
+02:47.782	ID:5	READ 5 4 1.41 1 
+02:47.784	ID:5	READ 5 2 1.95 1 
+02:47.826	ID:3	Process Exit: master_neighbor_discovery 
+02:47.834	ID:3	Process Init: master_co_i 
+02:47.835	ID:3	Estoy en FOUND virtual 
+02:47.838	ID:3	primer become branch nodo = 6  
+02:47.840	ID:3	READ 3 6 1.29 2 
+02:47.842	ID:3	READ 3 1 1.41 1 
+02:48.302	ID:6	Process Exit: master_neighbor_discovery 
+02:48.310	ID:6	Process Init: master_co_i 
+02:48.312	ID:6	Estoy en FOUND virtual 
+02:48.314	ID:6	primer become branch nodo = 3  
+02:48.316	ID:6	READ 6 3 1.29 2 
+02:48.318	ID:6	READ 6 4 1.50 1 
+02:48.320	ID:6	READ 6 9 1.57 1 
+02:52.578	ID:7	Process Exit: master_neighbor_discovery 
+02:52.586	ID:7	Process Init: master_co_i 
+02:52.588	ID:7	Estoy en FOUND virtual 
+02:52.590	ID:7	primer become branch nodo = 9  
+02:52.592	ID:7	READ 7 9 1.00 2 
+02:52.594	ID:7	READ 7 8 1.18 1 
+03:31.305	ID:1	llego connect de from 2
+03:31.310	ID:1	Tamano lista=1 Pospone ConNect de 2 con level=0 nd.f.level=0 
+03:31.410	ID:2	runicast (co-i) message sent to 1.0, retransmissions 1
+03:31.412	ID:2	Envio CONECT to 1 , level=0 
+03:32.324	ID:7	llego connect de from 9
+03:32.328	ID:7	Tamano lista=1 Evaluo ConNect de 9 con Mismo level, level=0 
+03:32.329	ID:7	Soy CORE_NORE 1
+03:32.382	ID:9	runicast (co-i) message sent to 7.0, retransmissions 1
+03:32.384	ID:9	Envio CONECT to 7 , level=0 
+03:32.505	ID:9	Soy CORE_NORE 2
+03:32.507	ID:9	Deseo postear FIND
+03:32.513	ID:9	TamanoLista =1 llego INITIATE from 7.0 name=1.00 level=1 state=1 parent=7
+03:32.575	ID:7	runicast (co-i) message sent to 9.0, retransmissions 1
+03:32.579	ID:7	Envio initiate a 9 level= 1 name=1.00 flags=0008
+03:33.074	ID:7	llego connect de from 8
+03:33.079	ID:7	Tamano lista=1 Pospone ConNect de 8 con level=0 nd.f.level=0 
+03:33.122	ID:8	runicast (co-i) message sent to 7.0, retransmissions 1
+03:33.124	ID:8	Envio CONECT to 7 , level=0 
+03:34.324	ID:3	llego connect de from 1
+03:34.328	ID:3	Tamano lista=1 Pospone ConNect de 1 con level=0 nd.f.level=0 
+03:34.429	ID:1	runicast (co-i) message sent to 3.0, retransmissions 1
+03:34.431	ID:1	Envio CONECT to 3 , level=0 
+03:36.139	ID:5	llego connect de from 4
+03:36.144	ID:5	Tamano lista=1 Pospone ConNect de 4 con level=0 nd.f.level=0 
+03:36.272	ID:4	runicast (co-i) message sent to 5.0, retransmissions 1
+03:36.275	ID:4	Envio CONECT to 5 , level=0 
+03:39.871	ID:8	llego connect de from 5
+03:39.876	ID:8	Tamano lista=1 Pospone ConNect de 5 con level=0 nd.f.level=0 
+03:40.174	ID:6	llego connect de from 3
+03:40.178	ID:6	Tamano lista=1 Evaluo ConNect de 3 con Mismo level, level=0 
+03:40.179	ID:6	Soy CORE_NORE 1
+03:40.199	ID:3	runicast (co-i) message sent to 6.0, retransmissions 1
+03:40.201	ID:3	Envio CONECT to 6 , level=0 
+03:40.323	ID:3	Soy CORE_NORE 2
+03:40.324	ID:3	Deseo postear FIND
+03:40.330	ID:3	TamanoLista =1 llego INITIATE from 6.0 name=1.29 level=1 state=1 parent=6
+03:40.334	ID:3	Tamano lista=1 EvaluOO ConNect de 1 con level=0 
+03:40.680	ID:1	Deseo postear FIND
+03:40.685	ID:1	TamanoLista =1 llego INITIATE from 3.0 name=1.29 level=1 state=1 parent=3
+03:40.689	ID:1	Tamano lista=1 EvaluOO ConNect de 2 con level=0 
+03:41.300	ID:6	runicast (co-i) message sent to 3.0, retransmissions 1
+03:41.304	ID:6	Envio initiate a 3 level= 1 name=1.29 flags=0008
+03:41.624	ID:8	runicast (co-i) message received from 5.0, seqno 0 (DUPLICATE)
+03:41.684	ID:1	runicast (co-i) message received from 3.0, seqno 1 (DUPLICATE)
+03:41.765	ID:5	runicast (co-i) message sent to 8.0, retransmissions 2
+03:41.767	ID:5	Envio CONECT to 8 , level=0 
+03:42.449	ID:3	runicast (co-i) message received from 6.0, seqno 0 (DUPLICATE)
+03:42.684	ID:1	runicast (co-i) message received from 3.0, seqno 1 (DUPLICATE)
+03:42.910	ID:2	Deseo postear FIND
+03:42.916	ID:2	TamanoLista =1 llego INITIATE from 1.0 name=1.29 level=1 state=1 parent=1
+03:43.037	ID:2	runicast (co-i) message received from 1.0, seqno 1 (DUPLICATE)
+03:43.046	ID:2	runicast (co-i) message received from 1.0, seqno 1 (DUPLICATE)
+03:43.182	ID:1	runicast (co-i) message sent to 2.0, retransmissions 3
+03:43.186	ID:1	Envio initiate a 2 level= 1 name=1.29 flags=0000
+03:43.683	ID:1	runicast (co-i) message received from 3.0, seqno 1 (DUPLICATE)
+03:44.571	ID:3	runicast (co-i) message sent to 1.0, retransmissions 4
+03:44.578	ID:3	Envio initiate a 1 level= 1 name=1.29 flags=0008
+03:44.632	ID:9	llego connect de from 7
+03:44.636	ID:9	Tamano lista=1 EvaluOO ConNect de 7 con level=0 
+03:44.682	ID:1	runicast (co-i) message received from 3.0, seqno 1 (DUPLICATE)
+03:44.701	ID:7	runicast (co-i) message sent to 9.0, retransmissions 1
+03:44.703	ID:7	Envio CONECT to 9 , level=0 
+03:44.824	ID:7	Deseo postear FIND
+03:44.830	ID:7	TamanoLista =1 llego INITIATE from 9.0 name=1.00 level=1 state=1 parent=9
+03:44.834	ID:7	Tamano lista=1 EvaluOO ConNect de 8 con level=0 
+03:44.882	ID:9	runicast (co-i) message sent to 7.0, retransmissions 1
+03:44.886	ID:9	Envio initiate a 7 level= 1 name=1.00 flags=0008
+03:44.996	ID:8	Deseo postear FIND
+03:45.002	ID:8	TamanoLista =1 llego INITIATE from 7.0 name=1.00 level=1 state=1 parent=7
+03:45.005	ID:8	Tamano lista=1 EvaluOO ConNect de 5 con level=0 
+03:45.075	ID:7	runicast (co-i) message sent to 8.0, retransmissions 1
+03:45.079	ID:7	Envio initiate a 8 level= 1 name=1.00 flags=0008
+03:45.139	ID:5	Deseo postear FIND
+03:45.145	ID:5	TamanoLista =1 llego INITIATE from 8.0 name=1.00 level=1 state=1 parent=8
+03:45.148	ID:5	Tamano lista=1 EvaluOO ConNect de 4 con level=0 
+03:45.247	ID:8	runicast (co-i) message sent to 5.0, retransmissions 1
+03:45.251	ID:8	Envio initiate a 5 level= 1 name=1.00 flags=0000
+03:45.270	ID:4	Deseo postear FIND
+03:45.276	ID:4	TamanoLista =1 llego INITIATE from 5.0 name=1.00 level=1 state=1 parent=5
+03:45.388	ID:5	runicast (co-i) message sent to 4.0, retransmissions 1
+03:45.392	ID:5	Envio initiate a 4 level= 1 name=1.00 flags=0000

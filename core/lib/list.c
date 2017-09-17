@@ -298,8 +298,8 @@ my_list_remove(list_t list, void *item)
                 }
                 //l->next = NULL;
                 return;
-              }
-          r = l;
+         }
+         r = l;
     } //for recorrer la lista
 
 }

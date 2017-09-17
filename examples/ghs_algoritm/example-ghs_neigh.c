@@ -221,11 +221,7 @@ PROCESS_THREAD(master_neighbor_discovery, ev, data)
     }else
     if(ev == e_init_master_co_i)
     {
-        //MOD:
-        char string[] = "READ";
-        print_neighbor_list(list_head(neighbors_list), string, &linkaddr_node_addr);
-        
-        //process_post(&master_co_i, e_init_master_co_i, list_head(neighbors_list));
+        process_post(&master_co_i, e_init_master_co_i, list_head(neighbors_list));
     }
 }//End of while
   PROCESS_END();
@@ -355,7 +351,8 @@ PROCESS_THREAD(wait, ev, data)
               etimer_set(&et, CLOCK_SECOND * str_wait->seconds );
               PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
-              process_post_synch(str_wait->return_process,PROCESS_EVENT_CONTINUE, NULL);
+              //process_post_synch(str_wait->return_process,PROCESS_EVENT_CONTINUE, NULL);
+              process_post(str_wait->return_process,PROCESS_EVENT_CONTINUE, NULL);
 
           }
     }

@@ -16,7 +16,7 @@
 
 //#define WAIT_RARO 6
 //Definicion de maximos
-#define MAX_NUM_EDGES           MAX_NEIGHBORS
+//#define MAX_NUM_EDGES           MAX_NEIGHBORS
 #define MAX_NUM_POSPONES        MAX_NEIGHBORS
 #define MAX_TAMANO_LISTA_MSG    MAX_NEIGHBORS //lista donde guardo msgs (co-i-test-ar-report-Chroot)
 
@@ -214,7 +214,7 @@ struct node
     //reports r;
     uint8_t num_branches;
     linkaddr_t downroute; //Para enviar msg en la downward direction
-    test_msg t_msg;
+    //test_msg t_msg;
     linkaddr_t otro_core_node; //Indica la direccion del otro CORE_NODE
 
 };
@@ -228,7 +228,7 @@ struct node
 /*-------------------------------------------------------------------*/
 void fill_edges_list(list_t edges_list, struct memb *edges_memb, struct neighbor *n_list_head);
 void print_edges_list(edges *e_list_head, char *string,  const linkaddr_t *node_addr);
-void become_branch(edges *e_list_head, const linkaddr_t *node_addr);
+void become_branch(edges *e_list_head, const linkaddr_t *node_addr );
 linkaddr_t* least_basic_edge(edges *e_list_head);
 void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, list_t edges_list);
 uint8_t state_is_branch( const linkaddr_t *addr,  edges *e_list_head);
