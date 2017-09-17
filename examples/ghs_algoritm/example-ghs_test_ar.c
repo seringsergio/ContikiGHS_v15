@@ -197,9 +197,6 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
               process_post_synch(&evaluar_msg_reject, PROCESS_EVENT_CONTINUE, NULL);
           }
       }
-
-      
-
 }
 static void
 sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
