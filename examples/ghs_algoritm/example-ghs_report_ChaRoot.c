@@ -334,7 +334,8 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                         co_list_out_p = memb_alloc(co_mem_out_g); //Alocar memoria
                                         llenar_connect_msg_list (co_list_out_p, nd.f.level, &nd.lwoe.node.neighbor);
                                         list_add(co_list_out_g, co_list_out_p); //Add an item at the end of a list
-                                        process_post(&send_message_co_i,  e_msg_connect, NULL);
+                                        //process_post(&send_message_co_i,  e_msg_connect, NULL);
+                                        // ACA_VOY VOY_ACA
 
                                         MY_DBG("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
                                     }else //Si es mejor el edge de un vecino
@@ -551,7 +552,8 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
                         co_list_out_p = memb_alloc(co_mem_out_g); //Alocar memoria
                         llenar_connect_msg_list (co_list_out_p, nd.f.level, &nd.lwoe.node.neighbor);
                         list_add(co_list_out_g, co_list_out_p); //Add an item at the end of a list
-                        process_post(&send_message_co_i,  e_msg_connect, NULL);
+                        //process_post(&send_message_co_i,  e_msg_connect, NULL);
+                        // ACA_VOY VOY_ACA
 
                         MY_DBG("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
 

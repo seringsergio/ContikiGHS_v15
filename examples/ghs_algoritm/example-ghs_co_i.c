@@ -285,8 +285,8 @@ PROCESS_THREAD(master_co_i, ev, data)
         {
             nd.flags &= ~FRAGMENTO_LWOE; //No he encontrado el LWOE del fragmento
             MY_DBG("Estoy en FIND \n");
-            process_post_synch(&e_test, PROCESS_EVENT_CONTINUE, NULL);
-
+            //process_post_synch(&e_test, PROCESS_EVENT_CONTINUE, NULL);
+            process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
         }else
         if(ev == e_msg_ghs_end)
         {
@@ -459,36 +459,6 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                     nd.state       = i_list_p->i_msg.nd_state;
                     linkaddr_copy(&nd.parent , &i_list_p->from);
 
-                    if(i_list_p->i_msg.flags & BECOME_CORE_NODE)
-                    {
-                        linkaddr_copy(&nd.otro_core_node, &i_list_p->from);
-                        nd.flags |= CORE_NODE;
-                        MY_DBG("Soy CORE_NORE 2\n");
-                    }
-
-                    if(i_list_p->i_msg.nd_state == FIND) //si cambio de estado a FIND
-                    {
-                        //Envio un mensaje al master_co_i de find
-                        //process_post(&master_co_i,  e_find, NULL);
-                        //process_post_synch(&master_co_i,  e_find, NULL);
-                        //nd.state = FIND;  //Para saber en que estado estoy en cualquier parte
-                        MY_DBG("Deseo postear FIND\n");
-                        //process_post(&master_co_i,  e_find, NULL);
-                        //ACA_VOY
-                    }else
-                    if(i_list_p->i_msg.nd_state == FOUND) //si cambio de estado a FOUND
-                    {
-                        //Envio un mensaje al master_co_i de found
-                        //process_post(&master_co_i,  e_found, NULL);
-                        //process_post_synch(&master_co_i,  e_found, NULL);
-                        //nd.state = FOUND;  //Para saber en que estado estoy en cualquier parte
-                        MY_DBG("Deseo postear FOUND\n");
-                        //ACA_VOY
-                        //process_post(&master_co_i,  e_found, NULL);
-
-
-                    }
-
                     //Reenvio el msg por todas las BRANCHES
                     for(e_aux = e_list_head_g; e_aux != NULL; e_aux = e_aux->next) // Recorrer toda la lista
                     {
@@ -506,6 +476,32 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                     }
                     // envio el post aca para no enviarlo multiples veces dentro del for anterior
                     process_post(&send_message_co_i, e_msg_initiate, NULL);
+
+                    if(i_list_p->i_msg.flags & BECOME_CORE_NODE)
+                    {
+                        nd.flags |= CORE_NODE;
+                        MY_DBG("Soy CORE_NORE 2\n");
+                        linkaddr_copy(&nd.otro_core_node, &i_list_p->from);
+                    }
+
+                    if(i_list_p->i_msg.nd_state == FIND) //si cambio de estado a FIND
+                    {
+                        //Envio un mensaje al master_co_i de find
+                        //process_post(&master_co_i,  e_find, NULL);
+                        //process_post_synch(&master_co_i,  e_find, NULL);
+                        //nd.state = FIND;  //Para saber en que estado estoy en cualquier parte
+                        MY_DBG("Deseo postear FIND\n");
+                        process_post(&master_co_i,  e_find, NULL);
+                    }else
+                    if(i_list_p->i_msg.nd_state == FOUND) //si cambio de estado a FOUND
+                    {
+                        //Envio un mensaje al master_co_i de found
+                        //process_post(&master_co_i,  e_found, NULL);
+                        //process_post_synch(&master_co_i,  e_found, NULL);
+                        //nd.state = FOUND;  //Para saber en que estado estoy en cualquier parte
+                        MY_DBG("Deseo postear FOUND\n");
+                        process_post(&master_co_i,  e_found, NULL);
+                    }
 
                     MY_DBG("TamanoLista =%d llego INITIATE from %d.%d name=%d.%02d level=%d state=%d parent=%d\n",
                           list_length(i_list),
