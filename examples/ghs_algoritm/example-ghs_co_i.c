@@ -390,7 +390,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
 
                         //Send initiate
                         i_list_out_p = memb_alloc(&i_mem_out); //Alocar memoria
-                        llenar_initiate_msg_list(i_list_out_p, nd.f.name_str, nd.f.level, nd.state, &co_list_p->from, ~BECOME_CORE_NODE);
+                        llenar_initiate_msg_list(i_list_out_p, nd.f.name_str, nd.f.level, nd.state, &co_list_p->from,0);
                         list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
                         process_post(&send_message_co_i, e_msg_initiate, NULL);
 
@@ -473,7 +473,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                             i_list_out_p = memb_alloc(&i_mem_out); //Alocar memoria
                             llenar_initiate_msg_list(i_list_out_p, i_list_p->i_msg.f.name_str, i_list_p->i_msg.f.level,
                                                i_list_p->i_msg.nd_state, &e_aux->addr,
-                                               ((~BECOME_CORE_NODE)&(STOP_BEING_CORE_NODE))   );
+                                               STOP_BEING_CORE_NODE );
                             list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
                         }
                     }
@@ -492,11 +492,14 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                         nd.flags |= CORE_NODE;
                         MY_DBG("Soy CORE_NORE 2\n");
                         linkaddr_copy(&nd.otro_core_node, &i_list_p->from);
-                    }else
+                    }
+
                     if(i_list_p->i_msg.flags & STOP_BEING_CORE_NODE)//PAra que el nodo deje de ser core_node
                     {
                         //Dejo de ser core node
                         nd.flags &= ~CORE_NODE;
+                        MY_DBG("STOP_BEING_CORE_NODE: dejo de ser core_node\n");
+
                     }
 
 
