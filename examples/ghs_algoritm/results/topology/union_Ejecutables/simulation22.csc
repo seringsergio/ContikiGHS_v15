@@ -209,7 +209,7 @@
   <plugin>
     org.contikios.cooja.plugins.SimControl
     <width>280</width>
-    <z>0</z>
+    <z>1</z>
     <height>160</height>
     <location_x>400</location_x>
     <location_y>0</location_y>
@@ -227,20 +227,20 @@
     <width>400</width>
     <z>2</z>
     <height>400</height>
-    <location_x>1</location_x>
-    <location_y>1</location_y>
+    <location_x>-57</location_x>
+    <location_y>4</location_y>
   </plugin>
   <plugin>
     org.contikios.cooja.plugins.LogListener
     <plugin_config>
-      <filter>Envie accept a</filter>
+      <filter>END</filter>
       <formatted_time />
       <coloring />
     </plugin_config>
-    <width>721</width>
-    <z>1</z>
+    <width>799</width>
+    <z>0</z>
     <height>554</height>
-    <location_x>380</location_x>
+    <location_x>302</location_x>
     <location_y>160</location_y>
   </plugin>
   <plugin>

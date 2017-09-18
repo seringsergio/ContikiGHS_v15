@@ -455,6 +455,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
             {
                 for(i_list_p = list_head(i_list); i_list_p != NULL; i_list_p = i_list_p->next)
                 {
+
                     nd.f.name_str  = i_list_p->i_msg.f.name_str;
                     nd.f.level     = i_list_p->i_msg.f.level;
                     nd.state       = i_list_p->i_msg.nd_state;
@@ -471,7 +472,8 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                             //Send initiate
                             i_list_out_p = memb_alloc(&i_mem_out); //Alocar memoria
                             llenar_initiate_msg_list(i_list_out_p, i_list_p->i_msg.f.name_str, i_list_p->i_msg.f.level,
-                                               i_list_p->i_msg.nd_state, &e_aux->addr, ~BECOME_CORE_NODE);
+                                               i_list_p->i_msg.nd_state, &e_aux->addr,
+                                               ((~BECOME_CORE_NODE)&(STOP_BEING_CORE_NODE))   );
                             list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
                         }
                     }
@@ -491,7 +493,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                         MY_DBG("Soy CORE_NORE 2\n");
                         linkaddr_copy(&nd.otro_core_node, &i_list_p->from);
                     }else
-                    if(i_list_p->i_msg.flags & ~BECOME_CORE_NODE)//PAra que el nodo deje de ser core_node
+                    if(i_list_p->i_msg.flags & STOP_BEING_CORE_NODE)//PAra que el nodo deje de ser core_node
                     {
                         //Dejo de ser core node
                         nd.flags &= ~CORE_NODE;
@@ -517,14 +519,15 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                         process_post(&master_co_i,  e_found, NULL);
                     }
 
-                    MY_DBG("TamanoLista =%d llego INITIATE from %d.%d name=%d.%02d level=%d state=%d parent=%d\n",
+                    MY_DBG("TamanoLista =%d llego INITIATE from %d.%d name=%d.%02d level=%d state=%d parent=%d flags=%04X\n",
                           list_length(i_list),
                           i_list_p->from.u8[0], i_list_p->from.u8[1],
                           (int)(nd.f.name_str.weight / SEQNO_EWMA_UNITY),
                           (int)(((100UL * nd.f.name_str.weight) / SEQNO_EWMA_UNITY) % 100),
                           nd.f.level,
                           nd.state,
-                          nd.parent.u8[0]);
+                          nd.parent.u8[0],
+                          nd.flags);
 
                   //Remuevo el elemento de la lista
                   my_list_remove(i_list, i_list_p); //Remove a specific element from a list.
@@ -532,6 +535,9 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
 
                 } //FOR todos los elementos de la lista
             } //Si hay elementos en la lista
+
+
+            print_final_result(); //Lo ultimo que hago es imprimir resultados
         } //END IF  EV == CONTINUE
     } //end of while
     PROCESS_END();
@@ -630,7 +636,7 @@ PROCESS_THREAD(send_message_co_i, ev, data)
                         packetbuf_copyfrom(&i_msg, sizeof(i_msg));
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INITIATE);
                         runicast_send(&runicast, &i_msg.destination, MAX_RETRANSMISSIONS);
-                        MY_DBG("Envio initiate a %d level= %d name=%d.%02d flags=%04X\n", i_msg.destination.u8[0],
+                        MY_DBG("Envio initiate a %d level= %d name=%d.%02d nd.flags=%04X\n", i_msg.destination.u8[0],
                         i_msg.f.level,
                         (int)(i_msg.f.name_str.weight / SEQNO_EWMA_UNITY),
                         (int)(((100UL * i_msg.f.name_str.weight) / SEQNO_EWMA_UNITY) % 100),

@@ -33,7 +33,8 @@
 #define FRAGMENTO_LWOE      0x10 //No he encontrado el LWOE del fragmento
 
 //Banderas de initiate_msg
-#define BECOME_CORE_NODE 0x01
+#define BECOME_CORE_NODE      0x01
+#define STOP_BEING_CORE_NODE  0x02 //PAra que el nodo deje de ser core_node
 
 //Estados de los edges
 #define BASIC      0x01
