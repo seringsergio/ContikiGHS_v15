@@ -444,6 +444,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
     static initiate_list *i_list_out_p;
     static initiate_list *i_list_p;
     static edges *e_aux;
+    static report_list *rp_list_p;
 
     while(1)
     {
@@ -477,12 +478,25 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                     // envio el post aca para no enviarlo multiples veces dentro del for anterior
                     process_post(&send_message_co_i, e_msg_initiate, NULL);
 
+                    //limpio mi lista de reportes
+                    for(rp_list_p = list_head(rp_list_g); rp_list_p != NULL; rp_list_p = rp_list_p->next)
+                    {
+                        my_list_remove(rp_list_g, rp_list_p); //Remove a specific element from a list.
+                        memb_free(rp_mem_g, rp_list_p);
+                    }
+
                     if(i_list_p->i_msg.flags & BECOME_CORE_NODE)
                     {
                         nd.flags |= CORE_NODE;
                         MY_DBG("Soy CORE_NORE 2\n");
                         linkaddr_copy(&nd.otro_core_node, &i_list_p->from);
+                    }else
+                    if(i_list_p->i_msg.flags & ~BECOME_CORE_NODE)//PAra que el nodo deje de ser core_node
+                    {
+                        //Dejo de ser core node
+                        nd.flags &= ~CORE_NODE;
                     }
+
 
                     if(i_list_p->i_msg.nd_state == FIND) //si cambio de estado a FIND
                     {

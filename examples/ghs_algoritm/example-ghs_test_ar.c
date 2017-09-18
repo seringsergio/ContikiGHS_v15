@@ -180,7 +180,9 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
           {
               linkaddr_copy(&a_list_p->from, from);
               list_add(a_list, a_list_p); //Add an item at the end of a list.
-              process_post_synch(&evaluar_msg_accept, PROCESS_EVENT_CONTINUE, NULL);
+              //process_post_synch(&evaluar_msg_accept, PROCESS_EVENT_CONTINUE, NULL);
+              process_post(&evaluar_msg_accept, PROCESS_EVENT_CONTINUE, NULL);
+
           }
       }else
       if(msg_type == M_REJECT)
@@ -194,7 +196,9 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
           {
               linkaddr_copy(&rj_list_p->from, from);
               list_add(rj_list, rj_list_p); //Add an item at the end of a list.
-              process_post_synch(&evaluar_msg_reject, PROCESS_EVENT_CONTINUE, NULL);
+              //process_post_synch(&evaluar_msg_reject, PROCESS_EVENT_CONTINUE, NULL);
+              process_post(&evaluar_msg_reject, PROCESS_EVENT_CONTINUE, NULL);
+
           }
       }
 }
@@ -405,13 +409,19 @@ PROCESS_THREAD(evaluar_msg_accept, ev, data)
                     MY_DBG("llego AcCept de %d.  flags=%04X \n ",
                     a_list_p->from.u8[0], nd.flags);
 
-                    become_accepted(e_list_head_g, &a_list_p->from);
+                    if( become_accepted(e_list_head_g, &a_list_p->from) )
+                    {
+                        //Si un edges es aceptado: Se guarda el edge como mejor opcion del Nodo
+                        linkaddr_copy(&nd.lwoe.node.neighbor,  &a_list_p->from);
+                        nd.lwoe.node.weight = return_weight(e_list_head_g, &a_list_p->from);
+                        nd.flags |= ND_LWOE; //Ya encontre el ND_LWOE
+                        //process_post_synch(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+                        process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+                    }else
+                    {
+                        MY_DBG("ERROR: (Duplicate) Pero si preguntarse porque quiero volver accepted algo q ya es BRANCH o E_REJECTED\n");
+                    }
 
-                    //Si un edges es aceptado: Se guarda el edge como mejor opcion del Nodo
-                    linkaddr_copy(&nd.lwoe.node.neighbor,  &a_list_p->from);
-                    nd.lwoe.node.weight = return_weight(e_list_head_g, &a_list_p->from);
-                    nd.flags |= ND_LWOE; //Ya encontre el ND_LWOE
-                    process_post_synch(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
 
                     //Remuevo el elemento de la lista
                     my_list_remove(a_list, a_list_p); //Remove a specific element from a list.
@@ -445,7 +455,7 @@ PROCESS_THREAD(evaluar_msg_reject, ev, data)
             {
                 for(rj_list_p = list_head(rj_list); rj_list_p != NULL; rj_list_p = rj_list_p->next)
                 {
-                    if(state_is_branch(&rj_list_p->from,  e_list_head_g))
+                    /*if(state_is_branch(&rj_list_p->from,  e_list_head_g))
                     {
                         MY_DBG("Llego REJECT de %d. Pero no puedo asignar el estado YA SOY BRANCH\n"
                               , rj_list_p->from.u8[0]);
@@ -454,10 +464,19 @@ PROCESS_THREAD(evaluar_msg_reject, ev, data)
                     {
                         MY_DBG("Asumo Reject q llego  de %d \n", rj_list_p->from.u8[0]);
                         become_rejected(e_list_head_g, &rj_list_p->from);
-                    }
+                    }*/
 
-                    //Si el edge es rechazado, entonces testeo uno nuevo.
-                    process_post_synch(&e_test , PROCESS_EVENT_CONTINUE, NULL);
+                    if (become_rejected(e_list_head_g, &rj_list_p->from))
+                    {
+                        MY_DBG("Asumo Reject q llego  de %d \n", rj_list_p->from.u8[0]);
+                        //Si el edge es rechazado, entonces testeo uno nuevo.
+                        //process_post_synch(&e_test , PROCESS_EVENT_CONTINUE, NULL);
+                        process_post(&e_test , PROCESS_EVENT_CONTINUE, NULL);
+                    }else
+                    {
+                        MY_DBG("ERROR: (Duplicate) Preguntarse porque quiero volver rejected un edge q ya es BRANCH. Rejected llega de %d\n"
+                              , rj_list_p->from.u8[0]);
+                    }
 
                     //remuevo el elemento de la lista
                     my_list_remove(rj_list, rj_list_p); //Remove a specific element from a list.

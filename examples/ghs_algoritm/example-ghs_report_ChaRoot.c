@@ -69,6 +69,9 @@
  MEMB(rp_mem, report_list, MAX_TAMANO_LISTA_MSG); // Defines a memory pool for edges
  LIST(rp_list); // List that holds the neighbors we have seen thus far
 
+ list_t rp_list_g; // _g indica que la variable es global
+ struct memb *rp_mem_g;
+
  MEMB(rp_mem_out, report_list, MAX_TAMANO_LISTA_MSG); // Defines a memory pool for edges
  LIST(rp_list_out); // List that holds the neighbors we have seen thus far
 
@@ -148,7 +151,18 @@
               rp_list_p->rp_msg = *((report_msg *)msg); //msg le hago cast.Luego cojo todo el msg
               linkaddr_copy(&rp_list_p->from, from);
               list_add(rp_list, rp_list_p); //Add an item at the end of a list.
-              process_post_synch(&evaluar_msg_rp, PROCESS_EVENT_CONTINUE, NULL);
+
+              MY_DBG("TL:%d LLLego report de %d Neigh=%d Weight=%d.%02d  flags=%04X\n",
+                  list_length(rp_list),
+                  rp_list_p->from.u8[0],
+                  rp_list_p->rp_msg.neighbor_r.u8[0],
+                  (int)(rp_list_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
+                  (int)(((100UL * rp_list_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100),
+                  nd.flags);
+
+              process_post(&evaluar_msg_rp, PROCESS_EVENT_CONTINUE, NULL);
+              //process_post_synch(&evaluar_msg_rp, PROCESS_EVENT_CONTINUE, NULL);
+
           }
        }else //end IF REPORT
        if(msg_type == CHANGE_ROOT)
@@ -163,10 +177,11 @@
                cr_list_p->cr_msg = *((change_root_msg *)msg); //msg le hago cast.Luego cojo todo el msg
                linkaddr_copy(&cr_list_p->from, from);
                list_add(cr_list, cr_list_p); //Add an item at the end of a list.
-               process_post_synch(&evaluar_msg_cr, PROCESS_EVENT_CONTINUE, NULL);
+               //process_post_synch(&evaluar_msg_cr, PROCESS_EVENT_CONTINUE, NULL);
+               process_post(&evaluar_msg_cr, PROCESS_EVENT_CONTINUE, NULL);
            }
        }else
-       if(msg_type == INFORMATION)
+       if(msg_type == INFORMATION) //Este mensaje (e_msg_information) NO lo estoy usando
        {
            informacion_list *info_list_p;
            info_list_p = memb_alloc(&info_mem); //Alocar memoria
@@ -178,7 +193,8 @@
                //no necesito coger el mensage
                linkaddr_copy(&info_list_p->from, from);
                list_add(info_list, info_list_p); //Add an item at the end of a list.
-               process_post_synch(&evaluar_msg_info, PROCESS_EVENT_CONTINUE, NULL);
+               //process_post_synch(&evaluar_msg_info, PROCESS_EVENT_CONTINUE, NULL);
+               process_post(&evaluar_msg_info, PROCESS_EVENT_CONTINUE, NULL);
            }
        }
 
@@ -218,8 +234,8 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
     PROCESS_BEGIN();
 
     //inicializar: Adicionalmente se re-inician en FOUND
-    list_init(rp_list);
-    memb_init(&rp_mem);
+    //list_init(rp_list);
+    //memb_init(&rp_mem);
 
     static report_list *rp_list_p;
     static report_list *lowest_rp = NULL;
@@ -230,22 +246,17 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
         if(ev == PROCESS_EVENT_CONTINUE)
         {
 
-                rp_list_p = list_head(rp_list);
-                MY_DBG("TL:%d LLLego report de %d Neigh=%d Weight=%d.%02d  flags=%04X\n",
+                //rp_list_p = list_head(rp_list);
+
+                /*MY_DBG("TL:%d LLLego report de %d Neigh=%d Weight=%d.%02d  flags=%04X\n",
                     list_length(rp_list),
                     rp_list_p->from.u8[0],
                     rp_list_p->rp_msg.neighbor_r.u8[0],
                     (int)(rp_list_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
                     (int)(((100UL * rp_list_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100),
-                    nd.flags);
+                    nd.flags);*/
 
                 MY_DBG("list_length(rp_list)=%d  \n", list_length(rp_list) );
-
-                //Si la lista esta CASI completa
-                if( lista_casi_completa(rp_list) )
-                {
-                    process_post_synch(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
-                }else
                 //Si la lista de reports ya esta completa
                 if(list_length(rp_list) >= num_hijos(e_list_head_g) ) //Si el tamano de la lista es = al num de hijos
                 {
@@ -260,7 +271,8 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
                     linkaddr_copy(&nd.lwoe.children.neighbor, &lowest_rp->rp_msg.neighbor_r );
                     nd.lwoe.children.weight = lowest_rp->rp_msg.weight_r;
                     nd.flags |= CH_LWOE; //Ya encontre el ND_LWOE
-                    process_post_synch(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+                    process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+                    //process_post_synch(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
 
                     MY_DBG("El menor de la lista es %d weight=%d.%02d flags=%04X - downroute=%d \n",
                     nd.lwoe.children.neighbor.u8[0],
@@ -275,7 +287,14 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
                         my_list_remove(rp_list, rp_list_p); //Remove a specific element from a list.
                         memb_free(&rp_mem, rp_list_p);
                     }
-                } // si lista >= num children
+                }
+                else
+                //Si la lista esta CASI completa
+                if( lista_casi_completa(rp_list) )
+                {
+                    //process_post_synch(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+                    process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+                }
         } //IF EV == CONTINUE
     } //END OF WHILE
     PROCESS_END();
@@ -288,10 +307,11 @@ PROCESS_THREAD(e_LWOE, ev, data)
 {
     PROCESS_BEGIN();
 
+
     static report_list *rp_list_out_p;
     static change_root_list *cr_list_out_p;
     static connect_list *co_list_out_p;
-    static informacion_list *info_list_out_p;
+    //static informacion_list *info_list_out_p;
     static report_list *lowest_rp = NULL;
 
     while(1)
@@ -300,23 +320,29 @@ PROCESS_THREAD(e_LWOE, ev, data)
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if(ev == PROCESS_EVENT_CONTINUE)
         {
-                //Si soy core_node && no he encontrado el LWOE del fragmento
-                if( (nd.flags & CORE_NODE) && (!(nd.flags & FRAGMENTO_LWOE))  )
+                // Si SOY CORE_NODE
+                if( nd.flags & CORE_NODE  )
                 {
+                    //SI NO he encontrado el LWOE del fragmento
+                    if (!(nd.flags & FRAGMENTO_LWOE))
+                    {
                         //Si ya encontre el LWOE mio y de mis hijos
                         if( (nd.flags & ND_LWOE) && (nd.flags & CH_LWOE) )
                         {
+                            // SI los dos pesos son infinito
                             if( (nd.lwoe.node.weight == INFINITO) && (nd.lwoe.children.weight==INFINITO) )
                             {
                                 MY_DBG("Los dos reportes son INFINITO\n");
                                 //Paso a FOUND
-                                process_post_synch(&master_co_i, e_found, NULL);
+                                //process_post_synch(&master_co_i, e_found, NULL);
+                                process_post(&master_co_i, e_found, NULL);
                                 nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                                 //paso a END
-                                process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
+                                //process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
+                                process_post(&master_co_i, e_msg_ghs_end, NULL);
                             }else //No he terminado aun los 2 reportes NO son infinito
                             {
-                                    MY_DBG("nd.lwoe.node.weigh=%d.%02d <= nd.lwoe.children.weight=%d.%02d \n",
+                                    MY_DBG("nd.lwoe.node.weight=%d.%02d <= nd.lwoe.children.weight=%d.%02d \n",
                                     (int)(nd.lwoe.node.weight / SEQNO_EWMA_UNITY),
                                     (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100),
                                     (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
@@ -334,8 +360,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                         co_list_out_p = memb_alloc(co_mem_out_g); //Alocar memoria
                                         llenar_connect_msg_list (co_list_out_p, nd.f.level, &nd.lwoe.node.neighbor);
                                         list_add(co_list_out_g, co_list_out_p); //Add an item at the end of a list
-                                        //process_post(&send_message_co_i,  e_msg_connect, NULL);
-                                        // ACA_VOY VOY_ACA
+                                        process_post(&send_message_co_i,  e_msg_connect, NULL);
 
                                         MY_DBG("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
                                     }else //Si es mejor el edge de un vecino
@@ -351,22 +376,26 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                         cr_list_out_p->cr_msg.final_destination.u8[0]);
                                     }
                                     //Dejo de ser core node
-                                    nd.flags &= ~CORE_NODE;
+                                    //nd.flags &= ~CORE_NODE;
                                     //paso a FOUND
-                                    process_post_synch(&master_co_i, e_found, NULL);
+                                    //process_post_synch(&master_co_i, e_found, NULL);
+                                    //process_post_synch(&master_co_i, e_found, NULL);
+                                    process_post(&master_co_i, e_found, NULL);
                                     nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
 
                                     //Ya encontre el LWOE del fragmento. No reenvio CHANGE_ROOT
                                     //del otro CORE_NODE
                                     nd.flags |= FRAGMENTO_LWOE;
 
+
                                     //Otro CORE_NODE debe dejar de ser CORE_NODE
                                     //send mensaje de informacion info para que el
                                     // otro core_node deje de ser core_node
-                                    info_list_out_p = memb_alloc(&info_mem_out); //Alocar memoria
-                                    llenar_msg_informacion_list (info_list_out_p, NO_SEA_CORE_NODE, &nd.otro_core_node );
-                                    list_add(info_list_out, info_list_out_p); //Add an item at the end of a list
-                                    process_post_synch(&send_message_report_ChaRoot, e_msg_information, NULL);
+                                    //info_list_out_p = memb_alloc(&info_mem_out); //Alocar memoria
+                                    //llenar_msg_informacion_list (info_list_out_p, NO_SEA_CORE_NODE, &nd.otro_core_node );
+                                    //list_add(info_list_out, info_list_out_p); //Add an item at the end of a list
+                                    //process_post_synch(&send_message_report_ChaRoot, e_msg_information, NULL);
+
                                     //OJO: es el unico &send_message que va synch :) no se porque
                             } //SI los dos valores son INFINITO acabo GHS
                         }else //SI NO estan seteados los dos. Pero soy lista CASI completa(solo falta el otro core_node)
@@ -376,10 +405,12 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             //Lo que pasa es que los 2 CORE_NODE envian report y pasan a FOUND
                             //y ninguno envia change_root.
                             if(list_length(rp_list) == 0) //Mi unico hijo es el otro CORE_NODE
+                            //Equivalente a no tengo hijos
                             {
                                 if(nd.lwoe.node.weight == INFINITO)
                                 {
-                                    process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
+                                    process_post(&master_co_i, e_msg_ghs_end, NULL);
+                                    //process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
                                 }
                                 //send REPORT
                                 rp_list_out_p = memb_alloc(&rp_mem_out); //Alocar memoria
@@ -387,13 +418,13 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
                                 process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
 
-                                MY_DBG("CasiCompleta:CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                                MY_DBG("CasiCompleta:CORE_NODE & FALTA el otro core_node. Deseo Reportar Neigh=%d Weight=%d.%02d\n",
                                          rp_list_out_p->rp_msg.neighbor_r.u8[0],
                                          (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                          (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                             }else //Si la lista tiene reportes, tengo HIJOS
                             {
-                                //Encuentro el menor de la lista
+                                //Encuentro el menor de la lista de reportes
                                 lowest_rp = lowest_of_report_list(list_head(rp_list));
 
                                 //guardo el menor hijo como el mejor edge
@@ -412,7 +443,8 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 {
                                     if(nd.lwoe.node.weight == INFINITO)
                                     {
-                                        process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
+                                        process_post(&master_co_i, e_msg_ghs_end, NULL);
+                                        //process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
                                     }
 
                                     //send REPORT
@@ -421,7 +453,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                     list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
                                     process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
 
-                                    MY_DBG("CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                                    MY_DBG("CORE_NODE & FALTA el otro core_node .Deseo Reportar Neigh=%d Weight=%d.%02d\n",
                                              rp_list_out_p->rp_msg.neighbor_r.u8[0],
                                              (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                              (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
@@ -430,7 +462,8 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                {
                                    if(nd.lwoe.children.weight == INFINITO)
                                    {
-                                       process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
+                                       //process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
+                                       process_post(&master_co_i, e_msg_ghs_end, NULL);
                                    }
                                    //send REPORT
                                    rp_list_out_p = memb_alloc(&rp_mem_out); //Alocar memoria
@@ -445,14 +478,16 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                }
                             }
                         }
-                }else //NO soy el CORE_NODE
+                    } // END IF NO he encontrado el LWOE del fragmento. Else no hago nada, ya hice lo q tenia q hacer
+                }else //NO soy CORE_NODE
                     if( (nd.flags & ND_LWOE) && (nd.flags & CH_LWOE) )
                     {
                         if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
                         {
                             if(nd.lwoe.node.weight == INFINITO)
                             {
-                                process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
+                                //process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
+                                process_post(&master_co_i, e_msg_ghs_end, NULL);
                             }
                             //send_report y paso a estado FOUND
                             rp_list_out_p = memb_alloc(&rp_mem_out); //Alocar memoria
@@ -465,14 +500,16 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                                 (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                                 (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                             //paso a FOUND
-                            process_post_synch(&master_co_i, e_found, NULL);
+                            //process_post_synch(&master_co_i, e_found, NULL);
+                            process_post(&master_co_i, e_found, NULL);
                             nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
 
                         }else //Si es mejor el edge de un vecino
                         {
                             if(nd.lwoe.children.weight == INFINITO)
                             {
-                                process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
+                                //process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
+                                process_post(&master_co_i, e_msg_ghs_end, NULL);
                             }
                             //send_report y paso a estado FOUND
                             rp_list_out_p = memb_alloc(&rp_mem_out); //Alocar memoria
@@ -485,15 +522,17 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                                 (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                                 (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                             //paso a FOUND
-                            process_post_synch(&master_co_i, e_found, NULL);
+                            process_post(&master_co_i, e_found, NULL);
                             nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+                            //process_post_synch(&master_co_i, e_found, NULL);
                         }
                     }else //SI NO estan seteados los dos
                     if( (es_Hoja()) && (nd.flags & ND_LWOE) )
                     {
                         if(nd.lwoe.node.weight == INFINITO)
                         {
-                            process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
+                            //process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
+                            process_post(&master_co_i, e_msg_ghs_end, NULL);
                         }
                         //send REPORT
                         rp_list_out_p = memb_alloc(&rp_mem_out); //Alocar memoria
@@ -506,7 +545,8 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                             (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                             (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                          //paso a FOUND
-                         process_post_synch(&master_co_i, e_found, NULL);
+                         //process_post_synch(&master_co_i, e_found, NULL);
+                         process_post(&master_co_i, e_found, NULL);
                          nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                     }
         } //IF ev == CONTINUE
@@ -552,8 +592,7 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
                         co_list_out_p = memb_alloc(co_mem_out_g); //Alocar memoria
                         llenar_connect_msg_list (co_list_out_p, nd.f.level, &nd.lwoe.node.neighbor);
                         list_add(co_list_out_g, co_list_out_p); //Add an item at the end of a list
-                        //process_post(&send_message_co_i,  e_msg_connect, NULL);
-                        // ACA_VOY VOY_ACA
+                        process_post(&send_message_co_i,  e_msg_connect, NULL);
 
                         MY_DBG("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
 
@@ -594,7 +633,7 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
 } //End of PROCESS THREAD
 
 
-PROCESS_THREAD(evaluar_msg_info, ev, data)
+PROCESS_THREAD(evaluar_msg_info, ev, data) //Este mensaje (e_msg_information) NO lo estoy usando
 {
     PROCESS_BEGIN();
 
@@ -665,11 +704,17 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
     list_init(rp_list_out);
     memb_init(&rp_mem_out);
 
+    list_init(rp_list);
+    memb_init(&rp_mem);
+
     list_init(cr_list_out);
     memb_init(&cr_mem_out);
 
     list_init(info_list_out);
     memb_init(&info_mem_out);
+
+    rp_list_g = rp_list;
+    rp_mem_g = &rp_mem;
 
     info_list_out_g = info_list_out ;
     info_mem_out_g  = &info_mem_out;
@@ -716,9 +761,10 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
                     }else //Si runicast esta ocupado TX, pospongo el envio del msg
                     {
                         //pospone sending the message
-                        list_remove(rp_list_out, rp_list_out_p); //Remove a specific element from a list.
-                        list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
+                        //list_remove(rp_list_out, rp_list_out_p); //Remove a specific element from a list.
+                        //list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
                         process_post(PROCESS_CURRENT(), e_msg_report, NULL);
+                        break;
                     }
                 } //END for
             } //END IF hay elementos en la lista
@@ -748,14 +794,15 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
                         }else //Si runicast esta ocupado TX, pospongo el envio del msg
                         {
                             //pospone sending the message
-                            list_remove(cr_list_out, cr_list_out_p); //Remove a specific element from a list.
-                            list_add(cr_list_out, cr_list_out_p); //Add an item at the end of a list
+                            //list_remove(cr_list_out, cr_list_out_p); //Remove a specific element from a list.
+                            //list_add(cr_list_out, cr_list_out_p); //Add an item at the end of a list
                             process_post(PROCESS_CURRENT(), e_msg_ch_root, NULL);
+                            break;
                         }
                 } //END for
             } //END if hay elementos en la lista
         }else
-        if(ev == e_msg_information)
+        if(ev == e_msg_information) //Este mensaje (e_msg_information) NO lo estoy usando
         {
             if(list_length(info_list_out))
             {
@@ -779,9 +826,10 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
                     }else //Si runicast esta ocupado TX, pospongo el envio del msg
                     {
                         //pospone sending the message
-                        list_remove(info_list_out, info_list_out_p); //Remove a specific element from a list.
-                        list_add(info_list_out, info_list_out_p); //Add an item at the end of a list
+                        //list_remove(info_list_out, info_list_out_p); //Remove a specific element from a list.
+                        //list_add(info_list_out, info_list_out_p); //Add an item at the end of a list
                         process_post(PROCESS_CURRENT(), e_msg_information, NULL);
+                        break;
                     }
                 } //END for
             } //END if hay elementos en la lista

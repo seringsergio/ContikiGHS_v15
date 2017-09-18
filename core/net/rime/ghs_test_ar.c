@@ -33,33 +33,83 @@ uint32_t return_weight(edges *e_list_head_g,  const linkaddr_t *from)
 
 /* Hace que el edge se vuelva rejected
 */
-void become_rejected(edges *e_list_head_g, const linkaddr_t *from)
+uint8_t become_rejected(edges *e_list_head_g, const linkaddr_t *from)
 {
     edges *e_aux;
+    uint8_t temp = 0;
     for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
     {
         if(linkaddr_cmp(&e_aux->addr, from)) //Entra si las direcciones son iguales
         {
-            e_aux->state = E_REJECTED;
-            break;
+            if( (e_aux->state == BASIC) || (e_aux->state == E_ACCEPTED) || (e_aux->state == E_REJECTED) )
+            {
+                e_aux->state = E_REJECTED;
+                temp = 1;
+                break;
+            }else
+            if(e_aux->state == BRANCH)
+            {
+                MY_DBG("ERROR: Preguntarse porque quiero volver rejected un edge q ya es BRANCH\n");
+                temp = 0;
+                break;
+            }
         }
+    }//end for
+
+    if( e_aux == NULL)
+    {
+        MY_DBG("ERROR: El vecino no existe en la lista de Edges\n");
     }
 
+    if(temp == 1)
+    {
+        return 1;
+    }else
+    {
+        return 0;
+    }
 }
 /* Hace que el edges se vuelva accepted
 */
-void become_accepted(edges *e_list_head_g, const linkaddr_t *from)
+uint8_t become_accepted(edges *e_list_head_g, const linkaddr_t *from)
 {
     edges *e_aux;
+    uint8_t temp = 0;
+
     for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
     {
         if(linkaddr_cmp(&e_aux->addr, from)) //Entra si las direcciones son iguales
         {
-            e_aux->state = E_ACCEPTED;
-            break;
+            //SOlamente puede volverse accepted si esta en el estado BASIC o ya es E_ACCEPTED
+            if( (e_aux->state == BASIC) || (e_aux->state == E_ACCEPTED) )
+            {
+                e_aux->state = E_ACCEPTED;
+                temp = 1;
+                break;
+            }else
+            if( (e_aux->state == BRANCH) || (e_aux->state == E_REJECTED)  )
+            {
+                MY_DBG("ERROR: Preguntarse porque quiero volver accepted un edge q ya es BRANCH o E_REJECTED\n");
+                temp = 0;
+                break;
+            }
         }
     }
+
+    if( e_aux == NULL)
+    {
+        MY_DBG("ERROR: El vecino no existe en la lista de Edges\n");
+    }
+
+    if(temp == 1)
+    {
+        return 1;
+    }else
+    {
+        return 0;
+    }
 }
+
 
 /* Funcion para llenar el msg test
 */
