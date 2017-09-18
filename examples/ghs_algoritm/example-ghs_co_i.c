@@ -522,7 +522,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                         process_post(&master_co_i,  e_found, NULL);
                     }
 
-                    MY_DBG("TamanoLista =%d llego INITIATE from %d.%d name=%d.%02d level=%d state=%d parent=%d flags=%04X\n",
+                    MY_DBG("TamanoLista =%d llego INITIATE from %d.%d name=%d.%02d level=%d state=%d parent=%d  i_msg.flags=%04X\n",
                           list_length(i_list),
                           i_list_p->from.u8[0], i_list_p->from.u8[1],
                           (int)(nd.f.name_str.weight / SEQNO_EWMA_UNITY),
@@ -530,7 +530,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                           nd.f.level,
                           nd.state,
                           nd.parent.u8[0],
-                          nd.flags);
+                          i_list_p->i_msg.flags);
 
                   //Remuevo el elemento de la lista
                   my_list_remove(i_list, i_list_p); //Remove a specific element from a list.
