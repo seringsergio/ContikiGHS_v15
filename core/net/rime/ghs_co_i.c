@@ -253,15 +253,16 @@ void llenar_initiate_msg(initiate_msg *i_msg, name name_str,
     i_msg->f.level    = level;
     i_msg->nd_state   = state;
     linkaddr_copy(&i_msg->destination , dest);
-
-    if( !(flags & BECOME_CORE_NODE))
+    i_msg->flags = flags;
+    
+    /*if( !(flags & BECOME_CORE_NODE))
     {
         i_msg->flags     &= ~BECOME_CORE_NODE;
     }else
     if(flags & BECOME_CORE_NODE)
     {
         i_msg->flags     |= BECOME_CORE_NODE;
-    }
+    }*/
 }
 
 void llenar_initiate_msg_list (initiate_list *i_list_out_p, name name_str,

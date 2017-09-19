@@ -261,7 +261,7 @@ PROCESS_THREAD(master_co_i, ev, data)
             llenar_connect_msg_list (co_list_out_p, nd.f.level, &nd.lwoe.node.neighbor);
             list_add(co_list_out, co_list_out_p); //Add an item at the end of a list
             process_post(&send_message_co_i,  e_msg_connect, NULL);
-            MY_DBG("Deseo enviar connect a %d\n", nd.lwoe.node.neighbor.u8[0]);
+            MY_DBG("Deseo enviar connect INICIAL a %d\n", nd.lwoe.node.neighbor.u8[0]);
             //Me voy al estado found
             //virtualmente porque no quiero resetear ND_LWOE ni CH_LWOE
             //nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
@@ -356,10 +356,9 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
 
                         }else //Si el estado NO es branch (El proceso postpones processing CONECT)
                         {
-                            MY_DBG("Tamano lista=%d Pospone ConNect de %d con level=%d nd.f.level=%d \n",
+                            MY_DBG("Tamano lista=%d Pospone ConNect... nd.f.level=%d \n",
                              list_length(co_list),
-                             co_list_p->from.u8[0],
-                             co_list_p->co_msg.level, nd.f.level);
+                              nd.f.level);
 
                              //Pospone processing the connect means no hacerle nada
 
@@ -522,7 +521,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                         process_post(&master_co_i,  e_found, NULL);
                     }
 
-                    MY_DBG("TamanoLista =%d llego INITIATE from %d.%d name=%d.%02d level=%d state=%d parent=%d  i_msg.flags=%04X\n",
+                    MY_DBG("TamanoLista =%d llego INITIATE from %d.%d name=%d.%02d level=%d nd.state=%d parent=%d  i_msg.flags=%04X\n",
                           list_length(i_list),
                           i_list_p->from.u8[0], i_list_p->from.u8[1],
                           (int)(nd.f.name_str.weight / SEQNO_EWMA_UNITY),
@@ -639,11 +638,11 @@ PROCESS_THREAD(send_message_co_i, ev, data)
                         packetbuf_copyfrom(&i_msg, sizeof(i_msg));
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INITIATE);
                         runicast_send(&runicast, &i_msg.destination, MAX_RETRANSMISSIONS);
-                        MY_DBG("Envio initiate a %d level= %d name=%d.%02d nd.flags=%04X\n", i_msg.destination.u8[0],
+                        MY_DBG("Envio initiate a %d level= %d name=%d.%02d i_msg.flags=%04X\n", i_msg.destination.u8[0],
                         i_msg.f.level,
                         (int)(i_msg.f.name_str.weight / SEQNO_EWMA_UNITY),
                         (int)(((100UL * i_msg.f.name_str.weight) / SEQNO_EWMA_UNITY) % 100),
-                         nd.flags);
+                         i_msg.flags);
 
                          //remuevo el elemento de la lista
                          my_list_remove(i_list_out, i_list_out_p); //Remove a specific element from a list.

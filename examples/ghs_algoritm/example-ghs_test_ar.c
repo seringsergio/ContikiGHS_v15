@@ -228,7 +228,7 @@ PROCESS_THREAD(e_test, ev, data)
 {
     PROCESS_BEGIN();
 
-    uint8_t tengo_edges_de_salida = 0; //No debe ser static porque quiero q siempre inicie en 0
+    //uint8_t tengo_edges_de_salida = 0; //No debe ser static porque quiero q siempre inicie en 0
     static char string[] = "REAAD";
     static edges *e_aux = NULL;
     static test_list *t_list_out_p;
@@ -242,7 +242,7 @@ PROCESS_THREAD(e_test, ev, data)
             MY_DBG("CONTINUE e_test level=%d\n ", nd.f.level);
             print_edges_list(e_list_head_g, string,  &linkaddr_node_addr);
 
-            tengo_edges_de_salida = 0;
+            //tengo_edges_de_salida = 0;
             for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
             {
                 //un rejected o Branch nunca se vuelven a testear
@@ -258,17 +258,19 @@ PROCESS_THREAD(e_test, ev, data)
                     list_add(t_list_out, t_list_out_p); //Add an item at the end of a list
                     process_post(&send_message_test_ar, e_msg_test, NULL);
 
-                    tengo_edges_de_salida = 1;
+                    //tengo_edges_de_salida = 1;
                     break; //Envio msg TEST al primer BASIC. Recordar que la lista esta ordenada
                     //PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
                 }
             }
 
-            if(tengo_edges_de_salida == 0)
+            //if(tengo_edges_de_salida == 0)
+            if(e_aux == NULL)
             {
                 //NO BORRAR! : MY_DBG("No tengo_edges_de_salida. INFINITO = %" PRIu32 "\n", INFINITO);
                 MY_DBG("No tengo edge de salida \n");
                 nd.lwoe.node.weight = INFINITO;
+                linkaddr_copy(&nd.lwoe.node.neighbor, &linkaddr_node_addr); //si peso es infinito, yo soy vecino
                 nd.flags |= ND_LWOE; //Ya encontre el ND_LWOE. Porque no tengo edges de salida
                 //process_post_synch(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
                 process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
@@ -406,11 +408,12 @@ PROCESS_THREAD(evaluar_msg_accept, ev, data)
             {
                 for(a_list_p = list_head(a_list); a_list_p != NULL; a_list_p = a_list_p->next)
                 {
-                    MY_DBG("llego AcCept de %d.  flags=%04X \n ",
-                    a_list_p->from.u8[0], nd.flags);
 
                     if( become_accepted(e_list_head_g, &a_list_p->from) )
                     {
+                        MY_DBG("llego AcCept de %d.  flags=%04X \n ",
+                        a_list_p->from.u8[0], nd.flags);
+
                         //Si un edges es aceptado: Se guarda el edge como mejor opcion del Nodo
                         linkaddr_copy(&nd.lwoe.node.neighbor,  &a_list_p->from);
                         nd.lwoe.node.weight = return_weight(e_list_head_g, &a_list_p->from);

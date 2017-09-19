@@ -237,10 +237,10 @@
       <formatted_time />
       <coloring />
     </plugin_config>
-    <width>825</width>
+    <width>842</width>
     <z>0</z>
-    <height>554</height>
-    <location_x>276</location_x>
+    <height>561</height>
+    <location_x>259</location_x>
     <location_y>160</location_y>
   </plugin>
   <plugin>

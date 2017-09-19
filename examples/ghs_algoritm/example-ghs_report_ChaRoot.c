@@ -152,7 +152,7 @@
               linkaddr_copy(&rp_list_p->from, from);
               list_add(rp_list, rp_list_p); //Add an item at the end of a list.
 
-              MY_DBG("TL:%d LLLego report de %d Neigh=%d Weight=%d.%02d  flags=%04X\n",
+              MY_DBG("TL:%d LLLego report de %d Neigh=%d Weight=%d.%02d  nd.flags=%04X\n",
                   list_length(rp_list),
                   rp_list_p->from.u8[0],
                   rp_list_p->rp_msg.neighbor_r.u8[0],
@@ -274,7 +274,7 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
                     process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
                     //process_post_synch(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
 
-                    MY_DBG("El menor de la lista es %d weight=%d.%02d flags=%04X - downroute=%d \n",
+                    MY_DBG("El menor de la lista es %d weight=%d.%02d nd.flags=%04X - downroute=%d \n",
                     nd.lwoe.children.neighbor.u8[0],
                     (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
                     (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100),
@@ -362,7 +362,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                         list_add(co_list_out_g, co_list_out_p); //Add an item at the end of a list
                                         process_post(&send_message_co_i,  e_msg_connect, NULL);
 
-                                        MY_DBG("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
+                                        MY_DBG("Deseo CONNECT a %d  (ND_LWOE)\n", nd.lwoe.node.neighbor.u8[0]);
                                     }else //Si es mejor el edge de un vecino
                                     {
                                         //send CHANGE_ROOT
@@ -371,7 +371,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                         list_add(cr_list_out, cr_list_out_p); //Add an item at the end of a list
                                         process_post(&send_message_report_ChaRoot, e_msg_ch_root, NULL);
 
-                                        MY_DBG("EEEnvie 222 CHANGE_ROOT a next_hop=%d final_destination=%d\n",
+                                        MY_DBG("EEEnvie 222 CHANGE_ROOT (CH_LWOE) a next_hop=%d final_destination=%d\n",
                                         cr_list_out_p->cr_msg.next_hop.u8[0],
                                         cr_list_out_p->cr_msg.final_destination.u8[0]);
                                     }
@@ -418,7 +418,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
                                 process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
 
-                                MY_DBG("CasiCompleta:CORE_NODE & FALTA el otro core_node. Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                                MY_DBG("CasiCompleta:CORE_NODE (NO_hijos) & FALTA el otro core_node. Deseo Reportar Neigh=%d Weight=%d.%02d\n",
                                          rp_list_out_p->rp_msg.neighbor_r.u8[0],
                                          (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                          (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
@@ -439,6 +439,12 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 nd.flags,
                                 nd.downroute.u8[0]);
 
+                                MY_DBG("nd.lwoe.node.weight=%d.%02d <= nd.lwoe.children.weight=%d.%02d \n",
+                                (int)(nd.lwoe.node.weight / SEQNO_EWMA_UNITY),
+                                (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100),
+                                (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
+                                (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100)     );
+
                                 if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
                                 {
                                     if(nd.lwoe.node.weight == INFINITO)
@@ -453,7 +459,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                     list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
                                     process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
 
-                                    MY_DBG("CORE_NODE & FALTA el otro core_node .Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                                    MY_DBG("CORE_NODE (ND_LWOE) & FALTA el otro core_node .Deseo Reportar Neigh=%d Weight=%d.%02d\n",
                                              rp_list_out_p->rp_msg.neighbor_r.u8[0],
                                              (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                              (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
@@ -471,7 +477,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                    list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
                                    process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
 
-                                   MY_DBG("CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=%d Weight=%d.%02d\n",
+                                   MY_DBG("CORE_NODE (CH_LWOE) & FALTA el otro core_node. Deseo Reportar Neigh=%d Weight=%d.%02d\n",
                                                         rp_list_out_p->rp_msg.neighbor_r.u8[0],
                                                         (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                                         (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
@@ -480,8 +486,15 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         }
                     } // END IF NO he encontrado el LWOE del fragmento. Else no hago nada, ya hice lo q tenia q hacer
                 }else //NO soy CORE_NODE
+                    //MY_DBG(" e_LWOE para nodo NO Core_edge\n");
                     if( (nd.flags & ND_LWOE) && (nd.flags & CH_LWOE) )
                     {
+                        MY_DBG("nd.lwoe.node.weight=%d.%02d <= nd.lwoe.children.weight=%d.%02d \n",
+                        (int)(nd.lwoe.node.weight / SEQNO_EWMA_UNITY),
+                        (int)(((100UL * nd.lwoe.node.weight) / SEQNO_EWMA_UNITY) % 100),
+                        (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
+                        (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100)     );
+
                         if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //Si es mejor MI edge
                         {
                             if(nd.lwoe.node.weight == INFINITO)
@@ -593,6 +606,7 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
                         llenar_connect_msg_list (co_list_out_p, nd.f.level, &nd.lwoe.node.neighbor);
                         list_add(co_list_out_g, co_list_out_p); //Add an item at the end of a list
                         process_post(&send_message_co_i,  e_msg_connect, NULL);
+
 
                         MY_DBG("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
 

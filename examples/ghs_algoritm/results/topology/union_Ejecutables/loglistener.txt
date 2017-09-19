@@ -1,37 +1,37 @@
 00:00.353	ID:8	Rime started with address 8.0
-00:00.361	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-c196df1 started. Node id is set to 8.
+00:00.361	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-2dfdcf7 started. Node id is set to 8.
 00:00.370	ID:8	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.382	ID:8	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.516	ID:2	Rime started with address 2.0
-00:00.525	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-c196df1 started. Node id is set to 2.
+00:00.525	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-2dfdcf7 started. Node id is set to 2.
 00:00.531	ID:6	Rime started with address 6.0
 00:00.534	ID:2	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.539	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-c196df1 started. Node id is set to 6.
+00:00.539	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-2dfdcf7 started. Node id is set to 6.
 00:00.545	ID:2	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.548	ID:6	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.560	ID:6	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.628	ID:4	Rime started with address 4.0
-00:00.637	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-c196df1 started. Node id is set to 4.
+00:00.637	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-2dfdcf7 started. Node id is set to 4.
 00:00.646	ID:4	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.658	ID:4	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.662	ID:1	Rime started with address 1.0
-00:00.671	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-c196df1 started. Node id is set to 1.
+00:00.671	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-2dfdcf7 started. Node id is set to 1.
 00:00.680	ID:1	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.682	ID:7	Rime started with address 7.0
-00:00.690	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-c196df1 started. Node id is set to 7.
+00:00.690	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-2dfdcf7 started. Node id is set to 7.
 00:00.692	ID:1	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.699	ID:7	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.711	ID:7	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.988	ID:9	Rime started with address 9.0
 00:00.995	ID:5	Rime started with address 5.0
-00:00.997	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-c196df1 started. Node id is set to 9.
-00:01.004	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-c196df1 started. Node id is set to 5.
+00:00.997	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-2dfdcf7 started. Node id is set to 9.
+00:01.004	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-2dfdcf7 started. Node id is set to 5.
 00:01.006	ID:9	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:01.013	ID:5	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:01.018	ID:9	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:01.024	ID:5	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:01.179	ID:3	Rime started with address 3.0
-00:01.188	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-c196df1 started. Node id is set to 3.
+00:01.188	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-2dfdcf7 started. Node id is set to 3.
 00:01.197	ID:3	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:01.209	ID:3	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:02.693	ID:2	Este es broadcast vecinos
@@ -321,543 +321,583 @@
 02:20.590	ID:7	primer become branch nodo = 9  
 02:20.592	ID:7	READ 7 9 1.00 2 
 02:20.594	ID:7	READ 7 8 1.18 1 
-02:43.177	ID:2	Deseo enviar connect a 1
-02:43.180	ID:2	Envio CONECT to 1 , level=0 
-02:43.306	ID:1	llego connect de from 2
-02:43.311	ID:1	Tamano lista=1 Pospone ConNect de 2 con level=0 nd.f.level=0 
-02:43.409	ID:2	runicast (co-i) message sent to 1.0, retransmissions 1
-02:44.274	ID:9	Deseo enviar connect a 7
+02:43.177	ID:2	Deseo enviar connect INICIAL a 1
+02:43.181	ID:2	Envio CONECT to 1 , level=0 
+02:43.305	ID:1	llego connect de from 2
+02:43.308	ID:1	Tamano lista=1 Pospone ConNect... nd.f.level=0 
+02:43.411	ID:2	runicast (co-i) message sent to 1.0, retransmissions 1
+02:44.275	ID:9	Deseo enviar connect INICIAL a 7
 02:44.278	ID:9	Envio CONECT to 7 , level=0 
-02:44.325	ID:7	llego connect de from 9
-02:44.330	ID:7	Tamano lista=1 Evaluo ConNect de 9 con Mismo level es BRANCH, level=0 
-02:44.331	ID:7	Soy CORE_NORE 1
-02:44.382	ID:9	runicast (co-i) message sent to 7.0, retransmissions 1
-02:44.383	ID:7	Envio initiate a 9 level= 1 name=1.00 nd.flags=0008
-02:44.507	ID:9	Soy CORE_NORE 2
-02:44.508	ID:9	Deseo postear FIND
-02:44.515	ID:9	TamanoLista =1 llego INITIATE from 7.0 name=1.00 level=1 state=1 parent=7  i_msg.flags=0001
-02:44.518	ID:9	END 9 7 1.00 2 1.00 
-02:44.572	ID:9	Estoy en FIND 
-02:44.574	ID:9	CONTINUE e_test level=1
+02:44.326	ID:7	llego connect de from 9
+02:44.331	ID:7	Tamano lista=1 Evaluo ConNect de 9 con Mismo level es BRANCH, level=0 
+02:44.332	ID:7	Soy CORE_NORE 1
+02:44.380	ID:9	runicast (co-i) message sent to 7.0, retransmissions 1
+02:44.382	ID:7	Envio initiate a 9 level= 1 name=1.00 i_msg.flags=0001
+02:44.505	ID:9	Soy CORE_NORE 2
+02:44.506	ID:9	Deseo postear FIND
+02:44.514	ID:9	TamanoLista =1 llego INITIATE from 7.0 name=1.00 level=1 nd.state=1 parent=7  i_msg.flags=0001
+02:44.516	ID:9	END 9 7 1.00 2 1.00 
+02:44.573	ID:9	Estoy en FIND 
+02:44.575	ID:9	CONTINUE e_test level=1
 02:44.576	ID:7	runicast (co-i) message sent to 9.0, retransmissions 1
-02:44.576	ID:9	 REAAD 9 7 1.00 2 
-02:44.578	ID:9	REAAD 9 8 1.19 1 
-02:44.580	ID:9	REAAD 9 6 1.57 1 
-02:44.583	ID:9	OUT EDGE: addr=8 e_aux->state =1 
-02:44.586	ID:9	Deseo enviar e_msg_test a 8
-02:44.624	ID:8	TL=1  Pospone un TEsT msg from 9 con name=1.00, level test=1 > nd.f.level=0 
-02:44.758	ID:9	runicastt (test-ar) message sent to 8.0, retransmissions 1
-02:45.006	ID:8	Deseo enviar connect a 7
-02:45.009	ID:8	Envio CONECT to 7 , level=0 
-02:45.076	ID:7	llego connect de from 8
-02:45.080	ID:7	Tamano lista=1 Pospone ConNect de 8 con level=0 nd.f.level=0 
+02:44.577	ID:9	 REAAD 9 7 1.00 2 
+02:44.579	ID:9	REAAD 9 8 1.19 1 
+02:44.581	ID:9	REAAD 9 6 1.57 1 
+02:44.584	ID:9	OUT EDGE: addr=8 e_aux->state =1 
+02:44.587	ID:9	Deseo enviar e_msg_test a 8
+02:44.625	ID:8	TL=1  Pospone un TEsT msg from 9 con name=1.00, level test=1 > nd.f.level=0 
+02:44.757	ID:9	runicastt (test-ar) message sent to 8.0, retransmissions 1
+02:45.006	ID:8	Deseo enviar connect INICIAL a 7
+02:45.010	ID:8	Envio CONECT to 7 , level=0 
+02:45.074	ID:7	llego connect de from 8
+02:45.077	ID:7	Tamano lista=1 Pospone ConNect... nd.f.level=0 
 02:45.121	ID:8	runicast (co-i) message sent to 7.0, retransmissions 1
-02:46.198	ID:1	Deseo enviar connect a 3
-02:46.201	ID:1	Envio CONECT to 3 , level=0 
+02:46.198	ID:1	Deseo enviar connect INICIAL a 3
+02:46.202	ID:1	Envio CONECT to 3 , level=0 
 02:46.323	ID:3	llego connect de from 1
-02:46.328	ID:3	Tamano lista=1 Pospone ConNect de 1 con level=0 nd.f.level=0 
-02:46.430	ID:1	runicast (co-i) message sent to 3.0, retransmissions 1
-02:48.039	ID:4	Deseo enviar connect a 5
-02:48.042	ID:4	Envio CONECT to 5 , level=0 
+02:46.327	ID:3	Tamano lista=1 Pospone ConNect... nd.f.level=0 
+02:46.432	ID:1	runicast (co-i) message sent to 3.0, retransmissions 1
+02:48.039	ID:4	Deseo enviar connect INICIAL a 5
+02:48.043	ID:4	Envio CONECT to 5 , level=0 
 02:48.138	ID:5	llego connect de from 4
-02:48.142	ID:5	Tamano lista=1 Pospone ConNect de 4 con level=0 nd.f.level=0 
-02:48.272	ID:4	runicast (co-i) message sent to 5.0, retransmissions 1
-02:51.781	ID:5	Deseo enviar connect a 8
-02:51.784	ID:5	Envio CONECT to 8 , level=0 
-02:51.840	ID:3	Deseo enviar connect a 6
-02:51.843	ID:3	Envio CONECT to 6 , level=0 
+02:48.142	ID:5	Tamano lista=1 Pospone ConNect... nd.f.level=0 
+02:48.273	ID:4	runicast (co-i) message sent to 5.0, retransmissions 1
+02:51.781	ID:5	Deseo enviar connect INICIAL a 8
+02:51.785	ID:5	Envio CONECT to 8 , level=0 
+02:51.840	ID:3	Deseo enviar connect INICIAL a 6
+02:51.844	ID:3	Envio CONECT to 6 , level=0 
 02:51.870	ID:8	llego connect de from 5
-02:51.875	ID:8	Tamano lista=1 Pospone ConNect de 5 con level=0 nd.f.level=0 
-02:52.174	ID:6	llego connect de from 3
-02:52.180	ID:6	Tamano lista=1 Evaluo ConNect de 3 con Mismo level es BRANCH, level=0 
-02:52.181	ID:6	Soy CORE_NORE 1
-02:52.324	ID:3	runicast (co-i) message sent to 6.0, retransmissions 1
-02:52.326	ID:6	Envio initiate a 3 level= 1 name=1.29 nd.flags=0008
-02:52.446	ID:6	Deseo enviar connect a 3
-02:52.447	ID:3	Soy CORE_NORE 2
-02:52.448	ID:3	Deseo postear FIND
-02:52.456	ID:3	TamanoLista =1 llego INITIATE from 6.0 name=1.29 level=1 state=1 parent=6  i_msg.flags=0001
-02:52.458	ID:3	END 3 6 1.29 2 1.29 
-02:52.463	ID:3	MAYOR. Tamano lista=1 EvaluOO ConNect de 1 con level=0, my level=1 
-02:52.607	ID:3	Envio initiate a 1 level= 1 name=1.29 nd.flags=0008
-02:52.609	ID:3	Estoy en FIND 
-02:52.803	ID:3	CONTINUE e_test level=1
-02:52.805	ID:1	Deseo postear FIND
-02:52.805	ID:3	 REAAD 3 6 1.29 2 
-02:52.807	ID:3	REAAD 3 1 1.41 2 
-02:52.809	ID:3	No tengo edge de salida 
-02:52.812	ID:1	TamanoLista =1 llego INITIATE from 3.0 name=1.29 level=1 state=1 parent=3  i_msg.flags=0000
-02:52.815	ID:1	END 1 3 1.41 2 1.29 
-02:52.820	ID:1	MAYOR. Tamano lista=1 EvaluOO ConNect de 2 con level=0, my level=1 
-02:52.829	ID:1	Envio initiate a 2 level= 1 name=1.29 nd.flags=0000
-02:52.830	ID:1	Estoy en FIND 
-02:52.837	ID:1	CONTINUE e_test level=1
-02:52.839	ID:1	 REAAD 1 3 1.41 2 
-02:52.841	ID:1	REAAD 1 2 1.73 2 
-02:52.843	ID:1	No tengo edge de salida 
-02:52.997	ID:8	runicast (co-i) message received from 5.0, seqno 0 (DUPLICATE)
-02:53.160	ID:2	Deseo postear FIND
-02:53.167	ID:2	TamanoLista =1 llego INITIATE from 1.0 name=1.29 level=1 state=1 parent=1  i_msg.flags=0000
-02:53.170	ID:2	END 2 1 1.73 2 1.29 
-02:53.174	ID:2	Estoy en FIND 
-02:53.176	ID:2	CONTINUE e_test level=1
-02:53.178	ID:2	 REAAD 2 1 1.73 2 
-02:53.180	ID:2	REAAD 2 5 1.95 1 
-02:53.183	ID:2	OUT EDGE: addr=5 e_aux->state =1 
-02:53.187	ID:2	Deseo enviar e_msg_test a 5
-02:53.199	ID:3	runicast (co-i) message sent to 1.0, retransmissions 1
-02:53.806	ID:1	runicast (co-i) message sent to 2.0, retransmissions 1
-02:53.888	ID:5	runicast (co-i) message sent to 8.0, retransmissions 2
-02:53.998	ID:8	runicast (co-i) message received from 5.0, seqno 0 (DUPLICATE)
-02:54.951	ID:3	runicast (co-i) message received from 6.0, seqno 0 (DUPLICATE)
-02:55.049	ID:6	runicast (co-i) message sent to 3.0, retransmissions 3
-02:55.053	ID:6	Envio CONECT to 3 , level=0 
-02:55.072	ID:3	llego connect de from 6
-02:55.077	ID:3	MAYOR. Tamano lista=1 EvaluOO ConNect de 6 con level=0, my level=1 
-02:55.175	ID:6	runicast (co-i) message sent to 3.0, retransmissions 1
-02:55.176	ID:3	Envio initiate a 6 level= 1 name=1.29 nd.flags=000A
-02:56.592	ID:7	Deseo enviar connect a 9
+02:51.874	ID:8	Tamano lista=1 Pospone ConNect... nd.f.level=0 
+02:52.265	ID:5	runicast (co-i) message sent to 8.0, retransmissions 0
+02:52.317	ID:6	Deseo enviar connect INICIAL a 3
+02:52.320	ID:6	Envio CONECT to 3 , level=0 
+02:52.923	ID:6	llego connect de from 3
+02:52.928	ID:6	Tamano lista=1 Evaluo ConNect de 3 con Mismo level es BRANCH, level=0 
+02:52.929	ID:6	Soy CORE_NORE 1
+02:52.948	ID:3	runicast (co-i) message sent to 6.0, retransmissions 2
+02:53.447	ID:3	llego connect de from 6
+02:53.450	ID:3	Tamano lista=2 Pospone ConNect... nd.f.level=0 
+02:53.455	ID:3	Tamano lista=2 Evaluo ConNect de 6 con Mismo level es BRANCH, level=0 
+02:53.456	ID:3	Soy CORE_NORE 1
+02:53.550	ID:6	runicast (co-i) message sent to 3.0, retransmissions 2
+02:53.551	ID:3	Envio initiate a 6 level= 1 name=1.29 i_msg.flags=0001
+02:53.556	ID:6	Envio initiate a 3 level= 1 name=1.29 i_msg.flags=0001
+02:53.673	ID:6	Soy CORE_NORE 2
+02:53.674	ID:6	Deseo postear FIND
+02:53.681	ID:6	TamanoLista =1 llego INITIATE from 3.0 name=1.29 level=1 nd.state=1 parent=3  i_msg.flags=0001
+02:53.684	ID:6	END 6 3 1.29 2 1.29 
+02:53.685	ID:6	Estoy en FIND 
+02:53.688	ID:6	CONTINUE e_test level=1
+02:53.690	ID:6	 REAAD 6 3 1.29 2 
+02:53.692	ID:6	REAAD 6 4 1.50 1 
+02:53.694	ID:6	REAAD 6 9 1.57 1 
+02:53.696	ID:6	OUT EDGE: addr=4 e_aux->state =1 
+02:53.700	ID:6	Deseo enviar e_msg_test a 4
+02:53.775	ID:4	TL=1  Pospone un TEsT msg from 6 con name=1.29, level test=1 > nd.f.level=0 
+02:53.824	ID:3	runicast (co-i) message sent to 6.0, retransmissions 1
+02:53.829	ID:3	Soy CORE_NORE 2
+02:53.830	ID:3	Deseo postear FIND
+02:53.838	ID:3	TamanoLista =1 llego INITIATE from 6.0 name=1.29 level=1 nd.state=1 parent=6  i_msg.flags=0001
+02:53.841	ID:3	END 3 6 1.29 2 1.29 
+02:53.846	ID:3	MAYOR. Tamano lista=1 EvaluOO ConNect de 1 con level=0, my level=1 
+02:53.990	ID:3	Envio initiate a 1 level= 1 name=1.29 i_msg.flags=0000
+02:53.991	ID:3	Estoy en FIND 
+02:54.268	ID:3	CONTINUE e_test level=1
+02:54.270	ID:3	 REAAD 3 6 1.29 2 
+02:54.272	ID:3	REAAD 3 1 1.41 2 
+02:54.274	ID:3	No tengo edge de salida 
+02:54.425	ID:6	runicastt (test-ar) message sent to 4.0, retransmissions 1
+02:54.431	ID:1	Deseo postear FIND
+02:54.439	ID:1	TamanoLista =1 llego INITIATE from 3.0 name=1.29 level=1 nd.state=1 parent=3  i_msg.flags=0000
+02:54.441	ID:1	END 1 3 1.41 2 1.29 
+02:54.447	ID:1	MAYOR. Tamano lista=1 EvaluOO ConNect de 2 con level=0, my level=1 
+02:54.456	ID:1	Envio initiate a 2 level= 1 name=1.29 i_msg.flags=0000
+02:54.457	ID:1	Estoy en FIND 
+02:54.463	ID:1	CONTINUE e_test level=1
+02:54.465	ID:1	 REAAD 1 3 1.41 2 
+02:54.467	ID:1	REAAD 1 2 1.73 2 
+02:54.469	ID:1	No tengo edge de salida 
+02:54.549	ID:6	runicast (co-i) message sent to 3.0, retransmissions 1
+02:54.659	ID:2	Deseo postear FIND
+02:54.667	ID:2	TamanoLista =1 llego INITIATE from 1.0 name=1.29 level=1 nd.state=1 parent=1  i_msg.flags=0000
+02:54.669	ID:2	END 2 1 1.73 2 1.29 
+02:54.802	ID:2	Estoy en FIND 
+02:54.804	ID:2	CONTINUE e_test level=1
+02:54.806	ID:1	runicast (co-i) message sent to 2.0, retransmissions 1
+02:54.806	ID:2	 REAAD 2 1 1.73 2 
+02:54.808	ID:2	REAAD 2 5 1.95 1 
+02:54.811	ID:2	OUT EDGE: addr=5 e_aux->state =1 
+02:54.815	ID:2	Deseo enviar e_msg_test a 5
+02:54.893	ID:5	TL=1  Pospone un TEsT msg from 2 con name=1.29, level test=1 > nd.f.level=0 
+02:55.185	ID:1	runicast (co-i) message received from 3.0, seqno 2 (DUPLICATE)
+02:55.285	ID:2	runicastt (test-ar) message sent to 5.0, retransmissions 1
+02:55.574	ID:3	runicast (co-i) message sent to 1.0, retransmissions 2
+02:56.593	ID:7	Deseo enviar connect INICIAL a 9
 02:56.596	ID:7	Envio CONECT to 9 , level=0 
 02:56.632	ID:9	llego connect de from 7
 02:56.637	ID:9	MAYOR. Tamano lista=1 EvaluOO ConNect de 7 con level=0, my level=1 
-02:56.701	ID:7	runicast (co-i) message sent to 9.0, retransmissions 1
-02:56.703	ID:9	Envio initiate a 7 level= 1 name=1.00 nd.flags=0008
-02:56.824	ID:7	Deseo postear FIND
-02:56.831	ID:7	TamanoLista =1 llego INITIATE from 9.0 name=1.00 level=1 state=1 parent=9  i_msg.flags=0000
-02:56.834	ID:7	END 7 9 1.00 2 1.00 
-02:56.839	ID:7	MAYOR. Tamano lista=1 EvaluOO ConNect de 8 con level=0, my level=1 
-02:56.882	ID:9	runicast (co-i) message sent to 7.0, retransmissions 1
-02:56.884	ID:7	Envio initiate a 8 level= 1 name=1.00 nd.flags=0008
-02:56.885	ID:7	Estoy en FIND 
-02:56.995	ID:7	CONTINUE e_test level=1
-02:56.997	ID:8	Deseo postear FIND
-02:56.997	ID:7	 REAAD 7 9 1.00 2 
-02:56.999	ID:7	REAAD 7 8 1.18 2 
-02:57.001	ID:7	No tengo edge de salida 
-02:57.004	ID:8	TamanoLista =1 llego INITIATE from 7.0 name=1.00 level=1 state=1 parent=7  i_msg.flags=0000
-02:57.007	ID:8	END 8 7 1.18 2 1.00 
-02:57.012	ID:8	MAYOR. Tamano lista=1 EvaluOO ConNect de 5 con level=0, my level=1 
-02:57.018	ID:8	TL=1  evaluo un TEsT msg from 9 con name=1.00, level=1 > nd.f.level=1 
-02:57.020	ID:8	Quuuiero enviar e_msg_reject a 9 
-02:57.075	ID:7	runicast (co-i) message sent to 8.0, retransmissions 1
-02:57.076	ID:8	Envio initiate a 5 level= 1 name=1.00 nd.flags=0000
-02:57.077	ID:8	Estoy en FIND 
-02:57.081	ID:8	Envie reject a 9
-02:57.136	ID:8	CONTINUE e_test level=1
-02:57.137	ID:5	Deseo postear FIND
-02:57.138	ID:8	 REAAD 8 7 1.18 2 
-02:57.140	ID:8	REAAD 8 9 1.19 1 
-02:57.142	ID:8	REAAD 8 5 1.39 2 
-02:57.144	ID:8	OUT EDGE: addr=9 e_aux->state =1 
-02:57.145	ID:5	TamanoLista =1 llego INITIATE from 8.0 name=1.00 level=1 state=1 parent=8  i_msg.flags=0000
-02:57.147	ID:5	END 5 8 1.39 2 1.00 
-02:57.153	ID:5	MAYOR. Tamano lista=1 EvaluOO ConNect de 4 con level=0, my level=1 
-02:57.163	ID:5	Envio initiate a 4 level= 1 name=1.00 nd.flags=0000
-02:57.164	ID:5	Estoy en FIND 
-02:57.171	ID:5	CONTINUE e_test level=1
-02:57.173	ID:5	 REAAD 5 8 1.39 2 
-02:57.175	ID:5	REAAD 5 4 1.41 2 
-02:57.177	ID:5	REAAD 5 2 1.95 1 
-02:57.179	ID:5	OUT EDGE: addr=2 e_aux->state =1 
-02:57.183	ID:5	Deseo enviar e_msg_test a 2
-02:57.647	ID:4	Deseo postear FIND
-02:57.654	ID:4	TamanoLista =1 llego INITIATE from 5.0 name=1.00 level=1 state=1 parent=5  i_msg.flags=0000
-02:57.657	ID:4	END 4 5 1.41 2 1.00 
-02:57.761	ID:4	Estoy en FIND 
-02:57.765	ID:4	CONTINUE e_test level=1
-02:57.765	ID:5	runicast (co-i) message sent to 4.0, retransmissions 1
-02:57.767	ID:4	 REAAD 4 5 1.41 2 
-02:57.769	ID:4	REAAD 4 6 1.50 1 
-02:57.771	ID:4	OUT EDGE: addr=6 e_aux->state =1 
-02:57.775	ID:4	Deseo enviar e_msg_test a 6
-02:57.803	ID:6	TL=1  Pospone un TEsT msg from 4 con name=1.00, level test=1 > nd.f.level=0 
-02:57.897	ID:4	runicastt (test-ar) message sent to 6.0, retransmissions 1
-02:58.140	ID:5	runicast (co-i) message received from 8.0, seqno 1 (DUPLICATE)
-02:58.664	ID:2	TL=1  evaluo un TEsT msg from 5 con name=1.00, level=1 > nd.f.level=1 
-02:58.666	ID:2	Quuuiero enviar e_msg_accept a 5 
-02:59.015	ID:5	runicastt (test-ar) message sent to 2.0, retransmissions 2
-02:59.025	ID:5	TL=1  evaluo un TEsT msg from 2 con name=1.29, level=1 > nd.f.level=1 
-02:59.027	ID:5	Quuuiero enviar e_msg_accept a 2 
-02:59.159	ID:5	Envie accept a 2 
-02:59.161	ID:2	runicastt (test-ar) message sent to 5.0, retransmissions 6
-02:59.164	ID:2	Envie accept a 5 
-02:59.758	ID:9	Asumo Reject q llego  de 8 
-02:59.898	ID:9	CONTINUE e_test level=1
-02:59.899	ID:9	 REAAD 9 7 1.00 2 
-02:59.901	ID:9	REAAD 9 8 1.19 4 
-02:59.903	ID:9	REAAD 9 6 1.57 1 
-02:59.906	ID:9	OUT EDGE: addr=6 e_aux->state =1 
-03:00.047	ID:9	Deseo enviar e_msg_test a 6
-03:00.785	ID:2	llego AcCept de 5.  flags=0000 
-03:00.790	ID:2	 NO_CORE & HOJA Deseo Reportar Neigh=2 Weight=1.95
-03:00.795	ID:2	Envie report a 1 Neigh=2 Weight=1.95 flags=0002
-03:00.797	ID:2	Estoy en FOUND 
-03:00.799	ID:2	END 2 1 1.73 2 1.29 
-03:01.661	ID:2	runicast message received from 5.0, seqno 1 (DUPLICATE)
-03:01.745	ID:8	runicast (co-i) message sent to 5.0, retransmissions 2
-03:02.010	ID:9	runicast message received from 8.0, seqno 0 (DUPLICATE)
-03:02.059	ID:1	TL:1 LLLego report de 2 Neigh=2 Weight=1.95  flags=0002
-03:02.061	ID:1	list_length(rp_list)=1  
-03:02.062	ID:1	Reports completos..   
-03:02.067	ID:1	El menor de la lista es 2 weight=1.95 flags=0006 - downroute=2 
-03:02.077	ID:1	NO_CORE & BEST(CH_LWOE) Deseo Reportar Neigh=2 Weight=1.95
-03:02.082	ID:1	Envie report a 3 Neigh=2 Weight=1.95 flags=0006
-03:02.084	ID:1	Estoy en FOUND 
-03:02.086	ID:1	END 1 3 1.41 2 1.29 
-03:02.183	ID:1	runicast message received from 2.0, seqno 0 (DUPLICATE)
-03:02.662	ID:2	runicast message received from 5.0, seqno 1 (DUPLICATE)
-03:02.678	ID:6	TL=2  Pospone un TEsT msg from 4 con name=1.00, level test=1 > nd.f.level=0 
-03:02.684	ID:6	TL=2  Pospone un TEsT msg from 9 con name=1.00, level test=1 > nd.f.level=0 
-03:02.747	ID:8	runicastt (test-ar) message sent to 9.0, retransmissions 3
-03:02.750	ID:8	Deseo enviar e_msg_test a 9
-03:02.807	ID:1	runicast message received from 2.0, seqno 0 (DUPLICATE)
-03:02.950	ID:3	TL:1 LLLego report de 1 Neigh=2 Weight=1.95  flags=000A
-03:02.952	ID:3	list_length(rp_list)=1  
-03:02.955	ID:3	Casicompleta porque solamente falta el otro core_node
-03:02.963	ID:3	Casicompleta porque solamente falta el otro core_node
-03:02.969	ID:3	CasiCompleta:El menor de la lista es 2 weight=1.95 flags=000A - downroute=1 
-03:02.974	ID:3	CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=2 Weight=1.95
-03:02.980	ID:3	Envie report a 6 Neigh=2 Weight=1.95 flags=000A
-03:03.008	ID:9	runicastt (test-ar) message sent to 6.0, retransmissions 3
-03:03.013	ID:5	runicastt (test-ar) message sent to 2.0, retransmissions 4
-03:03.052	ID:6	TL:1 LLLego report de 3 Neigh=2 Weight=1.95  flags=0008
-03:03.054	ID:6	list_length(rp_list)=1  
-03:03.055	ID:6	Reports completos..   
-03:03.060	ID:6	El menor de la lista es 2 weight=1.95 flags=000C - downroute=3 
-03:03.069	ID:6	Casicompleta porque solamente falta el otro core_node
-03:03.185	ID:1	runicast (report-ChaRoot)  message sent to 3.0, retransmissions 1 flags=0000
-03:03.638	ID:5	llego AcCept de 2.  flags=0000 
-03:03.767	ID:5	 runicast message received from 2.0, seqno 1 (DUPLICATE)
-03:03.891	ID:5	runicast message received from 2.0, seqno 1 (DUPLICATE)
-03:04.449	ID:3	runicast (report-ChaRoot)  message sent to 6.0, retransmissions 1 flags=000A
-03:05.141	ID:5	runicast (co-i) message received from 8.0, seqno 1 (DUPLICATE)
-03:05.824	ID:3	runicast message received from 1.0, seqno 0 (DUPLICATE)
-03:06.383	ID:9	runicast message received from 8.0, seqno 0 (DUPLICATE)
-03:06.394	ID:9	TL=1  evaluo un TEsT msg from 8 con name=1.00, level=1 > nd.f.level=1 
-03:06.397	ID:9	Quuuiero enviar e_msg_reject a 8 
-03:06.399	ID:9	Envie reject a 8
-03:06.508	ID:9	runicast message received from 8.0, seqno 1 (DUPLICATE)
-03:06.635	ID:9	runicast message received from 8.0, seqno 1 (DUPLICATE)
-03:06.757	ID:9	runicast message received from 8.0, seqno 1 (DUPLICATE)
-03:06.787	ID:2	runicast (report-ChaRoot)  message sent to 1.0, retransmissions 5 flags=0000
-03:07.059	ID:1	runicast message received from 2.0, seqno 0 (DUPLICATE)
-03:08.372	ID:8	runicastt (test-ar) message sent to 9.0, retransmissions 7
-03:11.752	ID:8	Asumo Reject q llego  de 9 
-03:11.754	ID:8	CONTINUE e_test level=1
-03:11.756	ID:8	 REAAD 8 7 1.18 2 
-03:11.758	ID:8	REAAD 8 9 1.19 4 
-03:11.760	ID:8	REAAD 8 5 1.39 2 
-03:11.762	ID:8	No tengo edge de salida 
-03:11.873	ID:8	runicast message received from 9.0, seqno 2 (DUPLICATE)
-03:11.911	ID:2	runicastt (test-ar) message sent to 5.0, retransmissions 12
-03:11.998	ID:8	runicast message received from 9.0, seqno 2 (DUPLICATE)
-03:12.497	ID:8	runicast message received from 9.0, seqno 2 (DUPLICATE)
-03:12.624	ID:8	runicast message received from 9.0, seqno 2 (DUPLICATE)
-03:13.049	ID:6	Deseo postear FIND
-03:13.057	ID:6	TamanoLista =1 llego INITIATE from 3.0 name=1.29 level=1 state=1 parent=3  i_msg.flags=0000
-03:13.059	ID:6	END 6 3 1.29 2 1.29 
-03:13.065	ID:6	TL=2  evaluo un TEsT msg from 4 con name=1.00, level=1 > nd.f.level=1 
-03:13.068	ID:6	Quuuiero enviar e_msg_accept a 4 
-03:13.073	ID:6	TL=1  evaluo un TEsT msg from 9 con name=1.00, level=1 > nd.f.level=1 
-03:13.075	ID:6	Quuuiero enviar e_msg_accept a 9 
-03:13.214	ID:6	Estoy en FIND 
-03:13.217	ID:6	Envie accept a 4 
-03:13.356	ID:6	CONTINUE e_test level=1
-03:13.358	ID:6	 REAAD 6 3 1.29 2 
-03:13.360	ID:6	REAAD 6 4 1.50 1 
-03:13.362	ID:6	REAAD 6 9 1.57 1 
-03:13.365	ID:6	OUT EDGE: addr=4 e_aux->state =1 
-03:13.498	ID:8	runicast message received from 9.0, seqno 2 (DUPLICATE)
-03:13.573	ID:3	runicast (co-i) message sent to 6.0, retransmissions 18
-03:14.133	ID:9	runicastt (test-ar) message sent to 8.0, retransmissions 7
-03:14.163	ID:9	runicast message received from 8.0, seqno 1 (DUPLICATE)
-03:14.507	ID:9	runicast message received from 8.0, seqno 1 (DUPLICATE)
-03:14.884	ID:8	runicast message received from 9.0, seqno 2 (DUPLICATE)
-03:15.272	ID:4	llego AcCept de 6.  flags=0000 
-03:15.299	ID:4	 NO_CORE & HOJA Deseo Reportar Neigh=4 Weight=1.50
-03:15.300	ID:6	runicastt (test-ar) message sent to 4.0, retransmissions 3
-03:15.303	ID:6	Envie accept a 9 
-03:15.305	ID:4	Envie report a 5 Neigh=4 Weight=1.50 flags=0002
-03:15.306	ID:4	Estoy en FOUND 
-03:15.309	ID:4	END 4 5 1.41 2 1.00 
-03:15.382	ID:9	llego AcCept de 6.  flags=0008 
-03:15.524	ID:9	 Casicompleta porque solamente falta el otro core_node
-03:15.531	ID:9	CasiCompleta:CORE_NODE & FALTA el otro core_node. Deseo Reportar Neigh=9 Weight=1.57
-03:15.673	ID:9	Envie report a 7 Neigh=9 Weight=1.57 flags=000A
-03:15.951	ID:7	TL:1 LLLego report de 9 Neigh=9 Weight=1.57  flags=000A
-03:15.953	ID:7	list_length(rp_list)=1  
-03:15.955	ID:7	NOOO ... Lista NO completa
-03:16.050	ID:6	runicastt (test-ar) message sent to 9.0, retransmissions 1
-03:16.053	ID:6	Deseo enviar e_msg_test a 4
-03:16.515	ID:5	TL:1 LLLego report de 4 Neigh=4 Weight=1.50  flags=0002
-03:16.517	ID:5	list_length(rp_list)=1  
-03:16.519	ID:5	Reports completos..   
-03:16.524	ID:5	El menor de la lista es 4 weight=1.50 flags=0006 - downroute=4 
-03:16.667	ID:5	NO_CORE & BEST(CH_LWOE) Deseo Reportar Neigh=4 Weight=1.50
-03:16.809	ID:5	Envie report a 8 Neigh=4 Weight=1.50 flags=0006
-03:16.810	ID:5	Estoy en FOUND 
-03:16.813	ID:5	END 5 8 1.39 2 1.00 
-03:17.623	ID:8	TL:1 LLLego report de 5 Neigh=4 Weight=1.50  flags=0002
-03:17.625	ID:8	list_length(rp_list)=1  
-03:17.626	ID:8	Reports completos..   
-03:17.631	ID:8	El menor de la lista es 4 weight=1.50 flags=0006 - downroute=5 
-03:17.639	ID:8	NO_CORE & BEST(CH_LWOE) Deseo Reportar Neigh=4 Weight=1.50
-03:17.645	ID:8	Envie report a 7 Neigh=4 Weight=1.50 flags=0006
-03:17.647	ID:8	Estoy en FOUND 
-03:17.649	ID:8	END 8 7 1.18 2 1.00 
-03:18.203	ID:7	TL:2 LLLego report de 8 Neigh=4 Weight=1.50  flags=000A
-03:18.205	ID:7	list_length(rp_list)=2  
-03:18.207	ID:7	Reports completos..   
-03:18.212	ID:7	El menor de la lista es 4 weight=1.50 flags=000E - downroute=8 
-03:18.220	ID:7	nd.lwoe.node.weight=-1.15 <= nd.lwoe.children.weight=1.50 
-03:18.224	ID:7	EEEnvie 222 CHANGE_ROOT a next_hop=8 final_destination=4
-03:18.230	ID:7	Envie CHANGE_RooT next_hop=8 final_destination=4
-03:18.231	ID:7	Estoy en FOUND 
-03:18.233	ID:7	END 7 9 1.00 2 1.00 
-03:18.515	ID:5	runicast (report-ChaRoot)  message sent to 8.0, retransmissions 1 flags=0000
-03:18.642	ID:5	runicast message received from 4.0, seqno 0 (DUPLICATE)
-03:18.702	ID:7	runicast message received from 8.0, seqno 0 (DUPLICATE)
-03:18.952	ID:7	runicast message received from 9.0, seqno 0 (DUPLICATE)
-03:19.828	ID:7	runicast message received from 9.0, seqno 0 (DUPLICATE)
-03:20.015	ID:5	runicast message received from 4.0, seqno 0 (DUPLICATE)
-03:20.078	ID:7	runicast message received from 8.0, seqno 0 (DUPLICATE)
-03:20.525	ID:4	runicast (report-ChaRoot)  message sent to 5.0, retransmissions 5 flags=0000
-03:20.702	ID:7	runicast message received from 8.0, seqno 0 (DUPLICATE)
-03:20.890	ID:5	runicast message received from 4.0, seqno 0 (DUPLICATE)
-03:21.135	ID:9	runicast (report-ChaRoot)  message sent to 7.0, retransmissions 5 flags=000A
-03:21.328	ID:7	runicast message received from 9.0, seqno 0 (DUPLICATE)
-03:21.525	ID:4	TL=1  evaluo un TEsT msg from 6 con name=1.29, level=1 > nd.f.level=1 
-03:21.527	ID:4	Quuuiero enviar e_msg_accept a 6 
-03:21.533	ID:4	Envie accept a 6 
-03:21.749	ID:8	runicast (report-ChaRoot)  message sent to 7.0, retransmissions 4 flags=0000
-03:22.049	ID:6	runicastt (test-ar) message sent to 4.0, retransmissions 4
-03:22.996	ID:8	ChangeRoot NO es para mi
-03:23.000	ID:8	REEEnvie  CHANGE_ROOT a next_hop=5 final_destination=4
-03:23.008	ID:8	runicast message received from 7.0, seqno 0 (DUPLICATE)
-03:23.013	ID:8	Envie CHANGE_RooT next_hop=5 final_destination=4
-03:23.140	ID:5	ChangeRoot NO es para mi
-03:23.144	ID:5	REEEnvie  CHANGE_ROOT a next_hop=4 final_destination=4
-03:23.247	ID:5	Envie CHANGE_RooT next_hop=4 final_destination=4
-03:23.248	ID:8	runicast (report-ChaRoot)  message sent to 5.0, retransmissions 1 flags=0010
-03:23.272	ID:4	El msg de ChangeRooot es para mi, from=5
-03:23.274	ID:4	Deseo CONNECT a 6
-03:23.389	ID:4	Envio CONECT to 6 , level=1 
-03:23.390	ID:5	runicast (report-ChaRoot)  message sent to 4.0, retransmissions 1 flags=0010
-03:23.423	ID:6	llego connect de from 4
-03:23.428	ID:6	Tamano lista=1 Pospone ConNect de 4 con level=1 nd.f.level=1 
-03:23.954	ID:7	runicast (report-ChaRoot)  message sent to 8.0, retransmissions 5 flags=0018
-03:23.965	ID:7	runicast message received from 8.0, seqno 0 (DUPLICATE)
-03:24.428	ID:6	runicast (co-i) message received from 4.0, seqno 1 (DUPLICATE)
-03:24.551	ID:6	llego AcCept de 4.  flags=000C 
-03:24.556	ID:6	 nd.lwoe.node.weight=1.50 <= nd.lwoe.children.weight=1.95 
-03:24.557	ID:6	Deseo CONNECT a 4
-03:24.563	ID:6	Tamano lista=1 Evaluo ConNect de 4 con Mismo level es BRANCH, level=1 
-03:24.564	ID:6	Soy CORE_NORE 1
-03:24.568	ID:6	Envio CONECT to 4 , level=1 
-03:24.569	ID:6	Estoy en FOUND 
-03:24.571	ID:6	END 6 3 1.29 2 1.29 
-03:24.648	ID:4	runicastt (test-ar) message sent to 6.0, retransmissions 4
-03:24.654	ID:4	runicast (co-i) message sent to 6.0, retransmissions 2
-03:24.688	ID:4	runicast message received from 6.0, seqno 2 (DUPLICATE)
-03:25.127	ID:8	runicast message received from 7.0, seqno 0 (DUPLICATE)
-03:26.522	ID:4	llego connect de from 6
-03:26.527	ID:4	Tamano lista=1 Evaluo ConNect de 6 con Mismo level es BRANCH, level=1 
-03:26.528	ID:4	Soy CORE_NORE 1
-03:26.550	ID:6	runicast (co-i) message sent to 4.0, retransmissions 2
-03:26.552	ID:4	Envio initiate a 6 level= 2 name=1.50 nd.flags=0008
-03:26.556	ID:6	Envio initiate a 4 level= 2 name=1.50 nd.flags=0018
-03:26.673	ID:6	Soy CORE_NORE 2
-03:26.675	ID:6	Deseo postear FIND
-03:26.682	ID:6	TamanoLista =1 llego INITIATE from 4.0 name=1.50 level=2 state=1 parent=4  i_msg.flags=0001
-03:26.685	ID:6	END 6 4 1.50 2 1.50 
-03:26.686	ID:6	Estoy en FIND 
-03:26.688	ID:6	CONTINUE e_test level=2
-03:26.690	ID:6	 REAAD 6 3 1.29 2 
-03:26.692	ID:6	REAAD 6 4 1.50 2 
-03:26.694	ID:6	REAAD 6 9 1.57 1 
-03:26.697	ID:6	OUT EDGE: addr=9 e_aux->state =1 
-03:26.700	ID:6	Deseo enviar e_msg_test a 9
-03:26.762	ID:9	TL=1  Pospone un TEsT msg from 6 con name=1.50, level test=2 > nd.f.level=1 
-03:26.801	ID:6	runicastt (test-ar) message sent to 9.0, retransmissions 1
-03:27.147	ID:4	runicast (co-i) message sent to 6.0, retransmissions 1
-03:27.152	ID:4	Soy CORE_NORE 2
-03:27.153	ID:4	Deseo postear FIND
-03:27.160	ID:4	TamanoLista =1 llego INITIATE from 6.0 name=1.50 level=2 state=1 parent=6  i_msg.flags=0001
-03:27.163	ID:4	END 4 6 1.50 2 1.50 
-03:27.300	ID:6	runicast (co-i) message sent to 4.0, retransmissions 1
-03:27.301	ID:4	Envio initiate a 5 level= 2 name=1.50 nd.flags=0008
-03:27.302	ID:4	Estoy en FIND 
-03:27.305	ID:6	Envio initiate a 3 level= 2 name=1.50 nd.flags=0008
-03:27.386	ID:4	CONTINUE e_test level=2
-03:27.388	ID:5	Deseo postear FIND
-03:27.390	ID:4	 REAAD 4 5 1.41 2 
-03:27.392	ID:4	REAAD 4 6 1.50 2 
-03:27.393	ID:4	No tengo edge de salida 
-03:27.395	ID:5	TamanoLista =1 llego INITIATE from 4.0 name=1.50 level=2 state=1 parent=4  i_msg.flags=0000
-03:27.398	ID:5	END 5 4 1.41 2 1.50 
-03:27.522	ID:4	runicast (co-i) message sent to 5.0, retransmissions 1
-03:27.524	ID:5	Envio initiate a 8 level= 2 name=1.50 nd.flags=0010
-03:27.525	ID:5	Estoy en FIND 
-03:27.665	ID:5	CONTINUE e_test level=2
-03:27.667	ID:5	 REAAD 5 8 1.39 2 
-03:27.669	ID:5	REAAD 5 4 1.41 2 
-03:27.671	ID:5	REAAD 5 2 1.95 8 
-03:27.674	ID:5	OUT EDGE: addr=2 e_aux->state =8 
-03:27.746	ID:8	Deseo postear FIND
-03:27.746	ID:5	Deseo enviar e_msg_test a 2
-03:27.753	ID:8	TamanoLista =1 llego INITIATE from 5.0 name=1.50 level=2 state=1 parent=5  i_msg.flags=0000
-03:27.756	ID:8	END 8 5 1.39 2 1.50 
-03:27.766	ID:8	Envio initiate a 7 level= 2 name=1.50 nd.flags=0010
-03:27.767	ID:8	Estoy en FIND 
-03:27.774	ID:8	CONTINUE e_test level=2
-03:27.776	ID:8	 REAAD 8 7 1.18 2 
-03:27.778	ID:8	REAAD 8 9 1.19 4 
-03:27.780	ID:8	REAAD 8 5 1.39 2 
-03:27.782	ID:8	No tengo edge de salida 
-03:28.164	ID:2	TL=1  Pospone un TEsT msg from 5 con name=1.50, level test=2 > nd.f.level=1 
-03:28.950	ID:7	Deseo postear FIND
-03:28.957	ID:7	TamanoLista =1 llego INITIATE from 8.0 name=1.50 level=2 state=1 parent=8  i_msg.flags=0000
-03:28.960	ID:7	END 7 8 1.18 2 1.50 
-03:28.970	ID:7	Envio initiate a 9 level= 2 name=1.50 nd.flags=0018
-03:28.971	ID:7	Estoy en FIND 
-03:28.978	ID:7	CONTINUE e_test level=2
-03:28.980	ID:7	 REAAD 7 9 1.00 2 
-03:28.982	ID:7	REAAD 7 8 1.18 2 
-03:28.983	ID:7	No tengo edge de salida 
-03:29.321	ID:3	Deseo postear FIND
-03:29.328	ID:3	TamanoLista =1 llego INITIATE from 6.0 name=1.50 level=2 state=1 parent=6  i_msg.flags=0000
-03:29.331	ID:3	END 3 6 1.29 2 1.50 
-03:29.341	ID:3	Envio initiate a 1 level= 2 name=1.50 nd.flags=000A
-03:29.342	ID:3	Estoy en FIND 
-03:29.348	ID:3	CONTINUE e_test level=2
-03:29.350	ID:3	 REAAD 3 6 1.29 2 
-03:29.352	ID:3	REAAD 3 1 1.41 2 
-03:29.353	ID:3	No tengo edge de salida 
-03:29.674	ID:6	runicast (co-i) message sent to 3.0, retransmissions 2
-03:29.750	ID:8	runicast (co-i) message received from 5.0, seqno 2 (DUPLICATE)
-03:30.497	ID:8	runicast (co-i) message sent to 7.0, retransmissions 1
-03:30.681	ID:1	Deseo postear FIND
-03:30.689	ID:1	TamanoLista =1 llego INITIATE from 3.0 name=1.50 level=2 state=1 parent=3  i_msg.flags=0000
-03:30.691	ID:1	END 1 3 1.41 2 1.50 
-03:30.701	ID:1	Envio initiate a 2 level= 2 name=1.50 nd.flags=0000
-03:30.702	ID:1	Estoy en FIND 
-03:30.708	ID:1	CONTINUE e_test level=2
-03:30.710	ID:1	 REAAD 1 3 1.41 2 
-03:30.712	ID:1	REAAD 1 2 1.73 2 
-03:30.714	ID:1	No tengo edge de salida 
-03:31.160	ID:2	runicast message received from 5.0, seqno 2 (DUPLICATE)
-03:32.123	ID:8	runicast (co-i) message received from 5.0, seqno 2 (DUPLICATE)
-03:32.408	ID:2	Deseo postear FIND
-03:32.416	ID:2	TamanoLista =1 llego INITIATE from 1.0 name=1.50 level=2 state=1 parent=1  i_msg.flags=0000
-03:32.418	ID:2	END 2 1 1.73 2 1.50 
-03:32.424	ID:2	TL=1  evaluo un TEsT msg from 5 con name=1.50, level=2 > nd.f.level=2 
-03:32.427	ID:2	Quuuiero enviar e_msg_accept a 5 
-03:32.431	ID:2	Estoy en FIND 
-03:32.434	ID:2	Envie accept a 5 
-03:32.436	ID:2	CONTINUE e_test level=2
-03:32.438	ID:2	 REAAD 2 1 1.73 2 
-03:32.440	ID:2	REAAD 2 5 1.95 8 
-03:32.443	ID:2	OUT EDGE: addr=5 e_aux->state =8 
-03:32.874	ID:8	runicast (co-i) message received from 5.0, seqno 2 (DUPLICATE)
-03:33.124	ID:8	runicast (co-i) message received from 5.0, seqno 2 (DUPLICATE)
-03:33.412	ID:2	runicast (co-i) message received from 1.0, seqno 2 (DUPLICATE)
-03:33.559	ID:1	runicast (co-i) message received from 3.0, seqno 3 (DUPLICATE)
-03:33.683	ID:1	runicast (co-i) message received from 3.0, seqno 3 (DUPLICATE)
-03:33.807	ID:1	runicast (co-i) message received from 3.0, seqno 3 (DUPLICATE)
-03:34.013	ID:5	runicastt (test-ar) message sent to 2.0, retransmissions 6
-03:34.201	ID:7	runicast (co-i) message received from 8.0, seqno 2 (DUPLICATE)
-03:34.307	ID:1	runicast (co-i) message sent to 2.0, retransmissions 3
-03:34.577	ID:7	runicast (co-i) message received from 8.0, seqno 2 (DUPLICATE)
-03:35.135	ID:9	Deseo postear FIND
-03:35.142	ID:9	TamanoLista =1 llego INITIATE from 7.0 name=1.50 level=2 state=1 parent=7  i_msg.flags=0000
-03:35.145	ID:9	END 9 7 1.00 2 1.50 
-03:35.150	ID:9	TL=1  evaluo un TEsT msg from 6 con name=1.50, level=2 > nd.f.level=2 
-03:35.153	ID:9	Quuuiero enviar e_msg_accept a 6 
-03:35.292	ID:9	Estoy en FIND 
-03:35.295	ID:9	Envie accept a 6 
-03:35.434	ID:9	CONTINUE e_test level=2
-03:35.435	ID:9	 REAAD 9 7 1.00 2 
-03:35.437	ID:9	REAAD 9 8 1.19 4 
-03:35.439	ID:9	REAAD 9 6 1.57 8 
-03:35.442	ID:9	OUT EDGE: addr=6 e_aux->state =8 
-03:35.552	ID:6	llego AcCept de 9.  flags=0008 
-03:36.663	ID:2	runicast (co-i) message received from 1.0, seqno 2 (DUPLICATE)
-03:36.676	ID:6	 runicast message received from 9.0, seqno 3 (DUPLICATE)
-03:36.807	ID:1	runicast (co-i) message received from 3.0, seqno 3 (DUPLICATE)
-03:36.890	ID:5	llego AcCept de 2.  flags=0000 
-03:37.016	ID:5	 runicast message received from 2.0, seqno 2 (DUPLICATE)
-03:37.141	ID:5	runicast message received from 2.0, seqno 2 (DUPLICATE)
-03:37.265	ID:5	runicast message received from 2.0, seqno 2 (DUPLICATE)
-03:37.635	ID:9	runicast (co-i) message received from 7.0, seqno 3 (DUPLICATE)
-03:37.825	ID:3	runicast (co-i) message sent to 1.0, retransmissions 8
-03:37.885	ID:9	runicast (co-i) message received from 7.0, seqno 3 (DUPLICATE)
-03:37.892	ID:5	runicast message received from 2.0, seqno 2 (DUPLICATE)
-03:37.894	ID:9	runicast (co-i) message received from 7.0, seqno 3 (DUPLICATE)
-03:38.052	ID:6	runicast message received from 9.0, seqno 3 (DUPLICATE)
-03:38.534	ID:2	runicastt (test-ar) message sent to 5.0, retransmissions 6
-03:38.538	ID:2	Deseo enviar e_msg_test a 5
-03:39.177	ID:6	runicast message received from 9.0, seqno 3 (DUPLICATE)
-03:39.200	ID:7	runicast (co-i) message sent to 9.0, retransmissions 10
-03:39.384	ID:9	runicast (co-i) message received from 7.0, seqno 3 (DUPLICATE)
-03:39.391	ID:5	TL=1  evaluo un TEsT msg from 2 con name=1.50, level=2 > nd.f.level=2 
-03:39.394	ID:5	Quuuiero enviar e_msg_accept a 2 
-03:39.397	ID:5	Envie accept a 2 
-03:39.911	ID:2	runicastt (test-ar) message sent to 5.0, retransmissions 1
-03:40.383	ID:9	runicastt (test-ar) message sent to 6.0, retransmissions 5
-03:40.387	ID:9	Deseo enviar e_msg_test a 6
-03:40.409	ID:2	llego AcCept de 5.  flags=0000 
-03:40.413	ID:2	 NO_CORE & HOJA Deseo Reportar Neigh=2 Weight=1.95
-03:40.419	ID:2	Envie report a 1 Neigh=2 Weight=1.95 flags=0002
-03:40.420	ID:2	Estoy en FOUND 
-03:40.423	ID:2	END 2 1 1.73 2 1.50 
-03:40.559	ID:1	TL:1 LLLego report de 2 Neigh=2 Weight=1.95  flags=0002
-03:40.561	ID:1	list_length(rp_list)=1  
-03:40.562	ID:1	Reports completos..   
-03:40.567	ID:1	El menor de la lista es 2 weight=1.95 flags=0006 - downroute=2 
-03:40.661	ID:1	NO_CORE & BEST(CH_LWOE) Deseo Reportar Neigh=2 Weight=1.95
-03:40.662	ID:2	runicast (report-ChaRoot)  message sent to 1.0, retransmissions 1 flags=0000
-03:40.667	ID:1	Envie report a 3 Neigh=2 Weight=1.95 flags=0006
-03:40.668	ID:1	Estoy en FOUND 
-03:40.671	ID:1	END 1 3 1.41 2 1.50 
-03:40.677	ID:6	TL=1  evaluo un TEsT msg from 9 con name=1.50, level=2 > nd.f.level=2 
-03:40.680	ID:6	Quuuiero enviar e_msg_accept a 9 
-03:40.820	ID:6	Envie accept a 9 
-03:41.132	ID:9	runicastt (test-ar) message sent to 6.0, retransmissions 1
-03:41.640	ID:5	runicast (co-i) message sent to 8.0, retransmissions 13
-03:41.699	ID:3	TL:1 LLLego report de 1 Neigh=2 Weight=1.95  flags=000A
-03:41.701	ID:3	list_length(rp_list)=1  
-03:41.705	ID:3	Casicompleta porque solamente falta el otro core_node
-03:41.847	ID:3	Casicompleta porque solamente falta el otro core_node
-03:41.853	ID:3	CasiCompleta:El menor de la lista es 2 weight=1.95 flags=000A - downroute=1 
-03:41.858	ID:3	CORE_NODE & FALTA el otro core_node Deseo Reportar Neigh=2 Weight=1.95
-03:41.873	ID:8	runicast (co-i) message received from 5.0, seqno 2 (DUPLICATE)
-03:41.933	ID:3	Envie report a 6 Neigh=2 Weight=1.95 flags=000A
-03:41.933	ID:1	runicast (report-ChaRoot)  message sent to 3.0, retransmissions 2 flags=0000
-03:43.393	ID:5	runicast message received from 2.0, seqno 3 (DUPLICATE)
-03:43.631	ID:9	llego AcCept de 6.  flags=000A 
-03:43.674	ID:9	 Casicompleta porque solamente falta el otro core_node
-03:43.675	ID:6	runicastt (test-ar) message sent to 9.0, retransmissions 3
-03:43.681	ID:9	CasiCompleta:CORE_NODE & FALTA el otro core_node. Deseo Reportar Neigh=9 Weight=1.57
-03:43.686	ID:9	Envie report a 7 Neigh=9 Weight=1.57 flags=000A
-03:43.827	ID:7	TL:1 LLLego report de 9 Neigh=9 Weight=1.57  flags=000A
-03:43.829	ID:7	list_length(rp_list)=1  
-03:43.831	ID:7	NOOO ... Lista NO completa
-03:43.883	ID:9	runicast (report-ChaRoot)  message sent to 7.0, retransmissions 1 flags=000A
-03:44.050	ID:6	TL:1 LLLego report de 3 Neigh=2 Weight=1.95  flags=000A
-03:44.052	ID:6	list_length(rp_list)=1  
-03:44.056	ID:6	Casicompleta porque solamente falta el otro core_node
-03:44.199	ID:6	Casicompleta porque solamente falta el otro core_node
-03:44.201	ID:3	runicast (report-ChaRoot)  message sent to 6.0, retransmissions 3 flags=000A
-03:44.205	ID:6	CasiCompleta:El menor de la lista es 2 weight=1.95 flags=000A - downroute=3 
-03:44.210	ID:6	CORE_NODE & FALTA el otro core_node .Deseo Reportar Neigh=6 Weight=1.57
-03:44.216	ID:6	Envie report a 4 Neigh=6 Weight=1.57 flags=000A
-03:44.273	ID:4	TL:1 LLLego report de 6 Neigh=6 Weight=1.57  flags=000A
-03:44.275	ID:4	list_length(rp_list)=1  
-03:44.277	ID:4	NOOO ... Lista NO completa
-03:44.291	ID:2	runicast message received from 5.0, seqno 3 (DUPLICATE)
-03:44.411	ID:2	runicast message received from 5.0, seqno 3 (DUPLICATE)
-03:44.537	ID:2	runicast message received from 5.0, seqno 3 (DUPLICATE)
-03:44.661	ID:2	runicast message received from 5.0, seqno 3 (DUPLICATE)
-03:45.015	ID:5	runicastt (test-ar) message sent to 2.0, retransmissions 6
-03:45.273	ID:4	runicast message received from 6.0, seqno 0 (DUPLICATE)
-03:45.801	ID:6	runicast (report-ChaRoot)  message sent to 4.0, retransmissions 2 flags=000A
+02:56.702	ID:7	runicast (co-i) message sent to 9.0, retransmissions 1
+02:56.703	ID:9	Envio initiate a 7 level= 1 name=1.00 i_msg.flags=0000
+02:56.825	ID:7	Deseo postear FIND
+02:56.832	ID:7	TamanoLista =1 llego INITIATE from 9.0 name=1.00 level=1 nd.state=1 parent=9  i_msg.flags=0000
+02:56.835	ID:7	END 7 9 1.00 2 1.00 
+02:56.840	ID:7	MAYOR. Tamano lista=1 EvaluOO ConNect de 8 con level=0, my level=1 
+02:56.883	ID:9	runicast (co-i) message sent to 7.0, retransmissions 1
+02:56.885	ID:7	Envio initiate a 8 level= 1 name=1.00 i_msg.flags=0000
+02:56.886	ID:7	Estoy en FIND 
+02:56.994	ID:7	CONTINUE e_test level=1
+02:56.995	ID:8	Deseo postear FIND
+02:56.996	ID:7	 REAAD 7 9 1.00 2 
+02:56.998	ID:7	REAAD 7 8 1.18 2 
+02:56.999	ID:7	No tengo edge de salida 
+02:57.003	ID:8	TamanoLista =1 llego INITIATE from 7.0 name=1.00 level=1 nd.state=1 parent=7  i_msg.flags=0000
+02:57.005	ID:8	END 8 7 1.18 2 1.00 
+02:57.010	ID:8	MAYOR. Tamano lista=1 EvaluOO ConNect de 5 con level=0, my level=1 
+02:57.016	ID:8	TL=1  evaluo un TEsT msg from 9 con name=1.00, level=1 > nd.f.level=1 
+02:57.019	ID:8	Quuuiero enviar e_msg_reject a 9 
+02:57.076	ID:7	runicast (co-i) message sent to 8.0, retransmissions 1
+02:57.078	ID:8	Envio initiate a 5 level= 1 name=1.00 i_msg.flags=0000
+02:57.079	ID:8	Estoy en FIND 
+02:57.082	ID:8	Envie reject a 9
+02:57.137	ID:8	CONTINUE e_test level=1
+02:57.139	ID:5	Deseo postear FIND
+02:57.139	ID:8	 REAAD 8 7 1.18 2 
+02:57.141	ID:8	REAAD 8 9 1.19 1 
+02:57.143	ID:8	REAAD 8 5 1.39 2 
+02:57.146	ID:8	OUT EDGE: addr=9 e_aux->state =1 
+02:57.146	ID:5	TamanoLista =1 llego INITIATE from 8.0 name=1.00 level=1 nd.state=1 parent=8  i_msg.flags=0000
+02:57.149	ID:5	END 5 8 1.39 2 1.00 
+02:57.154	ID:5	MAYOR. Tamano lista=1 EvaluOO ConNect de 4 con level=0, my level=1 
+02:57.160	ID:5	TL=1  evaluo un TEsT msg from 2 con name=1.29, level=1 > nd.f.level=1 
+02:57.162	ID:5	Quuuiero enviar e_msg_accept a 2 
+02:57.172	ID:5	Envio initiate a 4 level= 1 name=1.00 i_msg.flags=0000
+02:57.174	ID:5	Estoy en FIND 
+02:57.176	ID:5	Envie accept a 2 
+02:57.184	ID:5	CONTINUE e_test level=1
+02:57.186	ID:5	 REAAD 5 8 1.39 2 
+02:57.188	ID:5	REAAD 5 4 1.41 2 
+02:57.190	ID:5	REAAD 5 2 1.95 1 
+02:57.193	ID:5	OUT EDGE: addr=2 e_aux->state =1 
+02:57.258	ID:9	Asumo Reject q llego  de 8 
+02:57.398	ID:9	CONTINUE e_test level=1
+02:57.400	ID:9	 REAAD 9 7 1.00 2 
+02:57.401	ID:9	REAAD 9 8 1.19 4 
+02:57.403	ID:9	REAAD 9 6 1.57 1 
+02:57.406	ID:9	OUT EDGE: addr=6 e_aux->state =1 
+02:57.547	ID:9	Deseo enviar e_msg_test a 6
+02:57.802	ID:6	TL=1  evaluo un TEsT msg from 9 con name=1.00, level=1 > nd.f.level=1 
+02:57.804	ID:6	Quuuiero enviar e_msg_accept a 9 
+02:57.811	ID:6	Envie accept a 9 
+02:57.873	ID:8	runicastt (test-ar) message sent to 9.0, retransmissions 1
+02:57.876	ID:8	Deseo enviar e_msg_test a 9
+02:58.011	ID:9	TL=1  evaluo un TEsT msg from 8 con name=1.00, level=1 > nd.f.level=1 
+02:58.014	ID:9	Quuuiero enviar e_msg_reject a 8 
+02:58.121	ID:8	runicastt (test-ar) message sent to 9.0, retransmissions 1
+02:58.262	ID:9	runicastt (test-ar) message sent to 6.0, retransmissions 1
+02:58.264	ID:9	Envie reject a 8
+02:58.910	ID:2	llego AcCept de 5.  flags=0000 
+02:58.920	ID:2	 NO_CORE & HOJA Deseo Reportar Neigh=2 Weight=1.95
+02:58.925	ID:2	Envie report a 1 Neigh=2 Weight=1.95 flags=0002
+02:58.927	ID:2	Estoy en FOUND 
+02:58.929	ID:2	END 2 1 1.73 2 1.29 
+02:59.121	ID:8	runicast (co-i) message sent to 5.0, retransmissions 1
+02:59.307	ID:1	TL:1 LLLego report de 2 Neigh=2 Weight=1.95  nd.flags=0002
+02:59.309	ID:1	list_length(rp_list)=1  
+02:59.311	ID:1	Reports completos..   
+02:59.316	ID:1	El menor de la lista es 2 weight=1.95 nd.flags=0006 - downroute=2 
+02:59.373	ID:8	Asumo Reject q llego  de 9 
+02:59.411	ID:8	CONTINUE e_test level=1
+02:59.413	ID:8	 REAAD 8 7 1.18 2 
+02:59.415	ID:8	REAAD 8 9 1.19 4 
+02:59.417	ID:8	REAAD 8 5 1.39 2 
+02:59.419	ID:8	No tengo edge de salida 
+02:59.459	ID:1	nd.lwoe.node.weight=-1.15 <= nd.lwoe.children.weight=1.95 
+02:59.464	ID:1	NO_CORE & BEST(CH_LWOE) Deseo Reportar Neigh=2 Weight=1.95
+02:59.606	ID:1	Envie report a 3 Neigh=2 Weight=1.95 flags=0006
+02:59.608	ID:1	Estoy en FOUND 
+02:59.610	ID:1	END 1 3 1.41 2 1.29 
+02:59.826	ID:3	TL:1 LLLego report de 1 Neigh=2 Weight=1.95  nd.flags=000A
+02:59.828	ID:3	list_length(rp_list)=1  
+02:59.832	ID:3	Casicompleta porque solamente falta el otro core_node
+02:59.840	ID:3	Casicompleta porque solamente falta el otro core_node
+02:59.846	ID:3	CasiCompleta:El menor de la lista es 2 weight=1.95 flags=000A - downroute=1 
+02:59.851	ID:3	nd.lwoe.node.weight=-1.15 <= nd.lwoe.children.weight=1.95 
+02:59.857	ID:3	CORE_NODE (CH_LWOE) & FALTA el otro core_node. Deseo Reportar Neigh=2 Weight=1.95
+02:59.863	ID:3	Envie report a 6 Neigh=2 Weight=1.95 flags=000A
+03:00.285	ID:2	runicast (report-ChaRoot)  message sent to 1.0, retransmissions 1 flags=0000
+03:00.375	ID:8	runicast message received from 9.0, seqno 2 (DUPLICATE)
+03:00.413	ID:2	runicast message received from 5.0, seqno 0 (DUPLICATE)
+03:01.758	ID:9	runicastt (test-ar) message sent to 8.0, retransmissions 3
+03:01.765	ID:5	runicastt (test-ar) message sent to 2.0, retransmissions 4
+03:01.769	ID:5	Deseo enviar e_msg_test a 2
+03:01.806	ID:1	runicast message received from 2.0, seqno 0 (DUPLICATE)
+03:01.949	ID:3	runicast message received from 1.0, seqno 0 (DUPLICATE)
+03:02.374	ID:8	runicast message received from 9.0, seqno 2 (DUPLICATE)
+03:02.927	ID:6	TL:1 LLLego report de 3 Neigh=2 Weight=1.95  nd.flags=0008
+03:02.929	ID:6	list_length(rp_list)=1  
+03:02.930	ID:6	Reports completos..   
+03:02.936	ID:6	El menor de la lista es 2 weight=1.95 nd.flags=000C - downroute=3 
+03:02.943	ID:6	Casicompleta porque solamente falta el otro core_node
+03:04.038	ID:2	TL=1  evaluo un TEsT msg from 5 con name=1.00, level=1 > nd.f.level=1 
+03:04.041	ID:2	Quuuiero enviar e_msg_accept a 5 
+03:04.050	ID:2	Envie accept a 5 
+03:04.182	ID:1	runicast (report-ChaRoot)  message sent to 3.0, retransmissions 3 flags=0000
+03:04.646	ID:4	Deseo postear FIND
+03:04.653	ID:4	TamanoLista =1 llego INITIATE from 5.0 name=1.00 level=1 nd.state=1 parent=5  i_msg.flags=0000
+03:04.656	ID:4	END 4 5 1.41 2 1.00 
+03:04.662	ID:4	TL=1  evaluo un TEsT msg from 6 con name=1.29, level=1 > nd.f.level=1 
+03:04.663	ID:2	runicast message received from 5.0, seqno 1 (DUPLICATE)
+03:04.664	ID:4	Quuuiero enviar e_msg_accept a 6 
+03:04.803	ID:4	Estoy en FIND 
+03:04.806	ID:4	Envie accept a 6 
+03:04.945	ID:4	CONTINUE e_test level=1
+03:04.947	ID:4	 REAAD 4 5 1.41 2 
+03:04.949	ID:4	REAAD 4 6 1.50 1 
+03:04.952	ID:4	OUT EDGE: addr=6 e_aux->state =1 
+03:06.638	ID:5	runicastt (test-ar) message sent to 2.0, retransmissions 4
+03:07.385	ID:9	llego AcCept de 6.  flags=0008 
+03:07.390	ID:5	llego AcCept de 2.  flags=0000 
+03:07.394	ID:9	 Casicompleta porque solamente falta el otro core_node
+03:07.401	ID:9	CasiCompleta:CORE_NODE (NO_hijos) & FALTA el otro core_node. Deseo Reportar Neigh=9 Weight=1.57
+03:07.407	ID:9	Envie report a 7 Neigh=9 Weight=1.57 flags=000A
+03:08.911	ID:2	runicastt (test-ar) message sent to 5.0, retransmissions 4
+03:08.919	ID:2	runicast message received from 5.0, seqno 1 (DUPLICATE)
+03:08.924	ID:6	runicastt (test-ar) message sent to 9.0, retransmissions 5
+03:09.036	ID:2	runicast message received from 5.0, seqno 1 (DUPLICATE)
+03:09.578	ID:7	TL:1 LLLego report de 9 Neigh=9 Weight=1.57  nd.flags=000A
+03:09.580	ID:7	list_length(rp_list)=1  
+03:09.582	ID:7	NOOO ... Lista NO completa
+03:10.078	ID:7	runicast message received from 9.0, seqno 0 (DUPLICATE)
+03:11.076	ID:7	runicast message received from 9.0, seqno 0 (DUPLICATE)
+03:11.146	ID:5	 runicast message received from 2.0, seqno 1 (DUPLICATE)
+03:11.425	ID:6	llego AcCept de 4.  flags=000C 
+03:11.434	ID:6	 nd.lwoe.node.weight=1.50 <= nd.lwoe.children.weight=1.95 
+03:11.436	ID:6	Deseo CONNECT a 4  (ND_LWOE)
+03:11.440	ID:6	Envio CONECT to 4 , level=1 
+03:11.441	ID:6	Estoy en FOUND 
+03:11.443	ID:6	END 6 3 1.29 2 1.29 
+03:11.550	ID:6	runicast message received from 3.0, seqno 0 (DUPLICATE)
+03:12.025	ID:4	runicast (co-i) message received from 5.0, seqno 1 (DUPLICATE)
+03:15.397	ID:4	llego connect de from 6
+03:15.401	ID:4	Tamano lista=1 Pospone ConNect... nd.f.level=1 
+03:15.524	ID:4	runicast (co-i) message received from 6.0, seqno 2 (DUPLICATE)
+03:15.650	ID:4	runicast (co-i) message received from 6.0, seqno 2 (DUPLICATE)
+03:15.800	ID:6	runicast (co-i) message sent to 4.0, retransmissions 4
+03:19.577	ID:7	runicast message received from 9.0, seqno 0 (DUPLICATE)
+03:19.634	ID:9	runicast (report-ChaRoot)  message sent to 7.0, retransmissions 12 flags=000A
+03:19.926	ID:6	runicast message received from 3.0, seqno 0 (DUPLICATE)
+03:19.950	ID:3	runicast (report-ChaRoot)  message sent to 6.0, retransmissions 20 flags=000A
+03:20.024	ID:4	runicast (co-i) message received from 5.0, seqno 1 (DUPLICATE)
+03:20.149	ID:4	runicast (co-i) message received from 5.0, seqno 1 (DUPLICATE)
+03:20.274	ID:4	runicast (co-i) message received from 5.0, seqno 1 (DUPLICATE)
+03:20.282	ID:4	runicast (co-i) message received from 5.0, seqno 1 (DUPLICATE)
+03:20.400	ID:4	runicast (co-i) message received from 5.0, seqno 1 (DUPLICATE)
+03:20.899	ID:4	runicast (co-i) message received from 5.0, seqno 1 (DUPLICATE)
+03:21.266	ID:5	runicast (co-i) message sent to 4.0, retransmissions 23
+03:21.676	ID:6	runicast message received from 4.0, seqno 0 (DUPLICATE)
+03:21.802	ID:6	runicast message received from 4.0, seqno 0 (DUPLICATE)
+03:22.051	ID:6	runicast message received from 4.0, seqno 0 (DUPLICATE)
+03:22.397	ID:4	runicastt (test-ar) message sent to 6.0, retransmissions 17
+03:22.400	ID:4	Deseo enviar e_msg_test a 6
+03:22.428	ID:6	TL=1  evaluo un TEsT msg from 4 con name=1.00, level=1 > nd.f.level=1 
+03:22.431	ID:6	Quuuiero enviar e_msg_accept a 4 
+03:22.520	ID:6	Envie accept a 4 
+03:22.522	ID:4	runicastt (test-ar) message sent to 6.0, retransmissions 1
+03:22.647	ID:4	llego AcCept de 6.  flags=0000 
+03:22.674	ID:4	 NO_CORE & HOJA Deseo Reportar Neigh=4 Weight=1.50
+03:22.674	ID:6	runicastt (test-ar) message sent to 4.0, retransmissions 1
+03:22.680	ID:4	Envie report a 5 Neigh=4 Weight=1.50 flags=0002
+03:22.681	ID:4	Estoy en FOUND 
+03:22.683	ID:4	END 4 5 1.41 2 1.00 
+03:22.765	ID:5	TL:1 LLLego report de 4 Neigh=4 Weight=1.50  nd.flags=0002
+03:22.767	ID:5	list_length(rp_list)=1  
+03:22.768	ID:5	Reports completos..   
+03:22.774	ID:5	El menor de la lista es 4 weight=1.50 nd.flags=0006 - downroute=4 
+03:22.899	ID:5	nd.lwoe.node.weight=1.95 <= nd.lwoe.children.weight=1.50 
+03:22.900	ID:4	runicast (report-ChaRoot)  message sent to 5.0, retransmissions 1 flags=0000
+03:22.903	ID:5	NO_CORE & BEST(CH_LWOE) Deseo Reportar Neigh=4 Weight=1.50
+03:22.909	ID:5	Envie report a 8 Neigh=4 Weight=1.50 flags=0006
+03:22.910	ID:5	Estoy en FOUND 
+03:22.913	ID:5	END 5 8 1.39 2 1.00 
+03:22.999	ID:8	TL:1 LLLego report de 5 Neigh=4 Weight=1.50  nd.flags=0002
+03:23.001	ID:8	list_length(rp_list)=1  
+03:23.002	ID:8	Reports completos..   
+03:23.007	ID:8	El menor de la lista es 4 weight=1.50 nd.flags=0006 - downroute=5 
+03:23.139	ID:8	nd.lwoe.node.weight=-1.15 <= nd.lwoe.children.weight=1.50 
+03:23.141	ID:5	runicast (report-ChaRoot)  message sent to 8.0, retransmissions 1 flags=0000
+03:23.144	ID:8	NO_CORE & BEST(CH_LWOE) Deseo Reportar Neigh=4 Weight=1.50
+03:23.150	ID:8	Envie report a 7 Neigh=4 Weight=1.50 flags=0006
+03:23.151	ID:8	Estoy en FOUND 
+03:23.154	ID:8	END 8 7 1.18 2 1.00 
+03:23.202	ID:7	TL:2 LLLego report de 8 Neigh=4 Weight=1.50  nd.flags=000A
+03:23.204	ID:7	list_length(rp_list)=2  
+03:23.205	ID:7	Reports completos..   
+03:23.210	ID:7	El menor de la lista es 4 weight=1.50 nd.flags=000E - downroute=8 
+03:23.247	ID:7	nd.lwoe.node.weight=-1.15 <= nd.lwoe.children.weight=1.50 
+03:23.248	ID:8	runicast (report-ChaRoot)  message sent to 7.0, retransmissions 1 flags=0000
+03:23.252	ID:7	EEEnvie 222 CHANGE_ROOT (CH_LWOE) a next_hop=8 final_destination=4
+03:23.257	ID:7	Envie CHANGE_RooT next_hop=8 final_destination=4
+03:23.258	ID:7	Estoy en FOUND 
+03:23.261	ID:7	END 7 9 1.00 2 1.00 
+03:23.370	ID:8	ChangeRoot NO es para mi
+03:23.374	ID:8	REEEnvie  CHANGE_ROOT a next_hop=5 final_destination=4
+03:23.449	ID:8	Envie CHANGE_RooT next_hop=5 final_destination=4
+03:23.450	ID:7	runicast (report-ChaRoot)  message sent to 8.0, retransmissions 1 flags=0018
+03:23.514	ID:5	ChangeRoot NO es para mi
+03:23.517	ID:5	REEEnvie  CHANGE_ROOT a next_hop=4 final_destination=4
+03:23.623	ID:5	Envie CHANGE_RooT next_hop=4 final_destination=4
+03:23.624	ID:8	runicast (report-ChaRoot)  message sent to 5.0, retransmissions 1 flags=0010
+03:23.648	ID:4	El msg de ChangeRooot es para mi, from=5
+03:23.650	ID:4	Deseo CONNECT a 6
+03:23.766	ID:5	runicast (report-ChaRoot)  message sent to 4.0, retransmissions 1 flags=0010
+03:23.767	ID:4	Tamano lista=1 Evaluo ConNect de 6 con Mismo level es BRANCH, level=1 
+03:23.768	ID:4	Soy CORE_NORE 1
+03:23.772	ID:4	Envio CONECT to 6 , level=1 
+03:23.798	ID:6	llego connect de from 4
+03:23.803	ID:6	Tamano lista=1 Evaluo ConNect de 4 con Mismo level es BRANCH, level=1 
+03:23.804	ID:6	Soy CORE_NORE 1
+03:23.898	ID:4	runicast (co-i) message sent to 6.0, retransmissions 1
+03:23.899	ID:6	Envio initiate a 4 level= 2 name=1.50 i_msg.flags=0001
+03:23.904	ID:4	Envio initiate a 6 level= 2 name=1.50 i_msg.flags=0001
+03:24.021	ID:4	Soy CORE_NORE 2
+03:24.022	ID:4	Deseo postear FIND
+03:24.030	ID:4	TamanoLista =1 llego INITIATE from 6.0 name=1.50 level=2 nd.state=1 parent=6  i_msg.flags=0001
+03:24.032	ID:4	END 4 6 1.50 2 1.50 
+03:24.034	ID:4	Estoy en FIND 
+03:24.036	ID:4	CONTINUE e_test level=2
+03:24.038	ID:4	 REAAD 4 5 1.41 2 
+03:24.040	ID:4	REAAD 4 6 1.50 2 
+03:24.042	ID:4	No tengo edge de salida 
+03:24.300	ID:6	runicast (co-i) message sent to 4.0, retransmissions 1
+03:24.305	ID:6	Soy CORE_NORE 2
+03:24.306	ID:6	Deseo postear FIND
+03:24.314	ID:6	TamanoLista =1 llego INITIATE from 4.0 name=1.50 level=2 nd.state=1 parent=4  i_msg.flags=0001
+03:24.316	ID:6	END 6 4 1.50 2 1.50 
+03:24.398	ID:4	runicast (co-i) message sent to 6.0, retransmissions 1
+03:24.400	ID:6	Envio initiate a 3 level= 2 name=1.50 i_msg.flags=0002
+03:24.401	ID:6	Estoy en FIND 
+03:24.404	ID:4	Envio initiate a 5 level= 2 name=1.50 i_msg.flags=0002
+03:24.447	ID:6	CONTINUE e_test level=2
+03:24.449	ID:6	 REAAD 6 3 1.29 2 
+03:24.450	ID:3	STOP_BEING_CORE_NODE: dejo de ser core_node
+03:24.451	ID:6	REAAD 6 4 1.50 2 
+03:24.451	ID:3	Deseo postear FIND
+03:24.453	ID:6	REAAD 6 9 1.57 1 
+03:24.455	ID:6	OUT EDGE: addr=9 e_aux->state =1 
+03:24.459	ID:3	TamanoLista =1 llego INITIATE from 6.0 name=1.50 level=2 nd.state=1 parent=6  i_msg.flags=0002
+03:24.459	ID:6	Deseo enviar e_msg_test a 9
+03:24.461	ID:3	END 3 6 1.29 2 1.50 
+03:24.476	ID:3	Envio initiate a 1 level= 2 name=1.50 i_msg.flags=0002
+03:24.478	ID:3	Estoy en FIND 
+03:24.484	ID:3	CONTINUE e_test level=2
+03:24.486	ID:3	 REAAD 3 6 1.29 2 
+03:24.488	ID:3	REAAD 3 1 1.41 2 
+03:24.490	ID:3	No tengo edge de salida 
+03:24.509	ID:9	TL=1  Pospone un TEsT msg from 6 con name=1.50, level test=2 > nd.f.level=1 
+03:24.932	ID:1	STOP_BEING_CORE_NODE: dejo de ser core_node
+03:24.933	ID:1	Deseo postear FIND
+03:24.941	ID:1	TamanoLista =1 llego INITIATE from 3.0 name=1.50 level=2 nd.state=1 parent=3  i_msg.flags=0002
+03:24.943	ID:1	END 1 3 1.41 2 1.50 
+03:24.954	ID:1	Envio initiate a 2 level= 2 name=1.50 i_msg.flags=0002
+03:24.955	ID:1	Estoy en FIND 
+03:24.962	ID:1	CONTINUE e_test level=2
+03:24.964	ID:1	 REAAD 1 3 1.41 2 
+03:24.966	ID:1	REAAD 1 2 1.73 2 
+03:24.968	ID:1	No tengo edge de salida 
+03:25.764	ID:5	STOP_BEING_CORE_NODE: dejo de ser core_node
+03:25.766	ID:5	Deseo postear FIND
+03:25.773	ID:5	TamanoLista =1 llego INITIATE from 4.0 name=1.50 level=2 nd.state=1 parent=4  i_msg.flags=0002
+03:25.776	ID:5	END 5 4 1.41 2 1.50 
+03:25.920	ID:5	Envio initiate a 8 level= 2 name=1.50 i_msg.flags=0002
+03:25.921	ID:5	Estoy en FIND 
+03:25.933	ID:1	runicast (co-i) message received from 3.0, seqno 3 (DUPLICATE)
+03:26.023	ID:4	runicast (co-i) message sent to 5.0, retransmissions 2
+03:26.119	ID:5	CONTINUE e_test level=2
+03:26.121	ID:5	 REAAD 5 8 1.39 2 
+03:26.122	ID:8	STOP_BEING_CORE_NODE: dejo de ser core_node
+03:26.123	ID:5	REAAD 5 4 1.41 2 
+03:26.123	ID:8	Deseo postear FIND
+03:26.125	ID:5	REAAD 5 2 1.95 8 
+03:26.127	ID:5	OUT EDGE: addr=2 e_aux->state =8 
+03:26.131	ID:8	TamanoLista =1 llego INITIATE from 5.0 name=1.50 level=2 nd.state=1 parent=5  i_msg.flags=0002
+03:26.133	ID:5	Deseo enviar e_msg_test a 2
+03:26.133	ID:8	END 8 5 1.39 2 1.50 
+03:26.151	ID:8	Envio initiate a 7 level= 2 name=1.50 i_msg.flags=0002
+03:26.152	ID:8	Estoy en FIND 
+03:26.164	ID:2	TL=1  Pospone un TEsT msg from 5 con name=1.50, level test=2 > nd.f.level=1 
+03:26.198	ID:8	CONTINUE e_test level=2
+03:26.200	ID:8	 REAAD 8 7 1.18 2 
+03:26.201	ID:7	STOP_BEING_CORE_NODE: dejo de ser core_node
+03:26.202	ID:8	REAAD 8 9 1.19 4 
+03:26.202	ID:7	Deseo postear FIND
+03:26.204	ID:8	REAAD 8 5 1.39 2 
+03:26.206	ID:8	No tengo edge de salida 
+03:26.210	ID:7	TamanoLista =1 llego INITIATE from 8.0 name=1.50 level=2 nd.state=1 parent=8  i_msg.flags=0002
+03:26.212	ID:7	END 7 8 1.18 2 1.50 
+03:26.222	ID:7	Envio initiate a 9 level= 2 name=1.50 i_msg.flags=0002
+03:26.223	ID:7	Estoy en FIND 
+03:26.229	ID:7	CONTINUE e_test level=2
+03:26.231	ID:7	 REAAD 7 9 1.00 2 
+03:26.233	ID:7	REAAD 7 8 1.18 2 
+03:26.234	ID:7	No tengo edge de salida 
+03:26.381	ID:9	STOP_BEING_CORE_NODE: dejo de ser core_node
+03:26.382	ID:9	Deseo postear FIND
+03:26.389	ID:5	runicastt (test-ar) message sent to 2.0, retransmissions 1
+03:26.390	ID:9	TamanoLista =1 llego INITIATE from 7.0 name=1.50 level=2 nd.state=1 parent=7  i_msg.flags=0002
+03:26.392	ID:9	END 9 7 1.00 2 1.50 
+03:26.398	ID:9	TL=1  evaluo un TEsT msg from 6 con name=1.50, level=2 > nd.f.level=2 
+03:26.401	ID:9	Quuuiero enviar e_msg_accept a 6 
+03:26.448	ID:9	Estoy en FIND 
+03:26.451	ID:9	Envie accept a 6 
+03:26.451	ID:7	runicast (co-i) message sent to 9.0, retransmissions 1
+03:26.453	ID:9	CONTINUE e_test level=2
+03:26.454	ID:9	 REAAD 9 7 1.00 2 
+03:26.456	ID:9	REAAD 9 8 1.19 4 
+03:26.458	ID:9	REAAD 9 6 1.57 8 
+03:26.461	ID:9	OUT EDGE: addr=6 e_aux->state =8 
+03:26.826	ID:3	runicast (co-i) message received from 6.0, seqno 0 (DUPLICATE)
+03:26.883	ID:9	runicast message received from 6.0, seqno 3 (DUPLICATE)
+03:26.999	ID:8	runicast (co-i) message received from 5.0, seqno 2 (DUPLICATE)
+03:27.050	ID:6	runicast (co-i) message sent to 3.0, retransmissions 1
+03:27.183	ID:1	runicast (co-i) message received from 3.0, seqno 3 (DUPLICATE)
+03:27.884	ID:9	runicast message received from 6.0, seqno 3 (DUPLICATE)
+03:28.499	ID:8	runicast (co-i) message received from 5.0, seqno 2 (DUPLICATE)
+03:28.822	ID:3	runicast (co-i) message sent to 1.0, retransmissions 3
+03:29.015	ID:5	runicast (co-i) message sent to 8.0, retransmissions 2
+03:29.328	ID:7	runicast (co-i) message received from 8.0, seqno 2 (DUPLICATE)
+03:29.578	ID:7	runicast (co-i) message received from 8.0, seqno 2 (DUPLICATE)
+03:29.884	ID:9	runicast message received from 6.0, seqno 3 (DUPLICATE)
+03:30.161	ID:2	STOP_BEING_CORE_NODE: dejo de ser core_node
+03:30.162	ID:2	Deseo postear FIND
+03:30.170	ID:2	TamanoLista =1 llego INITIATE from 1.0 name=1.50 level=2 nd.state=1 parent=1  i_msg.flags=0002
+03:30.172	ID:2	END 2 1 1.73 2 1.50 
+03:30.178	ID:2	TL=1  evaluo un TEsT msg from 5 con name=1.50, level=2 > nd.f.level=2 
+03:30.180	ID:2	Quuuiero enviar e_msg_accept a 5 
+03:30.304	ID:2	Estoy en FIND 
+03:30.307	ID:2	Envie accept a 5 
+03:30.307	ID:1	runicast (co-i) message sent to 2.0, retransmissions 6
+03:30.309	ID:2	CONTINUE e_test level=2
+03:30.311	ID:2	 REAAD 2 1 1.73 2 
+03:30.313	ID:2	REAAD 2 5 1.95 8 
+03:30.315	ID:2	OUT EDGE: addr=5 e_aux->state =8 
+03:30.745	ID:8	runicast (co-i) message sent to 7.0, retransmissions 4
+03:30.808	ID:1	runicast (co-i) message received from 3.0, seqno 3 (DUPLICATE)
+03:30.932	ID:1	runicast (co-i) message received from 3.0, seqno 3 (DUPLICATE)
+03:31.009	ID:9	runicast message received from 6.0, seqno 3 (DUPLICATE)
+03:31.327	ID:7	runicast (co-i) message received from 8.0, seqno 2 (DUPLICATE)
+03:31.884	ID:9	runicast message received from 6.0, seqno 3 (DUPLICATE)
+03:32.301	ID:6	runicastt (test-ar) message sent to 9.0, retransmissions 8
+03:32.804	ID:6	llego AcCept de 9.  flags=0008 
+03:32.927	ID:6	 runicast message received from 9.0, seqno 3 (DUPLICATE)
+03:33.052	ID:6	runicast message received from 9.0, seqno 3 (DUPLICATE)
+03:33.175	ID:6	runicast message received from 9.0, seqno 3 (DUPLICATE)
+03:33.302	ID:6	runicast message received from 9.0, seqno 3 (DUPLICATE)
+03:33.802	ID:6	runicast message received from 9.0, seqno 3 (DUPLICATE)
+03:33.926	ID:6	runicast message received from 9.0, seqno 3 (DUPLICATE)
+03:34.390	ID:5	llego AcCept de 2.  flags=0000 
+03:34.410	ID:2	runicastt (test-ar) message sent to 5.0, retransmissions 5
+03:34.414	ID:2	Deseo enviar e_msg_test a 5
+03:34.517	ID:5	 TL=1  evaluo un TEsT msg from 2 con name=1.50, level=2 > nd.f.level=2 
+03:34.520	ID:5	Quuuiero enviar e_msg_accept a 2 
+03:34.659	ID:5	Envie accept a 2 
+03:34.661	ID:2	runicastt (test-ar) message sent to 5.0, retransmissions 1
+03:35.034	ID:2	llego AcCept de 5.  flags=0000 
+03:35.051	ID:6	runicast message received from 9.0, seqno 3 (DUPLICATE)
+03:35.139	ID:2	 NO_CORE & HOJA Deseo Reportar Neigh=2 Weight=1.95
+03:35.140	ID:5	runicastt (test-ar) message sent to 2.0, retransmissions 0
+03:35.145	ID:2	Envie report a 1 Neigh=2 Weight=1.95 flags=0002
+03:35.146	ID:2	Estoy en FOUND 
+03:35.149	ID:2	END 2 1 1.73 2 1.50 
+03:35.182	ID:1	TL:1 LLLego report de 2 Neigh=2 Weight=1.95  nd.flags=0002
+03:35.184	ID:1	list_length(rp_list)=1  
+03:35.186	ID:1	Reports completos..   
+03:35.191	ID:1	El menor de la lista es 2 weight=1.95 nd.flags=0006 - downroute=2 
+03:35.285	ID:1	nd.lwoe.node.weight=-1.15 <= nd.lwoe.children.weight=1.95 
+03:35.286	ID:2	runicast (report-ChaRoot)  message sent to 1.0, retransmissions 1 flags=0000
+03:35.290	ID:1	NO_CORE & BEST(CH_LWOE) Deseo Reportar Neigh=2 Weight=1.95
+03:35.295	ID:1	Envie report a 3 Neigh=2 Weight=1.95 flags=0006
+03:35.298	ID:1	Estoy en FOUND 
+03:35.301	ID:1	END 1 3 1.41 2 1.50 
+03:35.325	ID:3	TL:1 LLLego report de 1 Neigh=2 Weight=1.95  nd.flags=0002
+03:35.327	ID:3	list_length(rp_list)=1  
+03:35.329	ID:3	Reports completos..   
+03:35.334	ID:3	El menor de la lista es 2 weight=1.95 nd.flags=0006 - downroute=1 
+03:35.477	ID:3	nd.lwoe.node.weight=-1.15 <= nd.lwoe.children.weight=1.95 
+03:35.481	ID:3	NO_CORE & BEST(CH_LWOE) Deseo Reportar Neigh=2 Weight=1.95
+03:35.558	ID:3	Envie report a 6 Neigh=2 Weight=1.95 flags=0006
+03:35.559	ID:1	runicast (report-ChaRoot)  message sent to 3.0, retransmissions 1 flags=0000
+03:35.559	ID:3	Estoy en FOUND 
+03:35.562	ID:3	END 3 6 1.29 2 1.50 
+03:35.676	ID:6	TL:1 LLLego report de 3 Neigh=2 Weight=1.95  nd.flags=000A
+03:35.678	ID:6	list_length(rp_list)=1  
+03:35.682	ID:6	Casicompleta porque solamente falta el otro core_node
+03:35.822	ID:6	Casicompleta porque solamente falta el otro core_node
+03:35.825	ID:3	runicast (report-ChaRoot)  message sent to 6.0, retransmissions 1 flags=0000
+03:35.828	ID:6	CasiCompleta:El menor de la lista es 2 weight=1.95 flags=000A - downroute=3 
+03:35.833	ID:6	nd.lwoe.node.weight=1.57 <= nd.lwoe.children.weight=1.95 
+03:35.839	ID:6	CORE_NODE (ND_LWOE) & FALTA el otro core_node .Deseo Reportar Neigh=6 Weight=1.57
+03:35.845	ID:6	Envie report a 4 Neigh=6 Weight=1.57 flags=000A
+03:35.898	ID:4	TL:1 LLLego report de 6 Neigh=6 Weight=1.57  nd.flags=000A
+03:35.900	ID:4	list_length(rp_list)=1  
+03:35.902	ID:4	NOOO ... Lista NO completa
+03:35.926	ID:6	runicast (report-ChaRoot)  message sent to 4.0, retransmissions 1 flags=000A
+03:36.384	ID:9	runicastt (test-ar) message sent to 6.0, retransmissions 9
+03:36.387	ID:9	Deseo enviar e_msg_test a 6
+03:36.550	ID:6	runicast message received from 9.0, seqno 3 (DUPLICATE)
+03:36.678	ID:6	TL=1  evaluo un TEsT msg from 9 con name=1.50, level=2 > nd.f.level=2 
+03:36.681	ID:6	Quuuiero enviar e_msg_accept a 9 
+03:36.683	ID:6	Envie accept a 9 
+03:36.882	ID:9	runicastt (test-ar) message sent to 6.0, retransmissions 2
+03:37.008	ID:9	llego AcCept de 6.  flags=0002 
+03:37.049	ID:9	 NO_CORE & HOJA Deseo Reportar Neigh=9 Weight=1.57
+03:37.049	ID:6	runicastt (test-ar) message sent to 9.0, retransmissions 1
+03:37.054	ID:9	Envie report a 7 Neigh=9 Weight=1.57 flags=0002
+03:37.056	ID:9	Estoy en FOUND 
+03:37.058	ID:9	END 9 7 1.00 2 1.50 
+03:37.204	ID:7	TL:1 LLLego report de 9 Neigh=9 Weight=1.57  nd.flags=0002
+03:37.206	ID:7	list_length(rp_list)=1  
+03:37.208	ID:7	Reports completos..   
+03:37.213	ID:7	El menor de la lista es 9 weight=1.57 nd.flags=0006 - downroute=9 
+03:37.257	ID:7	nd.lwoe.node.weight=-1.15 <= nd.lwoe.children.weight=1.57 
+03:37.258	ID:9	runicast (report-ChaRoot)  message sent to 7.0, retransmissions 1 flags=0000
+03:37.261	ID:7	NO_CORE & BEST(CH_LWOE) Deseo Reportar Neigh=9 Weight=1.57
+03:37.267	ID:7	Envie report a 8 Neigh=9 Weight=1.57 flags=0006
+03:37.268	ID:7	Estoy en FOUND 
+03:37.271	ID:7	END 7 8 1.18 2 1.50 
+03:37.374	ID:8	TL:1 LLLego report de 7 Neigh=9 Weight=1.57  nd.flags=0002
+03:37.376	ID:8	list_length(rp_list)=1  
+03:37.377	ID:8	Reports completos..   
+03:37.382	ID:8	El menor de la lista es 9 weight=1.57 nd.flags=0006 - downroute=7 
+03:37.450	ID:8	nd.lwoe.node.weight=-1.15 <= nd.lwoe.children.weight=1.57 
+03:37.451	ID:7	runicast (report-ChaRoot)  message sent to 8.0, retransmissions 1 flags=0000
+03:37.455	ID:8	NO_CORE & BEST(CH_LWOE) Deseo Reportar Neigh=9 Weight=1.57
+03:37.460	ID:8	Envie report a 5 Neigh=9 Weight=1.57 flags=0006
+03:37.462	ID:8	Estoy en FOUND 
+03:37.464	ID:8	END 8 5 1.39 2 1.50 
+03:37.518	ID:5	TL:1 LLLego report de 8 Neigh=9 Weight=1.57  nd.flags=0002
+03:37.519	ID:5	list_length(rp_list)=1  
+03:37.521	ID:5	Reports completos..   
+03:37.526	ID:5	El menor de la lista es 9 weight=1.57 nd.flags=0006 - downroute=8 
+03:37.623	ID:5	nd.lwoe.node.weight=1.95 <= nd.lwoe.children.weight=1.57 
+03:37.624	ID:8	runicast (report-ChaRoot)  message sent to 5.0, retransmissions 1 flags=0000
+03:37.627	ID:5	NO_CORE & BEST(CH_LWOE) Deseo Reportar Neigh=9 Weight=1.57
+03:37.634	ID:5	Envie report a 4 Neigh=9 Weight=1.57 flags=0006
+03:37.636	ID:5	Estoy en FOUND 
+03:37.638	ID:5	END 5 4 1.41 2 1.50 
+03:37.774	ID:4	TL:2 LLLego report de 5 Neigh=9 Weight=1.57  nd.flags=000A
+03:37.776	ID:4	list_length(rp_list)=2  
+03:37.778	ID:4	Reports completos..   
+03:37.783	ID:4	El menor de la lista es 6 weight=1.57 nd.flags=000E - downroute=6 
+03:37.890	ID:5	runicast (report-ChaRoot)  message sent to 4.0, retransmissions 1 flags=0000
+03:37.890	ID:4	nd.lwoe.node.weight=-1.15 <= nd.lwoe.children.weight=1.57 
+03:37.895	ID:4	EEEnvie 222 CHANGE_ROOT (CH_LWOE) a next_hop=6 final_destination=6
+03:37.900	ID:4	Envie CHANGE_RooT next_hop=6 final_destination=6
+03:37.902	ID:4	Estoy en FOUND 
+03:37.904	ID:4	END 4 6 1.50 2 1.50 
+03:37.925	ID:6	El msg de ChangeRooot es para mi, from=4
+03:37.926	ID:6	Deseo CONNECT a 9
+03:38.021	ID:6	Envio CONECT to 9 , level=2 
+03:38.023	ID:4	runicast (report-ChaRoot)  message sent to 6.0, retransmissions 1 flags=0018
+03:38.130	ID:9	llego connect de from 6
+03:38.134	ID:9	Tamano lista=1 Pospone ConNect... nd.f.level=2 
+03:38.172	ID:6	runicast (co-i) message sent to 9.0, retransmissions 1
