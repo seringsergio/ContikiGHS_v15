@@ -538,7 +538,6 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                 } //FOR todos los elementos de la lista
             } //Si hay elementos en la lista
 
-
             print_final_result(); //Lo ultimo que hago es imprimir resultados
         } //END IF  EV == CONTINUE
     } //end of while

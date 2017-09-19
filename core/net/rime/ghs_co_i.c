@@ -193,8 +193,19 @@ uint8_t state_is_branch(const linkaddr_t *addr,  edges *e_list_head)
 
 void llenar_name_str(name *name_str, uint32_t weight, linkaddr_t *core_node_2)
 {
-    linkaddr_copy(&name_str->core_node_1, &linkaddr_node_addr);
-    linkaddr_copy(&name_str->core_node_2, core_node_2);
+    //core_node_1 es la direccion menor
+    //core_node_2 es la direccion mayor
+    if( core_node_2->u8[0] >= linkaddr_node_addr.u8[0])
+    {
+        linkaddr_copy(&name_str->core_node_1, &linkaddr_node_addr);
+        linkaddr_copy(&name_str->core_node_2, core_node_2);
+    }
+    else
+    {
+        linkaddr_copy(&name_str->core_node_1, core_node_2);
+        linkaddr_copy(&name_str->core_node_2, &linkaddr_node_addr);
+    }
+
     name_str->weight = weight;
 
 }
@@ -254,7 +265,7 @@ void llenar_initiate_msg(initiate_msg *i_msg, name name_str,
     i_msg->nd_state   = state;
     linkaddr_copy(&i_msg->destination , dest);
     i_msg->flags = flags;
-    
+
     /*if( !(flags & BECOME_CORE_NODE))
     {
         i_msg->flags     &= ~BECOME_CORE_NODE;

@@ -335,13 +335,15 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                      {
                          if(  nombres_iguales(  &(t_list_p->t_msg.f.name_str) , &(nd.f.name_str)   )   )
                          {
-                             MY_DBG("TL=%d  evaluo un TEsT msg from %d con name=%d.%02d, level=%d > nd.f.level=%d \n",
+                             /*MY_DBG("TL=%d  evaluo un TEsT msg from %d con name=%d.%02d, level=%d || nd.f.level=%d nameStr.weight=%d.%02d\n",
                              list_length(t_list),
                              t_list_p->from.u8[0],
                              (int)(t_list_p->t_msg.f.name_str.weight / SEQNO_EWMA_UNITY),
                              (int)(((100UL * t_list_p->t_msg.f.name_str.weight) / SEQNO_EWMA_UNITY) % 100),
                              t_list_p->t_msg.f.level,
-                             nd.f.level);
+                             nd.f.level,
+                             (int)(nd.f.name_str.weight / SEQNO_EWMA_UNITY),
+                             (int)(((100UL * nd.f.name_str.weight) / SEQNO_EWMA_UNITY) % 100) );*/
 
                              //Enviar reject
                              rj_list_out_p = memb_alloc(&rj_mem_out); //Alocar memoria
@@ -359,13 +361,15 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
 
                          }else
                          {
-                             MY_DBG("TL=%d  evaluo un TEsT msg from %d con name=%d.%02d, level=%d > nd.f.level=%d \n",
+                             MY_DBG("TL=%d  evaluo un TEsT msg from %d con name=%d.%02d, level=%d || nd.f.level=%d nameStr.weight=%d.%02d\n",
                              list_length(t_list),
                              t_list_p->from.u8[0],
                              (int)(t_list_p->t_msg.f.name_str.weight / SEQNO_EWMA_UNITY),
                              (int)(((100UL * t_list_p->t_msg.f.name_str.weight) / SEQNO_EWMA_UNITY) % 100),
                              t_list_p->t_msg.f.level,
-                             nd.f.level);
+                             nd.f.level,
+                             (int)(nd.f.name_str.weight / SEQNO_EWMA_UNITY),
+                             (int)(((100UL * nd.f.name_str.weight) / SEQNO_EWMA_UNITY) % 100) );
 
                              //Enviar accept
                              a_list_out_p = memb_alloc(&a_mem_out); //Alocar memoria

@@ -159,9 +159,11 @@ uint8_t nombres_iguales(name *name_str_1, name *name_str_2)
         (linkaddr_cmp(&name_str_1->core_node_2, &name_str_2->core_node_2)  )   )
 
     {
+        MY_DBG("Los nombres son iguales\n");
         return 1;
     }else
     {
+        MY_DBG("Los nombres son diferentes\n");
         return 0;
     }
 }

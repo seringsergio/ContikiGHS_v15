@@ -233,14 +233,14 @@
   <plugin>
     org.contikios.cooja.plugins.LogListener
     <plugin_config>
-      <filter>END</filter>
+      <filter>llego INI</filter>
       <formatted_time />
       <coloring />
     </plugin_config>
-    <width>842</width>
+    <width>822</width>
     <z>0</z>
     <height>561</height>
-    <location_x>259</location_x>
+    <location_x>279</location_x>
     <location_y>160</location_y>
   </plugin>
   <plugin>

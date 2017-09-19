@@ -32,11 +32,11 @@
 #define CORE_NODE           0x08
 #define FRAGMENTO_LWOE      0x10 //No he encontrado el LWOE del fragmento
 
-//Banderas de initiate_msg
+//Banderas de initiate_msg i_msg.flags
 #define BECOME_CORE_NODE      0x01
 #define STOP_BEING_CORE_NODE  0x02 //PAra que el nodo deje de ser core_node
 
-//Estados de los edges
+//Estados de los edges e_aux->state
 #define BASIC      0x01
 #define BRANCH     0x02
 #define E_REJECTED 0x04
