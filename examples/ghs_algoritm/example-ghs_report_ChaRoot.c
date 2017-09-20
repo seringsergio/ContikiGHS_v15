@@ -335,8 +335,8 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 MY_DBG("Los dos reportes son INFINITO\n");
                                 //Paso a FOUND
                                 //process_post_synch(&master_co_i, e_found, NULL);
-                                process_post(&master_co_i, e_found, NULL);
-                                nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+                                //process_post(&master_co_i, e_found, NULL);
+                                //nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
                                 //paso a END
                                 //process_post_synch(&master_co_i, e_msg_ghs_end, NULL);
                                 process_post(&master_co_i, e_msg_ghs_end, NULL);
@@ -380,12 +380,12 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                     //paso a FOUND
                                     //process_post_synch(&master_co_i, e_found, NULL);
                                     //process_post_synch(&master_co_i, e_found, NULL);
-                                    process_post(&master_co_i, e_found, NULL);
-                                    nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+                                    //process_post(&master_co_i, e_found, NULL);
+                                    //nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
 
                                     //Ya encontre el LWOE del fragmento. No reenvio CHANGE_ROOT
                                     //del otro CORE_NODE
-                                    nd.flags |= FRAGMENTO_LWOE;
+                                    //nd.flags |= FRAGMENTO_LWOE;
 
 
                                     //Otro CORE_NODE debe dejar de ser CORE_NODE
@@ -398,6 +398,14 @@ PROCESS_THREAD(e_LWOE, ev, data)
 
                                     //OJO: es el unico &send_message que va synch :) no se porque
                             } //SI los dos valores son INFINITO acabo GHS
+
+                            //Ya encontre el LWOE del fragmento. No reenvio CHANGE_ROOT
+                            //del otro CORE_NODE, ni tampoco enviaria un connect a mi LWOE
+                            nd.flags |= FRAGMENTO_LWOE;
+
+                            process_post(&master_co_i, e_found, NULL);
+                            nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
+
                         }else //SI NO estan seteados los dos. Pero soy lista CASI completa(solo falta el otro core_node)
                         if( (lista_casi_completa(rp_list)) && (nd.flags & ND_LWOE) )
                         {  //No puedo pasar a FOUND ni ~CORE_NODE porque tengo q esperar
@@ -590,7 +598,51 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
             {
                 for(cr_list_p = list_head(cr_list); cr_list_p != NULL; cr_list_p = cr_list_p->next)
                 {
-                    //Si el change_root es para mi
+                    //si el CHANGE_ROOT  viene del otro_core_node &&
+                    //Ya encontre el LWOE del fragmento
+                    if(  (linkaddr_cmp(&cr_list_p->from,&nd.otro_core_node)) &&
+                         (nd.flags & FRAGMENTO_LWOE)                            )
+                    {
+                        MY_DBG("NO hago nada con el CHANGE_ROOT porque YO ya encontre el LWOE del FRAGMENTO: y Yo mande change_root o connect.\n");
+                    }else
+                    {
+                        //Si el change_root es para mi
+                        if(linkaddr_cmp(&cr_list_p->cr_msg.final_destination, &linkaddr_node_addr)) //Entra si las direcciones son iguales
+                        {
+                            //El msg de CHANGE_ROOT ES PARA MI
+                            MY_DBG("El msg de ChangeRooot es para mi, from=%d\n",cr_list_p->from.u8[0]);
+
+                            become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root
+                            //Si alguien se vuelve branch evaluo si hay msg de connect pendientes:
+                            //Corresponde al texto "qp is or becomes a branch edge"
+                            //process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
+
+                            //Envio CONNECT
+                            co_list_out_p = memb_alloc(co_mem_out_g); //Alocar memoria
+                            llenar_connect_msg_list (co_list_out_p, nd.f.level, &nd.lwoe.node.neighbor);
+                            list_add(co_list_out_g, co_list_out_p); //Add an item at the end of a list
+                            process_post(&send_message_co_i,  e_msg_connect, NULL);
+
+
+                            MY_DBG("Deseo CONNECT a %d\n", nd.lwoe.node.neighbor.u8[0]);
+
+                        }else//Si el change_root NO es para mi
+                        {
+                            //nd.flags |= FRAGMENTO_LWOE; //el otro core node dice que ya encontro LWOE del FRAGMENTO
+                            MY_DBG("ChangeRoot NO es para mi\n");
+
+                            //send CHANGE_ROOT
+                            cr_list_out_p = memb_alloc(&cr_mem_out); //Alocar memoria
+                            llenar_change_root_list (cr_list_out_p, &nd.downroute, &cr_list_p->cr_msg.final_destination);
+                            list_add(cr_list_out, cr_list_out_p); //Add an item at the end of a list
+                            process_post(&send_message_report_ChaRoot, e_msg_ch_root, NULL);
+
+                            MY_DBG("REEEnvie  CHANGE_ROOT a next_hop=%d final_destination=%d\n",
+                                    cr_list_out_p->cr_msg.next_hop.u8[0],
+                                    cr_list_out_p->cr_msg.final_destination.u8[0]);
+                        }
+                    }
+                    /*//Si el change_root es para mi
                     if(linkaddr_cmp(&cr_list_p->cr_msg.final_destination, &linkaddr_node_addr)) //Entra si las direcciones son iguales
                     {
                         //El msg de CHANGE_ROOT ES PARA MI
@@ -633,7 +685,7 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
                                     cr_list_out_p->cr_msg.next_hop.u8[0],
                                     cr_list_out_p->cr_msg.final_destination.u8[0]);
                         }
-                    }
+                    }*/
 
                     //remuevo el elemento de la lista
                     my_list_remove(cr_list, cr_list_p); //Remove a specific element from a list.

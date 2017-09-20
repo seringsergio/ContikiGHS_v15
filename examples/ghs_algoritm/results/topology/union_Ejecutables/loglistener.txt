@@ -1,37 +1,37 @@
 00:00.353	ID:8	Rime started with address 8.0
-00:00.361	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-80b2535 started. Node id is set to 8.
+00:00.361	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-986a5e1 started. Node id is set to 8.
 00:00.370	ID:8	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.382	ID:8	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.516	ID:2	Rime started with address 2.0
-00:00.525	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-80b2535 started. Node id is set to 2.
+00:00.525	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-986a5e1 started. Node id is set to 2.
 00:00.531	ID:6	Rime started with address 6.0
 00:00.534	ID:2	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.539	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-80b2535 started. Node id is set to 6.
+00:00.539	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-986a5e1 started. Node id is set to 6.
 00:00.545	ID:2	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.548	ID:6	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.560	ID:6	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.628	ID:4	Rime started with address 4.0
-00:00.637	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-80b2535 started. Node id is set to 4.
+00:00.637	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-986a5e1 started. Node id is set to 4.
 00:00.646	ID:4	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.658	ID:4	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.662	ID:1	Rime started with address 1.0
-00:00.671	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-80b2535 started. Node id is set to 1.
+00:00.671	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-986a5e1 started. Node id is set to 1.
 00:00.680	ID:1	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.682	ID:7	Rime started with address 7.0
-00:00.690	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-80b2535 started. Node id is set to 7.
+00:00.690	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-986a5e1 started. Node id is set to 7.
 00:00.692	ID:1	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.699	ID:7	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.711	ID:7	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.988	ID:9	Rime started with address 9.0
 00:00.995	ID:5	Rime started with address 5.0
-00:00.997	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-80b2535 started. Node id is set to 9.
-00:01.004	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-80b2535 started. Node id is set to 5.
+00:00.997	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-986a5e1 started. Node id is set to 9.
+00:01.004	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-986a5e1 started. Node id is set to 5.
 00:01.006	ID:9	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:01.013	ID:5	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:01.018	ID:9	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:01.024	ID:5	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:01.179	ID:3	Rime started with address 3.0
-00:01.188	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-80b2535 started. Node id is set to 3.
+00:01.188	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-986a5e1 started. Node id is set to 3.
 00:01.197	ID:3	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:01.209	ID:3	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:02.693	ID:2	Este es broadcast vecinos
@@ -726,7 +726,7 @@
 04:03.523	ID:4	runicast message received from 5.0, seqno 1 (DUPLICATE)
 04:03.531	ID:4	runicast message received from 5.0, seqno 1 (DUPLICATE)
 04:03.641	ID:5	runicast message received from 8.0, seqno 1 (DUPLICATE)
-04:03.748	ID:8	runicast (report-ChaRoot)  message sent to 5.0, retransmissions 8 flags=0010
+04:03.748	ID:8	runicast (report-ChaRoot)  message sent to 5.0, retransmissions 8 flags=0000
 04:03.899	ID:4	runicast message received from 5.0, seqno 1 (DUPLICATE)
 04:04.049	ID:6	llego connect de from 4
 04:04.054	ID:6	Tamano lista=1 Evaluo ConNect de 4 con Mismo level es BRANCH, level=1 
@@ -743,7 +743,7 @@
 04:04.289	ID:4	 REAAD 4 5 1.41 2 
 04:04.291	ID:4	REAAD 4 6 1.50 2 
 04:04.293	ID:4	No tengo edge de salida 
-04:04.640	ID:5	runicast (report-ChaRoot)  message sent to 4.0, retransmissions 4 flags=0010
+04:04.640	ID:5	runicast (report-ChaRoot)  message sent to 4.0, retransmissions 4 flags=0000
 04:04.674	ID:6	runicast (co-i) message sent to 4.0, retransmissions 1
 04:04.679	ID:6	Soy CORE_NORE 2
 04:04.680	ID:6	Deseo postear FIND
@@ -981,9 +981,9 @@
 04:16.179	ID:6	Reports completos..   
 04:16.185	ID:6	El menor de la lista es 4 weight=-1.15 nd.flags=000E - downroute=4 
 04:16.321	ID:6	Los dos reportes son INFINITO
-04:16.322	ID:6	Estoy en FOUND 
+04:16.324	ID:6	END 6 4 1.50 2 1.50 
 04:16.325	ID:3	runicast (report-ChaRoot)  message sent to 6.0, retransmissions 2 flags=0000
-04:16.325	ID:6	END 6 4 1.50 2 1.50 
+04:16.325	ID:6	Estoy en FOUND 
 04:16.328	ID:6	END 6 4 1.50 2 1.50 
 04:16.676	ID:6	runicast message received from 4.0, seqno 1 (DUPLICATE)
 04:16.826	ID:3	runicast message received from 1.0, seqno 1 (DUPLICATE)
