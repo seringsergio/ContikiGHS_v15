@@ -243,7 +243,8 @@ void llenar_name_str(name *name_str, uint32_t weight, linkaddr_t *core_node_2);
 void llenar_connect_msg_list (connect_list *co_list_out_p, uint8_t level, linkaddr_t *destination);
 void llenar_initiate_msg_list (initiate_list *i_list_out_p, name name_str,
                         uint8_t level, uint8_t state, const linkaddr_t *dest, uint8_t flags);
-
+void become_core_node(linkaddr_t *otro_core_node);
+void stop_being_core_node();
 
 
 #endif /* GHS_CO_I_H */

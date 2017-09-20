@@ -309,3 +309,18 @@ void llenar_connect_msg_list (connect_list *co_list_out_p, uint8_t level, linkad
     co_list_out_p->co_msg.level = level;
     linkaddr_copy(&co_list_out_p->co_msg.destination,  destination);
 }
+
+// funcion para que el nodo haga lo que tiene que hacer al volverse core_node
+void become_core_node(linkaddr_t *otro_core_node)
+{
+    nd.flags |= CORE_NODE; //seteo la bandera de ser core_node
+    linkaddr_copy(&nd.otro_core_node, otro_core_node);
+    MY_DBG("Soy CORE_NORE\n");
+}
+
+void stop_being_core_node()
+{
+    nd.flags &= ~CORE_NODE; //desSeteo la bandera de ser core_node
+    linkaddr_copy(&nd.otro_core_node, &linkaddr_node_addr); //otro core node soy YO
+    MY_DBG("Dejo de ser CORE_NORE\n");
+}

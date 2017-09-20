@@ -296,10 +296,6 @@ PROCESS_THREAD(master_co_i, ev, data)
     PROCESS_END();
 }
 
-
-
-
-
 PROCESS_THREAD(evaluar_msg_co, ev, data)
 {
     PROCESS_BEGIN();
@@ -330,10 +326,10 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                              co_list_p->from.u8[0],
                              co_list_p->co_msg.level);
 
-
-                            nd.flags |= CORE_NODE;
-                            MY_DBG("Soy CORE_NORE 1\n");
-                            linkaddr_copy(&nd.otro_core_node, &co_list_p->from);
+                             become_core_node(&co_list_p->from);
+                            //nd.flags |= CORE_NODE;
+                            //MY_DBG("Soy CORE_NORE 1\n");
+                            //linkaddr_copy(&nd.otro_core_node, &co_list_p->from);
 
                             //Creo que debo subir el nivel aca
                             //nd.f.level = nd.f.level + 1 ; //Mal el nivel se sube cuando llega Iniciate
@@ -492,16 +488,18 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
 
                     if(i_list_p->i_msg.flags & BECOME_CORE_NODE)
                     {
-                        nd.flags |= CORE_NODE;
+                        become_core_node(&i_list_p->from);
+                        /*nd.flags |= CORE_NODE;
                         MY_DBG("Soy CORE_NORE 2\n");
-                        linkaddr_copy(&nd.otro_core_node, &i_list_p->from);
+                        linkaddr_copy(&nd.otro_core_node, &i_list_p->from);*/
                     }
 
                     if(i_list_p->i_msg.flags & STOP_BEING_CORE_NODE)//PAra que el nodo deje de ser core_node
                     {
+                        stop_being_core_node();
                         //Dejo de ser core node
-                        nd.flags &= ~CORE_NODE;
-                        MY_DBG("STOP_BEING_CORE_NODE: dejo de ser core_node\n");
+                        /*nd.flags &= ~CORE_NODE;
+                        MY_DBG("STOP_BEING_CORE_NODE: dejo de ser core_node\n");*/
 
                     }
 
