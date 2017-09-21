@@ -407,6 +407,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
 
                         process_post(&send_message_co_i, e_msg_initiate, NULL);
 
+
                         //remuevo el elemento de la lista
                         my_list_remove(co_list, co_list_p); //Remove a specific element from a list.
                         memb_free(&co_mem, co_list_p);
