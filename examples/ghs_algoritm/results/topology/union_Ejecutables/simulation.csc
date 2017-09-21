@@ -239,7 +239,7 @@
     </plugin_config>
     <width>837</width>
     <z>0</z>
-    <height>561</height>
+    <height>551</height>
     <location_x>264</location_x>
     <location_y>160</location_y>
   </plugin>

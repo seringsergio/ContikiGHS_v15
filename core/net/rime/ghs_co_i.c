@@ -6,7 +6,7 @@
 /*---------------- FUNCIONES-----------------------------------------*/
 /*-------------------------------------------------------------------*/
 
-/* FUNCION que imprime el resultado final final
+/* FUNCION que imprime el resultado final y definitivo
 */
 void print_final_result()
 {
@@ -42,12 +42,18 @@ void fill_edges_list(list_t edges_list, struct memb *edges_memb, struct neighbor
     {
         e = memb_alloc(edges_memb);        // we allocate a new struct edges from the edges_memb memory pool.
 
-        e -> state  = BASIC; //Todos los edges inician con estado BASIC
-        linkaddr_copy(&e->addr,  &n_aux->addr);
-        e -> weight = n_aux -> avg_seqno_gap;
+        if(e == NULL)
+        {
+          MY_DBG("ERROR: No hay espacio para allocar memoria (fill_edges_list) \n");
+        }else
+        {
+            e->state = BASIC; //Todos los edges inician con estado BASIC
+            linkaddr_copy(&e->addr,  &n_aux->addr);
+            e->weight = n_aux->avg_seqno_gap;
 
-        list_add(edges_list, e); //Add an item at the end of a list
-    }
+            list_add(edges_list, e); //Add an item at the end of a list
+        }
+    } //END for
 
 }
 
@@ -71,12 +77,12 @@ void print_edges_list(edges *e_list_head, char *string,  const linkaddr_t *node_
     }
 }
 
-/* Un edge pasa de estado BASIC a BRANCH.
+/* Un edge pasa de estado BASIC/ACCEPT a BRANCH.
 *  Become_branch = Vuelve branch un edge
 */
 void become_branch(edges *e_list_head, const linkaddr_t *node_addr)
 {
-    edges *e_aux;
+    edges *e_aux = NULL;
     for(e_aux = e_list_head; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
     {
         if(linkaddr_cmp(&e_aux->addr, node_addr)) //Entra si las direcciones son iguales
@@ -102,7 +108,7 @@ uint8_t num_hijos(edges *e_list_head)
 {
     uint8_t numero_hijos = 0;
 
-    edges *e_aux;
+    edges *e_aux = NULL;
     for(e_aux = e_list_head; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
     {
         if(e_aux->state == BRANCH) //Entra si las direcciones son iguales
@@ -111,7 +117,7 @@ uint8_t num_hijos(edges *e_list_head)
         }
     }
 
-    if(nd.flags & CORE_NODE)
+    if(nd.flags & CORE_NODE) //pregunto si soy CORE_NODE
     {
         return (numero_hijos); //aca el padre (el otro core_node) tambien es hijo al mismo tiempo
     }else
@@ -126,7 +132,7 @@ uint8_t num_hijos(edges *e_list_head)
 */
 linkaddr_t* least_basic_edge(edges *e_list_head)
 {
-    edges *e_aux;
+    edges *e_aux = NULL;
     for(e_aux = e_list_head; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
     {
         //tener en cuenta que la lista de edges ya esta
@@ -138,7 +144,15 @@ linkaddr_t* least_basic_edge(edges *e_list_head)
             break;
         }
     }
-    return &e_aux->addr;
+
+    if( e_aux == NULL )
+    {
+        MY_DBG("ERROR: No existe ningun basic edge\n");
+        return NULL;
+    }else
+    {
+        return &e_aux->addr;
+    }
 }
 
 /*Funcion para retornar el peso del edge
