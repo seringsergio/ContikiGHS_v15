@@ -285,7 +285,7 @@ PROCESS_THREAD(master_co_i, ev, data)
         }else
         if (ev == e_find)
         {
-            nd.flags &= ~FRAGMENTO_LWOE; //No he encontrado el LWOE del fragmento
+            //nd.flags &= ~FRAGMENTO_LWOE; //No he encontrado el LWOE del fragmento
             MY_DBG("Estoy en FIND \n");
             //process_post_synch(&e_test, PROCESS_EVENT_CONTINUE, NULL);
             process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
@@ -502,14 +502,14 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                     /////////////REINICIAR VARIABLE/////////////////
                     ////////////////////////////////////////////////
 
-                    /*nd.flags = 0;
+                    nd.flags = 0;
                     nd.lwoe.node.weight = INFINITO;
                     linkaddr_copy(&nd.lwoe.node.neighbor, &linkaddr_node_addr); //si peso es infinito, yo soy vecino
                     nd.lwoe.children.weight = INFINITO;
                     linkaddr_copy(&nd.lwoe.children.neighbor, &linkaddr_node_addr); //si peso es infinito, yo soy vecino
                     linkaddr_copy(&nd.downroute, &linkaddr_node_addr); //yo mismo soy downroute
                     linkaddr_copy(&nd.otro_core_node, &linkaddr_node_addr); //otro core node soy YO
-                    */
+
 
                     //limpio mi lista de reportes
                     for(rp_list_p = list_head(rp_list_g); rp_list_p != NULL; rp_list_p = rp_list_p->next)
