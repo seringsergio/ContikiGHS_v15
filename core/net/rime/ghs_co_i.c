@@ -94,7 +94,8 @@ void become_branch(edges *e_list_head, const linkaddr_t *node_addr)
 
     if(e_aux == NULL)
     {
-        MY_DBG("ERROR: no se encontro vecino en la lista de edges\n");
+        MY_DBG("ERROR: no se encontro vecino %d en la lista de edges (become_branch)\n"
+               ,node_addr->u8[0]);
     }
 
     //Si se vuelve alguien branch toca evaluar los mensajes de connect.
@@ -159,7 +160,7 @@ linkaddr_t* least_basic_edge(edges *e_list_head)
 */
 uint32_t weight_with_edge(const linkaddr_t *addr,  edges *e_list_head)
 {
-    edges *e_aux;
+    edges *e_aux = NULL;
     for(e_aux = e_list_head; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
     {
         if(linkaddr_cmp(addr, &e_aux->addr )) //Entra si las direcciones son iguales
@@ -181,7 +182,7 @@ uint32_t weight_with_edge(const linkaddr_t *addr,  edges *e_list_head)
 */
 uint8_t state_is_branch(const linkaddr_t *addr,  edges *e_list_head)
 {
-    edges *e_aux;
+    edges *e_aux = NULL;
     for(e_aux = e_list_head; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
     {
         if(linkaddr_cmp(addr, &e_aux->addr )) //Entra si las direcciones son iguales
@@ -205,6 +206,8 @@ uint8_t state_is_branch(const linkaddr_t *addr,  edges *e_list_head)
     }
 }
 
+// Funcion para llenar el nombre del fragmento
+// Este nombre esta compuesto de WeightEntre2Nodos, address del core_node 1, address del core_node 2
 void llenar_name_str(name *name_str, uint32_t weight, linkaddr_t *core_node_2)
 {
     //core_node_1 es la direccion menor
@@ -233,6 +236,10 @@ void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, lis
     linkaddr_t *lwoe_init; //LWOE inicial. Es el edge con menor weight
     char string[] = "READ";
 
+    ////////////////////////////////////////////////
+    /////////////REINICIAR VARIABLE/////////////////
+    ////////////////////////////////////////////////
+    
     //Inicializacion de "struct node"
     nd.state = FOUND;   //Inicio en FOUND porque ya se que el Basic edge con menor peso es el LWOE
     MY_DBG("Estoy en FOUND virtual \n"); //virtualmente porque no quiero resetear ND_LWOE ni CH_LWOE
@@ -244,7 +251,7 @@ void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, lis
         linkaddr_copy(&nd.lwoe.node.neighbor, &linkaddr_node_addr); //si peso es infinito, yo soy vecino
     nd.lwoe.children.weight = INFINITO;
         linkaddr_copy(&nd.lwoe.children.neighbor, &linkaddr_node_addr); //si peso es infinito, yo soy vecino
-    nd.num_branches = 0;
+    //nd.num_branches = 0;
         linkaddr_copy(&nd.downroute, &linkaddr_node_addr); //yo mismo soy downroute
     linkaddr_copy(&nd.otro_core_node, &linkaddr_node_addr); //otro core node soy YO
 
@@ -259,7 +266,8 @@ void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, lis
 
     //Setear LWOE del nodo
     linkaddr_copy(&nd.lwoe.node.neighbor, lwoe_init);
-    nd.lwoe.node.weight = return_weight( list_head(edges_list), lwoe_init);
+    //nd.lwoe.node.weight = return_weight( list_head(edges_list), lwoe_init);
+    nd.lwoe.node.weight = weight_with_edge(lwoe_init, list_head(edges_list));
 
     // Volver el basic edge con menor peso branch
     become_branch(list_head(edges_list),  &nd.lwoe.node.neighbor ); //become branch inicial level = 0
@@ -290,6 +298,7 @@ void llenar_initiate_msg(initiate_msg *i_msg, name name_str,
     }*/
 }
 
+// llenar la lista de msg de initiate
 void llenar_initiate_msg_list (initiate_list *i_list_out_p, name name_str,
                         uint8_t level, uint8_t state, const linkaddr_t *dest, uint8_t flags)
 {
@@ -328,10 +337,11 @@ void llenar_connect_msg_list (connect_list *co_list_out_p, uint8_t level, linkad
 void become_core_node(linkaddr_t *otro_core_node)
 {
     nd.flags |= CORE_NODE; //seteo la bandera de ser core_node
-    linkaddr_copy(&nd.otro_core_node, otro_core_node);
+    linkaddr_copy(&nd.otro_core_node, otro_core_node); //guardo quien es el otro core_node
     MY_DBG("Soy CORE_NORE\n");
 }
 
+// funcion para que el nodo haga lo que tiene que hacer al dejar de ser core_node
 void stop_being_core_node()
 {
     nd.flags &= ~CORE_NODE; //desSeteo la bandera de ser core_node

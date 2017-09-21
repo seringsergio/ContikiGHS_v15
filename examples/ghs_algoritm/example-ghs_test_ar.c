@@ -417,7 +417,9 @@ PROCESS_THREAD(evaluar_msg_accept, ev, data)
 
                         //Si un edges es aceptado: Se guarda el edge como mejor opcion del Nodo
                         linkaddr_copy(&nd.lwoe.node.neighbor,  &a_list_p->from);
-                        nd.lwoe.node.weight = return_weight(e_list_head_g, &a_list_p->from);
+                        //nd.lwoe.node.weight = return_weight(e_list_head_g, &a_list_p->from);
+                        nd.lwoe.node.weight = weight_with_edge(&a_list_p->from, e_list_head_g) ;
+
                         nd.flags |= ND_LWOE; //Ya encontre el ND_LWOE
                         //process_post_synch(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
                         process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);

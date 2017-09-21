@@ -9,7 +9,7 @@
 
 /* Retorna el peso de un edge
 */
-uint32_t return_weight(edges *e_list_head_g,  const linkaddr_t *from)
+/*uint32_t return_weight(edges *e_list_head_g,  const linkaddr_t *from)
 {
     edges *e_aux = NULL;
     for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
@@ -29,14 +29,15 @@ uint32_t return_weight(edges *e_list_head_g,  const linkaddr_t *from)
         return (e_aux->weight); //retorno el peso del vecino
     }
 }
-
+*/
 
 /* Hace que el edge se vuelva rejected
 */
 uint8_t become_rejected(edges *e_list_head_g, const linkaddr_t *from)
 {
-    edges *e_aux;
+    edges *e_aux = NULL;
     uint8_t temp = 0;
+
     for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
     {
         if(linkaddr_cmp(&e_aux->addr, from)) //Entra si las direcciones son iguales
@@ -61,19 +62,21 @@ uint8_t become_rejected(edges *e_list_head_g, const linkaddr_t *from)
         MY_DBG("ERROR: El vecino no existe en la lista de Edges\n");
     }
 
-    if(temp == 1)
+    return temp;
+
+    /*if(temp == 1)
     {
         return 1;
     }else
     {
         return 0;
-    }
+    }*/
 }
 /* Hace que el edges se vuelva accepted
 */
 uint8_t become_accepted(edges *e_list_head_g, const linkaddr_t *from)
 {
-    edges *e_aux;
+    edges *e_aux = NULL;
     uint8_t temp = 0;
 
     for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
@@ -101,13 +104,15 @@ uint8_t become_accepted(edges *e_list_head_g, const linkaddr_t *from)
         MY_DBG("ERROR: El vecino no existe en la lista de Edges\n");
     }
 
-    if(temp == 1)
+    return temp;
+
+    /*if(temp == 1)
     {
         return 1;
     }else
     {
         return 0;
-    }
+    }*/
 }
 
 
@@ -116,15 +121,17 @@ uint8_t become_accepted(edges *e_list_head_g, const linkaddr_t *from)
 void llenar_test_msg (test_msg *t_msg, const linkaddr_t *destination, fragment f)
 {
     linkaddr_copy(&t_msg->destination,  destination);
-    t_msg->f.name_str      = f.name_str;
-    t_msg->f.level         = f.level;
+    t_msg->f = f; //Genera errores con esta linea directa...muuuy raro
+    //t_msg->f.name_str      = f.name_str;
+    //t_msg->f.level         = f.level;
 }
 
 void llenar_test_msg_list (test_list *t_list_out_p, const linkaddr_t *destination, fragment f)
 {
     linkaddr_copy(&t_list_out_p->t_msg.destination,  destination);
-    t_list_out_p->t_msg.f.name_str      = f.name_str;
-    t_list_out_p->t_msg.f.level         = f.level;
+    t_list_out_p->t_msg.f      = f;
+    //t_list_out_p->t_msg.f.name_str      = f.name_str;
+    //t_list_out_p->t_msg.f.level         = f.level;
 }
 
 

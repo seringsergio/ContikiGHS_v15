@@ -280,6 +280,8 @@ PROCESS_THREAD(master_co_i, ev, data)
             //imprimo END
             print_final_result();
 
+            //se queda esperando por instrucciones
+
         }else
         if (ev == e_find)
         {
@@ -387,10 +389,22 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
 
                         become_branch(e_list_head_g, &co_list_p->from); // become branch de connect
 
-                        //Send initiate
-                        i_list_out_p = memb_alloc(&i_mem_out); //Alocar memoria
-                        llenar_initiate_msg_list(i_list_out_p, nd.f.name_str, nd.f.level, nd.state, &co_list_p->from,0);
-                        list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
+                        //PAra que el otro_core_node no deje de serlo
+                        //PENDIENTE este if
+                        if(linkaddr_cmp(&co_list_p->from, &nd.otro_core_node)) //Entra si las direcciones son iguales
+                        {
+                            //Send initiate
+                            i_list_out_p = memb_alloc(&i_mem_out); //Alocar memoria
+                            llenar_initiate_msg_list(i_list_out_p, nd.f.name_str, nd.f.level, nd.state, &co_list_p->from, BECOME_CORE_NODE);
+                            list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
+                        }else
+                        {
+                            //Send initiate
+                            i_list_out_p = memb_alloc(&i_mem_out); //Alocar memoria
+                            llenar_initiate_msg_list(i_list_out_p, nd.f.name_str, nd.f.level, nd.state, &co_list_p->from, STOP_BEING_CORE_NODE);
+                            list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
+                        }
+
                         process_post(&send_message_co_i, e_msg_initiate, NULL);
 
                         //remuevo el elemento de la lista
@@ -455,6 +469,10 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                 for(i_list_p = list_head(i_list); i_list_p != NULL; i_list_p = i_list_p->next)
                 {
 
+                    ////////////////////////////////////////////////
+                    /////////////GUARDAR INITIATE Y REENVIAR////////
+                    ////////////////////////////////////////////////
+
                     nd.f.name_str  = i_list_p->i_msg.f.name_str;
                     nd.f.level     = i_list_p->i_msg.f.level;
                     nd.state       = i_list_p->i_msg.nd_state;
@@ -479,6 +497,19 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                     // envio el post aca para no enviarlo multiples veces dentro del for anterior
                     process_post(&send_message_co_i, e_msg_initiate, NULL);
 
+                    ////////////////////////////////////////////////
+                    /////////////REINICIAR VARIABLE/////////////////
+                    ////////////////////////////////////////////////
+
+                    /*nd.flags = 0;
+                    nd.lwoe.node.weight = INFINITO;
+                    linkaddr_copy(&nd.lwoe.node.neighbor, &linkaddr_node_addr); //si peso es infinito, yo soy vecino
+                    nd.lwoe.children.weight = INFINITO;
+                    linkaddr_copy(&nd.lwoe.children.neighbor, &linkaddr_node_addr); //si peso es infinito, yo soy vecino
+                    linkaddr_copy(&nd.downroute, &linkaddr_node_addr); //yo mismo soy downroute
+                    linkaddr_copy(&nd.otro_core_node, &linkaddr_node_addr); //otro core node soy YO
+                    */
+
                     //limpio mi lista de reportes
                     for(rp_list_p = list_head(rp_list_g); rp_list_p != NULL; rp_list_p = rp_list_p->next)
                     {
@@ -486,21 +517,24 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                         memb_free(rp_mem_g, rp_list_p);
                     }
 
+                    ////////////////////////////////////////////////
+                    /////////////ACCIONES INITIATE//////////////////
+                    ////////////////////////////////////////////////
+
+
                     if(i_list_p->i_msg.flags & BECOME_CORE_NODE)
                     {
                         become_core_node(&i_list_p->from);
                         /*nd.flags |= CORE_NODE;
                         MY_DBG("Soy CORE_NORE 2\n");
                         linkaddr_copy(&nd.otro_core_node, &i_list_p->from);*/
-                    }
-
+                    }else
                     if(i_list_p->i_msg.flags & STOP_BEING_CORE_NODE)//PAra que el nodo deje de ser core_node
                     {
                         stop_being_core_node();
                         //Dejo de ser core node
                         /*nd.flags &= ~CORE_NODE;
                         MY_DBG("STOP_BEING_CORE_NODE: dejo de ser core_node\n");*/
-
                     }
 
 

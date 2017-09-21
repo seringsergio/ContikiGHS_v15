@@ -26,7 +26,7 @@
 #define END   0x04
 
 //Banderas de los nodos nd.flags
-#define INITIATIOR          0x01
+#define INITIATIOR          0x01 //No se usa ...se puede borrar
 #define ND_LWOE             0x02
 #define CH_LWOE             0x04
 #define CORE_NODE           0x08
@@ -103,7 +103,6 @@ struct fragment
 {
     name name_str;
     uint8_t level;
-
 };
 
 struct LWOE
@@ -213,7 +212,7 @@ struct node
     linkaddr_t parent; //Para enviar msg en la upward direction
     LWOE_type lwoe;
     //reports r;
-    uint8_t num_branches;
+    //uint8_t num_branches;
     linkaddr_t downroute; //Para enviar msg en la downward direction
     //test_msg t_msg;
     linkaddr_t otro_core_node; //Indica la direccion del otro CORE_NODE

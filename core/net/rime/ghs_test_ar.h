@@ -75,7 +75,7 @@ void llenar_accept_msg (accept_msg *a_msg, const linkaddr_t *destination);
 void llenar_reject_msg ( reject_msg *r_msg,  linkaddr_t *destination);
 uint8_t become_accepted(edges *e_list_head_g, const linkaddr_t *from);
 uint8_t become_rejected(edges *e_list_head_g, const linkaddr_t *from);
-uint32_t return_weight(edges *e_list_head_g,  const linkaddr_t *from);
+//uint32_t return_weight(edges *e_list_head_g,  const linkaddr_t *from);
 uint8_t nombres_iguales(name *name_str_1, name *name_str_2);
 void llenar_test_msg_list (test_list *t_list_out_p, const linkaddr_t *destination, fragment f);
 void llenar_accept_msg_list (accept_list *a_list_out_p, const linkaddr_t *destination);
