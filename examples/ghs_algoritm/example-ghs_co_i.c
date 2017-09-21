@@ -229,6 +229,7 @@ PROCESS_THREAD(master_co_i, ev, data)
 
     static connect_list *co_list_out_p;
     static s_wait str_wait;
+    //static report_list *rp_list_p;
 
     while(1)
     {
@@ -273,9 +274,24 @@ PROCESS_THREAD(master_co_i, ev, data)
             //Espero instrucciones de change_root o initiate
             MY_DBG("Estoy en FOUND \n");
 
-            //Reinicio variables
+            ////////////////////////////////////////////////
+            /////////////REINICIAR VARIABLE/////////////////
+            ////////////////////////////////////////////////
+            //nd.flags = 0;
             nd.flags &= ~ND_LWOE;
+            //nd.lwoe.node.weight = INFINITO;
+            //linkaddr_copy(&nd.lwoe.node.neighbor, &linkaddr_node_addr); //si peso es infinito, yo soy vecino
             nd.flags &= ~CH_LWOE;
+            //nd.lwoe.children.weight = INFINITO;
+            //linkaddr_copy(&nd.lwoe.children.neighbor, &linkaddr_node_addr); //si peso es infinito, yo soy vecino
+            //linkaddr_copy(&nd.downroute, &linkaddr_node_addr); //yo mismo soy downroute
+            //linkaddr_copy(&nd.otro_core_node, &linkaddr_node_addr); //otro core node soy YO
+            //limpio mi lista de reportes
+            /*for(rp_list_p = list_head(rp_list_g); rp_list_p != NULL; rp_list_p = rp_list_p->next)
+            {
+                my_list_remove(rp_list_g, rp_list_p); //Remove a specific element from a list.
+                memb_free(rp_mem_g, rp_list_p);
+            }*/
 
             //imprimo END
             print_final_result();
@@ -509,8 +525,6 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                     linkaddr_copy(&nd.lwoe.children.neighbor, &linkaddr_node_addr); //si peso es infinito, yo soy vecino
                     linkaddr_copy(&nd.downroute, &linkaddr_node_addr); //yo mismo soy downroute
                     linkaddr_copy(&nd.otro_core_node, &linkaddr_node_addr); //otro core node soy YO
-
-
                     //limpio mi lista de reportes
                     for(rp_list_p = list_head(rp_list_g); rp_list_p != NULL; rp_list_p = rp_list_p->next)
                     {

@@ -224,22 +224,22 @@
       <skin>org.contikios.cooja.plugins.skins.TrafficVisualizerSkin</skin>
       <viewport>1.7065323073026737 0.0 0.0 1.7065323073026737 52.79034914478213 33.0387703789395</viewport>
     </plugin_config>
-    <width>400</width>
+    <width>395</width>
     <z>2</z>
     <height>400</height>
-    <location_x>-57</location_x>
-    <location_y>4</location_y>
+    <location_x>-64</location_x>
+    <location_y>1</location_y>
   </plugin>
   <plugin>
     org.contikios.cooja.plugins.LogListener
     <plugin_config>
-      <filter>END</filter>
+      <filter>llego INI</filter>
       <formatted_time />
       <coloring />
     </plugin_config>
     <width>837</width>
     <z>0</z>
-    <height>551</height>
+    <height>536</height>
     <location_x>264</location_x>
     <location_y>160</location_y>
   </plugin>
