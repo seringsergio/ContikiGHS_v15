@@ -263,34 +263,30 @@ PROCESS_THREAD(evaluar_msg_rp, ev, data)
                     //Saco el nodo con menor peso de la lista
                     MY_DBG("Reports completos..   \n");
 
-                        //Encuentro el menor de la lista
-                        lowest_rp = lowest_of_report_list(rp_list);
+                    //Encuentro el menor de la lista
+                    lowest_rp = lowest_of_report_list(rp_list);
 
-                        if(lowest_rp == NULL)
-                        {
-                            MY_DBG("ERROR: No existe un lowest_rp. Siempre deberia haber al menos un lowest_rp cuando lowest_of_report_list() se llama \n");
-                        }
-                        //guardo el menor hijo como el mejor edge
-                        linkaddr_copy( &nd.downroute , &lowest_rp->from);
-                        linkaddr_copy(&nd.lwoe.children.neighbor, &lowest_rp->rp_msg.neighbor_r );
-                        nd.lwoe.children.weight = lowest_rp->rp_msg.weight_r;
-                        nd.flags |= CH_LWOE; //Ya encontre el ND_LWOE
-                        //process_post_synch(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
-                        process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+                    //guardo el menor hijo como el mejor edge
+                    linkaddr_copy( &nd.downroute , &lowest_rp->from);
+                    linkaddr_copy(&nd.lwoe.children.neighbor, &lowest_rp->rp_msg.neighbor_r );
+                    nd.lwoe.children.weight = lowest_rp->rp_msg.weight_r;
+                    nd.flags |= CH_LWOE; //Ya encontre el ND_LWOE
+                    //process_post_synch(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
+                    process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
 
-                        MY_DBG("El menor de la lista es %d weight=%d.%02d nd.flags=%04X - downroute=%d \n",
-                        nd.lwoe.children.neighbor.u8[0],
-                        (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
-                        (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100),
-                        nd.flags,
-                        nd.downroute.u8[0]);
+                    MY_DBG("El menor de la lista es %d weight=%d.%02d nd.flags=%04X - downroute=%d \n",
+                    nd.lwoe.children.neighbor.u8[0],
+                    (int)(nd.lwoe.children.weight / SEQNO_EWMA_UNITY),
+                    (int)(((100UL * nd.lwoe.children.weight) / SEQNO_EWMA_UNITY) % 100),
+                    nd.flags,
+                    nd.downroute.u8[0]);
 
-                        //Remuevo (list_remove) todos los elementos de la lista
-                        for(rp_list_p = list_head(rp_list); rp_list_p != NULL; rp_list_p = rp_list_p->next)
-                        {
-                            my_list_remove(rp_list, rp_list_p); //Remove a specific element from a list.
-                            memb_free(&rp_mem, rp_list_p);
-                        }
+                    //Remuevo (list_remove) todos los elementos de la lista
+                    for(rp_list_p = list_head(rp_list); rp_list_p != NULL; rp_list_p = rp_list_p->next)
+                    {
+                        my_list_remove(rp_list, rp_list_p); //Remove a specific element from a list.
+                        memb_free(&rp_mem, rp_list_p);
+                    }
 
                 }
                 else
@@ -448,11 +444,6 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             {
                                 //Encuentro el menor de la lista de reportes
                                 lowest_rp = lowest_of_report_list(rp_list);
-
-                                if(lowest_rp == NULL)
-                                {
-                                    MY_DBG("ERROR: No existe un lowest_rp. Siempre deberia haber al menos un lowest_rp cuando lowest_of_report_list() se llama \n");
-                                }
 
                                 //guardo el menor hijo como el mejor edge
                                 linkaddr_copy( &nd.downroute , &lowest_rp->from);

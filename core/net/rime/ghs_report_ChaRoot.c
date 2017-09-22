@@ -29,6 +29,9 @@ report_list * lowest_of_report_list(list_t rp_list)
                lowest_rp     = rp_str;
            }
        }
+   }else
+   {
+       MY_DBG("ERROR: No existe un lowest_rp. Siempre deberia haber al menos un lowest_rp cuando lowest_of_report_list() se llama \n");
    }
 
    return lowest_rp;
