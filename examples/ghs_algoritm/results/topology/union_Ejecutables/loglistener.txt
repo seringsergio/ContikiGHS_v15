@@ -1,37 +1,37 @@
 00:00.351	ID:8	Rime started with address 8.0
-00:00.360	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-c216f52 started. Node id is set to 8.
+00:00.360	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-f6d71bd started. Node id is set to 8.
 00:00.369	ID:8	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.381	ID:8	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.514	ID:2	Rime started with address 2.0
-00:00.523	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-c216f52 started. Node id is set to 2.
+00:00.523	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-f6d71bd started. Node id is set to 2.
 00:00.529	ID:6	Rime started with address 6.0
 00:00.532	ID:2	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.538	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-c216f52 started. Node id is set to 6.
+00:00.538	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-f6d71bd started. Node id is set to 6.
 00:00.544	ID:2	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.547	ID:6	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.558	ID:6	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.627	ID:4	Rime started with address 4.0
-00:00.635	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-c216f52 started. Node id is set to 4.
+00:00.635	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-f6d71bd started. Node id is set to 4.
 00:00.644	ID:4	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.656	ID:4	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.661	ID:1	Rime started with address 1.0
-00:00.669	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-c216f52 started. Node id is set to 1.
+00:00.669	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-f6d71bd started. Node id is set to 1.
 00:00.678	ID:1	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.680	ID:7	Rime started with address 7.0
-00:00.689	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-c216f52 started. Node id is set to 7.
+00:00.689	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-f6d71bd started. Node id is set to 7.
 00:00.690	ID:1	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.698	ID:7	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.710	ID:7	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.987	ID:9	Rime started with address 9.0
 00:00.993	ID:5	Rime started with address 5.0
-00:00.995	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-c216f52 started. Node id is set to 9.
-00:01.002	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-c216f52 started. Node id is set to 5.
+00:00.995	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-f6d71bd started. Node id is set to 9.
+00:01.002	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-f6d71bd started. Node id is set to 5.
 00:01.005	ID:9	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:01.011	ID:5	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:01.016	ID:9	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:01.023	ID:5	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:01.178	ID:3	Rime started with address 3.0
-00:01.186	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-c216f52 started. Node id is set to 3.
+00:01.186	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-f6d71bd started. Node id is set to 3.
 00:01.195	ID:3	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:01.207	ID:3	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:02.691	ID:2	Este es broadcast vecinos

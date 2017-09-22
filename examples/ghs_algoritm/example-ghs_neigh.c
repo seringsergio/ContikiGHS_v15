@@ -115,7 +115,7 @@ static void sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t
 static void
 timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-  MY_DBG("runicast message timed out when sending to %d.%d, retransmissions %d\n",
+  MY_DBG("ERROR: runicast message timed out when sending to %d.%d, retransmissions %d\n",
      to->u8[0], to->u8[1], retransmissions);
 }
 static const struct runicast_callbacks runicast_callbacks = {recv_runicast,

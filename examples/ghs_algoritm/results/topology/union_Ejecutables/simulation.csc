@@ -209,7 +209,7 @@
   <plugin>
     org.contikios.cooja.plugins.SimControl
     <width>280</width>
-    <z>1</z>
+    <z>2</z>
     <height>160</height>
     <location_x>400</location_x>
     <location_y>0</location_y>
@@ -225,22 +225,22 @@
       <viewport>1.7065323073026737 0.0 0.0 1.7065323073026737 52.79034914478213 33.0387703789395</viewport>
     </plugin_config>
     <width>395</width>
-    <z>2</z>
+    <z>0</z>
     <height>400</height>
-    <location_x>-47</location_x>
-    <location_y>30</location_y>
+    <location_x>9</location_x>
+    <location_y>12</location_y>
   </plugin>
   <plugin>
     org.contikios.cooja.plugins.LogListener
     <plugin_config>
-      <filter>llego INI</filter>
+      <filter>END</filter>
       <formatted_time />
       <coloring />
     </plugin_config>
-    <width>837</width>
-    <z>0</z>
+    <width>847</width>
+    <z>1</z>
     <height>536</height>
-    <location_x>264</location_x>
+    <location_x>254</location_x>
     <location_y>160</location_y>
   </plugin>
   <plugin>
