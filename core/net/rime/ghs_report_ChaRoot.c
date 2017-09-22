@@ -97,10 +97,10 @@ uint8_t lista_casi_completa( list_t rp_list)
 {
     report_list *rp_list_p;
     uint8_t no_falta_core_node = 0;
-    uint8_t lista_completa = 0;
+    uint8_t listaCasi_completa = 0;
 
     // SI SOY CORE_NODE
-    //SI solamente falta 1 hijo
+    // SI solamente falta 1 hijo
     // Y ese hijo faltante es el OTRO_CORE_NODE
     //Entonces: La lista esta CASI completa
     if(nd.flags & CORE_NODE) //SI SOY CORE_NODE
@@ -118,15 +118,15 @@ uint8_t lista_casi_completa( list_t rp_list)
 
             if(no_falta_core_node == 1)
             {
-                lista_completa = 0; //LISTA incompleta
+                listaCasi_completa = 0; //LISTA incompleta
                 MY_DBG("NOOO ... Lista NO completa\n");
             }else
             {
-                lista_completa = 1; //Lista completa
+                listaCasi_completa = 1; //Lista casi completa
                 MY_DBG("Casicompleta porque solamente falta el otro core_node\n");
             }
         }
     } //END si soy CORE_NODE
 
-    return lista_completa;
+    return listaCasi_completa;
 }

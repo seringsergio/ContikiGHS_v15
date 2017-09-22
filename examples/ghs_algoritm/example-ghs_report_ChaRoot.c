@@ -412,7 +412,9 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             //a que al menos 1 de los 2 CORE_NODES envie change_root.
                             //Lo que pasa es que los 2 CORE_NODE envian report y pasan a FOUND
                             //y ninguno envia change_root.
-                            if(list_length(rp_list) == 0) //Mi unico hijo es el otro CORE_NODE
+
+                            //if(list_length(rp_list) == 0) //Mi unico hijo es el otro CORE_NODE
+                            if( num_hijos(e_list_head_g) == 1 )
                             //Equivalente a no tengo hijos
                             {
                                 if(nd.lwoe.node.weight == INFINITO)
@@ -431,6 +433,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                          (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                          (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                             }else //Si la lista tiene reportes, tengo HIJOS
+                            if ( num_hijos(e_list_head_g) > 1 )
                             {
                                 //Encuentro el menor de la lista de reportes
                                 lowest_rp = lowest_of_report_list(list_head(rp_list));
@@ -490,7 +493,12 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                                         (int)(rp_list_out_p->rp_msg.weight_r / SEQNO_EWMA_UNITY),
                                                         (int)(((100UL * rp_list_out_p->rp_msg.weight_r) / SEQNO_EWMA_UNITY) % 100));
                                }
-                            }
+                           }else
+                           if ( num_hijos(e_list_head_g) < 1 )
+                           {
+                               MY_DBG("ERROR: el numero de hijos no puede ser < de 1. ó sino no hubiera entrado la funcion lista_casi_completa\n");
+                           }
+
                         }
                     } // END IF NO he encontrado el LWOE del fragmento. Else no hago nada, ya hice lo q tenia q hacer
                 }else //NO soy CORE_NODE
