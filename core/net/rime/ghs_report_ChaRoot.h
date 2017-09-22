@@ -115,6 +115,7 @@ void llenar_change_root_list(change_root_list *cr_list_out_p, const linkaddr_t *
                             const linkaddr_t *final_destination);
 void llenar_msg_informacion_list(informacion_list *info_list_out_p, uint8_t flags,
                                 const linkaddr_t *destination );
-report_list * lowest_of_report_list(report_list *rp_list_head);
+//report_list * lowest_of_report_list(report_list *rp_list_head);
+report_list * lowest_of_report_list(list_t rp_list);
 
 #endif /* GHS_NEIGH_H */

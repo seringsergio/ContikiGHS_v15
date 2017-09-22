@@ -9,25 +9,31 @@
 /*---------------- FUNCIONES ----------------------------------------*/
 /*-------------------------------------------------------------------*/
 
-report_list * lowest_of_report_list(report_list *rp_list_head)
+//report_list * lowest_of_report_list(report_list *rp_list_head)
+
+report_list * lowest_of_report_list(list_t rp_list)
 {
    report_list *rp_str = NULL;
    uint32_t lowest_weight;
    report_list *lowest_rp = NULL;
 
-   for(rp_str = rp_list_head, lowest_weight = rp_str->rp_msg.weight_r,
-       lowest_rp = rp_str;
-       rp_str != NULL; rp_str = rp_str->next)
+   if(list_length(rp_list) > 0)
    {
-       if(rp_str->rp_msg.weight_r < lowest_weight)
+       for(rp_str = list_head(rp_list), lowest_weight = rp_str->rp_msg.weight_r,
+           lowest_rp = rp_str;
+           rp_str != NULL; rp_str = rp_str->next)
        {
-           lowest_weight = rp_str->rp_msg.weight_r;
-           lowest_rp     = rp_str;
+           if(rp_str->rp_msg.weight_r < lowest_weight)
+           {
+               lowest_weight = rp_str->rp_msg.weight_r;
+               lowest_rp     = rp_str;
+           }
        }
    }
 
    return lowest_rp;
 }
+
 /* Funcion para llenar el msg de change root
 */
 void llenar_change_root(change_root_msg *cr_msg, const linkaddr_t *next_hop,
