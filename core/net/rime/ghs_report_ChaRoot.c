@@ -9,8 +9,6 @@
 /*---------------- FUNCIONES ----------------------------------------*/
 /*-------------------------------------------------------------------*/
 
-//report_list * lowest_of_report_list(report_list *rp_list_head)
-
 report_list * lowest_of_report_list(list_t rp_list)
 {
    report_list *rp_str = NULL;
@@ -71,20 +69,6 @@ uint8_t es_Hoja()
             return 0;// EN todos los otros casos no soy hoja
         }
 }
-/* llenar el msg de informacion
-*/
-/*void llenar_msg_informacion(informacion_msg *inf_msg, uint8_t flags, const linkaddr_t *destination )
-{
-    inf_msg->flags = flags;
-    linkaddr_copy(&inf_msg->destination, destination);
-}
-
-void llenar_msg_informacion_list(informacion_list *info_list_out_p, uint8_t flags,
-                                 const linkaddr_t *destination )
-{
-    info_list_out_p->info_msg.flags = flags;
-    linkaddr_copy(&info_list_out_p->info_msg.destination, destination);
-}*/
 
 /* LLenar el msg de report
 */

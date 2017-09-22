@@ -16,7 +16,6 @@
 
 //#define WAIT_RARO 6
 //Definicion de maximos
-//#define MAX_NUM_EDGES           MAX_NEIGHBORS
 #define MAX_NUM_POSPONES        MAX_NEIGHBORS
 #define MAX_TAMANO_LISTA_MSG    MAX_NEIGHBORS //lista donde guardo msgs (co-i-test-ar-report-Chroot)
 
@@ -116,17 +115,7 @@ struct LWOE_type
     LWOE node;
     LWOE children;
 };
-
-/*struct reports
-{
-    linkaddr_t sender;
-    linkaddr_t neighbor;
-    uint32_t weight;
-    uint16_t num_reports;
-};*/
-
-
-// Es una lista con la informacion de los edges
+// es una lista con la informacion de los edges
 struct edges {
 
   struct edges *next;   // The ->next pointer is needed since we are placing these on a Contiki list.
@@ -211,10 +200,7 @@ struct node
     fragment f;
     linkaddr_t parent; //Para enviar msg en la upward direction
     LWOE_type lwoe;
-    //reports r;
-    //uint8_t num_branches;
     linkaddr_t downroute; //Para enviar msg en la downward direction
-    //test_msg t_msg;
     linkaddr_t otro_core_node; //Indica la direccion del otro CORE_NODE
 
 };

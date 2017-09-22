@@ -239,20 +239,19 @@ void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, lis
     ////////////////////////////////////////////////
     /////////////REINICIAR VARIABLE/////////////////
     ////////////////////////////////////////////////
-    
+
     //Inicializacion de "struct node"
     nd.state = FOUND;   //Inicio en FOUND porque ya se que el Basic edge con menor peso es el LWOE
     MY_DBG("Estoy en FOUND virtual \n"); //virtualmente porque no quiero resetear ND_LWOE ni CH_LWOE
     nd.flags = 0;
     llenar_name_str(&nd.f.name_str, 0, &linkaddr_node_addr); //Inicio weight con 0
     nd.f.level = 0; //Inicio level con 0
-        linkaddr_copy(&nd.parent, &linkaddr_node_addr); //yo mismo soy mi padre
+    linkaddr_copy(&nd.parent, &linkaddr_node_addr); //yo mismo soy mi padre
     nd.lwoe.node.weight = INFINITO;
-        linkaddr_copy(&nd.lwoe.node.neighbor, &linkaddr_node_addr); //si peso es infinito, yo soy vecino
+    linkaddr_copy(&nd.lwoe.node.neighbor, &linkaddr_node_addr); //si peso es infinito, yo soy vecino
     nd.lwoe.children.weight = INFINITO;
-        linkaddr_copy(&nd.lwoe.children.neighbor, &linkaddr_node_addr); //si peso es infinito, yo soy vecino
-    //nd.num_branches = 0;
-        linkaddr_copy(&nd.downroute, &linkaddr_node_addr); //yo mismo soy downroute
+    linkaddr_copy(&nd.lwoe.children.neighbor, &linkaddr_node_addr); //si peso es infinito, yo soy vecino
+    linkaddr_copy(&nd.downroute, &linkaddr_node_addr); //yo mismo soy downroute
     linkaddr_copy(&nd.otro_core_node, &linkaddr_node_addr); //otro core node soy YO
 
     //Tomar info de master_neighbor_discovery
@@ -266,7 +265,6 @@ void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, lis
 
     //Setear LWOE del nodo
     linkaddr_copy(&nd.lwoe.node.neighbor, lwoe_init);
-    //nd.lwoe.node.weight = return_weight( list_head(edges_list), lwoe_init);
     nd.lwoe.node.weight = weight_with_edge(lwoe_init, list_head(edges_list));
 
     // Volver el basic edge con menor peso branch
@@ -287,15 +285,6 @@ void llenar_initiate_msg(initiate_msg *i_msg, name name_str,
     i_msg->nd_state   = state;
     linkaddr_copy(&i_msg->destination , dest);
     i_msg->flags = flags;
-
-    /*if( !(flags & BECOME_CORE_NODE))
-    {
-        i_msg->flags     &= ~BECOME_CORE_NODE;
-    }else
-    if(flags & BECOME_CORE_NODE)
-    {
-        i_msg->flags     |= BECOME_CORE_NODE;
-    }*/
 }
 
 // llenar la lista de msg de initiate
@@ -307,15 +296,6 @@ void llenar_initiate_msg_list (initiate_list *i_list_out_p, name name_str,
     i_list_out_p->i_msg.nd_state   = state;
     linkaddr_copy(&i_list_out_p->i_msg.destination , dest);
     i_list_out_p->i_msg.flags = flags;
-
-    /*if( !(flags & BECOME_CORE_NODE))
-    {
-        i_list_out_p->i_msg.flags     &= ~BECOME_CORE_NODE;
-    }else
-    if(flags & BECOME_CORE_NODE)
-    {
-        i_list_out_p->i_msg.flags     |= BECOME_CORE_NODE;
-    }*/
 }
 
 

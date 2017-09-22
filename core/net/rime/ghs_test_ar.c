@@ -7,30 +7,6 @@
 /*---------------- FUNCIONES ----------------------------------------*/
 /*-------------------------------------------------------------------*/
 
-/* Retorna el peso de un edge
-*/
-/*uint32_t return_weight(edges *e_list_head_g,  const linkaddr_t *from)
-{
-    edges *e_aux = NULL;
-    for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
-    {
-        if(linkaddr_cmp(&e_aux->addr, from)) //Entra si las direcciones son iguales
-        {
-            break;
-        }
-    }
-
-    if(e_aux == NULL)
-    {
-        MY_DBG("ERROR: El vecino (from) no fue encontrado en la lista (e_list_head_g) \n");
-        return INFINITO;
-    }else
-    {
-        return (e_aux->weight); //retorno el peso del vecino
-    }
-}
-*/
-
 /* Hace que el edge se vuelva rejected
 */
 uint8_t become_rejected(edges *e_list_head_g, const linkaddr_t *from)
@@ -63,14 +39,6 @@ uint8_t become_rejected(edges *e_list_head_g, const linkaddr_t *from)
     }
 
     return temp;
-
-    /*if(temp == 1)
-    {
-        return 1;
-    }else
-    {
-        return 0;
-    }*/
 }
 /* Hace que el edges se vuelva accepted
 */
@@ -105,14 +73,6 @@ uint8_t become_accepted(edges *e_list_head_g, const linkaddr_t *from)
     }
 
     return temp;
-
-    /*if(temp == 1)
-    {
-        return 1;
-    }else
-    {
-        return 0;
-    }*/
 }
 
 
@@ -122,18 +82,13 @@ void llenar_test_msg (test_msg *t_msg, const linkaddr_t *destination, fragment f
 {
     linkaddr_copy(&t_msg->destination,  destination);
     t_msg->f = f; //Genera errores con esta linea directa...muuuy raro
-    //t_msg->f.name_str      = f.name_str;
-    //t_msg->f.level         = f.level;
 }
 
 void llenar_test_msg_list (test_list *t_list_out_p, const linkaddr_t *destination, fragment f)
 {
     linkaddr_copy(&t_list_out_p->t_msg.destination,  destination);
     t_list_out_p->t_msg.f      = f;
-    //t_list_out_p->t_msg.f.name_str      = f.name_str;
-    //t_list_out_p->t_msg.f.level         = f.level;
 }
-
 
 /* Funcion para llenar el msg de accept
 */

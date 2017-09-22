@@ -1,37 +1,37 @@
 00:00.351	ID:8	Rime started with address 8.0
-00:00.360	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-f6d71bd started. Node id is set to 8.
+00:00.360	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-6b5f100 started. Node id is set to 8.
 00:00.369	ID:8	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.381	ID:8	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.514	ID:2	Rime started with address 2.0
-00:00.523	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-f6d71bd started. Node id is set to 2.
+00:00.523	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-6b5f100 started. Node id is set to 2.
 00:00.529	ID:6	Rime started with address 6.0
 00:00.532	ID:2	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
-00:00.538	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-f6d71bd started. Node id is set to 6.
+00:00.538	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-6b5f100 started. Node id is set to 6.
 00:00.544	ID:2	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.547	ID:6	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.558	ID:6	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.627	ID:4	Rime started with address 4.0
-00:00.635	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-f6d71bd started. Node id is set to 4.
+00:00.635	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-6b5f100 started. Node id is set to 4.
 00:00.644	ID:4	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.656	ID:4	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.661	ID:1	Rime started with address 1.0
-00:00.669	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-f6d71bd started. Node id is set to 1.
+00:00.669	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-6b5f100 started. Node id is set to 1.
 00:00.678	ID:1	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.680	ID:7	Rime started with address 7.0
-00:00.689	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-f6d71bd started. Node id is set to 7.
+00:00.689	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-6b5f100 started. Node id is set to 7.
 00:00.690	ID:1	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.698	ID:7	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:00.710	ID:7	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:00.987	ID:9	Rime started with address 9.0
 00:00.993	ID:5	Rime started with address 5.0
-00:00.995	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-f6d71bd started. Node id is set to 9.
-00:01.002	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-f6d71bd started. Node id is set to 5.
+00:00.995	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-6b5f100 started. Node id is set to 9.
+00:01.002	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-6b5f100 started. Node id is set to 5.
 00:01.005	ID:9	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:01.011	ID:5	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:01.016	ID:9	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:01.023	ID:5	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:01.178	ID:3	Rime started with address 3.0
-00:01.186	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-f6d71bd started. Node id is set to 3.
+00:01.186	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-6b5f100 started. Node id is set to 3.
 00:01.195	ID:3	nullsec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
 00:01.207	ID:3	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
 00:02.691	ID:2	Este es broadcast vecinos
@@ -485,7 +485,7 @@
 02:59.427	ID:2	Estoy en FOUND 
 02:59.430	ID:2	END 2 1 1.73 2 1.29 
 02:59.683	ID:1	TL:1 LLLego report de 2 Neigh=2 Weight=1.95  nd.flags=0002
-02:59.684	ID:1	list_length(rp_list)=1  
+02:59.684	ID:1	Tamano lista reports=1  
 02:59.686	ID:1	Reports completos..   
 02:59.691	ID:1	El menor de la lista es 2 weight=1.95 nd.flags=0006 - downroute=2 
 02:59.700	ID:1	nd.lwoe.node.weight=-1.15 <= nd.lwoe.children.weight=1.95 
@@ -514,7 +514,7 @@
 03:01.945	ID:6	OUT EDGE: addr=4 e_aux->state =1 
 03:01.948	ID:6	Deseo enviar e_msg_test a 4
 03:02.824	ID:3	TL:1 LLLego report de 1 Neigh=2 Weight=1.95  nd.flags=000A
-03:02.826	ID:3	list_length(rp_list)=1  
+03:02.826	ID:3	Tamano lista reports=1  
 03:02.829	ID:3	Casicompleta porque solamente falta el otro core_node
 03:02.838	ID:3	Casicompleta porque solamente falta el otro core_node
 03:02.844	ID:3	CasiCompleta:El menor de la lista es 2 weight=1.95 flags=000A - downroute=1 
@@ -570,7 +570,7 @@
 03:32.272	ID:4	runicast (co-i) message received from 5.0, seqno 1 (DUPLICATE)
 03:32.410	ID:2	runicast message received from 5.0, seqno 1 (DUPLICATE)
 03:35.303	ID:6	TL:1 LLLego report de 3 Neigh=2 Weight=1.95  nd.flags=0008
-03:35.305	ID:6	list_length(rp_list)=1  
+03:35.305	ID:6	Tamano lista reports=1  
 03:35.307	ID:6	Reports completos..   
 03:35.312	ID:6	El menor de la lista es 2 weight=1.95 nd.flags=000C - downroute=3 
 03:35.329	ID:6	Casicompleta porque solamente falta el otro core_node
@@ -586,7 +586,7 @@
 03:40.309	ID:1	runicast (report-ChaRoot)  message sent to 3.0, retransmissions 38 flags=0000
 03:40.763	ID:5	llego AcCept de 2.  flags=0000 
 03:40.827	ID:7	TL:1 LLLego report de 9 Neigh=9 Weight=1.57  nd.flags=000A
-03:40.829	ID:7	list_length(rp_list)=1  
+03:40.829	ID:7	Tamano lista reports=1  
 03:40.831	ID:7	NOOO ... Lista NO completa
 03:40.880	ID:9	runicast (report-ChaRoot)  message sent to 7.0, retransmissions 4 flags=000A
 03:40.890	ID:5	 runicast message received from 2.0, seqno 1 (DUPLICATE)
@@ -661,7 +661,7 @@
 04:11.148	ID:4	runicast message received from 6.0, seqno 2 (DUPLICATE)
 04:11.156	ID:4	runicast message received from 6.0, seqno 2 (DUPLICATE)
 04:11.265	ID:5	TL:1 LLLego report de 4 Neigh=4 Weight=1.50  nd.flags=0002
-04:11.267	ID:5	list_length(rp_list)=1  
+04:11.267	ID:5	Tamano lista reports=1  
 04:11.268	ID:5	Reports completos..   
 04:11.273	ID:5	El menor de la lista es 4 weight=1.50 nd.flags=0006 - downroute=4 
 04:11.396	ID:5	nd.lwoe.node.weight=1.95 <= nd.lwoe.children.weight=1.50 
@@ -671,7 +671,7 @@
 04:11.407	ID:5	Estoy en FOUND 
 04:11.410	ID:5	END 5 8 1.39 2 1.00 
 04:11.499	ID:8	TL:1 LLLego report de 5 Neigh=4 Weight=1.50  nd.flags=0002
-04:11.501	ID:8	list_length(rp_list)=1  
+04:11.501	ID:8	Tamano lista reports=1  
 04:11.502	ID:8	Reports completos..   
 04:11.507	ID:8	El menor de la lista es 4 weight=1.50 nd.flags=0006 - downroute=5 
 04:11.637	ID:8	nd.lwoe.node.weight=-1.15 <= nd.lwoe.children.weight=1.50 
@@ -681,7 +681,7 @@
 04:11.648	ID:8	Estoy en FOUND 
 04:11.651	ID:8	END 8 7 1.18 2 1.00 
 04:11.827	ID:7	TL:2 LLLego report de 8 Neigh=4 Weight=1.50  nd.flags=000A
-04:11.829	ID:7	list_length(rp_list)=2  
+04:11.829	ID:7	Tamano lista reports=2  
 04:11.831	ID:7	Reports completos..   
 04:11.836	ID:7	El menor de la lista es 4 weight=1.50 nd.flags=000E - downroute=8 
 04:11.979	ID:7	nd.lwoe.node.weight=-1.15 <= nd.lwoe.children.weight=1.50 
@@ -878,7 +878,7 @@
 04:28.567	ID:9	Estoy en FOUND 
 04:28.570	ID:9	END 9 7 1.00 2 1.50 
 04:28.827	ID:7	TL:1 LLLego report de 9 Neigh=9 Weight=-1.15  nd.flags=0002
-04:28.829	ID:7	list_length(rp_list)=1  
+04:28.829	ID:7	Tamano lista reports=1  
 04:28.830	ID:7	Reports completos..   
 04:28.836	ID:7	El menor de la lista es 9 weight=-1.15 nd.flags=0006 - downroute=9 
 04:28.882	ID:7	nd.lwoe.node.weight=-1.15 <= nd.lwoe.children.weight=-1.15 
@@ -889,7 +889,7 @@
 04:28.896	ID:7	Estoy en FOUND 
 04:28.899	ID:7	END 7 8 1.18 2 1.50 
 04:28.997	ID:8	TL:1 LLLego report de 7 Neigh=7 Weight=-1.15  nd.flags=0002
-04:28.999	ID:8	list_length(rp_list)=1  
+04:28.999	ID:8	Tamano lista reports=1  
 04:29.001	ID:8	Reports completos..   
 04:29.006	ID:8	El menor de la lista es 7 weight=-1.15 nd.flags=0006 - downroute=7 
 04:29.074	ID:8	nd.lwoe.node.weight=-1.15 <= nd.lwoe.children.weight=-1.15 
@@ -900,7 +900,7 @@
 04:29.088	ID:8	Estoy en FOUND 
 04:29.091	ID:8	END 8 5 1.39 2 1.50 
 04:29.139	ID:5	TL:1 LLLego report de 8 Neigh=8 Weight=-1.15  nd.flags=0000
-04:29.141	ID:5	list_length(rp_list)=1  
+04:29.141	ID:5	Tamano lista reports=1  
 04:29.143	ID:5	Reports completos..   
 04:29.148	ID:5	El menor de la lista es 8 weight=-1.15 nd.flags=0004 - downroute=8 
 04:29.245	ID:8	runicast (report-ChaRoot)  message sent to 5.0, retransmissions 1 flags=0000
@@ -933,7 +933,7 @@
 04:32.193	ID:5	END 5 4 1.41 2 1.50 
 04:32.266	ID:5	runicast message received from 2.0, seqno 3 (DUPLICATE)
 04:32.397	ID:4	TL:1 LLLego report de 5 Neigh=5 Weight=-1.15  nd.flags=000A
-04:32.399	ID:4	list_length(rp_list)=1  
+04:32.399	ID:4	Tamano lista reports=1  
 04:32.402	ID:4	Casicompleta porque solamente falta el otro core_node
 04:32.513	ID:4	Casicompleta porque solamente falta el otro core_node
 04:32.514	ID:5	runicast (report-ChaRoot)  message sent to 4.0, retransmissions 1 flags=0000
@@ -943,7 +943,7 @@
 04:32.533	ID:4	END 4 6 1.50 2 1.50 
 04:32.539	ID:4	Envie report a 6 Neigh=4 Weight=-1.35 flags=000A
 04:32.676	ID:6	TL:1 LLLego report de 4 Neigh=4 Weight=-1.15  nd.flags=000A
-04:32.677	ID:6	list_length(rp_list)=1  
+04:32.677	ID:6	Tamano lista reports=1  
 04:32.679	ID:6	NOOO ... Lista NO completa
 04:32.772	ID:4	runicast (report-ChaRoot)  message sent to 6.0, retransmissions 1 flags=000A
 04:33.264	ID:5	runicast message received from 2.0, seqno 3 (DUPLICATE)
@@ -961,7 +961,7 @@
 04:34.284	ID:2	runicast message received from 5.0, seqno 3 (DUPLICATE)
 04:34.292	ID:2	runicast message received from 5.0, seqno 3 (DUPLICATE)
 04:34.431	ID:1	TL:1 LLLego report de 2 Neigh=2 Weight=-1.15  nd.flags=0002
-04:34.433	ID:1	list_length(rp_list)=1  
+04:34.433	ID:1	Tamano lista reports=1  
 04:34.434	ID:1	Reports completos..   
 04:34.439	ID:1	El menor de la lista es 2 weight=-1.15 nd.flags=0006 - downroute=2 
 04:34.533	ID:1	nd.lwoe.node.weight=-1.15 <= nd.lwoe.children.weight=-1.15 
@@ -973,7 +973,7 @@
 04:34.553	ID:1	END 1 3 1.41 2 1.50 
 04:34.637	ID:5	runicastt (test-ar) message sent to 2.0, retransmissions 3
 04:34.699	ID:3	TL:1 LLLego report de 1 Neigh=1 Weight=-1.15  nd.flags=0002
-04:34.701	ID:3	list_length(rp_list)=1  
+04:34.701	ID:3	Tamano lista reports=1  
 04:34.703	ID:3	Reports completos..   
 04:34.708	ID:3	El menor de la lista es 1 weight=-1.15 nd.flags=0006 - downroute=1 
 04:34.804	ID:3	nd.lwoe.node.weight=-1.15 <= nd.lwoe.children.weight=-1.15 
@@ -984,11 +984,13 @@
 04:34.820	ID:3	Estoy en FOUND 
 04:34.823	ID:3	END 3 6 1.29 2 1.50 
 04:34.926	ID:6	TL:2 LLLego report de 3 Neigh=3 Weight=-1.15  nd.flags=000A
-04:34.928	ID:6	list_length(rp_list)=2  
+04:34.928	ID:6	Tamano lista reports=2  
 04:34.930	ID:6	Reports completos..   
 04:34.935	ID:6	El menor de la lista es 4 weight=-1.15 nd.flags=000E - downroute=4 
 04:35.069	ID:6	Los dos reportes son INFINITO
-04:35.072	ID:6	END 6 4 1.50 2 1.50 
+04:35.070	ID:6	Estoy en FOUND 
 04:35.073	ID:3	runicast (report-ChaRoot)  message sent to 6.0, retransmissions 1 flags=0000
-04:35.073	ID:6	Estoy en FOUND 
-04:35.076	ID:6	END 6 4 1.50 2 1.50 
+04:35.073	ID:6	END 6 4 1.50 2 1.50 
+04:35.075	ID:6	END 6 4 1.50 2 1.50 
+04:35.077	ID:6	Estoy en FOUND 
+04:35.079	ID:6	END 6 4 1.50 2 1.50 

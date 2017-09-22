@@ -105,7 +105,6 @@ LIST(rj_list_out);
 list_t rj_list_out_g;
 struct memb *rj_mem_out_g;
 
-//uint8_t cont_e_pos_t_msg;  //Contador para evaluar los pospone solo X veces
 /*------------------------------------------------------------------- */
 /*----------STATIC VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
@@ -151,8 +150,6 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
       // Evaluo el tipo de msg que llego
       if(msg_type == TEST)
       {
-          //cont_e_pos_t_msg = 0;
-
           test_list *t_list_p;
           t_list_p = memb_alloc(&t_mem); //Alocar memoria
           if(t_list_p == NULL)
@@ -163,7 +160,6 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
               t_list_p->t_msg = *((test_msg *)msg); //msg le hago cast.Luego cojo todo el msg
               linkaddr_copy(&t_list_p->from, from);
               list_add(t_list, t_list_p); //Add an item at the end of a list.
-              //process_post_synch(&evaluar_msg_test, PROCESS_EVENT_CONTINUE, NULL ) ;
               process_post(&evaluar_msg_test, PROCESS_EVENT_CONTINUE, NULL ) ;
 
           }
@@ -179,7 +175,6 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
           {
               linkaddr_copy(&a_list_p->from, from);
               list_add(a_list, a_list_p); //Add an item at the end of a list.
-              //process_post_synch(&evaluar_msg_accept, PROCESS_EVENT_CONTINUE, NULL);
               process_post(&evaluar_msg_accept, PROCESS_EVENT_CONTINUE, NULL);
 
           }
@@ -195,9 +190,7 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
           {
               linkaddr_copy(&rj_list_p->from, from);
               list_add(rj_list, rj_list_p); //Add an item at the end of a list.
-              //process_post_synch(&evaluar_msg_reject, PROCESS_EVENT_CONTINUE, NULL);
               process_post(&evaluar_msg_reject, PROCESS_EVENT_CONTINUE, NULL);
-
           }
       }
 }
@@ -227,21 +220,18 @@ PROCESS_THREAD(e_test, ev, data)
 {
     PROCESS_BEGIN();
 
-    //uint8_t tengo_edges_de_salida = 0; //No debe ser static porque quiero q siempre inicie en 0
     static char string[] = "REAAD";
     static edges *e_aux = NULL;
     static test_list *t_list_out_p = NULL;
 
     while(1)
     {
-        //static struct etimer et;
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if (ev == PROCESS_EVENT_CONTINUE)
         {
             MY_DBG("CONTINUE e_test level=%d\n ", nd.f.level);
             print_edges_list(e_list_head_g, string,  &linkaddr_node_addr);
 
-            //tengo_edges_de_salida = 0;
             for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
             {
                 //un rejected o Branch nunca se vuelven a testear
@@ -263,13 +253,10 @@ PROCESS_THREAD(e_test, ev, data)
                     }
                     process_post(&send_message_test_ar, e_msg_test, NULL);
 
-                    //tengo_edges_de_salida = 1;
                     break; //Envio msg TEST al primer BASIC. Recordar que la lista esta ordenada
-                    //PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
                 }
             }
 
-            //if(tengo_edges_de_salida == 0)
             if(e_aux == NULL)
             {
                 //NO BORRAR! : MY_DBG("No tengo_edges_de_salida. INFINITO = %" PRIu32 "\n", INFINITO);
@@ -277,9 +264,7 @@ PROCESS_THREAD(e_test, ev, data)
                 nd.lwoe.node.weight = INFINITO;
                 linkaddr_copy(&nd.lwoe.node.neighbor, &linkaddr_node_addr); //si peso es infinito, yo soy vecino
                 nd.flags |= ND_LWOE; //Ya encontre el ND_LWOE. Porque no tengo edges de salida
-                //process_post_synch(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
                 process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
-
             }
         } //end IF CONTINUE
     } //end of while
@@ -316,25 +301,6 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                          (int)(((100UL * t_list_p->t_msg.f.name_str.weight) / SEQNO_EWMA_UNITY) % 100),
                          t_list_p->t_msg.f.level,
                          nd.f.level);
-
-                         //Pospone processing the test means no hacerle nada
-
-                         //tengo q volver al mismo proceso porque el
-                         // apuntador a next va a quedar en NULL.
-                         // Si no es el ultimo, lo vuelvo a llamar
-                         //if( (t_list_p->next != NULL) && (cont_e_pos_t_msg < list_length(t_list)) )
-                         //{
-                        //     cont_e_pos_t_msg = cont_e_pos_t_msg + 1;
-                        //     MY_DBG("Vuelvo a llamar el evaluar test  \n");
-                        //     //OJO: aca el llamado no es synch
-                        //     process_post(PROCESS_CURRENT(), PROCESS_EVENT_CONTINUE, NULL );
-                        // }
-                         //EL Apuntador a next queda = a NULL
-                         //Se sale del for -- por eso el anterior post aaaasynchrono.
-                         //Ademas. Pospones processing the incomming test msg, until (t_msg->f.level < nd.f.level)
-                        // list_remove(t_list, t_list_p); //Remove a specific element from a list.
-                        // list_add(t_list, t_list_p); //Add an item at the end of a list.
-
                      }else
                      if(t_list_p->t_msg.f.level <= nd.f.level)
                      {
@@ -434,11 +400,9 @@ PROCESS_THREAD(evaluar_msg_accept, ev, data)
 
                         //Si un edges es aceptado: Se guarda el edge como mejor opcion del Nodo
                         linkaddr_copy(&nd.lwoe.node.neighbor,  &a_list_p->from);
-                        //nd.lwoe.node.weight = return_weight(e_list_head_g, &a_list_p->from);
                         nd.lwoe.node.weight = weight_with_edge(&a_list_p->from, e_list_head_g) ;
 
                         nd.flags |= ND_LWOE; //Ya encontre el ND_LWOE
-                        //process_post_synch(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
                         process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
                     }else
                     {
@@ -479,22 +443,10 @@ PROCESS_THREAD(evaluar_msg_reject, ev, data)
             {
                 for(rj_list_p = list_head(rj_list); rj_list_p != NULL; rj_list_p = rj_list_p->next)
                 {
-                    /*if(state_is_branch(&rj_list_p->from,  e_list_head_g))
-                    {
-                        MY_DBG("Llego REJECT de %d. Pero no puedo asignar el estado YA SOY BRANCH\n"
-                              , rj_list_p->from.u8[0]);
-
-                    }else
-                    {
-                        MY_DBG("Asumo Reject q llego  de %d \n", rj_list_p->from.u8[0]);
-                        become_rejected(e_list_head_g, &rj_list_p->from);
-                    }*/
-
                     if (become_rejected(e_list_head_g, &rj_list_p->from))
                     {
                         MY_DBG("Asumo Reject q llego  de %d \n", rj_list_p->from.u8[0]);
                         //Si el edge es rechazado, entonces testeo uno nuevo.
-                        //process_post_synch(&e_test , PROCESS_EVENT_CONTINUE, NULL);
                         process_post(&e_test , PROCESS_EVENT_CONTINUE, NULL);
                     }else
                     {
@@ -589,10 +541,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                     }else //Si runicastt esta ocupado TX, pospongo el envio del msg
                     {
                         //pospone sending the message
-                        //list_remove(t_list_out, t_list_out_p); //Remove a specific element from a list.
-                        //list_add(t_list_out, t_list_out_p);//	Add an item at the end of a list.
                         process_post(PROCESS_CURRENT(), e_msg_test, NULL);
-                        //MY_DBG("posponer el msg de test de %d\n", t_list_out_p->t_msg.destination.u8[0]);
                         break; //para salirse del for i_list_out_p
 
                     }
@@ -622,12 +571,8 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                     else
                     {
                         //pospone sending the message
-                        //list_remove(rj_list_out, rj_list_out_p); //Remove a specific element from a list.
-                        //list_add(rj_list_out, rj_list_out_p); //Add an item at the end of a list.
                         process_post(PROCESS_CURRENT(), e_msg_reject, NULL);
-                        //MY_DBG("posponer el msg de reject de %d\n", rj_list_out_p->rj_msg.destination.u8[0]);
                         break; //para salirse del for i_list_out_p
-
                     }
                 } //END for
             } //END if hay elementos en la lista
@@ -654,10 +599,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                     }else //Si runicastt esta ocupado TX, pospongo el envio del msg
                     {
                         //pospone sending the message
-                        //list_remove(a_list_out, a_list_out_p); //Remove a specific element from a list.
-                        //list_add(a_list_out, a_list_out_p); 	//Add an item at the end of a list.
                         process_post(PROCESS_CURRENT(), e_msg_accept, NULL);
-                        //MY_DBG("posponer el msg de accept de %d\n", a_list_out_p->a_msg.destination.u8[0]);
                         break; //para salirse del for i_list_out_p
                     }
                 } //END for
@@ -667,5 +609,5 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
 
     PROCESS_END();
 
-    
+
 }

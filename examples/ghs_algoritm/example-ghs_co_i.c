@@ -93,7 +93,6 @@ LIST(i_list_out);
 list_t i_list_out_g;
 struct memb *i_mem_out_g;
 
-//uint8_t cont_e_pos_co_msg;  //Contador para evaluar los pospone solo X veces
 
 /*------------------------------------------------------------------- */
 /*----------STATIC VARIABLES -----------------------------------------*/
@@ -145,7 +144,6 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
    // Evaluo el tipo de msg que llego
    if(msg_type == CONNECT)
    {
-       //cont_e_pos_co_msg = 0;
        connect_list *co_list_p;
        co_list_p = memb_alloc(&co_mem); //Alocar memoria
        if(co_list_p == NULL)
@@ -247,13 +245,10 @@ PROCESS_THREAD(master_co_i, ev, data)
 
             //Inicializar el master_co_i
             init_master_co_i(data, &edges_memb, edges_list);
-            //become_branch(list_head(edges_list),  &nd.lwoe.node.neighbor ); //become branch inicial level = 0
-            //MY_DBG("primer become branch nodo = %d  \n", nd.lwoe.node.neighbor.u8[0]);
 
             //Espero a que todos hayan inicializado la conexion del connect antes de seguir
             //Ademas, SI NO ESPERO LA LISTA SE IMPRIME MAL: RARO X 2
             llenar_wait_struct(&str_wait, WAIT_NETWORK_STABILIZATION, PROCESS_CURRENT()  );
-            //process_post_synch(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
             process_post(&wait, PROCESS_EVENT_CONTINUE, &str_wait);
             PROCESS_WAIT_EVENT_UNTIL(ev == PROCESS_EVENT_CONTINUE);
 
@@ -271,35 +266,16 @@ PROCESS_THREAD(master_co_i, ev, data)
             process_post(&send_message_co_i,  e_msg_connect, NULL);
             MY_DBG("Deseo enviar connect INICIAL a %d\n", nd.lwoe.node.neighbor.u8[0]);
 
-            //Me voy al estado found
-            //virtualmente porque no quiero resetear ND_LWOE ni CH_LWOE
-            //nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
-            //MY_DBG("Estoy en FOUND virtual \n");
-
         }else
         if (ev == e_found)
         {
             //Espero instrucciones de change_root o initiate
             MY_DBG("Estoy en FOUND \n");
 
-            ////////////////////////////////////////////////
             /////////////REINICIAR VARIABLE/////////////////
-            ////////////////////////////////////////////////
-            //nd.flags = 0;
+            //Solamente necesito reiniciar estas 2 variables. NINGUNA MAS. ya hice analisis
             nd.flags &= ~ND_LWOE;
-            //nd.lwoe.node.weight = INFINITO;
-            //linkaddr_copy(&nd.lwoe.node.neighbor, &linkaddr_node_addr); //si peso es infinito, yo soy vecino
             nd.flags &= ~CH_LWOE;
-            //nd.lwoe.children.weight = INFINITO;
-            //linkaddr_copy(&nd.lwoe.children.neighbor, &linkaddr_node_addr); //si peso es infinito, yo soy vecino
-            //linkaddr_copy(&nd.downroute, &linkaddr_node_addr); //yo mismo soy downroute
-            //linkaddr_copy(&nd.otro_core_node, &linkaddr_node_addr); //otro core node soy YO
-            //limpio mi lista de reportes
-            /*for(rp_list_p = list_head(rp_list_g); rp_list_p != NULL; rp_list_p = rp_list_p->next)
-            {
-                my_list_remove(rp_list_g, rp_list_p); //Remove a specific element from a list.
-                memb_free(rp_mem_g, rp_list_p);
-            }*/
 
             //imprimo END
             print_final_result();
@@ -309,9 +285,7 @@ PROCESS_THREAD(master_co_i, ev, data)
         }else
         if (ev == e_find)
         {
-            //nd.flags &= ~FRAGMENTO_LWOE; //No he encontrado el LWOE del fragmento
             MY_DBG("Estoy en FIND \n");
-            //process_post_synch(&e_test, PROCESS_EVENT_CONTINUE, NULL);
             process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
         }else
         if(ev == e_msg_ghs_end)
@@ -353,17 +327,6 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                              co_list_p->co_msg.level);
 
                              become_core_node(&co_list_p->from);
-                            //nd.flags |= CORE_NODE;
-                            //MY_DBG("Soy CORE_NORE 1\n");
-                            //linkaddr_copy(&nd.otro_core_node, &co_list_p->from);
-
-                            //Creo que debo subir el nivel aca
-                            //nd.f.level = nd.f.level + 1 ; //Mal el nivel se sube cuando llega Iniciate
-
-
-                            //creo que debo cambiar el nombre del fragmento aca
-                            //llenar_name_str(&nd.f.name_str,weight_with_edge(&co_list_p->from, e_list_head_g), &co_list_p->from);
-                            //Mal el nombre del fragmento se cambia cuando llega Initiate
 
                             //send initiate
                             llenar_name_str(&name_str,weight_with_edge(&co_list_p->from, e_list_head_g),
@@ -376,8 +339,6 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                             {
                                 llenar_initiate_msg_list(i_list_out_p, name_str ,
                                                     (nd.f.level+1), FIND, &co_list_p->from, BECOME_CORE_NODE);
-                                //llenar_initiate_msg_list(i_list_out_p, nd.f.name_str ,
-                                //                    nd.f.level, FIND, &co_list_p->from, BECOME_CORE_NODE);
                                 list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
                             }
                             process_post(&send_message_co_i, e_msg_initiate, NULL);
@@ -391,23 +352,6 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                             MY_DBG("Tamano lista=%d Pospone ConNect... nd.f.level=%d \n",
                              list_length(co_list),
                               nd.f.level);
-
-                             //Pospone processing the connect means no hacerle nada
-
-                             //tengo q volver al mismo proceso porque el
-                             // apuntador a next va a quedar en NULL.
-                             // Si no es el ultimo, lo vuelvo a llamar
-                             /*if(  (co_list_p->next != NULL) && (cont_e_pos_co_msg < list_length(co_list) ) )
-                             {
-                                 cont_e_pos_co_msg = cont_e_pos_co_msg + 1;
-                                 MY_DBG("Vuelvo a llamar el evaluar conect  \n");
-                                 //OJO: aca el llamado no es synch
-                                 process_post(PROCESS_CURRENT(), PROCESS_EVENT_CONTINUE, NULL );
-                             }*/
-                             //EL Apuntador a next queda = a NULL
-                             //Se sale del for -- por eso el anterior post aaaasynchrono
-                             /*list_remove(co_list, co_list_p); //Remove a specific element from a list.
-                             list_add(co_list, co_list_p); //Add an item at the end of a list.*/
                         } //FIN de pospone connect
                     }else
                     if(co_list_p->co_msg.level < nd.f.level)
@@ -449,7 +393,6 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
 
                         process_post(&send_message_co_i, e_msg_initiate, NULL);
 
-
                         //remuevo el elemento de la lista
                         my_list_remove(co_list, co_list_p); //Remove a specific element from a list.
                         memb_free(&co_mem, co_list_p);
@@ -458,27 +401,6 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                     if(co_list_p->co_msg.level > nd.f.level)
                     {
                          MY_DBG("ERROR: Nunca deberia entrar aca porque 'level of qs fragment is at least l' \n");
-                         /*MY_DBG("Tamano lista=%d Pospone ConNect de %d con level=%d nd.f.level=%d \n",
-                         list_length(co_list),
-                         co_list_p->from.u8[0],
-                         co_list_p->co_msg.level, nd.f.level);*/
-
-                         //Pospone processing the connect means no hacerle nada
-
-                         //tengo q volver al mismo proceso porque el
-                         // apuntador a next va a quedar en NULL.
-                         // Si no es el ultimo, lo vuelvo a llamar
-                         /*if(  (co_list_p->next != NULL) && (cont_e_pos_co_msg < list_length(co_list) ) )
-                         {
-                             cont_e_pos_co_msg = cont_e_pos_co_msg + 1;
-                             MY_DBG("Vuelvo a llamar el evaluar conect  \n");
-                             //OJO: aca el llamado no es synch
-                             process_post(PROCESS_CURRENT(), PROCESS_EVENT_CONTINUE, NULL );
-                         }*/
-                         //EL Apuntador a next queda = a NULL
-                         //Se sale del for -- por eso el anterior post aaaasynchrono
-                         /*list_remove(co_list, co_list_p); //Remove a specific element from a list.
-                         list_add(co_list, co_list_p); //Add an item at the end of a list.*/
                     } //FIN de pospone connect
 
                 } //END for para recorrer lista
@@ -572,34 +494,20 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                     if(i_list_p->i_msg.flags & BECOME_CORE_NODE)
                     {
                         become_core_node(&i_list_p->from);
-                        /*nd.flags |= CORE_NODE;
-                        MY_DBG("Soy CORE_NORE 2\n");
-                        linkaddr_copy(&nd.otro_core_node, &i_list_p->from);*/
                     }else
                     if(i_list_p->i_msg.flags & STOP_BEING_CORE_NODE)//PAra que el nodo deje de ser core_node
                     {
                         stop_being_core_node();
-                        //Dejo de ser core node
-                        /*nd.flags &= ~CORE_NODE;
-                        MY_DBG("STOP_BEING_CORE_NODE: dejo de ser core_node\n");*/
                     }
-
 
                     if(i_list_p->i_msg.nd_state == FIND) //si cambio de estado a FIND
                     {
                         //Envio un mensaje al master_co_i de find
-                        //process_post(&master_co_i,  e_find, NULL);
-                        //process_post_synch(&master_co_i,  e_find, NULL);
-                        //nd.state = FIND;  //Para saber en que estado estoy en cualquier parte
                         MY_DBG("Deseo postear FIND\n");
                         process_post(&master_co_i,  e_find, NULL);
                     }else
                     if(i_list_p->i_msg.nd_state == FOUND) //si cambio de estado a FOUND
                     {
-                        //Envio un mensaje al master_co_i de found
-                        //process_post(&master_co_i,  e_found, NULL);
-                        //process_post_synch(&master_co_i,  e_found, NULL);
-                        //nd.state = FOUND;  //Para saber en que estado estoy en cualquier parte
                         MY_DBG("Deseo postear FOUND\n");
                         process_post(&master_co_i,  e_found, NULL);
                     }
@@ -662,12 +570,8 @@ PROCESS_THREAD(send_message_co_i, ev, data)
     i_list_out_g = i_list_out;
     i_mem_out_g  = &i_mem_out;
 
-    //static connect_msg *c_msg_d;
     static connect_msg co_msg;
-
-    //static initiate_msg *msg_d;
     static initiate_msg  i_msg;
-
     static connect_list *co_list_out_p;
     static initiate_list *i_list_out_p;
 
@@ -695,8 +599,6 @@ PROCESS_THREAD(send_message_co_i, ev, data)
                     }else //Si runicast esta ocupado TX, pospongo el envio del msg
                     {
                         //pospone sending the message
-                        //list_remove(co_list_out, co_list_out_p); //Remove a specific element from a list.
-                        //list_add(co_list_out, co_list_out_p); //Add an item at the end of a list
                         process_post(PROCESS_CURRENT(), e_msg_connect, NULL);
                         break; //para salirse del for (co_list_out_p)
                     }
@@ -732,8 +634,6 @@ PROCESS_THREAD(send_message_co_i, ev, data)
                     }else //Si runicast esta ocupado TX, pospongo el envio del msg
                     {
                         //pospone sending the message
-                        //list_remove(i_list_out, i_list_out_p); //Remove a specific element from a list.
-                        //list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
                         process_post(PROCESS_CURRENT(), e_msg_initiate, NULL);
                         break; //para salirse del for i_list_out_p
                     }

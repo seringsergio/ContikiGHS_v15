@@ -11,8 +11,7 @@
 #include "net/rime/rime.h"
 #include <stdio.h>
 
-//#include <inttypes.h> //para imprimir el INFINITO. NO BORRAR!
-
+// NO BORRAR! //#include <inttypes.h> //para imprimir el INFINITO. NO BORRAR!
 /*-------------------------------------------------------------------*/
 /*---------------- Definiciones -------------------------------------*/
 /*-------------------------------------------------------------------*/
