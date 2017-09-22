@@ -93,7 +93,7 @@ LIST(i_list_out);
 list_t i_list_out_g;
 struct memb *i_mem_out_g;
 
-uint8_t cont_e_pos_co_msg;  //Contador para evaluar los pospone solo X veces
+//uint8_t cont_e_pos_co_msg;  //Contador para evaluar los pospone solo X veces
 
 /*------------------------------------------------------------------- */
 /*----------STATIC VARIABLES -----------------------------------------*/
@@ -145,7 +145,7 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
    // Evaluo el tipo de msg que llego
    if(msg_type == CONNECT)
    {
-       cont_e_pos_co_msg = 0;
+       //cont_e_pos_co_msg = 0;
        connect_list *co_list_p;
        co_list_p = memb_alloc(&co_mem); //Alocar memoria
        if(co_list_p == NULL)
@@ -196,7 +196,7 @@ static void sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t
 static void
 timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-    MY_DBG("runicast (co-i) message timed out when sending to %d.%d, retransmissions %d\n",
+    MY_DBG("ERROR: runicast (co-i) message timed out when sending to %d.%d, retransmissions %d\n",
      to->u8[0], to->u8[1], retransmissions);
 }
 static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
@@ -227,7 +227,7 @@ PROCESS_THREAD(master_co_i, ev, data)
     list_init(edges_list);
     memb_init(&edges_memb);
 
-    static connect_list *co_list_out_p;
+    static connect_list *co_list_out_p = NULL;
     static s_wait str_wait;
     //static report_list *rp_list_p;
 
@@ -259,10 +259,18 @@ PROCESS_THREAD(master_co_i, ev, data)
 
             //Envio Connect INICIAL con level = 0
             co_list_out_p = memb_alloc(&co_mem_out); //Alocar memoria
-            llenar_connect_msg_list (co_list_out_p, nd.f.level, &nd.lwoe.node.neighbor);
-            list_add(co_list_out, co_list_out_p); //Add an item at the end of a list
+            if(co_list_out_p == NULL)
+            {
+                MY_DBG("ERROR: no hay memoria para connect inicial\n");
+            }else
+            {
+                llenar_connect_msg_list (co_list_out_p, nd.f.level, &nd.lwoe.node.neighbor);
+                list_add(co_list_out, co_list_out_p); //Add an item at the end of a list
+            }
+
             process_post(&send_message_co_i,  e_msg_connect, NULL);
             MY_DBG("Deseo enviar connect INICIAL a %d\n", nd.lwoe.node.neighbor.u8[0]);
+
             //Me voy al estado found
             //virtualmente porque no quiero resetear ND_LWOE ni CH_LWOE
             //nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
@@ -322,7 +330,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
     list_init(co_list);
     memb_init(&co_mem);
 
-    static initiate_list *i_list_out_p;
+    static initiate_list *i_list_out_p = NULL;
     static connect_list *co_list_p;
     static name name_str;
 
@@ -361,11 +369,17 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                             llenar_name_str(&name_str,weight_with_edge(&co_list_p->from, e_list_head_g),
                                             &co_list_p->from);
                             i_list_out_p = memb_alloc(&i_mem_out); //Alocar memoria
-                            llenar_initiate_msg_list(i_list_out_p, name_str ,
-                                                (nd.f.level+1), FIND, &co_list_p->from, BECOME_CORE_NODE);
-                            //llenar_initiate_msg_list(i_list_out_p, nd.f.name_str ,
-                            //                    nd.f.level, FIND, &co_list_p->from, BECOME_CORE_NODE);
-                            list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
+                            if(i_list_out_p == NULL)
+                            {
+                                MY_DBG("ERROR: no hay memoria para initiate\n");
+                            }else
+                            {
+                                llenar_initiate_msg_list(i_list_out_p, name_str ,
+                                                    (nd.f.level+1), FIND, &co_list_p->from, BECOME_CORE_NODE);
+                                //llenar_initiate_msg_list(i_list_out_p, nd.f.name_str ,
+                                //                    nd.f.level, FIND, &co_list_p->from, BECOME_CORE_NODE);
+                                list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
+                            }
                             process_post(&send_message_co_i, e_msg_initiate, NULL);
 
                             //remuevo el elemento de la lista
@@ -411,14 +425,26 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                         {
                             //Send initiate
                             i_list_out_p = memb_alloc(&i_mem_out); //Alocar memoria
-                            llenar_initiate_msg_list(i_list_out_p, nd.f.name_str, nd.f.level, nd.state, &co_list_p->from, BECOME_CORE_NODE);
-                            list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
+                            if( i_list_out_p == NULL)
+                            {
+                                MY_DBG("ERROR: no hay memoria para initiate\n");
+                            }else
+                            {
+                                llenar_initiate_msg_list(i_list_out_p, nd.f.name_str, nd.f.level, nd.state, &co_list_p->from, BECOME_CORE_NODE);
+                                list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
+                            }
                         }else
                         {
                             //Send initiate
                             i_list_out_p = memb_alloc(&i_mem_out); //Alocar memoria
-                            llenar_initiate_msg_list(i_list_out_p, nd.f.name_str, nd.f.level, nd.state, &co_list_p->from, STOP_BEING_CORE_NODE);
-                            list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
+                            if( i_list_out_p == NULL)
+                            {
+                                MY_DBG("ERROR: no hay memoria para initiate\n");
+                            }else
+                            {
+                                llenar_initiate_msg_list(i_list_out_p, nd.f.name_str, nd.f.level, nd.state, &co_list_p->from, STOP_BEING_CORE_NODE);
+                                list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
+                            }
                         }
 
                         process_post(&send_message_co_i, e_msg_initiate, NULL);
@@ -471,7 +497,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
     list_init(i_list);
     memb_init(&i_mem);
 
-    static initiate_list *i_list_out_p;
+    static initiate_list *i_list_out_p = NULL;
     static initiate_list *i_list_p;
     static edges *e_aux;
     static report_list *rp_list_p;
@@ -505,10 +531,16 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
 
                             //Send initiate
                             i_list_out_p = memb_alloc(&i_mem_out); //Alocar memoria
-                            llenar_initiate_msg_list(i_list_out_p, i_list_p->i_msg.f.name_str, i_list_p->i_msg.f.level,
-                                               i_list_p->i_msg.nd_state, &e_aux->addr,
-                                               STOP_BEING_CORE_NODE );
-                            list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
+                            if(i_list_out_p == NULL)
+                            {
+                                MY_DBG("ERROR: no hay memoria para reEnviar initiate\n");
+                            }else
+                            {
+                                llenar_initiate_msg_list(i_list_out_p, i_list_p->i_msg.f.name_str, i_list_p->i_msg.f.level,
+                                                   i_list_p->i_msg.nd_state, &e_aux->addr,
+                                                   STOP_BEING_CORE_NODE );
+                                list_add(i_list_out, i_list_out_p); //Add an item at the end of a list
+                            }
                         }
                     }
                     // envio el post aca para no enviarlo multiples veces dentro del for anterior

@@ -105,7 +105,7 @@ LIST(rj_list_out);
 list_t rj_list_out_g;
 struct memb *rj_mem_out_g;
 
-uint8_t cont_e_pos_t_msg;  //Contador para evaluar los pospone solo X veces
+//uint8_t cont_e_pos_t_msg;  //Contador para evaluar los pospone solo X veces
 /*------------------------------------------------------------------- */
 /*----------STATIC VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
@@ -115,8 +115,7 @@ static struct runicast_conn runicast; //Es la conexion de runicastt
 /*------------------------------------------------------------------- */
 /*-----------FUNCIONES-------------------------------------------------*/
 /*------------------------------------------------------------------- */
-static void
-recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
+static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 {
     void *msg = packetbuf_dataptr();
 
@@ -152,7 +151,7 @@ recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
       // Evaluo el tipo de msg que llego
       if(msg_type == TEST)
       {
-          cont_e_pos_t_msg = 0;
+          //cont_e_pos_t_msg = 0;
 
           test_list *t_list_p;
           t_list_p = memb_alloc(&t_mem); //Alocar memoria
@@ -211,7 +210,7 @@ sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmiss
 static void
 timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-  MY_DBG("runicastt (test-ar) message timed out when sending to %d.%d, retransmissions %d\n",
+  MY_DBG("ERROR: runicastt (test-ar) message timed out when sending to %d.%d, retransmissions %d\n",
 	 to->u8[0], to->u8[1], retransmissions);
 }
 static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
@@ -231,7 +230,7 @@ PROCESS_THREAD(e_test, ev, data)
     //uint8_t tengo_edges_de_salida = 0; //No debe ser static porque quiero q siempre inicie en 0
     static char string[] = "REAAD";
     static edges *e_aux = NULL;
-    static test_list *t_list_out_p;
+    static test_list *t_list_out_p = NULL;
 
     while(1)
     {
@@ -254,8 +253,14 @@ PROCESS_THREAD(e_test, ev, data)
 
                     //send TEST msg
                     t_list_out_p = memb_alloc(&t_mem_out); //Alocar memoria
-                    llenar_test_msg_list(t_list_out_p, &e_aux->addr, nd.f );
-                    list_add(t_list_out, t_list_out_p); //Add an item at the end of a list
+                    if(t_list_out_p == NULL)
+                    {
+                        MY_DBG("ERROR: no hay memoria para msg test\n");
+                    }else
+                    {
+                        llenar_test_msg_list(t_list_out_p, &e_aux->addr, nd.f );
+                        list_add(t_list_out, t_list_out_p); //Add an item at the end of a list
+                    }
                     process_post(&send_message_test_ar, e_msg_test, NULL);
 
                     //tengo_edges_de_salida = 1;
@@ -290,8 +295,8 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
     memb_init(&t_mem);
 
     static test_list *t_list_p;
-    static accept_list *a_list_out_p;
-    static reject_list *rj_list_out_p;
+    static accept_list *a_list_out_p = NULL;
+    static reject_list *rj_list_out_p = NULL;
 
     while(1)
     {
@@ -344,8 +349,14 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
 
                              //Enviar reject
                              rj_list_out_p = memb_alloc(&rj_mem_out); //Alocar memoria
-                             llenar_reject_msg_list(rj_list_out_p, &t_list_p->from);
-                             list_add(rj_list_out, rj_list_out_p); //Add an item at the end of a list
+                             if (rj_list_out_p == NULL)
+                             {
+                                 MY_DBG("ERROR: no hay memoria para msg reject\n");
+                             }else
+                             {
+                                 llenar_reject_msg_list(rj_list_out_p, &t_list_p->from);
+                                 list_add(rj_list_out, rj_list_out_p); //Add an item at the end of a list
+                             }
                              process_post(&send_message_test_ar, e_msg_reject, NULL);
 
                              MY_DBG("Quuuiero enviar e_msg_reject a %d \n", rj_list_out_p->rj_msg.destination.u8[0]);
@@ -370,8 +381,14 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
 
                              //Enviar accept
                              a_list_out_p = memb_alloc(&a_mem_out); //Alocar memoria
-                             llenar_accept_msg_list(a_list_out_p, &t_list_p->from);
-                             list_add(a_list_out, a_list_out_p); //Add an item at the end of a list
+                             if(a_list_out_p == NULL )
+                             {
+                                 MY_DBG("ERROR: no hay memoria para msg accept\n");
+                             }else
+                             {
+                                 llenar_accept_msg_list(a_list_out_p, &t_list_p->from);
+                                 list_add(a_list_out, a_list_out_p); //Add an item at the end of a list
+                             }
                              process_post(&send_message_test_ar, e_msg_accept, NULL);
 
                              //Remover el dato de la lista
@@ -649,4 +666,6 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
     } //end of while
 
     PROCESS_END();
+
+    
 }

@@ -227,13 +227,13 @@
     <width>395</width>
     <z>2</z>
     <height>400</height>
-    <location_x>-64</location_x>
-    <location_y>1</location_y>
+    <location_x>-47</location_x>
+    <location_y>30</location_y>
   </plugin>
   <plugin>
     org.contikios.cooja.plugins.LogListener
     <plugin_config>
-      <filter>END</filter>
+      <filter>llego INI</filter>
       <formatted_time />
       <coloring />
     </plugin_config>

@@ -87,14 +87,14 @@
  list_t cr_list_out_g;
  struct memb *cr_mem_out_g;
 
- MEMB(info_mem, informacion_list , MAX_TAMANO_LISTA_MSG); // Defines a memory pool for edges
- LIST(info_list); // List that holds the neighbors we have seen thus far
+ //MEMB(info_mem, informacion_list , MAX_TAMANO_LISTA_MSG); // Defines a memory pool for edges
+ //LIST(info_list); // List that holds the neighbors we have seen thus far
 
- MEMB(info_mem_out, informacion_list , MAX_TAMANO_LISTA_MSG); // Defines a memory pool for edges
- LIST(info_list_out); // List that holds the neighbors we have seen thus far
+ //MEMB(info_mem_out, informacion_list , MAX_TAMANO_LISTA_MSG); // Defines a memory pool for edges
+ //LIST(info_list_out); // List that holds the neighbors we have seen thus far
 
- list_t info_list_out_g;
- struct memb *info_mem_out_g;
+ //list_t info_list_out_g;
+ //struct memb *info_mem_out_g;
 
  /*------------------------------------------------------------------- */
  /*----------STATIC VARIABLES -----------------------------------------*/
@@ -180,7 +180,7 @@
                //process_post_synch(&evaluar_msg_cr, PROCESS_EVENT_CONTINUE, NULL);
                process_post(&evaluar_msg_cr, PROCESS_EVENT_CONTINUE, NULL);
            }
-       }else
+       }/*else
        if(msg_type == INFORMATION) //Este mensaje (e_msg_information) NO lo estoy usando
        {
            informacion_list *info_list_p;
@@ -196,7 +196,7 @@
                //process_post_synch(&evaluar_msg_info, PROCESS_EVENT_CONTINUE, NULL);
                process_post(&evaluar_msg_info, PROCESS_EVENT_CONTINUE, NULL);
            }
-       }
+       }*/
 
  }
  static void
@@ -208,7 +208,7 @@
  static void
  timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
  {
-   MY_DBG("runicast (report-ChaRoot) message timed out when sending to %d.%d, retransmissions %d\n",
+   MY_DBG("ERROR: runicast (report-ChaRoot) message timed out when sending to %d.%d, retransmissions %d\n",
  	 to->u8[0], to->u8[1], retransmissions);
  }
  static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
@@ -226,7 +226,7 @@
  PROCESS(evaluar_msg_rp, "Evalua si los hijos ya enviaron los msg de report");
  PROCESS(e_LWOE, "Evaluar si ya tengo LWOE propio y de los vecinos");
  PROCESS(evaluar_msg_cr, "Evaluar Mensaje de change_root");
- PROCESS(evaluar_msg_info, "Evaluar Mensaje de informacion");
+ //PROCESS(evaluar_msg_info, "Evaluar Mensaje de informacion");
 
 
 PROCESS_THREAD(evaluar_msg_rp, ev, data)
@@ -315,9 +315,9 @@ PROCESS_THREAD(e_LWOE, ev, data)
     PROCESS_BEGIN();
 
 
-    static report_list *rp_list_out_p;
-    static change_root_list *cr_list_out_p;
-    static connect_list *co_list_out_p;
+    static report_list *rp_list_out_p = NULL;
+    static change_root_list *cr_list_out_p = NULL;
+    static connect_list *co_list_out_p = NULL;
     //static informacion_list *info_list_out_p;
     static report_list *lowest_rp = NULL;
 
@@ -365,8 +365,14 @@ PROCESS_THREAD(e_LWOE, ev, data)
 
                                         //Envio CONNECT msg
                                         co_list_out_p = memb_alloc(co_mem_out_g); //Alocar memoria
-                                        llenar_connect_msg_list (co_list_out_p, nd.f.level, &nd.lwoe.node.neighbor);
-                                        list_add(co_list_out_g, co_list_out_p); //Add an item at the end of a list
+                                        if(co_list_out_p == NULL)
+                                        {
+                                            MY_DBG("ERROR: no hay memoria para msg connect\n");
+                                        }else
+                                        {
+                                            llenar_connect_msg_list (co_list_out_p, nd.f.level, &nd.lwoe.node.neighbor);
+                                            list_add(co_list_out_g, co_list_out_p); //Add an item at the end of a list
+                                        }
                                         process_post(&send_message_co_i,  e_msg_connect, NULL);
 
                                         MY_DBG("Deseo CONNECT a %d  (ND_LWOE)\n", nd.lwoe.node.neighbor.u8[0]);
@@ -374,8 +380,15 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                     {
                                         //send CHANGE_ROOT
                                         cr_list_out_p = memb_alloc(&cr_mem_out); //Alocar memoria
-                                        llenar_change_root_list (cr_list_out_p, &nd.downroute, &nd.lwoe.children.neighbor);
-                                        list_add(cr_list_out, cr_list_out_p); //Add an item at the end of a list
+                                        if(cr_list_out_p == NULL)
+                                        {
+                                            MY_DBG("ERROR: no hay memoria para msg change_root\n");
+
+                                        }else
+                                        {
+                                            llenar_change_root_list (cr_list_out_p, &nd.downroute, &nd.lwoe.children.neighbor);
+                                            list_add(cr_list_out, cr_list_out_p); //Add an item at the end of a list
+                                        }
                                         process_post(&send_message_report_ChaRoot, e_msg_ch_root, NULL);
 
                                         MY_DBG("EEEnvie 222 CHANGE_ROOT (CH_LWOE) a next_hop=%d final_destination=%d\n",
@@ -431,8 +444,14 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                 }
                                 //send REPORT
                                 rp_list_out_p = memb_alloc(&rp_mem_out); //Alocar memoria
-                                llenar_report_msg_list (rp_list_out_p, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
-                                list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
+                                if(rp_list_out_p == NULL)
+                                {
+                                    MY_DBG("ERROR: no hay memoria para msg report\n");
+                                }else
+                                {
+                                    llenar_report_msg_list (rp_list_out_p, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
+                                    list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
+                                }
                                 process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
 
                                 MY_DBG("CasiCompleta:CORE_NODE (NO_hijos) & FALTA el otro core_node. Deseo Reportar Neigh=%d Weight=%d.%02d\n",
@@ -473,8 +492,14 @@ PROCESS_THREAD(e_LWOE, ev, data)
 
                                     //send REPORT
                                     rp_list_out_p = memb_alloc(&rp_mem_out); //Alocar memoria
-                                    llenar_report_msg_list (rp_list_out_p, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
-                                    list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
+                                    if(rp_list_out_p == NULL)
+                                    {
+                                        MY_DBG("ERROR: no hay memoria para msg report\n");
+                                    }else
+                                    {
+                                        llenar_report_msg_list (rp_list_out_p, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
+                                        list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
+                                    }
                                     process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
 
                                     MY_DBG("CORE_NODE (ND_LWOE) & FALTA el otro core_node .Deseo Reportar Neigh=%d Weight=%d.%02d\n",
@@ -491,8 +516,14 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                    }
                                    //send REPORT
                                    rp_list_out_p = memb_alloc(&rp_mem_out); //Alocar memoria
-                                   llenar_report_msg_list (rp_list_out_p, &nd.parent , &nd.lwoe.children.neighbor, nd.lwoe.children.weight );
-                                   list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
+                                   if(rp_list_out_p == NULL)
+                                   {
+                                       MY_DBG("ERROR: no hay memoria para msg report\n");
+                                   }else
+                                   {
+                                       llenar_report_msg_list (rp_list_out_p, &nd.parent , &nd.lwoe.children.neighbor, nd.lwoe.children.weight );
+                                       list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
+                                   }
                                    process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
 
                                    MY_DBG("CORE_NODE (CH_LWOE) & FALTA el otro core_node. Deseo Reportar Neigh=%d Weight=%d.%02d\n",
@@ -527,8 +558,14 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             }
                             //send_report y paso a estado FOUND
                             rp_list_out_p = memb_alloc(&rp_mem_out); //Alocar memoria
-                            llenar_report_msg_list (rp_list_out_p, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
-                            list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
+                            if(rp_list_out_p == NULL)
+                            {
+                                MY_DBG("ERROR: no hay memoria para msg report\n");
+                            }else
+                            {
+                                llenar_report_msg_list (rp_list_out_p, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
+                                list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
+                            }
                             process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
 
                             MY_DBG("NO_CORE & BEST(ND_LWOE) Deseo Reportar Neigh=%d Weight=%d.%02d\n",
@@ -549,8 +586,14 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             }
                             //send_report y paso a estado FOUND
                             rp_list_out_p = memb_alloc(&rp_mem_out); //Alocar memoria
-                            llenar_report_msg_list (rp_list_out_p, &nd.parent , &nd.lwoe.children.neighbor, nd.lwoe.children.weight );
-                            list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
+                            if(rp_list_out_p == NULL)
+                            {
+                                MY_DBG("ERROR: no hay memoria para msg report\n");
+                            }else
+                            {
+                                llenar_report_msg_list (rp_list_out_p, &nd.parent , &nd.lwoe.children.neighbor, nd.lwoe.children.weight );
+                                list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
+                            }
                             process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
 
                             MY_DBG("NO_CORE & BEST(CH_LWOE) Deseo Reportar Neigh=%d Weight=%d.%02d\n",
@@ -572,8 +615,14 @@ PROCESS_THREAD(e_LWOE, ev, data)
                         }
                         //send REPORT
                         rp_list_out_p = memb_alloc(&rp_mem_out); //Alocar memoria
-                        llenar_report_msg_list (rp_list_out_p, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
-                        list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
+                        if(rp_list_out_p == NULL)
+                        {
+                            MY_DBG("ERROR: no hay memoria para msg report\n");
+                        }else
+                        {
+                            llenar_report_msg_list (rp_list_out_p, &nd.parent , &linkaddr_node_addr, nd.lwoe.node.weight );
+                            list_add(rp_list_out, rp_list_out_p); //Add an item at the end of a list
+                        }
                         process_post(&send_message_report_ChaRoot, e_msg_report, NULL);
 
                         MY_DBG("NO_CORE & HOJA Deseo Reportar Neigh=%d Weight=%d.%02d\n",
@@ -600,8 +649,8 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
     list_init(cr_list);
     memb_init(&cr_mem);
 
-    static connect_list *co_list_out_p;
-    static change_root_list *cr_list_out_p;
+    static connect_list *co_list_out_p = NULL;
+    static change_root_list *cr_list_out_p = NULL;
     static change_root_list *cr_list_p;
 
     while(1)
@@ -634,8 +683,14 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
 
                             //Envio CONNECT
                             co_list_out_p = memb_alloc(co_mem_out_g); //Alocar memoria
-                            llenar_connect_msg_list (co_list_out_p, nd.f.level, &nd.lwoe.node.neighbor);
-                            list_add(co_list_out_g, co_list_out_p); //Add an item at the end of a list
+                            if(co_list_out_p == NULL)
+                            {
+                                MY_DBG("ERROR: no hay memoria para msg connect (change_root code)\n");
+                            }else
+                            {
+                                llenar_connect_msg_list (co_list_out_p, nd.f.level, &nd.lwoe.node.neighbor);
+                                list_add(co_list_out_g, co_list_out_p); //Add an item at the end of a list
+                            }
                             process_post(&send_message_co_i,  e_msg_connect, NULL);
 
 
@@ -648,8 +703,14 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
 
                             //send CHANGE_ROOT
                             cr_list_out_p = memb_alloc(&cr_mem_out); //Alocar memoria
-                            llenar_change_root_list (cr_list_out_p, &nd.downroute, &cr_list_p->cr_msg.final_destination);
-                            list_add(cr_list_out, cr_list_out_p); //Add an item at the end of a list
+                            if(cr_list_out_p == NULL)
+                            {
+                                MY_DBG("ERROR: no hay memoria para msg change_root\n");
+                            }else
+                            {
+                                llenar_change_root_list (cr_list_out_p, &nd.downroute, &cr_list_p->cr_msg.final_destination);
+                                list_add(cr_list_out, cr_list_out_p); //Add an item at the end of a list
+                            }
                             process_post(&send_message_report_ChaRoot, e_msg_ch_root, NULL);
 
                             MY_DBG("REEEnvie  CHANGE_ROOT a next_hop=%d final_destination=%d\n",
@@ -714,7 +775,7 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
 } //End of PROCESS THREAD
 
 
-PROCESS_THREAD(evaluar_msg_info, ev, data) //Este mensaje (e_msg_information) NO lo estoy usando
+/*PROCESS_THREAD(evaluar_msg_info, ev, data) //Este mensaje (e_msg_information) NO lo estoy usando
 {
     PROCESS_BEGIN();
 
@@ -760,7 +821,7 @@ PROCESS_THREAD(evaluar_msg_info, ev, data) //Este mensaje (e_msg_information) NO
     } //end WHILE
 
     PROCESS_END();
-}
+}*/
 
 PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
 {
@@ -771,12 +832,12 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
     process_start(&evaluar_msg_rp, NULL); //para inicializar report_list_g y report_memb_g
     process_start(&e_LWOE, NULL); //para inicializar report_list_g y report_memb_g
     process_start(&evaluar_msg_cr, NULL); //para inicializar report_list_g y report_memb_g
-    process_start(&evaluar_msg_info, NULL); //init msg evaluation
+    //process_start(&evaluar_msg_info, NULL); //init msg evaluation
 
     //proceso report - ChangeRoot
     e_msg_report          = process_alloc_event(); // Darle un numero al evento
     e_msg_ch_root         = process_alloc_event(); // Darle un numero al evento
-    e_msg_information     = process_alloc_event(); // Darle un numero al evento
+    //e_msg_information     = process_alloc_event(); // Darle un numero al evento
     e_msg_ghs_end         = process_alloc_event(); // Darle un numero al evento
 
     list_init(history_list);
@@ -791,14 +852,14 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
     list_init(cr_list_out);
     memb_init(&cr_mem_out);
 
-    list_init(info_list_out);
-    memb_init(&info_mem_out);
+    //list_init(info_list_out);
+    //memb_init(&info_mem_out);
 
     rp_list_g = rp_list;
     rp_mem_g = &rp_mem;
 
-    info_list_out_g = info_list_out ;
-    info_mem_out_g  = &info_mem_out;
+    //info_list_out_g = info_list_out ;
+    //info_mem_out_g  = &info_mem_out;
 
     cr_list_out_g = cr_list_out;
     cr_mem_out_g  = &cr_mem_out;
@@ -808,10 +869,10 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
 
     static report_msg rp_msg;
     static change_root_msg cr_msg;
-    static informacion_msg info_msg;
+    //static informacion_msg info_msg;
     static report_list *rp_list_out_p;
     static change_root_list *cr_list_out_p;
-    static informacion_list *info_list_out_p;
+    //static informacion_list *info_list_out_p;
 
     while(1)
     {
@@ -882,7 +943,7 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
                         }
                 } //END for
             } //END if hay elementos en la lista
-        }else
+        }/*else
         if(ev == e_msg_information) //Este mensaje (e_msg_information) NO lo estoy usando
         {
             if(list_length(info_list_out))
@@ -914,7 +975,7 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
                     }
                 } //END for
             } //END if hay elementos en la lista
-        }
+        }*/
     } //end of infinite while
     PROCESS_END();
 }

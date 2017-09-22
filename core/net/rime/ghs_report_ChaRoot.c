@@ -62,13 +62,18 @@ uint8_t es_Hoja()
         {
             return 1; //Si tengo 0 hijos soy hoja
         }else
+        if( num_hijos(e_list_head_g) < 0  )
+        {
+            MY_DBG("ERROR: el numero de hijos no puede ser menor de 0\n");
+            return 1; // si tengo Numero de hijos en negativo ASUMO que soy hoja
+        }
         {
             return 0;// EN todos los otros casos no soy hoja
         }
 }
 /* llenar el msg de informacion
 */
-void llenar_msg_informacion(informacion_msg *inf_msg, uint8_t flags, const linkaddr_t *destination )
+/*void llenar_msg_informacion(informacion_msg *inf_msg, uint8_t flags, const linkaddr_t *destination )
 {
     inf_msg->flags = flags;
     linkaddr_copy(&inf_msg->destination, destination);
@@ -79,7 +84,7 @@ void llenar_msg_informacion_list(informacion_list *info_list_out_p, uint8_t flag
 {
     info_list_out_p->info_msg.flags = flags;
     linkaddr_copy(&info_list_out_p->info_msg.destination, destination);
-}
+}*/
 
 /* LLenar el msg de report
 */
