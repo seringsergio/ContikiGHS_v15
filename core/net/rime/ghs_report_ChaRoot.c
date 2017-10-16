@@ -29,7 +29,7 @@ report_list * lowest_of_report_list(list_t rp_list)
        }
    }else
    {
-       MY_DBG("ERROR: No existe un lowest_rp. Siempre deberia haber al menos un lowest_rp cuando lowest_of_report_list() se llama \n");
+       MY_DBG_1("ERROR: No existe un lowest_rp. Siempre deberia haber al menos un lowest_rp cuando lowest_of_report_list() se llama \n");
    }
 
    return lowest_rp;
@@ -62,7 +62,7 @@ uint8_t es_Hoja()
         }else
         if( num_hijos(e_list_head_g) < 0  )
         {
-            MY_DBG("ERROR: el numero de hijos no puede ser menor de 0\n");
+            MY_DBG_1("ERROR: el numero de hijos no puede ser menor de 0\n");
             return 1; // si tengo Numero de hijos en negativo ASUMO que soy hoja
         }
         {
@@ -117,11 +117,11 @@ uint8_t lista_casi_completa( list_t rp_list)
             if(no_falta_core_node == 1)
             {
                 listaCasi_completa = 0; //LISTA incompleta
-                MY_DBG("NOOO ... Lista NO completa\n");
+                MY_DBG_3("NOOO ... Lista NO completa\n");
             }else
             {
                 listaCasi_completa = 1; //Lista casi completa
-                MY_DBG("Casicompleta porque solamente falta el otro core_node\n");
+                MY_DBG_3("Casicompleta porque solamente falta el otro core_node\n");
             }
         }
     } //END si soy CORE_NODE

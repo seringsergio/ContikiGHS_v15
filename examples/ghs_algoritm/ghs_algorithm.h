@@ -13,12 +13,35 @@
 /*-----------DEBUG-------------------------------------------------*/
 /*------------------------------------------------------------------- */
 
-#define MY_DEBUG 1
-#if MY_DEBUG
+//Debug de prioridad 1. Quiere decir que siempre se imprime.
+//ex: Mensajes para sacar graficas
+//ex: Mensajes de Error
+#define MY_DEBUG_1 1
+#if MY_DEBUG_1
 #include <stdio.h>
-#define MY_DBG(...) printf(__VA_ARGS__)
+#define MY_DBG_1(...) printf(__VA_ARGS__)
 #else
-#define MY_DBG(...)
+#define MY_DBG_1(...)
+#endif
+
+// Debug de prioridad 2. Quiere decir que a veces se imprime.
+// ex: Codigo que estoy desarrollando y necesito hacer debug en ese momento
+#define MY_DEBUG_2 1
+#if MY_DEBUG_2
+#include <stdio.h>
+#define MY_DBG_2(...) printf(__VA_ARGS__)
+#else
+#define MY_DBG_2(...)
+#endif
+
+//Debug de prioridad 3. Quiere decir que nunca lo imprimo.
+// ex: Codigo que ya esta desarrollado y ya se debugueo en el pasado.
+#define MY_DEBUG_3 0
+#if MY_DEBUG_3
+#include <stdio.h>
+#define MY_DBG_3(...) printf(__VA_ARGS__)
+#else
+#define MY_DBG_3(...)
 #endif
 
 /*------------------------------------------------------------------- */

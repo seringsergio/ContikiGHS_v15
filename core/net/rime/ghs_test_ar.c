@@ -26,7 +26,7 @@ uint8_t become_rejected(edges *e_list_head_g, const linkaddr_t *from)
             }else
             if(e_aux->state == BRANCH)
             {
-                MY_DBG("ERROR: Preguntarse porque quiero volver rejected un edge q ya es BRANCH\n");
+                MY_DBG_1("ERROR: Preguntarse porque quiero volver rejected un edge q ya es BRANCH\n");
                 temp = 0;
                 break;
             }
@@ -35,7 +35,7 @@ uint8_t become_rejected(edges *e_list_head_g, const linkaddr_t *from)
 
     if( e_aux == NULL)
     {
-        MY_DBG("ERROR: El vecino no existe en la lista de Edges\n");
+        MY_DBG_1("ERROR: El vecino no existe en la lista de Edges\n");
     }
 
     return temp;
@@ -60,7 +60,7 @@ uint8_t become_accepted(edges *e_list_head_g, const linkaddr_t *from)
             }else
             if( (e_aux->state == BRANCH) || (e_aux->state == E_REJECTED)  )
             {
-                MY_DBG("ERROR: Preguntarse porque quiero volver accepted un edge q ya es BRANCH o E_REJECTED\n");
+                MY_DBG_1("ERROR: Preguntarse porque quiero volver accepted un edge q ya es BRANCH o E_REJECTED\n");
                 temp = 0;
                 break;
             }
@@ -69,7 +69,7 @@ uint8_t become_accepted(edges *e_list_head_g, const linkaddr_t *from)
 
     if( e_aux == NULL)
     {
-        MY_DBG("ERROR: El vecino no existe en la lista de Edges\n");
+        MY_DBG_1("ERROR: El vecino no existe en la lista de Edges\n");
     }
 
     return temp;
@@ -121,11 +121,11 @@ uint8_t nombres_iguales(name *name_str_1, name *name_str_2)
         (linkaddr_cmp(&name_str_1->core_node_2, &name_str_2->core_node_2)  )   )
 
     {
-        MY_DBG("Los nombres son iguales\n");
+        MY_DBG_3("Los nombres son iguales\n");
         return 1;
     }else
     {
-        MY_DBG("Los nombres son diferentes\n");
+        MY_DBG_3("Los nombres son diferentes\n");
         return 0;
     }
 }

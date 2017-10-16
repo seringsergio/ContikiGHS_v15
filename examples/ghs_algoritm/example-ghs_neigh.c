@@ -109,13 +109,13 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
 }
 static void sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-  MY_DBG("runicast message sent to %d.%d, retransmissions %d\n",
+  MY_DBG_3("runicast message sent to %d.%d, retransmissions %d\n",
      to->u8[0], to->u8[1], retransmissions);
 }
 static void
 timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-  MY_DBG("ERROR: runicast message timed out when sending to %d.%d, retransmissions %d\n",
+  MY_DBG_1("ERROR: runicast message timed out when sending to %d.%d, retransmissions %d\n",
      to->u8[0], to->u8[1], retransmissions);
 }
 static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
@@ -158,7 +158,7 @@ static const struct broadcast_callbacks broadcast_call = {n_broadcast_recv};
 */
 static void master_neighbor_discovery_exit_handler(void)
 {
-    MY_DBG("Process Exit: master_neighbor_discovery \n");
+    MY_DBG_3("Process Exit: master_neighbor_discovery \n");
 }
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS------------------------------------------------*/
@@ -259,7 +259,7 @@ PROCESS_THREAD(n_broadcast_neighbor_discovery, ev, data)
             msg.seqno = seqno;
             packetbuf_copyfrom(&msg, sizeof(struct broadcast_message));
             broadcast_send(&n_broadcast);
-            MY_DBG("Este es broadcast vecinos\n");
+            MY_DBG_3("Este es broadcast vecinos\n");
             seqno++;
           }
           process_post(&master_neighbor_discovery,e_wait_stabilization, PROCESS_CURRENT());
@@ -308,7 +308,7 @@ PROCESS_THREAD(n_link_weight_worst_case, ev, data)
             {
                 msg.avg_seqno_gap = n_aux->avg_seqno_gap; //llenar el msg
                 packetbuf_copyfrom(&msg, sizeof(msg));
-                MY_DBG("%u.%u: sending runicast to address %u.%u\n",
+                MY_DBG_3("%u.%u: sending runicast to address %u.%u\n",
                    linkaddr_node_addr.u8[0],
                    linkaddr_node_addr.u8[1],
                    n_aux->addr.u8[0],
@@ -322,7 +322,7 @@ PROCESS_THREAD(n_link_weight_worst_case, ev, data)
             {
                 //Espero que esto no pase porque tengo una espera de 2 a 4 seg entre msgs
                 // ademas tengo un while
-                MY_DBG("ERROR: El runicast esta ocupado - No envie msg de AGREE ON LINK WEIGHT\n");
+                MY_DBG_1("ERROR: El runicast esta ocupado - No envie msg de AGREE ON LINK WEIGHT\n");
             }
         } //END of FOR
         process_post(&master_neighbor_discovery,e_wait_stabilization, PROCESS_CURRENT());

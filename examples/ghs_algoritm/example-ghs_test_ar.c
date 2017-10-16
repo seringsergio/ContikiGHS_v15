@@ -138,7 +138,7 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
    } else {
      /* Detect duplicate callback */
      if(e->seq == seqno) {
-       MY_DBG("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
+       MY_DBG_3("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
  	     from->u8[0], from->u8[1], seqno);
        return;
      }
@@ -154,7 +154,7 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
           t_list_p = memb_alloc(&t_mem); //Alocar memoria
           if(t_list_p == NULL)
           {
-              MY_DBG("ERROR: La lista de msg de test esta llena\n");
+              MY_DBG_1("ERROR: La lista de msg de test esta llena\n");
           }else
           {
               t_list_p->t_msg = *((test_msg *)msg); //msg le hago cast.Luego cojo todo el msg
@@ -170,7 +170,7 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
           a_list_p = memb_alloc(&a_mem); //Alocar memoria
           if(a_list_p == NULL)
           {
-              MY_DBG("ERROR: La lista de msg de accept esta llena\n");
+              MY_DBG_1("ERROR: La lista de msg de accept esta llena\n");
           }else
           {
               linkaddr_copy(&a_list_p->from, from);
@@ -185,7 +185,7 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
           rj_list_p = memb_alloc(&rj_mem); //Alocar memoria
           if(rj_list_p == NULL)
           {
-              MY_DBG("ERROR: La lista de msg de Reject esta llena\n");
+              MY_DBG_1("ERROR: La lista de msg de Reject esta llena\n");
           }else
           {
               linkaddr_copy(&rj_list_p->from, from);
@@ -197,13 +197,13 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
 static void
 sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-  MY_DBG("runicastt (test-ar) message sent to %d.%d, retransmissions %d\n",
+  MY_DBG_3("runicastt (test-ar) message sent to %d.%d, retransmissions %d\n",
 	 to->u8[0], to->u8[1], retransmissions);
 }
 static void
 timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-  MY_DBG("ERROR: runicastt (test-ar) message timed out when sending to %d.%d, retransmissions %d\n",
+  MY_DBG_1("ERROR: runicastt (test-ar) message timed out when sending to %d.%d, retransmissions %d\n",
 	 to->u8[0], to->u8[1], retransmissions);
 }
 static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
@@ -229,7 +229,7 @@ PROCESS_THREAD(e_test, ev, data)
         PROCESS_WAIT_EVENT(); // Wait for any event.
         if (ev == PROCESS_EVENT_CONTINUE)
         {
-            MY_DBG("CONTINUE e_test level=%d\n ", nd.f.level);
+            MY_DBG_3("CONTINUE e_test level=%d\n ", nd.f.level);
             print_edges_list(e_list_head_g, string,  &linkaddr_node_addr);
 
             for(e_aux = e_list_head_g; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
@@ -239,13 +239,13 @@ PROCESS_THREAD(e_test, ev, data)
                 //has to be tested again - pg 82 del pdf
                 if( (e_aux->state == BASIC) || (e_aux->state == E_ACCEPTED) )
                 {
-                    MY_DBG("OUT EDGE: addr=%d e_aux->state =%d \n",e_aux->addr.u8[0], e_aux->state);
+                    MY_DBG_3("OUT EDGE: addr=%d e_aux->state =%d \n",e_aux->addr.u8[0], e_aux->state);
 
                     //send TEST msg
                     t_list_out_p = memb_alloc(&t_mem_out); //Alocar memoria
                     if(t_list_out_p == NULL)
                     {
-                        MY_DBG("ERROR: no hay memoria para msg test\n");
+                        MY_DBG_1("ERROR: no hay memoria para msg test\n");
                     }else
                     {
                         llenar_test_msg_list(t_list_out_p, &e_aux->addr, nd.f );
@@ -259,8 +259,8 @@ PROCESS_THREAD(e_test, ev, data)
 
             if(e_aux == NULL)
             {
-                //NO BORRAR! : MY_DBG("No tengo_edges_de_salida. INFINITO = %" PRIu32 "\n", INFINITO);
-                MY_DBG("No tengo edge de salida \n");
+                //NO BORRAR! : MY_DBG_3("No tengo_edges_de_salida. INFINITO = %" PRIu32 "\n", INFINITO);
+                MY_DBG_3("No tengo edge de salida \n");
                 nd.lwoe.node.weight = INFINITO;
                 linkaddr_copy(&nd.lwoe.node.neighbor, &linkaddr_node_addr); //si peso es infinito, yo soy vecino
                 nd.flags |= ND_LWOE; //Ya encontre el ND_LWOE. Porque no tengo edges de salida
@@ -294,7 +294,7 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                 {
                      if(t_list_p->t_msg.f.level > nd.f.level)
                      {
-                         MY_DBG("TL=%d  Pospone un TEsT msg from %d con name=%d.%02d, level test=%d > nd.f.level=%d \n",
+                         MY_DBG_3("TL=%d  Pospone un TEsT msg from %d con name=%d.%02d, level test=%d > nd.f.level=%d \n",
                          list_length(t_list),
                          t_list_p->from.u8[0],
                          (int)(t_list_p->t_msg.f.name_str.weight / SEQNO_EWMA_UNITY),
@@ -306,7 +306,7 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                      {
                          if(  nombres_iguales(  &(t_list_p->t_msg.f.name_str) , &(nd.f.name_str)   )   )
                          {
-                             MY_DBG("TL=%d  evaluo un TEsT msg from %d con name=%d.%02d, level=%d \n",
+                             MY_DBG_3("TL=%d  evaluo un TEsT msg from %d con name=%d.%02d, level=%d \n",
                              list_length(t_list),
                              t_list_p->from.u8[0],
                              (int)(t_list_p->t_msg.f.name_str.weight / SEQNO_EWMA_UNITY),
@@ -317,7 +317,7 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                              rj_list_out_p = memb_alloc(&rj_mem_out); //Alocar memoria
                              if (rj_list_out_p == NULL)
                              {
-                                 MY_DBG("ERROR: no hay memoria para msg reject\n");
+                                 MY_DBG_1("ERROR: no hay memoria para msg reject\n");
                              }else
                              {
                                  llenar_reject_msg_list(rj_list_out_p, &t_list_p->from);
@@ -325,7 +325,7 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                              }
                              process_post(&send_message_test_ar, e_msg_reject, NULL);
 
-                             MY_DBG("Quuuiero enviar e_msg_reject a %d \n", rj_list_out_p->rj_msg.destination.u8[0]);
+                             MY_DBG_3("Quuuiero enviar e_msg_reject a %d \n", rj_list_out_p->rj_msg.destination.u8[0]);
 
                              //Remover el dato de la lista
                              //Cuando lo saco de la lista con list_remove() el next es NULL
@@ -335,7 +335,7 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
 
                          }else
                          {
-                             MY_DBG("TL=%d  evaluo un TEsT msg from %d con name=%d.%02d, level=%d || nd.f.level=%d nameStr.weight=%d.%02d\n",
+                             MY_DBG_3("TL=%d  evaluo un TEsT msg from %d con name=%d.%02d, level=%d || nd.f.level=%d nameStr.weight=%d.%02d\n",
                              list_length(t_list),
                              t_list_p->from.u8[0],
                              (int)(t_list_p->t_msg.f.name_str.weight / SEQNO_EWMA_UNITY),
@@ -349,7 +349,7 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                              a_list_out_p = memb_alloc(&a_mem_out); //Alocar memoria
                              if(a_list_out_p == NULL )
                              {
-                                 MY_DBG("ERROR: no hay memoria para msg accept\n");
+                                 MY_DBG_1("ERROR: no hay memoria para msg accept\n");
                              }else
                              {
                                  llenar_accept_msg_list(a_list_out_p, &t_list_p->from);
@@ -362,7 +362,7 @@ PROCESS_THREAD(evaluar_msg_test, ev, data)
                              //Por eso creo mi propio my_list_remove(), donde el next no es NULL
                              my_list_remove(t_list, t_list_p); //Remove a specific element from a list.
                              memb_free(&t_mem, t_list_p);
-                             MY_DBG("Quuuiero enviar e_msg_accept a %d \n", a_list_out_p->a_msg.destination.u8[0]);
+                             MY_DBG_3("Quuuiero enviar e_msg_accept a %d \n", a_list_out_p->a_msg.destination.u8[0]);
                          }
                      }
                 } //FOR todos los elementos de la lista - EVALUAR
@@ -395,7 +395,7 @@ PROCESS_THREAD(evaluar_msg_accept, ev, data)
 
                     if( become_accepted(e_list_head_g, &a_list_p->from) )
                     {
-                        MY_DBG("llego AcCept de %d.  flags=%04X \n ",
+                        MY_DBG_3("llego AcCept de %d.  flags=%04X \n ",
                         a_list_p->from.u8[0], nd.flags);
 
                         //Si un edges es aceptado: Se guarda el edge como mejor opcion del Nodo
@@ -406,7 +406,7 @@ PROCESS_THREAD(evaluar_msg_accept, ev, data)
                         process_post(&e_LWOE, PROCESS_EVENT_CONTINUE, NULL);
                     }else
                     {
-                        MY_DBG("ERROR: (Duplicate) Pero si preguntarse porque quiero volver accepted algo q ya es BRANCH o E_REJECTED\n");
+                        MY_DBG_1("ERROR: (Duplicate) Pero si preguntarse porque quiero volver accepted algo q ya es BRANCH o E_REJECTED\n");
                     }
 
 
@@ -445,12 +445,12 @@ PROCESS_THREAD(evaluar_msg_reject, ev, data)
                 {
                     if (become_rejected(e_list_head_g, &rj_list_p->from))
                     {
-                        MY_DBG("Asumo Reject q llego  de %d \n", rj_list_p->from.u8[0]);
+                        MY_DBG_3("Asumo Reject q llego  de %d \n", rj_list_p->from.u8[0]);
                         //Si el edge es rechazado, entonces testeo uno nuevo.
                         process_post(&e_test , PROCESS_EVENT_CONTINUE, NULL);
                     }else
                     {
-                        MY_DBG("ERROR: (Duplicate) Preguntarse porque quiero volver rejected un edge q ya es BRANCH. Rejected llega de %d\n"
+                        MY_DBG_1("ERROR: (Duplicate) Preguntarse porque quiero volver rejected un edge q ya es BRANCH. Rejected llega de %d\n"
                               , rj_list_p->from.u8[0]);
                     }
 
@@ -533,7 +533,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, TEST);
                         runicast_send(&runicast, &t_msg.destination, MAX_RETRANSMISSIONS);
 
-                        MY_DBG("Deseo enviar e_msg_test a %d\n", t_msg.destination.u8[0]);
+                        MY_DBG_3("Deseo enviar e_msg_test a %d\n", t_msg.destination.u8[0]);
                         //remuevo el elemento de la lista
                         my_list_remove(t_list_out, t_list_out_p); //Remove a specific element from a list.
                         memb_free(&t_mem_out, t_list_out_p);
@@ -561,7 +561,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                         packetbuf_copyfrom(&r_msg, sizeof(r_msg));
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_REJECT);
                         runicast_send(&runicast, &r_msg.destination, MAX_RETRANSMISSIONS);
-                        MY_DBG("Envie reject a %d\n",r_msg.destination.u8[0] );
+                        MY_DBG_3("Envie reject a %d\n",r_msg.destination.u8[0] );
 
                         //remuevo el elemento de la lista
                         my_list_remove(rj_list_out, rj_list_out_p); //Remove a specific element from a list.
@@ -591,7 +591,7 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_ACCEPT);
                         runicast_send(&runicast, &a_msg.destination, MAX_RETRANSMISSIONS);
 
-                        MY_DBG("Envie accept a %d \n",a_msg.destination.u8[0]);
+                        MY_DBG_3("Envie accept a %d \n",a_msg.destination.u8[0]);
                         //remuevo el elemento de la lista
                         my_list_remove(a_list_out, a_list_out_p); //Remove a specific element from a list.
                         memb_free(&a_mem_out, a_list_out_p);

@@ -1,3 +1,4 @@
+set term wxt 0
 set xr [0:160]
 set yr [-195:-15]
 

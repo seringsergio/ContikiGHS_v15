@@ -17,7 +17,7 @@ void print_final_result()
     {
         if(linkaddr_cmp(&e_aux->addr, &nd.parent)) //Solo muestro mi padre
         {
-            printf("%s %d %d %d.%02d %d %d.%02d \n",
+            MY_DBG_1("%s %d %d %d.%02d %d %d.%02d \n",
             string,
             linkaddr_node_addr.u8[0],
             nd.parent.u8[0],
@@ -44,7 +44,7 @@ void fill_edges_list(list_t edges_list, struct memb *edges_memb, struct neighbor
 
         if(e == NULL)
         {
-          MY_DBG("ERROR: No hay espacio para allocar memoria (fill_edges_list) \n");
+          MY_DBG_1("ERROR: No hay espacio para allocar memoria (fill_edges_list) \n");
         }else
         {
             e->state = BASIC; //Todos los edges inician con estado BASIC
@@ -66,7 +66,7 @@ void print_edges_list(edges *e_list_head, char *string,  const linkaddr_t *node_
 
     for(e_aux = e_list_head; e_aux != NULL; e_aux = list_item_next(e_aux)) // Recorrer toda la lista
     {
-        MY_DBG("%s %d %d %d.%02d %d \n",
+        MY_DBG_1("%s %d %d %d.%02d %d \n",
               string,
               node_addr->u8[0],
               e_aux->addr.u8[0],
@@ -94,7 +94,7 @@ void become_branch(edges *e_list_head, const linkaddr_t *node_addr)
 
     if(e_aux == NULL)
     {
-        MY_DBG("ERROR: no se encontro vecino %d en la lista de edges (become_branch)\n"
+        MY_DBG_1("ERROR: no se encontro vecino %d en la lista de edges (become_branch)\n"
                ,node_addr->u8[0]);
     }
 
@@ -148,7 +148,7 @@ linkaddr_t* least_basic_edge(edges *e_list_head)
 
     if( e_aux == NULL )
     {
-        MY_DBG("ERROR: No existe ningun basic edge\n");
+        MY_DBG_1("ERROR: No existe ningun basic edge\n");
         return NULL;
     }else
     {
@@ -171,7 +171,7 @@ uint32_t weight_with_edge(const linkaddr_t *addr,  edges *e_list_head)
 
     if(e_aux == NULL)
     {
-        MY_DBG("ERROR: El vecino no existe dentro de la lista de edges\n");
+        MY_DBG_1("ERROR: El vecino no existe dentro de la lista de edges\n");
         return INFINITO;
     }else
     {
@@ -192,7 +192,7 @@ uint8_t state_is_branch(const linkaddr_t *addr,  edges *e_list_head)
     }
     if (e_aux == NULL)
     {
-        MY_DBG("ERROR: El nodo (addr) no esta en mi lista de edges (vecinos)");
+        MY_DBG_1("ERROR: El nodo (addr) no esta en mi lista de edges (vecinos)");
         return 0; //Digo q no es branch. Ni siquiera es vecino
     }else
     {
@@ -230,7 +230,7 @@ void llenar_name_str(name *name_str, uint32_t weight, linkaddr_t *core_node_2)
 */
 void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, list_t edges_list)
 {
-    MY_DBG("Process Init: master_co_i \n");
+    MY_DBG_3("Process Init: master_co_i \n");
 
     //Variables locales
     linkaddr_t *lwoe_init; //LWOE inicial. Es el edge con menor weight
@@ -242,7 +242,7 @@ void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, lis
 
     //Inicializacion de "struct node"
     nd.state = FOUND;   //Inicio en FOUND porque ya se que el Basic edge con menor peso es el LWOE
-    MY_DBG("Estoy en FOUND virtual \n"); //virtualmente porque no quiero resetear ND_LWOE ni CH_LWOE
+    MY_DBG_3("Estoy en FOUND virtual \n"); //virtualmente porque no quiero resetear ND_LWOE ni CH_LWOE
     nd.flags = 0;
     llenar_name_str(&nd.f.name_str, 0, &linkaddr_node_addr); //Inicio weight con 0
     nd.f.level = 0; //Inicio level con 0
@@ -269,7 +269,7 @@ void init_master_co_i(struct neighbor *n_list_head, struct memb *edges_memb, lis
 
     // Volver el basic edge con menor peso branch
     become_branch(list_head(edges_list),  &nd.lwoe.node.neighbor ); //become branch inicial level = 0
-    MY_DBG("primer become branch nodo = %d  \n", nd.lwoe.node.neighbor.u8[0]);
+    MY_DBG_3("primer become branch nodo = %d  \n", nd.lwoe.node.neighbor.u8[0]);
 
     //imprimir la info que tome de fill_edges_list y guarde en edges_list
     print_edges_list(list_head(edges_list), string, &linkaddr_node_addr);
@@ -318,7 +318,7 @@ void become_core_node(linkaddr_t *otro_core_node)
 {
     nd.flags |= CORE_NODE; //seteo la bandera de ser core_node
     linkaddr_copy(&nd.otro_core_node, otro_core_node); //guardo quien es el otro core_node
-    MY_DBG("Soy CORE_NORE\n");
+    MY_DBG_3("Soy CORE_NORE\n");
 }
 
 // funcion para que el nodo haga lo que tiene que hacer al dejar de ser core_node
@@ -326,5 +326,5 @@ void stop_being_core_node()
 {
     nd.flags &= ~CORE_NODE; //desSeteo la bandera de ser core_node
     linkaddr_copy(&nd.otro_core_node, &linkaddr_node_addr); //otro core node soy YO
-    MY_DBG("Dejo de ser CORE_NORE\n");
+    MY_DBG_3("Dejo de ser CORE_NORE\n");
 }

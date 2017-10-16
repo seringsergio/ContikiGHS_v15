@@ -130,7 +130,7 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
    } else {
      // Detect duplicate callback
      if(e->seq == seqno) {
-       MY_DBG("runicast (co-i) message received from %d.%d, seqno %d (DUPLICATE)\n",
+       MY_DBG_3("runicast (co-i) message received from %d.%d, seqno %d (DUPLICATE)\n",
         from->u8[0], from->u8[1], seqno);
        return;
      }
@@ -148,13 +148,13 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
        co_list_p = memb_alloc(&co_mem); //Alocar memoria
        if(co_list_p == NULL)
        {
-           MY_DBG("ERROR: La lista de msg de connect esta llena\n");
+           MY_DBG_1("ERROR: La lista de msg de connect esta llena\n");
        }else
        {
            co_list_p->co_msg = *((connect_msg *)msg); //msg le hago cast.Luego cojo todo el msg
            linkaddr_copy(&co_list_p->from, from);
            list_add(co_list, co_list_p); //Add an item at the end of a list.
-           MY_DBG("llego connect de from %d\n",from->u8[0] );
+           MY_DBG_3("llego connect de from %d\n",from->u8[0] );
            //process_post_synch(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
            process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
 
@@ -168,7 +168,7 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
        i_list_p = memb_alloc(&i_mem); //Alocar memoria
        if(i_list_p == NULL)
        {
-          MY_DBG("ERROR: La lista de msg de initiate esta llena\n");
+          MY_DBG_1("ERROR: La lista de msg de initiate esta llena\n");
        }else
        {
           i_list_p->i_msg = *((initiate_msg *)msg); //msg le hago cast.Luego cojo todo el msg
@@ -188,13 +188,13 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
 }
 static void sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-  MY_DBG("runicast (co-i) message sent to %d.%d, retransmissions %d\n",
+  MY_DBG_3("runicast (co-i) message sent to %d.%d, retransmissions %d\n",
      to->u8[0], to->u8[1], retransmissions);
 }
 static void
 timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-    MY_DBG("ERROR: runicast (co-i) message timed out when sending to %d.%d, retransmissions %d\n",
+    MY_DBG_1("ERROR: runicast (co-i) message timed out when sending to %d.%d, retransmissions %d\n",
      to->u8[0], to->u8[1], retransmissions);
 }
 static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
@@ -256,7 +256,7 @@ PROCESS_THREAD(master_co_i, ev, data)
             co_list_out_p = memb_alloc(&co_mem_out); //Alocar memoria
             if(co_list_out_p == NULL)
             {
-                MY_DBG("ERROR: no hay memoria para connect inicial\n");
+                MY_DBG_1("ERROR: no hay memoria para connect inicial\n");
             }else
             {
                 llenar_connect_msg_list (co_list_out_p, nd.f.level, &nd.lwoe.node.neighbor);
@@ -264,13 +264,13 @@ PROCESS_THREAD(master_co_i, ev, data)
             }
 
             process_post(&send_message_co_i,  e_msg_connect, NULL);
-            MY_DBG("Deseo enviar connect INICIAL a %d\n", nd.lwoe.node.neighbor.u8[0]);
+            MY_DBG_3("Deseo enviar connect INICIAL a %d\n", nd.lwoe.node.neighbor.u8[0]);
 
         }else
         if (ev == e_found)
         {
             //Espero instrucciones de change_root o initiate
-            MY_DBG("Estoy en FOUND \n");
+            MY_DBG_3("Estoy en FOUND \n");
 
             /////////////REINICIAR VARIABLE/////////////////
             //Solamente necesito reiniciar estas 2 variables. NINGUNA MAS. ya hice analisis
@@ -285,7 +285,7 @@ PROCESS_THREAD(master_co_i, ev, data)
         }else
         if (ev == e_find)
         {
-            MY_DBG("Estoy en FIND \n");
+            MY_DBG_3("Estoy en FIND \n");
             process_post(&e_test, PROCESS_EVENT_CONTINUE, NULL);
         }else
         if(ev == e_msg_ghs_end)
@@ -321,7 +321,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                     {
                         if(state_is_branch(&co_list_p->from, e_list_head_g)) // Caso inicial. Fragmentos con 1 nodo
                         {
-                            MY_DBG("Tamano lista=%d Evaluo ConNect de %d con Mismo level es BRANCH, level=%d \n",
+                            MY_DBG_3("Tamano lista=%d Evaluo ConNect de %d con Mismo level es BRANCH, level=%d \n",
                             list_length(co_list),
                              co_list_p->from.u8[0],
                              co_list_p->co_msg.level);
@@ -334,7 +334,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                             i_list_out_p = memb_alloc(&i_mem_out); //Alocar memoria
                             if(i_list_out_p == NULL)
                             {
-                                MY_DBG("ERROR: no hay memoria para initiate\n");
+                                MY_DBG_1("ERROR: no hay memoria para initiate\n");
                             }else
                             {
                                 llenar_initiate_msg_list(i_list_out_p, name_str ,
@@ -349,14 +349,14 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
 
                         }else //Si el estado NO es branch (El proceso postpones processing CONECT)
                         {
-                            MY_DBG("Tamano lista=%d Pospone ConNect... nd.f.level=%d \n",
+                            MY_DBG_3("Tamano lista=%d Pospone ConNect... nd.f.level=%d \n",
                              list_length(co_list),
                               nd.f.level);
                         } //FIN de pospone connect
                     }else
                     if(co_list_p->co_msg.level < nd.f.level)
                     {
-                        MY_DBG("MAYOR. Tamano lista=%d EvaluOO ConNect de %d con level=%d, my level=%d \n",
+                        MY_DBG_3("MAYOR. Tamano lista=%d EvaluOO ConNect de %d con level=%d, my level=%d \n",
                         list_length(co_list),
                          co_list_p->from.u8[0],
                          co_list_p->co_msg.level, nd.f.level );
@@ -371,7 +371,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                             i_list_out_p = memb_alloc(&i_mem_out); //Alocar memoria
                             if( i_list_out_p == NULL)
                             {
-                                MY_DBG("ERROR: no hay memoria para initiate\n");
+                                MY_DBG_1("ERROR: no hay memoria para initiate\n");
                             }else
                             {
                                 llenar_initiate_msg_list(i_list_out_p, nd.f.name_str, nd.f.level, nd.state, &co_list_p->from, BECOME_CORE_NODE);
@@ -383,7 +383,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                             i_list_out_p = memb_alloc(&i_mem_out); //Alocar memoria
                             if( i_list_out_p == NULL)
                             {
-                                MY_DBG("ERROR: no hay memoria para initiate\n");
+                                MY_DBG_1("ERROR: no hay memoria para initiate\n");
                             }else
                             {
                                 llenar_initiate_msg_list(i_list_out_p, nd.f.name_str, nd.f.level, nd.state, &co_list_p->from, STOP_BEING_CORE_NODE);
@@ -400,7 +400,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                     }else // si nodo tiene menor nivel. Segun el libro no es posible: saco error!
                     if(co_list_p->co_msg.level > nd.f.level)
                     {
-                         MY_DBG("ERROR: Nunca deberia entrar aca porque 'level of qs fragment is at least l' \n");
+                         MY_DBG_1("ERROR: Nunca deberia entrar aca porque 'level of qs fragment is at least l' \n");
                     } //FIN de pospone connect
 
                 } //END for para recorrer lista
@@ -455,7 +455,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                             i_list_out_p = memb_alloc(&i_mem_out); //Alocar memoria
                             if(i_list_out_p == NULL)
                             {
-                                MY_DBG("ERROR: no hay memoria para reEnviar initiate\n");
+                                MY_DBG_1("ERROR: no hay memoria para reEnviar initiate\n");
                             }else
                             {
                                 llenar_initiate_msg_list(i_list_out_p, i_list_p->i_msg.f.name_str, i_list_p->i_msg.f.level,
@@ -503,16 +503,16 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
                     if(i_list_p->i_msg.nd_state == FIND) //si cambio de estado a FIND
                     {
                         //Envio un mensaje al master_co_i de find
-                        MY_DBG("Deseo postear FIND\n");
+                        MY_DBG_3("Deseo postear FIND\n");
                         process_post(&master_co_i,  e_find, NULL);
                     }else
                     if(i_list_p->i_msg.nd_state == FOUND) //si cambio de estado a FOUND
                     {
-                        MY_DBG("Deseo postear FOUND\n");
+                        MY_DBG_3("Deseo postear FOUND\n");
                         process_post(&master_co_i,  e_found, NULL);
                     }
 
-                    MY_DBG("TamanoLista =%d llego INITIATE from %d.%d name=%d.%02d level=%d nd.state=%d parent=%d  i_msg.flags=%04X\n",
+                    MY_DBG_3("TamanoLista =%d llego INITIATE from %d.%d name=%d.%02d level=%d nd.state=%d parent=%d  i_msg.flags=%04X\n",
                           list_length(i_list),
                           i_list_p->from.u8[0], i_list_p->from.u8[1],
                           (int)(nd.f.name_str.weight / SEQNO_EWMA_UNITY),
@@ -535,6 +535,10 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
     PROCESS_END();
 } //END of PROCESS THREAD evaluar_msg_i
 
+
+//cambio
+//cambio11
+// aja
 
 /* Proceso para enviar mensajes
 */
@@ -590,7 +594,7 @@ PROCESS_THREAD(send_message_co_i, ev, data)
                         packetbuf_copyfrom(&co_msg, sizeof(co_msg));
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, CONNECT);
                         runicast_send(&runicast, &co_msg.destination, MAX_RETRANSMISSIONS);
-                        MY_DBG("Envio CONECT to %d , level=%d \n", co_msg.destination.u8[0], co_msg.level);
+                        MY_DBG_3("Envio CONECT to %d , level=%d \n", co_msg.destination.u8[0], co_msg.level);
 
                         //remuevo el elemento de la lista
                         my_list_remove(co_list_out, co_list_out_p); //Remove a specific element from a list.
@@ -622,7 +626,7 @@ PROCESS_THREAD(send_message_co_i, ev, data)
                         packetbuf_copyfrom(&i_msg, sizeof(i_msg));
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INITIATE);
                         runicast_send(&runicast, &i_msg.destination, MAX_RETRANSMISSIONS);
-                        MY_DBG("Envio initiate a %d level= %d name=%d.%02d i_msg.flags=%04X\n", i_msg.destination.u8[0],
+                        MY_DBG_3("Envio initiate a %d level= %d name=%d.%02d i_msg.flags=%04X\n", i_msg.destination.u8[0],
                         i_msg.f.level,
                         (int)(i_msg.f.name_str.weight / SEQNO_EWMA_UNITY),
                         (int)(((100UL * i_msg.f.name_str.weight) / SEQNO_EWMA_UNITY) % 100),

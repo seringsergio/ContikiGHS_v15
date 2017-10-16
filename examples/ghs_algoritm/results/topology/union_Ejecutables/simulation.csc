@@ -233,7 +233,7 @@
   <plugin>
     org.contikios.cooja.plugins.LogListener
     <plugin_config>
-      <filter>END</filter>
+      <filter />
       <formatted_time />
       <coloring />
     </plugin_config>
