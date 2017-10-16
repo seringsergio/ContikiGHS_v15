@@ -536,10 +536,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
 } //END of PROCESS THREAD evaluar_msg_i
 
 
-//cambio
-//cambio11
-// aja
-//ADMOAS SI FUNCIONAAAAA 
+//BOrrar este comentario. lol
 
 /* Proceso para enviar mensajes
 */
