@@ -593,7 +593,7 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
             print_final_result(); //Lo ultimo que hago es imprimir resultados
             //Para guardar en el archivo del contiki file system el archivo con la tabla de vecinos y el padre
             process_post(&interface_GHS_and_Self_healing, PROCESS_EVENT_CONTINUE, NULL);
-            //Toma cambios ok.....ok
+            //Toma cambios ok.....ok.....ok Este ES!
         } //END IF  EV == CONTINUE
     } //end of while
     PROCESS_END();
