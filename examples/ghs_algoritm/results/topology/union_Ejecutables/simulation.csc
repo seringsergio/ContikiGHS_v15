@@ -241,7 +241,7 @@
     <z>0</z>
     <height>536</height>
     <location_x>254</location_x>
-    <location_y>160</location_y>
+    <location_y>165</location_y>
   </plugin>
   <plugin>
     org.contikios.cooja.plugins.Notes

@@ -209,10 +209,71 @@ PROCESS(master_co_i, "Proceso master de los msg connect-initiate");
 PROCESS(send_message_co_i, "Enviar msg de connect - initiate");
 PROCESS(evaluar_msg_co, "Evaluar Mensaje de Connect");
 PROCESS(evaluar_msg_i, "Evaluar Mensaje de initiate");
-
+PROCESS(interface_GHS_and_Self_healing, "Interface entre el algoritmo GHS y self-healing");
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS------------------------------------------------*/
 /*------------------------------------------------------------------- */
+
+
+PROCESS_THREAD(interface_GHS_and_Self_healing, ev, data)
+{
+
+    PROCESS_BEGIN();
+
+    char message[13];
+    char *filename = "msg_file";
+    int fd_write, n;//, fd_read;
+    edges *e_aux = NULL; // Apuntador que apunta a la tabla de edges
+
+    while(1)
+    {
+        PROCESS_WAIT_EVENT(); // Wait for any event.
+        if(ev == PROCESS_EVENT_CONTINUE)
+        {
+            for(e_aux = e_list_head_g; e_aux != NULL; e_aux = e_aux->next) // Recorrer toda la lista
+            {
+                if(linkaddr_cmp(&e_aux->addr, &nd.parent)) //Si es padra envio un 1
+                {
+                    sprintf(message, "%d %d %d %d.%02d %d\n\r",//va con pri ntf porque siempre quiero ver esto
+                    linkaddr_node_addr.u8[0],
+                    e_aux->addr.u8[0],
+                    1, //El 1 indica que es PADRE
+                    (int)(e_aux->weight / SEQNO_EWMA_UNITY), (int)(((100UL * e_aux->weight) / SEQNO_EWMA_UNITY) % 100),
+                    e_aux->state);
+                }else // Si no es padre
+                {
+                    sprintf(message, "%d %d %d %d.%02d %d\n\r",//va con printf porque siempre quiero ver esto
+                    linkaddr_node_addr.u8[0],
+                    e_aux->addr.u8[0],
+                    0, //El 1 indica que es PADRE
+                    (int)(e_aux->weight / SEQNO_EWMA_UNITY), (int)(((100UL * e_aux->weight) / SEQNO_EWMA_UNITY) % 100),
+                    e_aux->state);
+                }
+                // writing to cfs
+                fd_write = cfs_open(filename, CFS_WRITE | CFS_APPEND);
+                if(fd_write != -1) //El archivo se abre correctamente
+                {
+
+                          n = cfs_write(fd_write, message, sizeof(message));
+                          if(n != -1) //El archivo se escribe correctamente
+                          {
+                              cfs_close(fd_write);
+                              MY_DBG_3("step 2: successfully written to cfs. wrote %i bytes\n", n);
+                          }
+                          else
+                          {
+                            MY_DBG_1("ERROR: No se pudo abrir el archivo %s para Escritura \n", filename);
+                          }
+                } else
+                {
+                  MY_DBG_1("ERROR: No se pudo abrir el archivo %s para Escritura \n", filename);
+                }
+
+            } //END FOR recorre la lista
+        } //END IF continue
+    } //END WHILE
+    PROCESS_END();
+} //END PROCESS_THREAD
 
 /* Proceso master que controla el find y el found
 */
@@ -530,6 +591,8 @@ PROCESS_THREAD(evaluar_msg_i, ev, data)
             } //Si hay elementos en la lista
 
             print_final_result(); //Lo ultimo que hago es imprimir resultados
+            //Para guardar en el archivo del contiki file system el archivo con la tabla de vecinos y el padre
+            process_post(&interface_GHS_and_Self_healing, PROCESS_EVENT_CONTINUE, NULL);
         } //END IF  EV == CONTINUE
     } //end of while
     PROCESS_END();
@@ -546,6 +609,7 @@ PROCESS_THREAD(send_message_co_i, ev, data)
 
     process_start(&evaluar_msg_co, NULL );
     process_start(&evaluar_msg_i, NULL );
+    process_start(&interface_GHS_and_Self_healing, NULL);
 
     runicast_open(&runicast, 144, &runicast_callbacks);
 

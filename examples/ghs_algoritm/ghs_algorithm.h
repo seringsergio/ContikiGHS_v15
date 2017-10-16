@@ -7,7 +7,7 @@
 
 #include "contiki.h"
 #include "lib/list.h"
-
+#include "cfs/cfs.h" //para guardar archivos en el Contiki File System CFS
 
 /*------------------------------------------------------------------- */
 /*-----------DEBUG-------------------------------------------------*/
@@ -26,6 +26,7 @@
 
 // Debug de prioridad 2. Quiere decir que a veces se imprime.
 // ex: Codigo que estoy desarrollando y necesito hacer debug en ese momento
+// En produccion los debug de prioridad 2 deben pasar a ser de prioridad 3
 #define MY_DEBUG_2 1
 #if MY_DEBUG_2
 #include <stdio.h>
@@ -101,7 +102,7 @@ PROCESS_NAME(master_co_i);
 PROCESS_NAME(send_message_co_i);
 PROCESS_NAME(evaluar_msg_co);
 PROCESS_NAME(evaluar_msg_i);
-
+PROCESS_NAME(interface_GHS_and_Self_healing);
 //Procesos de test ar
 PROCESS_NAME(e_test);
 PROCESS_NAME(send_message_test_ar);

@@ -288,7 +288,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                             // SI los dos pesos son infinito
                             if( (nd.lwoe.node.weight == INFINITO) && (nd.lwoe.children.weight==INFINITO) )
                             {
-                                MY_DBG_3("Los dos reportes son INFINITO\n");
+                                MY_DBG_2("Los dos reportes son INFINITO\n");
                                 //Paso a FOUND
                                 process_post(&master_co_i, e_found, NULL);
                                 nd.state = FOUND;   //Para saber en que estado estoy en cualquier parte
