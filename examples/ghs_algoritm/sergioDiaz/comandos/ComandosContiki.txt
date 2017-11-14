@@ -53,3 +53,7 @@ make login MOTES=/dev/ttyUSB0 | java ViewRSSI
 
 //Recordar como no sale el error de wrong password
 make  TARGET=sky node-environment.upload
+
+//Para quemar el node id nodeid de los nodos. El make clean es para borrar el nodeid que se habia guardado anteriormente!!! Es decir, es obligatorio colocar el make clean.
+
+make clean && make TARGET=feuerwhere example-broadcast.upload nodeid=1
