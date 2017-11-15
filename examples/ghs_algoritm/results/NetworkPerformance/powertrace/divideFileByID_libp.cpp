@@ -32,8 +32,8 @@ int main(int argc, char *argv[])
         {
             stringstream a;
             a << i;
-            filename = "nodo_" + a.str();
-            filename += ".txt";
+            filename = "nodo_libp_" + a.str();
+            filename += ".dat";
             //cout << filename << endl;
             files.open(filename.c_str(), ios::out);
             files.close();
@@ -65,8 +65,8 @@ int main(int argc, char *argv[])
                         //escribo en archivo i
                         stringstream a;
                         a << i;
-                        filename = "nodo_" + a.str();
-                        filename += ".txt";
+                        filename = "nodo_libp_" + a.str();
+                        filename += ".dat";
                         files.open(filename.c_str(), std::ios_base::app);
                         //cout << filename << endl;
                         files <<   std::fixed << setprecision(1) << linkaddr_node_addr << " "
