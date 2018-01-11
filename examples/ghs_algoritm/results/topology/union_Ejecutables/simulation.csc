@@ -209,10 +209,10 @@
   <plugin>
     org.contikios.cooja.plugins.SimControl
     <width>280</width>
-    <z>1</z>
+    <z>0</z>
     <height>160</height>
-    <location_x>400</location_x>
-    <location_y>0</location_y>
+    <location_x>321</location_x>
+    <location_y>8</location_y>
   </plugin>
   <plugin>
     org.contikios.cooja.plugins.Visualizer
@@ -237,23 +237,11 @@
       <formatted_time />
       <coloring />
     </plugin_config>
-    <width>847</width>
-    <z>0</z>
-    <height>520</height>
-    <location_x>254</location_x>
-    <location_y>165</location_y>
-  </plugin>
-  <plugin>
-    org.contikios.cooja.plugins.Notes
-    <plugin_config>
-      <notes>Enter notes here</notes>
-      <decorations>true</decorations>
-    </plugin_config>
-    <width>421</width>
-    <z>3</z>
-    <height>160</height>
-    <location_x>680</location_x>
-    <location_y>0</location_y>
+    <width>720</width>
+    <z>1</z>
+    <height>585</height>
+    <location_x>0</location_x>
+    <location_y>410</location_y>
   </plugin>
 </simconf>
 
