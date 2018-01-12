@@ -1,10 +1,13 @@
 set term wxt 1
-set xr [0:160]
-set yr [-195:0]
+set xr [0:300]
+set yr [-300:0]
 
 set size square
 
+set style line 2 lt 3 lw 2
+
 set style arrow 1 head filled size screen 0.025,10,40 linecolor rgb "black" linewidth 2
+set style arrow 4 head filled size screen 0.03,10 ls 2 linecolor rgb "black" linewidth 2
 
 flePnts = 'pnts.dat'
 fleEdges = 'edges_vectors.dat'
@@ -20,7 +23,7 @@ loadWeights = sprintf('< gawk '' \
 '' %s %s', flePnts, fleEdges);
 
 plot \
-    loadEdges using 1:2:3:4 with vectors arrowstyle 1  notitle, \
-    flePnts using 2:3:(3.0) with circles  linecolor rgb "white" lw 2 fill solid border lc lt 0 notitle, \
+    loadEdges using 1:2:3:4 with vectors arrowstyle 4  notitle, \
+    flePnts using 2:3:(6.0) with circles  linecolor rgb "white" lw 2 fill solid border lc lt 0 notitle, \
     flePnts using 2:3:1 with labels tc rgb "black" font "Arial Bold" notitle, \
     loadWeights using 1:2:3 with labels tc rgb "red" center font "Arial Bold" notitle

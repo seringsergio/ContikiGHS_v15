@@ -57,3 +57,7 @@ make  TARGET=sky node-environment.upload
 //Para quemar el node id nodeid de los nodos. El make clean es para borrar el nodeid que se habia guardado anteriormente!!! Es decir, es obligatorio colocar el make clean.
 
 make clean && make TARGET=feuerwhere example-broadcast.upload nodeid=1
+
+
+// Correr Cooja para hasta 80 nodos. Cooja mas rapido. 
+ant run_bigmem

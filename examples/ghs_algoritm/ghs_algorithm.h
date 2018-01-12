@@ -27,7 +27,7 @@
 // Debug de prioridad 2. Quiere decir que a veces se imprime.
 // ex: Codigo que estoy desarrollando y necesito hacer debug en ese momento
 // En produccion los debug de prioridad 2 deben pasar a ser de prioridad 3
-#define MY_DEBUG_2 1
+#define MY_DEBUG_2 0
 #if MY_DEBUG_2
 #include <stdio.h>
 #define MY_DBG_2(...) printf(__VA_ARGS__)

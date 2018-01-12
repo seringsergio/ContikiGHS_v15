@@ -1,6 +1,6 @@
 set term wxt 0
-set xr [0:160]
-set yr [-195:-15]
+set xr [0:300]
+set yr [-300:0]
 
 set size square
 
@@ -19,6 +19,6 @@ loadWeights = sprintf('< gawk '' \
 
 plot \
     loadEdges using 1:2 with lines lc rgb "black" lw 2 notitle, \
-    flePnts using 2:3:(3.0) with circles linecolor rgb "white" lw 2 fill solid border lc lt 0 notitle, \
+    flePnts using 2:3:(4.0) with circles linecolor rgb "white" lw 2 fill solid border lc lt 0 notitle, \
     flePnts using 2:3:1 with labels offset (0,0) font 'Arial Bold' notitle, \
     loadWeights using 1:2:3 with labels tc rgb "red" center font "Arial Bold" notitle

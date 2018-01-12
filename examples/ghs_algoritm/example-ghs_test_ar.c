@@ -447,12 +447,15 @@ PROCESS_THREAD(evaluar_msg_reject, ev, data)
                     {
                         MY_DBG_3("Asumo Reject q llego  de %d \n", rj_list_p->from.u8[0]);
                         //Si el edge es rechazado, entonces testeo uno nuevo.
-                        process_post(&e_test , PROCESS_EVENT_CONTINUE, NULL);
+                        //process_post(&e_test , PROCESS_EVENT_CONTINUE, NULL);
                     }else
                     {
                         MY_DBG_1("ERROR: (Duplicate) Preguntarse porque quiero volver rejected un edge q ya es BRANCH. Rejected llega de %d\n"
                               , rj_list_p->from.u8[0]);
                     }
+
+                    //Si el edge es rechazado, entonces testeo uno nuevo.
+                    process_post(&e_test , PROCESS_EVENT_CONTINUE, NULL);
 
                     //remuevo el elemento de la lista
                     my_list_remove(rj_list, rj_list_p); //Remove a specific element from a list.
