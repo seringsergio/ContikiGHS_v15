@@ -59,5 +59,8 @@ make  TARGET=sky node-environment.upload
 make clean && make TARGET=feuerwhere example-broadcast.upload nodeid=1
 
 
-// Correr Cooja para hasta 80 nodos. Cooja mas rapido. 
+// Correr Cooja para hasta 80 nodos. Cooja mas rapido.
 ant run_bigmem
+
+// tamano del ejecutable....pg web... https://mcuoneclipse.com/2013/04/14/text-data-and-bss-code-and-data-size-explained/
+msp430-size example-ghs_neigh.sky

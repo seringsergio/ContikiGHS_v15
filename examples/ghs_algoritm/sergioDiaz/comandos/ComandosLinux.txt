@@ -25,3 +25,6 @@ minicom -s
 
 // Que no se apague la pantalla
 xfce4-power-manager
+
+// tamano del ejecutable....pg web... https://mcuoneclipse.com/2013/04/14/text-data-and-bss-code-and-data-size-explained/
+msp430-size example-ghs_neigh.sky

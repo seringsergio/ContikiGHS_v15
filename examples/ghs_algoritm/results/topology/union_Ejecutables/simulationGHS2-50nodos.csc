@@ -963,7 +963,7 @@
       <viewport>1.042168895919082 0.0 0.0 1.042168895919082 8.068319648558273 9.172038790216002</viewport>
     </plugin_config>
     <width>401</width>
-    <z>2</z>
+    <z>0</z>
     <height>426</height>
     <location_x>1</location_x>
     <location_y>1</location_y>
@@ -976,7 +976,7 @@
       <coloring />
     </plugin_config>
     <width>1059</width>
-    <z>0</z>
+    <z>2</z>
     <height>671</height>
     <location_x>400</location_x>
     <location_y>160</location_y>
