@@ -60,7 +60,7 @@
 #include "net/rime/rime.h" //Aca esta ghs_neigh.h
 #include "ghs_algorithm.h"
 #include <stdio.h>
-
+#include "dev/leds.h"
 
 /*------------------------------------------------------------------- */
 /*----------GLOBAL VARIABLES -----------------------------------------*/
@@ -92,9 +92,9 @@ PROCESS(n_link_weight_worst_case, "Assume Worst Weight for Link");
 PROCESS(master_neighbor_discovery, "GHS Control");
 PROCESS(energy_measurement, "Energy measurement");
 
-AUTOSTART_PROCESSES(&master_neighbor_discovery, &n_broadcast_neighbor_discovery,
+AUTOSTART_PROCESSES(&energy_measurement , &master_neighbor_discovery, &n_broadcast_neighbor_discovery,
                      &wait, &n_link_weight_worst_case,
-                     &master_co_i, &energy_measurement);
+                     &master_co_i );
 
 /*------------------------------------------------------------------- */
 /*-----------FUNCIONES-------------------------------------------------*/
@@ -169,22 +169,37 @@ static void master_neighbor_discovery_exit_handler(void)
 
 PROCESS_THREAD(energy_measurement, ev, data)
 {
-    static struct etimer et;
 
 
     PROCESS_BEGIN();
 
+
+    //static struct etimer et_energy_measurement; //tiene que se global este timer para q siempre se ejecute el energy_measurement
+
     powertrace_start(CLOCK_SECOND * 10);
 
-    while(1)
+/*    while(1)
     {
-      /* Delay 2-4 seconds */
-      etimer_set(&et, CLOCK_SECOND * 4 + random_rand() % (CLOCK_SECOND * 4));
 
-      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-    }
+      //PROCESS_WAIT_EVENT(); // Wait for any event.
+
+      etimer_set(&et_energy_measurement, CLOCK_SECOND * 20 + random_rand() % (CLOCK_SECOND * 20));
+
+      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et_energy_measurement));
+
+      leds_toggle(LEDS_GREEN);
+    }*/
+
+    /*while(1) {
+      PROCESS_WAIT_UNTIL(etimer_expired(&et_energy_measurement));
+      //etimer_reset(&periodic);
+      etimer_set(&et_energy_measurement, CLOCK_SECOND * 10 );
+      powertrace_print("");
+    }*/
+
     PROCESS_END();
 }
+
 /* Este es el proceso MASTER. Este proceso controla a los otros procesos esclavos.
 *  Los puede controlar con start, stop, exit, continue, etc. Es decir, este proceso
 *  le indica a los otros cuando correr y cuando detenerse

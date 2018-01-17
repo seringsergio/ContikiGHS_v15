@@ -63,29 +63,29 @@ static struct broadcast_conn broadcast;
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(example_broadcast_process, ev, data)
 {
-  static struct etimer et;
+  //static struct etimer et;
 
-  PROCESS_EXITHANDLER(broadcast_close(&broadcast);)
+  //PROCESS_EXITHANDLER(broadcast_close(&broadcast);)
 
   PROCESS_BEGIN();
 
 
   /* Start powertracing, once every two seconds. */
-  powertrace_start(CLOCK_SECOND * 2);
-  
-  broadcast_open(&broadcast, 129, &broadcast_call);
+  powertrace_start(CLOCK_SECOND * 10);
 
-  while(1) {
+  //broadcast_open(&broadcast, 129, &broadcast_call);
+
+  //while(1) {
 
     /* Delay 2-4 seconds */
-    etimer_set(&et, CLOCK_SECOND * 4 + random_rand() % (CLOCK_SECOND * 4));
+    //etimer_set(&et, CLOCK_SECOND * 4 + random_rand() % (CLOCK_SECOND * 4));
 
-    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+    //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
-    packetbuf_copyfrom("Hello", 6);
-    broadcast_send(&broadcast);
-    printf("broadcast message sent\n");
-  }
+    //packetbuf_copyfrom("Hello", 6);
+    //broadcast_send(&broadcast);
+    ///printf("broadcast message sent\n");
+  //}
 
   PROCESS_END();
 }

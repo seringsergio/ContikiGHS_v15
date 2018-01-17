@@ -17,7 +17,7 @@
 //Debug de prioridad 1. Quiere decir que siempre se imprime.
 //ex: Mensajes para sacar graficas
 //ex: Mensajes de Error
-#define MY_DEBUG_1 1
+#define MY_DEBUG_1 0
 #if MY_DEBUG_1
 #include <stdio.h>
 #define MY_DBG_1(...) printf(__VA_ARGS__)
