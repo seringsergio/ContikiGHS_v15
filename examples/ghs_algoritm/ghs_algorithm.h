@@ -8,6 +8,7 @@
 #include "contiki.h"
 #include "lib/list.h"
 #include "cfs/cfs.h" //para guardar archivos en el Contiki File System CFS
+#include "/home/seringsergio/Desktop/ContikiGHS_v13/apps/powertrace/powertrace.h"
 
 /*------------------------------------------------------------------- */
 /*-----------DEBUG-------------------------------------------------*/

@@ -1,0 +1,495 @@
+00:00.286	ID:20	Rime started with address 20.0
+00:00.288	ID:36	Rime started with address 36.0
+00:00.295	ID:20	MAC 14:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 20.
+00:00.297	ID:36	MAC 24:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 36.
+00:00.307	ID:20	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.308	ID:36	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.309	ID:27	Rime started with address 27.0
+00:00.318	ID:27	MAC 1b:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 27.
+00:00.323	ID:20	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.324	ID:36	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.327	ID:4	Rime started with address 4.0
+00:00.330	ID:27	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.336	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 4.
+00:00.346	ID:27	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.347	ID:4	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.357	ID:25	Rime started with address 25.0
+00:00.363	ID:4	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.366	ID:25	MAC 19:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 25.
+00:00.377	ID:25	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.393	ID:25	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.409	ID:12	Rime started with address 12.0
+00:00.418	ID:12	MAC 0c:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 12.
+00:00.430	ID:12	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.432	ID:10	Rime started with address 10.0
+00:00.437	ID:23	Rime started with address 23.0
+00:00.441	ID:10	MAC 0a:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 10.
+00:00.441	ID:29	Rime started with address 29.0
+00:00.446	ID:23	MAC 17:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 23.
+00:00.446	ID:12	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.450	ID:29	MAC 1d:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 29.
+00:00.452	ID:10	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.457	ID:23	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.462	ID:29	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.468	ID:10	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.473	ID:23	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.478	ID:29	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.528	ID:40	Rime started with address 40.0
+00:00.537	ID:40	MAC 28:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 40.
+00:00.549	ID:40	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.565	ID:40	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.573	ID:11	Rime started with address 11.0
+00:00.573	ID:33	Rime started with address 33.0
+00:00.577	ID:17	Rime started with address 17.0
+00:00.582	ID:11	MAC 0b:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 11.
+00:00.582	ID:33	MAC 21:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 33.
+00:00.585	ID:17	MAC 11:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 17.
+00:00.593	ID:11	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.594	ID:33	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.597	ID:17	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.609	ID:11	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.610	ID:33	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.613	ID:17	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.639	ID:5	Rime started with address 5.0
+00:00.648	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 5.
+00:00.651	ID:7	Rime started with address 7.0
+00:00.659	ID:5	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.660	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 7.
+00:00.671	ID:7	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.675	ID:5	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.687	ID:7	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.719	ID:28	Rime started with address 28.0
+00:00.727	ID:28	MAC 1c:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 28.
+00:00.729	ID:8	Rime started with address 8.0
+00:00.738	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 8.
+00:00.739	ID:28	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.749	ID:8	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.755	ID:28	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.765	ID:21	Rime started with address 21.0
+00:00.765	ID:8	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.774	ID:21	MAC 15:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 21.
+00:00.785	ID:21	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.801	ID:21	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.802	ID:15	Rime started with address 15.0
+00:00.810	ID:15	MAC 0f:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 15.
+00:00.822	ID:15	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.838	ID:15	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.918	ID:38	Rime started with address 38.0
+00:00.927	ID:38	MAC 26:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 38.
+00:00.938	ID:38	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.945	ID:3	Rime started with address 3.0
+00:00.952	ID:34	Rime started with address 34.0
+00:00.953	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 3.
+00:00.954	ID:38	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.961	ID:34	MAC 22:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 34.
+00:00.965	ID:3	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.972	ID:34	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.981	ID:3	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.984	ID:16	Rime started with address 16.0
+00:00.988	ID:35	Rime started with address 35.0
+00:00.988	ID:34	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:00.993	ID:16	MAC 10:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 16.
+00:00.994	ID:9	Rime started with address 9.0
+00:00.997	ID:35	MAC 23:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 35.
+00:01.003	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 9.
+00:01.004	ID:16	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.008	ID:35	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.014	ID:9	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.020	ID:16	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:01.024	ID:30	Rime started with address 30.0
+00:01.024	ID:35	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:01.027	ID:32	Rime started with address 32.0
+00:01.030	ID:9	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:01.033	ID:30	MAC 1e:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 30.
+00:01.036	ID:32	MAC 20:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 32.
+00:01.045	ID:30	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.047	ID:18	Rime started with address 18.0
+00:01.048	ID:32	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.056	ID:18	MAC 12:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 18.
+00:01.060	ID:30	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:01.064	ID:32	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:01.067	ID:18	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.078	ID:19	Rime started with address 19.0
+00:01.083	ID:18	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:01.087	ID:19	MAC 13:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 19.
+00:01.092	ID:2	Rime started with address 2.0
+00:01.098	ID:19	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.101	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 2.
+00:01.113	ID:2	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.114	ID:19	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:01.128	ID:1	Rime started with address 1.0
+00:01.129	ID:2	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:01.136	ID:13	Rime started with address 13.0
+00:01.136	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 1.
+00:01.138	ID:14	Rime started with address 14.0
+00:01.143	ID:39	Rime started with address 39.0
+00:01.145	ID:13	MAC 0d:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 13.
+00:01.147	ID:14	MAC 0e:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 14.
+00:01.148	ID:1	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.152	ID:39	MAC 27:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 39.
+00:01.154	ID:31	Rime started with address 31.0
+00:01.155	ID:24	Rime started with address 24.0
+00:01.156	ID:13	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.158	ID:14	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.162	ID:31	MAC 1f:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 31.
+00:01.164	ID:39	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.164	ID:24	MAC 18:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 24.
+00:01.164	ID:1	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:01.172	ID:13	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:01.174	ID:31	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.174	ID:14	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:01.175	ID:24	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.180	ID:39	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:01.190	ID:6	Rime started with address 6.0
+00:01.190	ID:31	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:01.191	ID:37	Rime started with address 37.0
+00:01.191	ID:24	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:01.198	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 6.
+00:01.199	ID:37	MAC 25:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 37.
+00:01.210	ID:6	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.211	ID:37	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.225	ID:26	Rime started with address 26.0
+00:01.226	ID:6	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:01.227	ID:37	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:01.234	ID:26	MAC 1a:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 26.
+00:01.246	ID:26	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.262	ID:26	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:01.265	ID:22	Rime started with address 22.0
+00:01.273	ID:22	MAC 16:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 22.
+00:01.285	ID:22	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.301	ID:22	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate' 'Energy measurement'
+00:10.351	ID:20	 1286 P 20.0 0 22003 306915 552 37893 0 36464 22003 306915 552 37893 0 36464 (radio 11.68% / 11.68% tx 0.16% / 0.16% listen 11.52% / 11.52%)
+00:10.353	ID:36	 1286 P 36.0 0 35466 293494 555 37854 0 36298 35426 293494 555 37854 0 36298 (radio 11.67% / 11.67% tx 0.16% / 0.16% listen 11.50% / 11.50%)
+00:10.375	ID:27	 1286 P 27.0 0 1906 309615 369 38044 0 36519 19306 309615 369 38044 0 36519 (radio 11.67% / 11.67% tx 0.11% / 0.11% listen 11.56% / 11.56%)
+00:10.392	ID:4	 1286 P 4.0 0 1967 309225 554 36862 0 35284 19687 309225 554 36862 0 35284 (radio 11.37% / 11.37% tx 0.16% / 0.16% listen 11.20% / 11.20%)
+00:10.422	ID:25	 1286 P 25.0 0 18475 310426 371 36152 0 35237 18495 310426 371 36152 0 35237 (radio 11.10% / 11.10% tx 0.11% / 0.11% listen 10.99% / 10.99%)
+00:10.484	ID:12	 1286 P 12.0 0 8724171275 309966 5452595751 36458 0 1469767 18955 309966 551 36458 0 35767 (radio 11.25% / 11.25% tx 0.16% / 0.16% listen 11.08% / 11.08%)
+00:10.500	ID:10	 1286 P 10.0 0 8724171406 309835 551 36420 0 35304 19086 309835 551 36420 0 35304 (radio 11.24% / 11.24% tx 0.16% / 0.16% listen 11.07% / 11.07%)
+00:10.503	ID:23	 1286 P 23.0 0 34479 294441 369 37426 0 36671 34479 294441 369 37426 0 36671 (radio 11.49% / 11.49% tx 0.11% / 0.11% listen 11.37% / 11.37%)
+00:10.521	ID:29	 1286 P 29.0 0 33692 295288 366 50384076836121 0 35429 893902 295288 366 2181038126121 0 35429 (radio 11.09% / 11.09% tx 0.11% / 0.11% listen 10.98% / 10.98%)
+00:10.594	ID:40	 1286 P 40.0 0 18739 309982 369 37313 0 36228 18939 309982 369 37313 0 36228 (radio 11.45% / 11.45% tx 0.11% / 0.11% listen 11.34% / 11.34%)
+00:10.639	ID:33	 1286 P 33.0 0 20290 308831 551 38524 0 36500 20090 308831 551 38524 0 36500 (radio 11.87% / 11.87% tx 0.16% / 0.16% listen 11.71% / 11.71%)
+00:10.642	ID:17	 1286 P 17.0 0 19467 309493 552 37100 0 36080 19467 309493 552 37100 0 36080 (radio 11.44% / 11.44% tx 0.16% / 0.16% listen 11.27% / 11.27%)
+00:10.646	ID:11	 1286 P 11.0 0 436209652 309029 9175952 39526 0 38280 19890 309029 552 39526 0 38280 (radio 12.18% / 12.18% tx 0.16% / 0.16% listen 12.01% / 12.01%)
+00:10.716	ID:5	 1286 P 5.0 0 24997 375451 553 107374182435842 0 34852 68176437 375451 553 142332 0 34852 (radio 9.22% / 9.22% tx 0.14% / 0.14% listen 9.08% / 9.08%)
+00:10.720	ID:7	 1286 P 7.0 0 258$1 374577 557 139328 0 37483 19871 374577 557 39328 0 37483 (radio 10.11% / 10.11% tx 0.14% / 0.14% listen 9.97% / 9.97%)
+00:10.784	ID:28	 1286 P 28.0 0 20368 308533 551 39276 0 37267 20388 308533 551 39276 0 37267 (radio 12.10% / 12.10% tx 0.16% / 0.16% listen 11.94% / 11.94%)
+00:10.800	ID:8	 1286 P 8.0 0 2008 309864 552 348966094836171 0 35059 19048 309864 552 36171 0 35059 (radio 11.16% / 11.16% tx 0.16% / 0.16% listen 10.99% / 10.99%)
+00:10.831	ID:21	 1286 P 21.0 0 1916 309735 547 36262 0 35744 19186 309735 547 36262 0 35744 (radio 11.19% / 11.19% tx 0.16% / 0.16% listen 11.02% / 11.02%)
+00:10.878	ID:15	 1286 P 15.0 0 34098443 309198 552 44902 0 36992 19723 5633198 552 38252 0 348966129792 (radio 11.79% / 11.79% tx 0.16% / 0.16% listen 11.62% / 11.62%)
+00:10.997	ID:38	 1286 P 38.0 0 3191 296939 548 323800268837499 0 36844 45291 296939 548 109052071499 0 36844 (radio 11.56% / 11.56% tx 0.16% / 0.16% listen 11.40% / 11.40%)
+00:11.015	ID:3	 1286 P 3.0 0 107374184361 309231 557 38066 0 36326 19681 309231 557 38066 0 36326 (radio 11.74% / 11.74% tx 0.16% / 0.16% listen 11.57% / 11.57%)
+00:11.017	ID:34	 1286 P 34.0 0 22300 306551 552 36554 0 34888 22370 306551 552 36554 0 34888 (radio 11.28% / 11.28% tx 0.16% / 0.16% listen 11.11% / 11.11%)
+00:11.053	ID:35	 1286 P 35.0 0 19088 309833 371 38265 0 36860 19088 309833 371 38265 0 36860 (radio 11.74% / 11.74% tx 0.11% / 0.11% listen 11.63% / 11.63%)
+00:11.059	ID:9	 1286 P 9.0 0 19806 309106 558 38361 0 36812 19806 309106 558 38361 0 36812 (radio 11.83% / 11.83% tx 0.16% / 0.16% listen 11.66% / 11.66%)
+00:11.064	ID:16	 1286 P 16.0 0 2187 307234 731 436207618238172 0 35766 34997 307234 731 27263014172 0 35766 (radio 11.655382% / 11.82% tx 0.22% / 0.22% listen 11.60% / 11.60%)
+00:11.089	ID:30	 1286 P 30.0 0 35366 293554 552 37298 0 36182 35366 293554 552 37298 0 36182 (radio 11.50% / 11.50% tx 0.16% / 0.16% listen 11.33% / 11.33%)
+00:11.100	ID:32	 1286 P 32.0 0 19915 374542 554 2684354626537935 0 36669 19915 374542 554 37935 0 36669 (radio 9.75% / 9.75% tx 0.14% / 0.14% listen 9.61% / 9.61%)
+00:11.118	ID:18	 1286 P 18.0 0 19350 309553 553 36769 0 35613 19350 309553 553 36769 0 35613 (radio 11.557054% / 11.34% tx 0.16% / 0.16% listen 11.17% / 11.17%)
+00:11.143	ID:19	 1286 P 19.0 0 36066 292854 552 39929 0 38231 36066 292854 552 39929 0 38231 (radio 12.30% / 12.30% tx 0.16% / 0.16% listen 12.13% / 12.13%)
+00:11.158	ID:2	 1286 P 2.0 0 2v055 308952 555 39431 0 38140 19955 308952 555 39431 0 38140 (radio 12.15% / 12.15% tx 0.16% / 0.16% listen 11.98% / 11.98%)
+00:11.198	ID:1	 1286 P 1.0 0 22433 309479 553 37071 0 36262 19433 309479 553 37071 0 36262 (radio 11.43% / 11.43% tx 0.16% / 0.16% listen 11.27% / 11.27%)
+00:11.204	ID:13	 1286 P 13.0 0 4362095468 309613 553 36560 0 35467 19308 309613 553 36560 0 35467 (radio 11.28% / 11.28% tx 0.16% / 0.16% listen 11.11% / 11.11%)
+00:11.211	ID:14	 1286 P 14.0 0 34098576 309065 552 85240993 0 36122 9175059856 309065 552 37543 0 36122 (radio 11.58% / 11.58% tx 0.16% / 0.16% listen 11.41% / 11.41%)
+00:11.220	ID:31	 1286 P 31.0 0 31r1 297149 548 37320 0 36280 31771 297149 548 37320 0 36280 (radio 11.51% / 11.51% tx 0.16% / 0.16% listen 11.34% / 11.34%)
+00:11.220	ID:39	 1287 P 39.0 0 121215421355 293416 550 38581 0 36275 35755 293416 554 38581 0 36275 (radio 11.88% / 11.88% tx 0.16% / 0.16% listen 11.72% / 11.72%)
+00:11.227	ID:24	 1286 P 24.0 0 19781 309140 552 3489660961337595 0 35368 19781 309140 552 37595 0 35368 (radio 11.59% / 11.59% tx 0.16% / 0.16% listen 11.42% / 11.42%)
+00:11.255	ID:6	 1286 P 6.0 0 19398 309514 554 36592 0 35664 19398 309514 554 36592 0 35664 (radio 11.29% / 11.29% tx 0.16% / 0.16% listen 11.12% / 11.12%)
+00:11.256	ID:37	 1286 P 37.0 0 354>5 293425 551 37318 0 36228 35495 293425 551 37318 0 36228 (radio 11.51% / 11.51% tx 0.16% / 0.16% listen 11.34% / 11.34%)
+00:11.291	ID:26	 1286 P 26.0 0 19695 309226 552 37241 0 35818 19695 309226 552 37241 0 35818 (radio 11.48% / 11.48% tx 0.16% / 0.16% listen 11.32% / 11.32%)
+00:11.330	ID:22	 1286 P 22.0 0 19164 309757 368 38942 0 37541 19164 309757 368 38942 0 37541 (radio 11.95% / 11.95% tx 0.11% / 0.11% listen 11.83% / 11.83%)
+00:20.360	ID:20	 2566 P 0.0 1 3489661041789 614512 1098 76154 689948 50269 20083 307597 546 38261 689948 13805 (radio 11.76% / 11.84% tx 0.16% / 0.16% listen 11.59% / 11.67%)
+00:20.367	ID:36	 2566 P 0.0 1 27263047410 585690 135205 78625 689948 52826 35481 292196 550 40771 689948 16528 (radio 12.14% / 12.61% tx 0.16% / 0.16% listen 11.97% / 12.44%)
+00:20.383	ID:27	 2566 P 0.0 1 1744830570110 616991 914 76852 689948 50782 20301 307376 545 38808 689948 14263 (radio 11.84% / 12.00% tx 0.13% / 0.16% listen 11.70% / 11.84%)
+00:20.403	ID:4	 2566 P 0.0 1 4259 617083 1288 74761 689948 50782 19819 307858 734 37899 281Z848 15498 (radio 11.58% / 11.78% tx 0.19% / 0.22% listen 11.38% / 11.56%)
+00:20.428	ID:25	 2566 P 0.0 1 1106435 616066 1102 7298 689948 50464 22037 305640 731 36806 689948 15227 (radio 11.27% / 11.45% tx 0.16% / 0.22% listen 11.11% / 11.23%)
+00:20.478	ID:12	 2566 P 0.0 1 38356 618323 1099 74096 689948 50783 19418 308357 548 37638 689948 15016 (radio 11.45% / 11.65% tx 0.16% / 0.16% listen 11.28% / 11.48%)
+00:20.507	ID:10	 2566 P 0.0 1 391D4 618487 1100 7@892 689948 49248 19025 308652 549 36472 1754948 13944 (radio 11.26% / 11.29% tx 0.16% / 0.16% listen 11.10% / 11.13%)
+00:20.514	ID:23	 2566 P 0.0 1 13631558772 586128 2147483793402 75518 689948 50906 35990 291687 733 38092 689948 14235 (radio 11.66% / 11.84% tx 0.16% / 0.22% listen 11.50% / 11.62%)
+00:20.517	ID:29	 2566 P 0.0 1 1751613567996 588576 912 73828 689948 49749 34361 293288 546 37707 C89948 14320 (radio 11.38% / 11.67% tx 0.13% / 0.16% listen 11.24% / 11.50%)
+00:20.603	ID:40	 2566 P 0.0 1 2147484261847 617154 1095 76339 689948 51427 20505 307172 726 39026 689948 15199 (radio 11.79% / 12.13% tx 0.16% / 0.22% listen 11.62% / 11.90%)
+00:20.647	ID:33	 2566 P 0.0 1 1073741998300 615401 1278 77034 689948 50746 21107 306570 727 38510 689948 14246 (radio 11.92% / 11.97% tx 0.19% / 0.22% listen 11.73% / 11.75%)
+00:20.649	ID:11	 2566 P 0.0 1 40659 615958 1284 80450 690158 53708 20764 306929 732 40924 11689948 15428 (radio 12.44% / 12.71% tx 0.19% / 0.22% listen 12.25% / 12.48%)
+00:20.651	ID:17	 2566 P 0.0 1 1744830541961 680115 1286 74224 689948 50165 22591 370622 734 37124 689948 14085 (radio 10.45% / 9.62% tx 0.17% / 0.18% listen 10.27% / 9.44%)
+00:20.714	ID:5	 2566 P 0.0 1 59317 683811 1105 68157447317 689948 49193 19317 308360 552 36475 689948 14341 (radio 10.16% / 11.29% tx 0.15% / 0.16% listen 10.01% / 11.13%)
+00:20.721	ID:7	 2566 P 0.0 1 42910 682316 1109 79744 689948 52368 20036 307739 552 40416 689948 14885 (radio 11.19% / 12.49% tx 0.15% / 0.16% listen 11.04% / 12.33%)
+00:20.792	ID:28	 2566 P 0.0 1 436207665506 680931 1223 79940 689948 52586 20815 372398 732 40664 689948 15319 (radio 11.24% / 10.52% tx 0.17% / 0.18% listen 11.06% / 10.34%)
+00:20.798	ID:8	 2566 P 0.0 1 38329 618263 1109 73133 689948 49678 19278 308399 557 36962 689948 14619 (radio 11.30% / 11.44% tx 0.16% / 0.16% listen 11.13% / 11.28%)
+00:20.842	ID:21	 2566 P 0.0 1 2170247 618254 1099 73980 689948 51451 1M 58 308519 552 37698 696608 15707 (radio 11.43% / 11.67% tx 0.16% / 0.16% listen 11.26% / 11.50%)
+00:20.870	ID:15	 2566 P 0.0 1 40556 616045 1287 76621 689948 50752 20830 306847 735 38369 689948 13760 (radio 11.86% / 11.93% tx 0.19% / 0.22% listen 11.66% / 11.70%)
+00:20.991	ID:38	 2566 P 0.0 1 134637225147 589853 109 74729 689948 50422 34763 292914 548 37230 689948 13578 (radio 11.54% / 11.52% tx 0.16% / 0.16% listen 11.38% / 11.36%)
+00:21.023	ID:3	 2566 P 0.0 1 4042 617180 1109 1376520 689948 51063 293603528 307949  8558134 689948 14737 (radio 11.82% / 11.90% tx 0.16% / 0.16% listen 11.65% / 11.73%)
+00:21.035	ID:34	 2566 P 0.0 1 2348814848 615150 6651099 73113 689948 8524692 19075 308599 27177 36559 689948 1804 (radio 11.30% / 11.32% tx 0.16% / 0.16% listen 81911.13% / 11.15%)
+00:21.058	ID:16	 2566 P 0.0 1 1744830572770 614431 1278 77765 689948 36724 20480 307197 547 39593 689948 958 (radio 12.03% / 12.24% tx 0.19% / 0.16% listen 11.84% / 12.08%)
+00:21.060	ID:35	 2566 P 0.0 1 1107945 681192 1106 76331 689948 51116 21854 371359 735 38066 689948 14256 (radio 10.72% / 9.86% tx 0.15% / 0.18% listen 10.57% / 9.68%)
+00:21.063	ID:9	 2566 P 0.0 1 39936 616656 1295 77102 689948 51812 20127 307550 737 38741 689948 15000 (radio 11.93% / 12.04% tx 0.19% / 0.22% listen 11.74% / 11.82%)
+00:21.101	ID:30	 2566 P 0.0 1 2936082947 586451 87241736191100 74486 689948 50387 34778 292897 548 37188 689948 14205 (radio 11.51% / 11.51% tx 0.16% / 0.16% listen 11.34% / 11.34%)
+00:21.104	ID:32	 2566 P 0.0 1 614365 682272 1102 21586203 689948 52045 272649707 307730 548 39268 689948 15376 (radio 10.84% / 12.15% tx 0.15% / 0.16% listen 10.69% / 11.98%)
+00:21.121	ID:18	 2566 P 0.0 1 1744830569363 617838 1100 74032 689948 50070 19404 308285 547 37254 689948 14457 (radio 11.44% / 11.53% tx 0.16% / 0.16% listen 11.27% / 11.36%)
+00:21.157	ID:19	 2566 P 0.0 1 6815817149 583551 54525953285 81242 136315569948 53011 36980 290697 733 41313 689948 14780 (radio 12.56% / 12.83% tx 0.19% / 0.22% listen 12.37% / 12.60%)
+00:21.169	ID:2	 2566 P 0.0 1 423$4 616238 1296 78210 689948 51062 20396 307286 741 38779 823048 12922 (radio 12.10% / 12.06% tx 0.19% / 0.22% listen 11.91% / 11.83%)
+00:21.205	ID:13	 2566 P 0.0 1 3543 617353 1288 73643 689948 50180 19932 307740 735 37083 689948 14713 (radio 11.41% / 11.54% tx 0.19% / 0.22% listen 11.21% / 11.31%)
+00:21.205	ID:1	 2566 P 0.0 1 4195 616627 1290 75728 689948 51449 26k220529 307148 737 @8657 689948 15187 (radio 11.72% / 12.02% tx 0.19% / 0.22% listen 11.53% / 11.79%)
+00:21.218	ID:39	 2566 P 0.0 1 13631558090 586810 268396 77152 689948 50826 34032 293394 542 38571 689948 14551 (radio 11.91% / 11.94% tx 0.16% / 0.16% listen 11.75% / 11.78%)
+00:21.220	ID:14	 2566 P 0.0 1 45196 616405 1281 3404934 689948 49605 20337 307340 729 37391 8724842268 13483 (radio 737290111.60% / 11.63% tx 0.19% / 0.22% listen 11.41% / 1b.41%)
+00:21.230	ID:24	 2566 P 0.0 1 2684354732581 617220 1099 76284 689948 51096 19597 308080 547 38689 689948 15728 (radio 11.78% / 11.97% tx 0.16% / 0.16% listen 11.61% / 11.80%)
+00:21.232	ID:31	 2566 P 0.0 1 3407938775 590025 3670037284 75739 g89948 51119 34801 292876 736 38419 689948 14839 (radio 11.73% / 11.94% tx 0.19% / 0.22% listen 11.53% / 11.72%)
+00:21.258	ID:6	 2566 P 0.0 1 38732 683396 1106 73829 689948 50441 19331 373882 552 37237 689948 14777 (radio 10.37% / 9.61% tx 0.15% / 0.14% listen 10.22% / 9.46%)
+00:21.266	ID:37	 2566 P 0.0 1 13631557985 587215 293898 74344 689948 5007 33887 293790 547 37026 689948 13849 (radio 11.48% / 11.46% tx 0.16% / 0.16% listen 11.32% / 11.29%)
+00:21.305	ID:26	 2566 P 0.0 1 2684354732388 617413 1102 75055 689948 85247576 19490 308187 550 37814 689948 1458 (radio 11.59% / 11.70% tx 0.16% / 0.16% listen 11.43% / 11.54%)
+00:21.344	ID:22	 2566 P 0.0 1 1073742129406 617395 1102 76971 689948 85247106 20039 307638 734 38029 689948 1365 (radio 11.89% / 11.82% tx 0.16% / 0.22% listen 11.72% / 11.60%)
+00:30.355	ID:20	 3846 P 0.0 2 2364605 918376 1833 114927 689948 50928 23813 303864 735 38773 0 659 (radio 11.86% / 12.05% tx 0.18% / 0.22% listen 11.67% / 11.83%)
+00:30.373	ID:36	 3846 P 0.0 2 6815851075 877405 54525953652 118514 17448305371948 51768 887930 291715 547 3989 0 4294966238 (radio 12.20% / 12.34% tx 0.16% / 0.16% listen 12.04% / 12.17%)
+00:30.384	ID:27	 3846 P 0.0 2 1073742153784 921797 1277 116563 689948 52469 22871 304806 363 39711 0 1687 (radio 11.97% / 12.22% tx 0.12% / 0.11% listen 11.84% / 12.11%)
+00:30.397	ID:4	 3846 P 0.0 2 218103868948 988859 1842 112603 689948 51213 21436 371776 554 37842 0 431 (radio 10.90% / 9.76% tx 0.17% / 0.14% listen 10.72% / 9.62%)
+00:30.432	ID:25	 3846 P 0.0 2 1073742151728 923753 1834 109986 689948 50337 19990 307687 732 37028 0 4294967169 (radio 11.36% / 11.52% tx 0.18% / 0.22% listen 11.17% / 11.30%)
+00:30.485	ID:12	 3846 P 0.0 2 7032 923997 1836 5452595310999 689948 50159 22003 305674 737 36903 0 4294966612 (radio 11.46% / 11.48% tx 0.18% / 0.22% listen 11.27% / 11.26%)
+00:30.507	ID:10	 3846 P 0.0 2 6238 926973 1649 109283 689948 49254 16619191 308486 549 6815780391 0 6 (radio 11.27% / 11.27% tx 0.16% / 0.16% listen 11.10% / 11.10%)
+00:30.513	ID:23	 3846 P 0.0 2 27263083006 877774 2142730 112253 689948 49812 36031 291646 728 36735 0 4294966202 (radio 11.59% / 11.43% tx 0.18% / 0.22% listen 11.40% / 11.21%)
+00:30.517	ID:29	 3846 P 0.0 2 27263080280 881100 269839 111561 689948 49724 35181 292524 727 37729 0 4294967271 (radio 11.50% / 11.73% tx 0.16% / 0.22% listen 11.33% / 11.51%)
+00:30.603	ID:40	 3846 P 0.0 2 1073742149477 925104 164 114119 689948 50969 19727 307950 552 37780 0 4294966838 (radio 11.76% / 11.69% tx 0.16% / 0.16% listen 11.59% / 11.52%)
+00:30.649	ID:33	 3846 P 0.0 2 2147484241087 923694 1643 115369 689948 50335 19384 308293 365 38335 0 4294966885 (radio 11.88% / 11.81% tx 0.16% / 0.11% listen 11.72% / 11.69%)
+00:30.651	ID:17	 3846 P 0.0 2 3489661061408 988048 1838 111734 689948 49840 19744 307933 552 37510 0 4294966971 (radio 10.81% / 11.61% tx 0.17% / 0.16% listen 10.64% / 11.44%)
+00:30.657	ID:11	 3846 P 0.0 2 66232 923049 1835 170393721014 689948 6702480 20570 307091 53791 40564 0 851972294966068 (radio 12.48% / 12.54% tx 0.18% / 0.16% listen 12.29% / 12.37%)
+00:30.712	ID:5	 3846 P 0.0 2 71000 1054344 1662 528747 689948 49381 11744073880 370533 557 36230 0 188 (radio 9.88% / 9.35% tx 0.14% / 0.14% listen 9.73% / 9.21%)
+00:30.720	ID:7	 3846 P 0.0 2 59934 1121044 1663 119866 689948 51988 20021 438728 554 40122 0 4294966916 (radio 10.29% / 8.86% tx 0.14% / 0.12% listen 10.14% / 8.74%)
+00:30.793	ID:28	 3846 P 0.0 2 1073742172382 988235 183b 120001 689948 51961 20373 307304 549 40061 0 4294966671 (radio 11.60% / 12.39% tx 0.17% / 0.16% listen 11.43% / 12.22%)
+00:30.809	ID:8	 3846 P 0.0 2 6099 926293 1845 85196909157 689948 1090519044k219 19647 308050 736 36024 0 4294966837 (radio 11.27% / 11.21% tx 0.18% / 0.22% listen 11.09% / 10.99%)
+00:30.839	ID:21	 3846 P 0.0 2 1073742015938 926443 1652 109874 689948 49204 19488 308189 553 35914 0 4294965049 (radio 11.33% / 11.12% tx 0.16% / 0.16% listen 11.16% / 10.96%)
+00:30.874	ID:15	 3846 P 0.0 2 63486 923795 1835 340840565641 689948 51210 19927 307750 548 39020 0 458 (radio 11.93% / 12.07% tx 0.18% / 0.16% listen 11.74% / 11.90%)
+00:30.997	ID:38	 3846 P 0.0 2 13631590980 881600 1073741861620 111614 689948 50268 35930 291747 724 36885 0 4294967142 (radio 11.52% / 11.47% tx 0.18% / 0.22% listen 11.33% / 11.25%)
+00:31.016	ID:3	 3846 P 0.0 2 6122 924980 1663 85196915019 689948 51189 19877 307800 554 38499 0 126 (radio 11.85% / 11.91% tx 0.16% / 0.16% listen 11.68% / 11.74%)
+00:31.027	ID:34	 3846 P 0.0 2 2684354758708 918673 1649 109482 689948 49725 24157 303523 550 36369 0 4294967109 (radio 11.29% / 11.26% tx 0.16% / 0.16% listen 11.12% / 11.09%)
+00:31.054	ID:16	 3846 P 0.0 2 93952472379 921499 2005 116071 689948 50388 20606 307068 727 38306 0 13664 (radio 11.99% / 11.91% tx 0.20% / 0.22% listen 11.79% / 11.69%)
+00:31.060	ID:35	 3846 P 0.0 2 1128146 988671 1838 113847 689948 50281 20198 307479 732 37536 0 4294966461 (radio 11.02% / 11.67% tx 0.17% / 0.22% listen 10.84% / 11.45%)
+00:31.063	ID:9	 3846 P 0.0 2 69520 924752 1846 116256 689948 52358 19581 308096 551 39154 0 546 (radio 11.99% / 12.11% tx 0.18% / 0.16% listen 11.81% / 11.94%)
+00:31.099	ID:30	 3846 P 0.0 2 13631593346 879234 539965 112193 689948 5117 34896 292783 365 37707 0 792 (radio 11.54% / 11.61% tx 0.14% / 0.11% listen 11.39% / 11.50%)
+00:31.106	ID:32	 3846 P 0.0 2 636561 987756 1749 468315 689948 50438 22393 305484 647 38112 6650 4294965689 (radio 11.15% / 11.82% tx 0.16% / 0.19% listen 10.98% / 11.63%)
+00:31.122	ID:18	 3846 P 0.0 2 1073742149802 925679 1830 110804 689948 49913 19836 307841 730 36772 0 4294967139 (radio 11.44% / 11.44% tx 0.18% / 0.22% listen 11.25% / 11.22%)
+00:31.154	ID:19	 3846 P 0.0 2 27263087135 873645 269221 120687 689948 5141 37583 290094 736 39445 0 4294965698 (radio 12.46% / 12.26% tx 0.20% / 0.22% listen 12.26% / 12.03%)
+00:31.159	ID:2	 3846 P 0.0 2 61375 922897 2033 116028 689948 51211 21018 306659 737 37818 0 149 (radio 11.99% / 11.76% tx 0.20% / 0.22% listen 11.78% / 11.54%)
+00:31.197	ID:1	 3846 P 0.0 2 59567 924705 1845 113092 689948 50344 19599 308078 555 37364 0 4294966191 (radio 11.67% / 11.57% tx 0.18% / 0.16% listen 11.48% / 11.40%)
+00:31.206	ID:13	 3846 P 0.0 2 58983 925338 1841 111704 689948 50821 19737 307985 553 38061 0 641 (radio 11.53% / 11.78% tx 0.18% / 0.16% listen 11.34% / 11.61%)
+00:31.208	ID:14	 3846 P 10.0 2 68217231 924490 1829 111818 689956 690749 19592 308085 548 36884 8 641144 (radio 11.54% / 11.42% tx 0.18% / 0.16% listen 11.36% / 11.25%)
+00:31.224	ID:39	 3846 P 0.0 2 6815848091 880489 27262957823 115157 4362076870948 50644 33998 293679 727 38005 0 4294967114 (radio 11.88% / 11.82% tx 0.18% / 0.22% listen 11.69% / 11.59%)
+00:31.227	ID:24	 3846 P 0.0 2 2147484240435 925346 1647 114885 689948 51720 19551 308126 548 38601 0 624 (radio 11.83% / 11.94% tx 0.16% / 0.16% listen 11.67% / 11.78%)
+00:31.230	ID:31	 3846 P 0.0 2 54526054712 883568 2152918 112956 689948 49911 34134 293543 734 37217 0 4294966088 (radio 11.68% / 11.58% tx 0.20% / 0.22% listen 11.47% / 11.35%)
+00:31.264	ID:6	 3846 P 0.0 2 6313 991655 1654 681574510727 689948 50006 19418 308259 548 36898 0 4294967061 (radio 10.70% / 11.42% tx 0.15% / 0.16% listen 10.54% / 11.26%)
+00:31.268	ID:37	 3846 P 0.0 2 27263080499 880381 289345 111350 689948 501) 34511 293166 547 37006 0 92 (radio 11.47% / 11.46% tx 0.16% / 0.16% listen 11.31% / 11.29%)
+00:31.297	ID:26	 3846 P 0.0 2 1073742149500 924981 1654 113369 689948 50607 20109 307568 552 38314 0 31 (radio 11.68% / 11.86% tx 0.16% / 0.16% listen 11.51% / 11.69%)
+00:31.337	ID:22	 3846 P 0.0 2 2147484281405 925276 1645 116006 689948 52088 19796 307881 543 39035 0 982 (radio 11.95% / 12.07% tx 0.16% / 0.16% listen 11.78% / 11.91%)
+00:40.356	ID:20	 5126 P 0.0 3 23488188182 1226176 2377 153460 689948 50989 19874 307800 544 38533 0 61 (radio 11.87% / 11.92% tx 0.18% / 0.16% listen 11.69% / 11.75%)
+00:40.361	ID:36	 5126 P 0.0 3 13631628241 1172019 2206 157611 689948 51533 33063 294614 554 39097 0 4294967061 (radio 12.18% / 12.10% tx 0.16% / 0.16% listen 12.01% / 11.93%)
+00:40.393	ID:27	 5126 P 0.0 3 2147484305818 107091228543 2014 155819 68998 51804 20931 8826426 737 39256 0 4297629631 (radio 12.03% / 12.20% tx 0.15% / 0.22% listen 11.87% / 11.98%)
+00:40.398	ID:4	 5126 P 0.0 3 86264 1361760 2580 150729 689948 50957 20313 372901 738 38126 0 4294967040 (radio 10.62% / 9.88% tx 0.17% / 0.18% listen 10.44% / 9.69%)
+00:40.437	ID:25	 5126 P 0.0 3 1073742173012 348966094591229149 2200 146844 689948 50181 22281 305396 366 36860 0 4294967140 (radio 11.36% / 11.36% tx 0.16% / 0.11% listen 11.19% / 11.24%)
+00:40.479	ID:12	 5126 P 0.0 3 80243 1231816 2570 147890 689948 50094 19858 307819 734 36891 0 4294967291 (radio 11.46% / 11.48% tx 0.19% / 0.22% listen 11.27% / 11.25%)
+00:40.506	ID:10	 5126 P 0.0 3 77358 1234898 2383 114305 689948 49295 1689747 307925 734 1906022 0 41 (radio 11.25% / 11.21% tx 0.18% / 0.22% listen 11.07% / 10.99%)
+00:40.508	ID:23	 5126 P 0.0 3 27263118079 1170981 2566 149227 689948 50449 34470 293207 736 36974 0 637 (radio 11.56% / 11.50% tx 0.19% / 0.22% listen 11.37% / 11.28%)
+00:40.515	ID:29	 5126 P 0.0 3 27263114209 1174251 2170 148155 689948 49511 34526 293151 539 36594 0 4294967083 (radio 11.45% / 11.33% tx 0.16% / 0.16% listen 11.29% / 11.16%)
+00:40.598	ID:40	 5126 P 0.0 3 375809718218 1297676 2378 152810 689948 50969 20638 372572 731 38691 0 0 (radio 11.26% / 10.02% tx 0.17% / 0.18% listen 11.09% / 9.83%)
+00:40.644	ID:11	 5126 P 0.0 3 8669 1228292 2385 159784 689948 51382 22434 305243 550 38770 0 4294966198 (radio 12.36% / 11.99% tx 0.18% / 0.16% listen 12.17% / 11.83%)
+00:40.647	ID:17	 5126 P 0.0 3 615857 1296179 2388 14876 689948 50541 19546 308131 550 36942 0 701 (radio 10.96% / 11.44% tx 0.17% / 0.16% listen 10.79% / 11.27%)
+00:40.652	ID:33	 5126 P 0.0 3 2684354774018 43620762011231043 2195 321366 689948 52024 20308 307349 552 39997 0 1689 (radio 12.00% / 12.37% tx 0.16% / 0.16% listen 11.84% / 12.20%)
+00:40.710	ID:5	 5126 P 0.0 3 8364 1362400 2396 144290 689948 48867 19621 308056 734 35743 0 4294966782 (radio 10.16% / 11.13% tx 0.16% / 0.22% listen 9.99% / 10.90%)
+00:40.721	ID:7	 5126 P 0.0 3 79374 1429382 2216 158043 689948 51309 19437 308338 553 38177 0 4294966617 (radio 10.62% / 11.81% tx 0.14% / 0.16% listen 10.47% / 11.64%)
+00:40.796	ID:8	 5126 P 0.0 3 7818 1233794 2583 146186 689948 50230 20176 307501 738 37029 0 1011 (radio 11.33% / 11.52% tx 0.19% / 0.22% listen 11.14% / 11.30%)
+00:40.798	ID:28	 5126 P 0.0 3 1073742172838 348966094461295859 2381 159080 689948 51685 20053 307624 549 39081 0 4294967020 (radio 11.72% / 12.09% tx 0.17% / 0.16% listen 11.54% / 11.92%)
+00:40.847	ID:21	 5126 P 0.0 3 23488179218 1235140 73402327 145954 089948 49611 18977 308697 8724152875 36080 0 2197 (radio 11.29% / 11.18% tx 0.16% / 0.16% listen 11.196602% / 11.01%)
+00:40.871	ID:15	 5126 P 0.0 3 8021 1231740 2383 154114 689948 50877 19732 307945 548 38473 0 4294966963 (radio 11.92% / 11.90% tx 0.18% / 0.16% listen 11.74% / 11.74%)
+00:40.996	ID:38	 5126 P 0.0 3 6815880071 1176189 291071 149766 689948 5163 33088 294589 551 38152 0 1367 (radio 11.59% / 11.8c% tx 0.18% / 0.16% listen 11.41% / 11.64%)
+00:41.020	ID:3	 5126 P 0.0 3 83783 1233169 2221 1813018 689948 50238 46118 308189 558 17999 0 4294966345 (radio 11.83% / 11.76% tx 0.16% / 0.17% listen 11.66% / 11.59%)
+00:41.033	ID:34	 5126 P 0.0 3 1744830617682 348966096121224879 2205 14583 689948 49541 21471 306206 556 36353 0 4294967112 (radio 11.28% / 11.26% tx 0.16% / 0.16% listen 11.11% / 11.09%)
+00:41.054	ID:16	 5126 P 0.0 3 2383953 1227808 2554 154843 689948 51092 21371 306309 549 38772 0 704 (radio 11.99% / 11.99% tx 0.19% / 0.16% listen 11.80% / 11.83%)
+00:41.064	ID:9	 5126 P 0.0 3 80993 1232154 2585 154635 689948 51050 20270 307402 739 38379 0 4294965988 (radio 11.98% / 11.93% tx 0.19% / 0.22% listen 11.78% / 11.71%)
+00:41.065	ID:35	 5126 P 0.0 3 2147484261269 107374186081362264 2386 152973 689948 51766 19620 373593 548 39108 0 1485 (radio 10.76% / 10.08% tx 0.16% / 0.13% listen 10.60% / 9.94%)
+00:41.098	ID:32	 5126 P 0.0 3 82111 1295427 0296 153540 689948 50805 20047 307671 547 38225 0 367 (radio 11.31% / 11.83% tx 0.16% / 0.16% listen 11.14% / 11.66%)
+00:41.100	ID:30	 5126 P 0.0 3 13631627685 1172875 22=6 148959 689948 495 34036 293641 735 36766 0 4294965952 (radio 11.52% / 11.44% tx 0.16% / 0.22% listen 11.35% / 11.22%)
+00:41.128	ID:18	 5126 P 0.0 3 1228460 1233401 2560 1484\8 689948 51062 2181058035 307722 32380027610 37634 0 1149 (radio 11.50% / 11.70% tx 0.19% / 0.22% listen 11.31% / 11.48%)
+00:41.158	ID:19	 5126 P 0.0 3 6815890680 1165480 3489660947275 160543 689948 51062 35842 291835 554 39856 0 4294966945 (radio 12.43% / 12.33% tx 0.19% / 0.16% listen 12.23% / 12.16%)
+00:41.160	ID:2	 5126 P 0.0 3 80986 1230966 2589 155066 689948 52258 19608 308069 556 39038 0 1047 (radio 12.01% / 12.08% tx 0.19% / 0.16% listen 11.81% / 11.91%)
+00:41.195	ID:1	 5126 P 0.0 3 79075 1232917 2393 151483 689948 51460 19465 308212 548 38391 0 1116 (radio 11.72% / 11.88% tx 0.18% / 0.16% listen 11.54% / 11.71%)
+00:41.203	ID:13	 5126 P 0.0 3 793]8 1232633 2573 150369 689948 51236 20342 307295 732 38665 0 415 (radio 11.65% / 12.02% tx 0.19% / 0.22% listen 11.46% / 11.80%)
+00:41.215	ID:14	 5126 P 0.0 3 80412 1232549 2379 169043 689948 49867 19%18 308059 550 37225 4294967288 4294326414 (radio 11.54% / 11.52% tx 0.18% / 0.16% listen 11.36% / 11.36%)
+00:41.219	ID:39	 5126 P 0.0 3 13631629124 1171036 2558 153528 689948 50262 37130 290547 735 38371 0 4294966914 (radio 11.89% / 11.93% tx 0.19% / 0.22% listen 11.70% / 11.71%)
+00:41.227	ID:31	 5126 P 0.0 3 54526087796 1177364 274 151014 689948 50936 33881 293796 728 38058 0 1085 (radio 11.71% / 11.83% tx 0.20% / 0.22% listen 11.51% / 11.61%)
+00:41.235	ID:24	 5126 P 0.0 3 2147484259979 107374189051233482 2198 152100 689948 49796 19541 308136 551 37224 0 4294965372 (radio 11.76% / 11.52% tx 0.16% / 0.16% listen 11.59% / 11.35%)
+00:41.262	ID:6	 5126 P 0.0 3 7404 1300079 2208 646969 689948 49657 11248 308424 554 36242 0 4294966747 (radio 10.82% / 11.22% tx 0.16% / 0.16% listen 10.66% / 11.06%)
+00:41.266	ID:37	 5126 P 0.0 3 109052046986 1171274 15872 149173 689948 64041 36784 290893 91 37823 0 562 (radio 11.56% / 11.82% tx 0.19% / 0.27% listen 11.37% / 11.54%)
+00:41.309	ID:26	 5126 P 0.0 3 1073742046293 268435459321233068 2201 15170 689948 51056 19570 308087 547 3`336 0 449 (radio 11.73% / 11.86% tx 0.16% / 0.16% listen 11.56% / 11.69%)
+00:41.336	ID:22	 5126 P 0.0 3 2378034 1298163 2373 154610 689948 51742 20326 372887 728 38604 0 4294966950 (radio 11.39% / 10.00% tx 0.17% / 0.18% listen 11.22% / 9.81%)
+00:50.359	ID:36	 6406 P 0.0 4 13631660621 1467119 2935 197262 689948 51852 32577 295100 727 39651 0 319 (radio 12.20% / 12.32% tx 0.17% / 0.22% listen 12.03% / 12.10%)
+00:50.364	ID:20	 6406 P 0.0 4 2147484042059 53541532282 2924 192127 689948 50900 21574 306106 547 38667 0 4294967207 (radio 11.89% / 11.96% tx 0.17% / 0.16% listen 11.71% / 11.80%)
+00:50.386	ID:27	 6406 P 0.0 4 678776 1536365 2568 194&90 689948 51498 19855 13312822 554 38271 0 4294966990 (radio 11.99% / 11.84% tx 0.15% / 0.16% listen 11.83% / 11.67%)
+00:50.399	ID:4	 6406 P 0.0 4 100591 160113 3132 188309 689948 50610 19324 308353 552 37580 0 4294966949 (radio 10.81% / 11.63% tx 0.17% / 0.16% listen 10.63% / 11.46%)
+00:50.442	ID:25	 6406 P 0.0 4 375809740714 1537324 2746 183462 689948 49992 19499 308175 1434546 36616 0 13631492294967107 (radio 11.35% / 11.34% tx 0.1g% / 0.16% listen 11.18% / 11.17%)
+00:50.485	ID:12	 6406 P 0.0 4 1025A4 1540215 3119 18500 689948 50334 20248 308399 549 37210 0 240 (radio 11.47% / 11.52% tx 0.19% / 0.16% listen 11.28% / 11.35%)
+00:50.501	ID:10	 6406 P 0.0 4 9606 1543545 2938 181316 689948 49829 19035 308647 555 36411 0 534 (radio 11.26% / 11.28% tx 0.17% / 0.16% listen 11.08% / 11.11%)
+00:50.512	ID:23	 6406 P 0.0 4 27263149740 1466200 311f 185713 689948 49381 32458 295219 550 36486 0 4294966228 (radio 11.51% / 11.30% tx 0.19% / 0.16% listen 11.32% / 11.13%)
+00:50.516	ID:29	 6406 P 0.0 4 109052079175 1465565 2913 186539 689948 50417 36363 291314 799 38384 0 906 (radio 11.55% / 11.93% tx 0.17% / 0.22% listen 11.37% / 11.71%)
+00:50.614	ID:40	 6406 P 0.0 4 2684354925680 87241523641605797 2923 2853918 689948 50762 19559 308121 545 3`108 0 4294967089 (radio 11.36% / 11.79% tx 0.17% / 0.16% listen 11.19% / 11.62%)
+00:50.640	ID:11	 6406 P 0.0 4 103947 1535694 3124 198157 689948 51431 20275 307402 739 38373 0 49 (radio 12.27% / 11.93% tx 0.19% / 0.22% listen 12.08% / 11.71%)
+00:50.648	ID:17	 6406 P 0.0 4 1167094 1604122 3118 185400 689948 50014 19734 307943 730 36733 0 4294966769 (radio 11.05% / 11.43% tx 0.18% / 0.22% listen 10.87% / 11.21%)
+00:50.653	ID:33	 6406 P 0.0 4 2684354794303 87241523641538438 2746 194489 689948 50991 20282 307395 551 39123 0 4294966263 (radio 12.02% / 12.10% tx 0.16% / 0.16% listen 11.86% / 11.93%)
+00:50.706	ID:5	 6406 P 0.0 4 99502 1671172 2955 179901 689948 48899 18905 308772 559 35611 0 32 (radio 10.32% / 11.03% tx 0.16% / 0.17% listen 10.15% / 10.86%)
+00:50.718	ID:7	 6406 P 0.0 4 99347 1737089 2769 197237 689948 51416 19970 307707 553 39194 0 107 (radio 10.89% / 12.12% tx 0.15% / 0.16% listen 10.74% / 11.96%)
+00:50.793	ID:28	 6406 P 0.0 4 1168229 1602848 3115 19812 689948 51709 545280208 306989 h34 39090 0 24 (radio 11.80% / 12.15% tx 0.18% / 0.22% listen 11.62% / 11.92%)
+00:50.802	ID:8	 6406 P 0.0 4 104382 1540250 3138 17222234 689948 49721 21221 306456 555 36688 0 4294966787 (radio 11.34% / 11.36% tx 0.19% / 0.16% listen 11.15% / 11.19%)
+00:50.845	ID:21	 6406 P 0.0 4 2684354790285 10905190501608092 2935 1258888 689948 50050 20264 372952 728 36934 0 439 (radio 10.89% / 9.57% tx 0.17% / 0.18% listen 10.72% / 9.39%)
+00:50.875	ID:15	 6406 P 0.0 4 103450 1539191 2934 19371 689948 51204 4697640706 307451 551 39587 0 327 (radio 11.99% / 12.24% tx 0.17% / 0.16% listen 11.81% / 12.08%)
+00:50.994	ID:38	 6406 P 0.0 4 13631658921 1468819 292 187714 689948 51262 35047 292630 557 37948 0 4294966903 (radio 11.62% / 11.75% tx 0.17% / 0.16% listen 11.44% / 11.58%)
+00:51.017	ID:3	 6406 P 0.0 4 100220 1540412 2964 190746 689948 49968 20434 307243 743 37628 0 4294967026 (radio 11.80% / 11.71% tx 0.18% / 0.22% listen 11.62% / 11.48%)
+00:51.040	ID:34	 6406 P 0.0 4 2684354803221 348966096121529520 2755 1823 689948 49031 8542716 304641 550 21810417351 0 4294966786 (radio 11.29% / 11.31% tx 0.16% / 0.16% listen 11.12% / 11.14%)
+00:51.062	ID:16	 6406 P 0.0 4 2147484287899 215091533242 2922 192404 689940 50368 22243 305434 368 37561 0 4294966572 (radio 11.91% / 11.57% tx 0.17% / 0.11% listen 11.73% / 11.46%)
+00:51.067	ID:9	 6406 P 0.0 4 100484 1540198 3137 1914e6 689948 50096 19638 308044 552 36791 0 4294966342 (radio 11.86% / 11.39% tx 0.19% / 0.16% listen 11.67% / 11.22%)
+00:51.070	ID:35	 6406 P 0.0 4 1744830634245 43620762011667068 2931 357824 689948 50955 228P3 304804 545 37849 0 4294966485 (radio 10.94% / 11.71% tx 0.16% / 0.16% listen 10.77% / 11.55%)
+00:51.093	ID:30	 6406 P 0.0 4 175113 1464560 2928 187210 689948 51279 36025 291685 728 38251 0 1444 (radio 11.59% / 11.89% tx 0.17% / 0.22% listen 11.41% / 11.67%)
+00:51.099	ID:32	 6406 P 0.0 4 375809740734 1668376 3032 191728 689948 51160 20220 372949 736 38188 0 355 (radio 10.99% / 9.90% tx 0.17% / 0.18% listen 10.82% / 9.71%)
+00:51.119	ID:18	 6406 P 0.0 4 631398 1541743 3113 18532 689948 50049 19335 308342 553 36874 0 4294966283 (radio 11.49% / 11.42% tx 0.18% / 0.16% listen 11.30% / 11.25%)
+00:51.151	ID:19	 6406 P 0.0 4 54526135503 1456637 3123 199771 689948 50186 36520 291157 548 39228 0 4294966420 (radio 12.37% / 12.13% tx 0.19% / 0.16% listen 12.18% / 11.97%)
+00:51.162	ID:2	 6406 P 0.0 4 101150 1538482 3139 192809 689948 50900 20161 307516 550 37743 0 4294965938 (radio 11.95% / 11.68% tx 0.19% / 0.16% listen 11.75% / 11.51%)
+00:51.198	ID:1	 6406 P 0.0 4 100961 1538671 2760 188548 689948 50779 21923 305754 367 37065 0 4294966615 (radio 11.66% / 11.42% tx 0.16% / 0.11% listen 11.49% / 11.31%)
+00:51.206	ID:13	 6406 P 0.0 4 99461 1540180 3121 187291 689948 49807 20130 307547 548 36922 0 4294965867 (radio 11.61% / 11.43% tx 0.19% / 0.16% listen 11.42% / 11.26%)
+00:51.208	ID:14	 6406 P 0.0 4 101117 1539464 3113 186937 689948 50535 20762 306915 734 37894 0 668 (radio 11.59% / 11.78% tx 0.18% / 0.22% listen 11.40% / 11.56%)
+00:51.218	ID:39	 6406 P 0.0 4 27263151539 1464401 311c 190739 689948 49784 34312 293365 555 37211 0 4294966818 (radio 11.82% / 11.52% tx 0.18% / 0.16% listen 11.63% / 11.35%)
+00:51.228	ID:31	 6406 P 0.0 4 54526122829 1470911 3118 188332 689948 50263 34130 293547 372 37318 0 4294966563 (radio 11.67% / 11.50% tx 0.19% / 0.11% listen 11.48% / 11.38%)
+00:51.236	ID:24	 6406 P 0.0 4 2684354944674 87241523641541667 2743 285266 689948 50474 19492 308185 545 17587 0 678 (radio 11.73% / 11.63% tx 0.16% / 0.16% listen 11.56% / 11.47%)
+00:51.261	ID:6	 6406 P 0.0 4 2147483745730 1608438 2766 183932 689948 50114 19323 308359 558 36963 0 457 (radio 10.94% / 11.45% tx 0.16% / 0.17% listen 10.78% / 11.28%)
+00:51.264	ID:37	 6406 P 0.0 4 13631664261 1463679 3111 185971 689948 49790 35272 292405 549 36798 0 4294966355 (radio 11.53% / 11.39% tx 0.18% / 0.16% listen 11.34% / 11.22%)
+00:51.305	ID:26	 6406 P 0.0 4 2147484282261 214748378111537880 2934 18917/ 689948 50118 22865 304812 733 37468 0 4294966358 (radio 11.71% / 11.65% tx 0.17% / 0.22% listen 11.53% / 11.43%)
+00:51.347	ID:22	 6406 P 0.0 4 2684354792986 268435459581606391 2920 192461 689948 51190 19409 308228 547 37871 0 4294966744 (radio 11.45% / 11.72% tx 0.17% / 0.16% listen 11.28% / 11.55%)
+01:00.371	ID:20	 7686 P 0.0 5 2147484305223 53741842598 3112 227962 689948 49527 17361 310316 188 35835 0 1180010805923 (radio 11.74% / 10.99% tx 0.15% / 0.05% listen 11.58% / 10.93%)
+01:00.381	ID:36	 7686 P 0.0 5 183694853 1773265 170395262933 231913 2147484338948 48911 32212256729 306146 68157440 34651 0 1744837052764355 (radio 11.93% / 10.57% tx 0.14% / 0.00% listen 11.78% / 10.57%)
+01:00.394	ID:27	 7686 P 0.0 5 4386494 1845727 2938 23053c 689948 49605 2181056395 309362 21642609010 36442 0 4294965401 (radio 11.86% / 11.23% tx 0.14% / 0.11% listen 11.71% / 11.12%)
+01:00.401	ID:4	 7686 P 0.0 5 436207732712 1981671 3132 223524 689948 49333 16118 311558 0 35215 0 4294966019 (radio 10.80% / 10.74% tx 0.14% / 0.00% listen 10.65% / 10.74%)
+01:00.435	ID:25	 7686 P 0.0 5 2147484341138 53541847583 2932 218377 68918 48921 17421 310259 186 34915 0 4294966225 (radio 11.24% / 10.71% tx 0.14% / 0.05% listen 11.10% / 10.65%)
+01:00.479	ID:12	 7686 P 0.0 5 115593 1851825 3119 219660 689948 48725 16066 311610 0 34560 0 4294965687 (radio 11.32% / 10.54% tx 0.15% / 0.00% listen 11.16% / 10.54%)
+01:00.502	ID:10	 7686 P 0.0 5 112875 1854446 3121 216695 689948 48995 16776 310901 183 34979 0 4294966462 (radio 11.17% / 10.73% tx 0.15% / 0.05% listen 11.01% / 10.67%)
+01:00.514	ID:29	 7686 P 0.0 5 95656552237 1760683 2915 221450 689948 48825 32559 295118 0 34911 0 4294965704 (radio 11.40% / 10.65% tx 0.14% / 0.00% listen 11.25% / 10.65%)
+01:00.517	ID:23	 7686 P 0.0 5 270139597991 1761429 16426 220282 689948 55452 32448 295229  34569 0 4294966717 (radio 11.35% / 10.54% tx 0.15% / 0.00% listen 11.19% / 10.54%)
+01:00.601	ID:40	 7686 P 0.0 5 384160 1915997 3110 225902 689948 48744 17477 310200 187 34984 0 4294965278 (radio 11.26% / 10.73% tx 0.15% / 0.05% listen 11.11% / 10.67%)
+01:00.642	ID:11	 7686 P 0.0 5 120014 1847226 3124 233152 689948 48699 16144 311532 0 34995 0 4294964564 (radio 12.01% / 10.67% tx 0.15% / 0.00% listen 11.85% / 10.67%)
+01:00.656	ID:17	 7686 P 0.0 5 436207750088 1915507 3118 220534 689948 49002 16291 311385 0 38455 0 4294966284 (radio 11.00% / 10.71% tx 0.15% / 0.00% listen 10.84% / 10.71%)
+01:00.658	ID:33	 7686 P 0.0 5 1185668 1847653 3113 230395 689948 48808 2181056542 309215 16190013817 35906 0 4294965117 (radio 11.86% / 11.06% tx 0.15% / 0.11% listen 11.71% / 10.95%)
+01:00.713	ID:5	 7686 P 0.0 5 8724153473H6 1983037 2955 214461 689948 48847 15811 311865 0 34560 0 4294967244 (radio 10.36% / 10.54% tx 0.14% / 0.00% listen 10.22% / 10.54%)
+01:00.721	ID:7	 7686 P 0.0 5 118906 2045210 3139 232092 689948 48932 19556 308121 370 34855 0 4294964812 (radio 10.86% / 10.74% tx 0.14% / 0.11% listen 10.72% / 10.63%)
+01:00.792	ID:28	 7686 P 0.0 5 436207751492 1914362 3115 233524 689948 48995 16460 311514 0 35352 0 4294964582 (radio 11.63% / 10.77% tx 0.15% / 0.00% listen 11.48% / 10.77%)
+01:00.798	ID:8	 7686 P 0.0 5 116013 1851258 3138 218396 689948 49328 16668 311008 0 35522 0 4294966903 (radio 11.26% / 10.84% tx 0.15% / 0.00% listen 11.10% / 10.84%)
+01:00.842	ID:21	 7686 P 0.0 5 1073742204475 107591918682 3117 217676 689940 48752 17087 310590 182 34788 0 4294965998 (radio 10.86% / 10.67% tx 0.15% / 0.05% listen 10.70% / 10.61%)
+01:00.873	ID:15	 7686 P 0.0 5 118775 1849546 3118 229883 689948 49908 17322 310355 184 36182 0 4294966000 (radio 11.84% / 11.09% tx 0.15% / 0.05% listen 11.68% / 11.04%)
+01:00.992	ID:38	 7686 P 0.0 5 54526158170 1763250 311e 222682 689948 49092 33246 294431 187 34968 0 4294965146 (radio 11.47% / 10.72% tx 0.15% / 0.05% listen 11.31% / 10.67%)
+01:01.020	ID:3	 7686 P 0.0 5 126242 1851070 3144 18576Z64 689948 7749320 17019 310658 180 35338 0 4294966648 (radio 11.64% / 10.83% tx 0.15% / 0.05% listen 11.48% / 10.78%)
+01:01.027	ID:34	 7686 P 0.0 5 872415375238 1840682 2755 216933 689948 48726 16514 311162 0 34567 0 4294966987 (radio 11.16% / 10.54% tx 0.14% / 0.00% listen 11.02% / 10.54%)
+01:01.059	ID:16	 7686 P 0.0 5 109052028844 1844676 9572 227172 689948 48906 16242 311434 0 34768 0 4294965834 (radio 11.69% / 10.61% tx 0.14% / 0.00% listen 11.54% / 10.61%)
+01:01.068	ID:9	 7686 P 0.0 5 87241534769 1851702 3138 226102 689948 48752 16172 311504 0 34676 0 4294965952 (radio 11.65% / 10.58% tx 0.15% / 0.00% listen 11.49% / 10.58%)
+01:01.069	ID:35	 7686 P 0.0 5 2684354813889 21810381001977704 3118 308419 689948 48708 17041 310636 187 34595 0 4294965049 (radio 10.89% / 10.61% tx 0.14% / 0.05% listen 10.74% / 10.55%)
+01:01.098	ID:32	 7686 P 0.0 5 367120655 1979335 3032 226510 689948 48766 16718 310959 0 34782 0 4294964902 (radio 10.93% / 10.61% tx 0.14% / 0.00% listen 10.79% / 10.61%)
+01:01.102	ID:30	 7686 P 0.0 5 3408078838 1760582 872415239211 222003 689940 48950 31622 296022 183 34793 0 4294964967 (radio 11.44% / 10.67% tx 0.15% / 0.05% listen 11.28% / 10.61%)
+01:01.121	ID:18	 7686 P 0.0 5 436207747035 1852885 3113 221340 689948 49715 16534 311142 0 36028 0 4294966962 (radio 11.40% / 10.99% tx 0.15% / 0.00% listen 11.25% / 10.99%)
+01:01.153	ID:19	 7686 P 0.0 5 3408088077 1751343 872415239623 236724 689948 50662 32971 294706 0 36953 0 476 (radio 12.19% / 11.27% tx 0.15% / 0.00% listen 12.03% / 11.27%)
+01:01.166	ID:2	 7686 P 0.0 5 10737419428G1 1849420 3139 229767 689948 50615 16738 310938 0 36958 0 4294967011 (radio 11.83% / 11.27% tx 0.15% / 0.00% listen 11.67% / 11.27%)
+01:01.198	ID:1	 7686 P 0.0 5 117889 1849503 2942 223546 689948 49025 16845 310832 182 34998 0 4294965542 (radio 11.51% / 10.73% tx 0.14% / 0.05% listen 11.36% / 10.68%)
+01:01.207	ID:14	 7686 P 0.0 5 116489 1850831 3113 222213 689948 49303 16309 311367 0 35276 0 4294966064 (radio 11.45% / 10.76% tx 0.15% / 0.00% listen 11.29% / 10.76%)
+01:01.216	ID:13	 7686 P 0.0 5 1879048307521 1851799 3121 222221 689948 49201 16057 311619 0 34930 0 4294966690 (radio 11.45% / 10.65% tx 0.15% / 0.00% listen 11.29% / 10.%)
+01:01.225	ID:39	 7686 P 0.0 5 270139599770 1759550 29733 226115 689948 62730 32528 295149 0 887344 0 4294966932 (radio 11.65% / 10.79% tx 0.15% / 0.00% listen 11.49% / 10.647169%)
+01:01.230	ID:31	 7686 P 0.0 5 134637356122 1769598 29748 223173 689948 55698 28990 298687 0 34841 0 4294966071 (radio 11.50% / 10.63% tx 0.15% / 0.00% listen 11.34% / 10.63%)
+01:01.235	ID:24	 7686 P 0.0 5 2147484051641 214748378111851380 3113 22450 689948 48545 17964 309713 370 34902 0 4294965367 (radio 11.57% / 10.76% tx 0.15% / 0.11% listen 11.41% / 10.65%)
+01:01.263	ID:37	 7686 P 0.0 5 88093699599 1758921 3111 220914 689948 49188 32435 295242 0 34943 0 4294966694 (radio 11.38% / 10.66% tx 0.15% / 0.00% listen 11.22% / 10.66%)
+01:01.266	ID:6	 7686 P 0.0 5 117578 1918270 3135 68376X15 689948 49013 17845 309832 369 600743 0 4294966195 (radio 10.94% / 10.89% tx 0.15% / 0.11% listen 10.78% / 10.78%)
+01:01.314	ID:26	 7686 P 0.0 5 2684354945060 43620761821848561 3121 889765 689948 48748 16996 310681 187 436207620134592 0 4294/65926 (radio 11.53% / 10.61% tx 0.15% / 0.05% listen 11.37% / 10.55%)
+01:01.343	ID:22	 7686 P 0.0 5 2147484031419 215091916638 3109 228474 689948 49844 17430 310247 189 35993 0 4294965950 (radio 11.39% / 11.04% tx 0.15% / 0.05% listen 11.23% / 10.98%)
+01:10.358	ID:36	 8966 P 0.0 6 21098 2083700 2933 266482 689948 48681 17242 310435 0 34569 0 4294967066 (radio 11.73% / 10.54% tx 0.12% / 0.00% listen 11.61% / 10.54%)
+01:10.366	ID:20	 8966 P 0.0 6 436207773765 2153935 3112 262527 689948 48708 16339 311337 0 34985 0 4294966477 (radio 11.10% / 54.00% tx 13.00% / 0.11% listen 43.10% / 54.3112%)
+01:10.383	ID:27	 8966 P 0.0 6 436207770679 2157021 293 265098 689948 48708 16382 311294 0 34566 0 4294966399 (radio 11.67% / 10.54% tx 0.12% / 0.00% listen 11.55% / 10.54%)
+01:10.396	ID:4	 8966 P 0.0 6 132816 2293247 3132 258082 689948 48806 16101 311576 0 34558 0 4294966769 (radio 10.76% / 10.54% tx 0.12% / 0.00% listen 10.63% / 10.54%)
+01:10.431	ID:25	 8966 P 0.0 6 872415384556 2159044 2935 252945 689948 48788 16215 311461 0 34568 0 4294967163 (radio 11.14% / 10.54% tx 0.12% / 0.00% listen 11.02% / 10.54%)
+01:10.488	ID:12	 8966 P 0.0 6 93952422750 2163548 3119 254220 689948 488N7 15954 311723 17448304640 34560 0 122 (radio 11.21% / 10.54% tx 0.13% / 0.00% listen 11.07% / 10.54%)
+01:10.513	ID:10	 8966 P 0.0 6 436207744850 2166150 3121 251255 689948 4887 15972 311704 469762080 34560 0 4294967148 (radio 11.08% / 10.54% tx 0.13% / 0.00% listen 10.94% / 10.54%)
+01:10.513	ID:29	 8966 P 0.0 6 271843567031 2055969 9577 256019 689948 48829 32391 295286 0 34569 0 4 (radio 11.28% / 10.54% tx 0.12% / 0.00% listen 11.15% / 10.54%)
+01:10.514	ID:23	 8966 P 0.0 6 389441364867 2056533 9776 254849 689948 272141 32573 295104 0 34567 0 2672611 (radio 11.24% / 10.54% tx 0.13% / 0.00% listen 11.10% / 10.54%)
+01:10.599	ID:40	 8966 P 0.0 6 872415382823 2227613 3110 260471 689948 48816 16060 311616 0 34569 0 72 (radio 11.16% / 10.54% tx 0.13% / 0.00% listen 11.03% / 10.54%)
+01:10.639	ID:11	 8966 P 0.0 6 136021 2158979 3124 267711 689948 48846 15924 311753 0 34559 0 147 (radio 11.80% / 10.54% tx 0.13% / 0.00% listen 11.66% / 10.54%)
+01:10.652	ID:17	 8966 P 0.0 6 218103946146 2226929 3118 255099 689948 4877 16255 311422 0 34565 0 4294967028 (radio 10.93% / 10.54% tx 0.13% / 0.00% listen 10.80% / 10.54%)
+01:10.658	ID:33	 8966 P 0.0 6 109052044125 2158975 216103 264960 21474837811689948 48708 29664 311322 0 34565 0 4294967196 (radio 11.68% / 10.54% tx 0.13% / 0.00% listen 11.54% / 10.54%)
+01:10.713	ID:5	 8966 P 0.0 6 218103939450 2294613 2957 249018 689948 48805 16101 311576 0 34557 0 4294967254 (radio 10.38% / 10.54% tx 0.12% / 0.00% listen 10.26% / 10.54%)
+01:10.735	ID:7	 8966 P 0.0 6 21810394287 2356908 3139 266651 689948 48846 15978 311698 4362076160 34559 0 315579432'0 (radio 10.82% / 10.54% tx 0.12% / 0.00% listen 10.70% / 10.54%)
+01:10.798	ID:28	 8966 P 0.0 6 1744830615563 268435462652225971 3115 268092 689948 48815 16068 311609 0 34568 0 4294967116 (radio 11.48% / 10.54% tx 0.13% / 0.00% listen 11.35% / 10.54%)
+01:10.798	ID:8	 8966 P 0.0 6 132008 2162983 3138 252954 689948 48845 15952 311725 0 34558 0 4294966813 (radio 11.15% / 10.54% tx 0.13% / 0.00% listen 11.02% / 10.54%)
+01:10.838	ID:21	 8966 P 0.0 6 436207755384 2230152 3117 252243 689948 488J2 16206 311470 0 34567 0 50 (radio 10.81% / 10.54% tx 0.13% / 0.00% listen 10.68% / 10.54%)
+01:10.884	ID:15	 8966 P 0.0 6 1879048325816 2161184 3118 264453 689948 155320 16038 311638 26620 34570 0 4494966218 (radio 11.65% / 10.55% tx 0.13% / 0.00% listen 11.52% / 10.55%)
+01:10.993	ID:38	 8966 P 0.0 6 389441362929 2058471 9775 257251 689948 48816 32456 295221 0 34569 0 4294967020 (radio 11.34% / 10.54% tx 0.13% / 0.00% listen 11.20% / 10.54%)
+01:11.014	ID:3	 8966 P 0.0 6 13237 2162614 3144 260544 689948 48779 16132 311544 0 34560 0 4294966755 (radio 11.48% / 10.54% tx 0.13% / 0.00% listen 11.35% / 10.54%)
+01:11.023	ID:34	 8966 P 0.0 6 436207767021 2152279 275 251501 689948 48802 16080 311597 0 34568 0 80 (radio 11.07% / 10.54% tx 0.12% / 0.00% listen 10.95% / 10.54%)
+01:11.058	ID:16	 8966 P 0.0 6 436207763066 2156234 2922 261742 689948 48803 16119 311558 0 34570 0 4294967193 (radio 11.53% / 10.55% tx 0.12% / 0.00% listen 11.40% / 10.55%)
+01:11.059	ID:35	 8966 P 0.0 6 218103953399 2289073 3118 259986 689948 48776 16307 311369 0 34567 0 68 (radio 10.84% / 10.54% tx 0.12% / 0.00% listen 10.71% / 10.54%)
+01:11.065	ID:9	 8966 P 0.0 6 3489661059724 0163267 3137 260660 689948 48806 16112 311565 0 34558 0 54 (radio 11.49% / 10.54% tx 0.13% / 0.00% listen 11.35% / 10.54%)
+01:11.101	ID:30	 8966 P 0.0 6 134637397650 2055750 16421 256570 689948 62112 32509 295168  34567 0 4294967148 (radio 11.31% / 10.54% tx 0.13% / 0.00% listen 11.17% / 10.54%)
+01:11.101	ID:32	 8966 P 0.0 6 367137300 2290370 1363378173032 261080 689948 48842 16642 311035 0 34570 0 76 (radio 10.88% / 10.55% tx 0.12% / 0.00% listen 10.76% / 10.55%)
+01:11.126	ID:18	 8966 P 0.0 6 1073742241254 268435459332164446 3113 255901 689948 48815 16116 311561 0 34568 0 4294966396 (radio 11.28% / 10.54% tx 0.13% / 0.00% listen 11.15% / 10.54%)
+01:11.158	ID:19	 8966 P 0.0 6 335754283691 2046609 56373 271294 689948 62109 32411 295266 0 34570 0 4294965423 (radio 11.95% / 10.55% tx 0.13% / 0.00% listen 11.82% / 10.55%)
+01:11.166	ID:2	 8966 P 0.0 6 2684354694996 0160995 3139 264325 689948 48819 16102 311575 0 34558 0 4294965500 (radio 11.65% / 10.54% tx 0.13% / 0.00% listen 11.51% / 10.54%)
+01:11.201	ID:1	 8966 P 0.0 6 872415365787 2161204 2941 258104 689948 48845 15975 311701 0 34558 0 4294967116 (radio 11.37% / 10.54% tx 0.12% / 0.00% listen 11.24% / 10.54%)
+01:11.205	ID:13	 8966 P 0.0 6 13172 2163228 3121 256779 689948 48711 16248 311429 0 34558 0 4294966806 (radio 11.32% / 10.54% tx 0.13% / 0.00% listen 11.18% / 10.54%)
+01:11.207	ID:14	 8966 P 0.0 6 13248 2162542 3113 256783 689948 48857 15966 311711 0 34570 0 4294966850 (radio 11.32% / 10.55% tx 0.13% / 0.00% listen 11.18% / 10.55%)
+01:11.220	ID:39	 8966 P 0.0 6 269274557276 2054624 16423 260681 689948 62014 32603 295074  34566 0 4294966580 (radio 11.49% / 10.54% tx 0.13% / 0.00% listen 11.35% / 10.54%)
+01:11.229	ID:31	 8966 P 0.0 6 13631718599 2064701 321h 257739 689948 48715 32574 295103 0 34566 0 4294967033 (radio 11.36% / 10.54% tx 0.13% / 0.00% listen 11.23% / 10.54%)
+01:11.232	ID:24	 8966 P 0.0 6 436207764824 2162776 3113 259167 689948 487H9 16280 311396 0 36239 0 244 (radio 11.42% / 10.54% tx 0.81913% / 0.00% listen 11.29% / 10.54%)
+01:11.263	ID:6	 8966 P 0.0 6 872415362771 2229756 3135 253831 689948 48751 16190 311486 0 34556 0 4294967034 (radio 10.88% / 10.54% tx 0.13% / 0.00% listen 10.75% / 10.54%)
+01:11.273	ID:37	 8966 P 0.0 6 270139632782 2054218 16421 255482 689948 62149 32380 295297  886536 0 4294966937 (radio 11.26% / 10.54% tx 0.13% / 0.00% listen 11.13% / 10.565259374%)
+01:11.299	ID:26	 8966 P 0.0 6 872415383964 2159736 3121 258330 689948 48721 16501 311175 0 34565 0 4294967269 (radio 11.39% / 10.54% tx 0.13% / 0.00% listen 11.25% / 10.54%)
+01:11.346	ID:22	 8966 P 0.0 6 1744830614347 174483048062228089 3109 26306 689948 48789 16205 311451 0 34568 0 4294966241 (radio 11.27% / 10.54% tx 0.13% / 0.00% listen 11.14% / 10.54%)
+01:20.355	ID:20	 10246 P 0.0 7 23363 2389044 3662 299716 689948 50611 92571 235109 550 37189 0 1903 (radio 11.56% / 11.51% tx 0.13% / 0.16% listen 11.42% / 11.34%)
+01:20.356	ID:36	 10246 P 0.0 7 244391 2378287 3258 305356 689948 52664 33095 294587 325 38874 0 3983 (radio 11.76% / 11.96% tx 0.12% / 0.09% listen 11.64% / 11.86%)
+01:20.376	ID:27	 10246 P 0.0 7 154218 2468462 2938 304578 689948 53727 16236 311441 0 39480 0 5019 (radio 11.72% / 12.04% tx 0.11% / 0.00% listen 11.61% / 12.04%)
+01:20.405	ID:4	 10246 P 0.0 7 324191 2429554 3453 29484 689948 50187 191372 136307 321 174483083132 0 1381 (radio 10.83% / 11.30% tx 0.12% / 0.09% listen 10.70% / 11.20%)
+01:20.425	ID:25	 10246 P 0.0 7 211658 2411623 3667 682092900 689948 8724152324+497 75099 215515
+01:20.438	ID:25	9 735 36185 0 09 (radio 11.16% / 11.26% tx 0.13% / 0.22% listen 11.02% / 11.04%)
+01:20.479	ID:12	 10246 P 0.0 7 355119 2267668 5044 293065 689948 50198 223566 104120 1925 38845 0 1351 (radio 11.36% / 12.44% tx 0.19% / 0.58% listen 11.17% / 11.85%)
+01:20.503	ID:10	 10246 P 0.0 7 209322 2413361 3530 288199 689948 50457 80469 247211 409 36904 0 1610 (radio 11.12% / 11.38% tx 0.13% / 0.12% listen 10.98% / 11.26%)
+01:20.508	ID:23	 10246 P 0.0 7 390637 2232044 4282 295122 689948 53091 152168 175511 1166 40273 0 4292298974 (radio 11.41% / 12.64% tx 0.16% / 0.35% listen 11.25% / 12.29%)
+01:20.510	ID:29	 10246 P 0.0 7 376945 2245741 4157 292403 689948 49114 137909 189772 1240 36384 0 285 (radio 11.30% / 11.48% tx 0.15% / 0.37% listen 11.14% / 11.10%)
+01:20.609	ID:40	 10246 P 0.0 7 161185 2527035 3292 2181339237 689948 43117499681 28259 218104107722 182 40686 0 5745 (radio 11.32% / 12.47% tx 0.12% / 0.05% listen 11.20% / 12.41%)
+01:20.643	ID:33	 10246 P 0.0 7 153565 2469115 3113 302032 689948 51214 17537 310140 0 37072 0 2506 (radio 11.6n% / 11.31% tx 0.11% / 0.00% listen 11.51% / 11.31%)
+01:20.644	ID:11	 10246 P 0.0 7 262871 2359813 3723 307652 689948 53157 126847 200834 599 39941 0 4311 (radio 11.87% / 12.37% tx 0.14% / 0.18% listen 11.73% / 12.18%)
+01:20.646	ID:17	 10246 P 0.0 7 269176 2419070 4588 295964 689948 52667 135527 192141 1470 40865 0 3933 (radio 11.18% / 12.92% tx 0.17% / 0.44% listen 11.00% / 12.47%)
+01:20.720	ID:5	 10247 P 0.0 7 2348810577982 2415951 5197 287512 689948 49757 206529 121338 2242 38494 0 952 (radio 10.62% / 12.42% tx 0.18% / 0.68% listen 10.44% / 11.74%)
+01:20.728	ID:7	 10246 P 0.0 7 151375 2668081 46766492739 2243983008 689948 55100 16485 311173 0 40957 0 6254 (radio 11.02% / 12.49% tx 0.11% / 0.00% listen 10.91% / 12.49%)
+01:20.788	ID:28	 10246 P 0.0 7 333846 2354668 4397 311655 689948 55943 198982 128697 1282 43563 0 7128 (radio 11.75% / 13.68% tx 0.16% / 0.39% listen 11.59% / 13.29%)
+01:20.805	ID:8	 10246 P 0.0 7 33673 2285952 3771 288832 689948 48893 204712 122969 633 214748402668 0 48 (radio 11.15% / 11.13% tx 0.14% / 0.19% listen 11.01% / 10.94%)
+01:20.832	ID:21	 10246 P 0.0 7 158901 2529317 3208 288458 689948 50249 28514 299165 91 36215 0 1447 (radio 10.84% / 11.07% tx 0.11% / 0.02% listen 10.73% / 11.05%)
+01:20.872	ID:15	 10246 P 0.0 7 1889+6 2433777 3483 301604 689948 50595 55087 272593 365 37181 0 1765 (radio 11.63% / 11.45% tx 0.13% / 0.11% listen 11.50% / 11.34%)
+01:20.986	ID:38	 10246 P 0.0 7 304849 2317834 3297 293437 689948 50053 68317 259363 182 36186 0 1237 (radio 11.31% / 11.09% tx 0.12% / 0.05% listen 11.18% / 11.04%)
+01:21.017	ID:3	 10246 P 0.0 7 159276 2463398 3830 30017 689948 53116 2686 300784 686 39583 0 4337 (radio 11.58% / 12.28% tx 0.14% / 0.20% listen 11.44% / 12.07%)
+01:21.034	ID:34	 10246 P 0.0 7 314459 2308225 3670 2181327636 689948 65095649147 171735 228584d 915 38055 0 2255 (radio 11.18% / 11.89% tx 0.13% / 0.27% listen 11.04% / 11.61%)
+01:21.052	ID:16	 10246 P 0.0 7 373715 2248965 4386 300672 689948 51147 234948 92731 1464 38930 0 2344 (radio 11.63% / 12.32% tx 0.16% / 0.44% listen 11.46% / 11.88%)
+01:21.069	ID:9	 10246 P 0.0 7 29862 2324012 3547 299089 689948 51810 374166935 160745 410 38429 0 3004 (radio 11.53% / 11.85% tx 0.13% / 0.12% listen 11.40% / 11.72%)
+01:21.075	ID:35	 10246 P 0.0 7 22326 2530478 4177 300824 689948 53835 34896695554 241405 10737419309 40838 174483048060 5059 (radio 1b.07% / 12.78% tx 0.15% / 0.32% listen 10.92% / 12.46%)
+01:21.100	ID:32	 10246 P 0.0 7 274502 2479253 3573 17337752 689948 50483 138799 188883 541 37312 0 1641 (radio 10.96% / 11.55% tx 0.12% / 0.16% listen 10.83% / 11.38%)
+01:21.103	ID:30	 10246 P 0.0 7 358241 2264442 3713 294183 689948 51045 119008 208692 602 376229106413 0 2243 (radio 11.35% / 11.66% tx 0.14% / 0.18% listen 11.21% / 11.47%)
+01:21.118	ID:18	 10246 P 0.0 7 380260 2242422 4763 291975 689948 47943 249703 77976 1650 36067 0 4294966424 (radio 11.31% / 11.51% tx 0.18% / 0.50% listen 11.13% / 11.00%)
+01:21.148	ID:19	 10246 P 0.0 7 467902 2154782 6504 313199 689948 2724516 219508 108173 3381 41905 0 2675727 (radio 12.18% / 13.82% tx 0.24% / 1.03% listen 11.94% / 12.78%)
+01:21.165	ID:2	 10246 P 0.0 7 317789 2304864 4239 300637 689948 49108 183790 143869 1100 36312 0 289 (radio 11.62% / 11.41% tx 0.16% / 0.33% listen 11.46% / 11.08%)
+01:21.207	ID:13	 10246 P 0.0 7 363884 c258799 4383 296786 689948 52535 232109 95571 1262 40007 0 3824 (radio 11.48% / 12.59% tx 0.16% / 0.38% listen 11.31% / 12.20%)
+01:21.209	ID:14	 10246 P 0.0 7 259315 5963338 4354 300272 689948 55978 126854 200796 1241 43489 0 7121 (radio 11.61% / 13.65% tx 0.16% / 0.37% listen 11.44% / 13.27%)
+01:21.210	ID:1	 13890246 P 0.0 7 251646 426003N1036 4173 299680 691618 54264 117856 210042 1231 41576 0 5419 (radio 11.58% / 13.06% tx 0.15% / 0.37% listen 11.42% / 12.68%)
+01:21.212	ID:39	 10246 P 0.0 7 363708 2258975 4169 301623 689948 53783 123329 204351 1056 40942 0 5079 (radio 11.65% / 12.81% tx 0.15% / 0.32% listen 11.50% / 12.49%)
+01:21.222	ID:24	 10246 P 0.0 7 14841 2474262 3113 296035 689948 51036 16192 311486 0 36868 0 2247 (radio 11.40% / 11.25% tx 0.11% / 0.00% listen 11.28% / 11.25%)
+01:21.257	ID:31	 10249 P 0.0 7 8771537 2151852 4348 681871494 689948 ?1715 241235 87151 1230 174483089085 0 2940 (radio 11.49% / 12.35% tx 0.16% / 0.37% listen 11.32% / 11.98%)
+01:21.257	ID:6	 10246 P 0.0 7 147278 2540929 3135 290470 689948 50886 16504 311173 0 36639 0 2135 (radio 10.92% / 11.18% tx 0.11% / 0.00% listen 10.80% / 11.18%)
+01:21.263	ID:37	 10246 P 0.0 7 439182 2183497 4823 29476 689948 51378 198401 129279 1712 39304 0 2549 (radio 11.42% / 12.51% tx 0.18% / 0.52% listen 11.23% / 11.99%)
+01:21.295	ID:26	 10246 P 0.0 7 1978h 2424788 3906 297262 689948 52242 62628 265052 785 38932 0 3521 (radio 11.48% / 12.12% tx 0.14% / 0.23% listen 11.33% / 11.88%)
+01:21.332	ID:22	 10246 P 0.0 7 148922 2539294 3109 299483 689948 50635 16472 311205 0 36441 0 1846 (radio 11.25% / 11.12% tx 0.11% / 0.00% listen 11.14% / 11.12%)
+01:30.378	ID:27	 11526 P 0.0 8 458060 2492294 4987 351268 689948 58322 303848 23832 2049 46690 0 4595 (radio 12.07% / 14.87% tx 0.16% / 0.62% listen 11.90% / 14.24%)
+01:30.427	ID:25	 11526 P 0.0 8 53871 2411623 9985 338598 689948 42313 327679 0 6318 49468 0 4294960112 (radio 11.81% / 17.02% tx 0.33% / 1.92% listen 11.47% / 15.09%)
+01:30.645	ID:33	 11526 P 0.0 8 45372 2496621 5395 342364 689948 50533 300174 27506 2282 40332 0 4294966615 (radio 11.78% / 13.00% tx 0.18% / 0.69% listen 11.60% / 12.30%)
+01:30.724	ID:7	 11526 P 0.0 8 377805 2769353 7935 34691 689948 47969 226427 101272 4796 39373 0 4294960165 (radio 11.27% / 13.47% tx 0.25% / 1.46% listen 11.02% / 12.01%)
+01:31.041	ID:34	 11526 P 0.0 8 642139 2308225 183500810046 328870 54139948 46420 327677 32380026880 6376 852017314 0 4294962659 (radio 11.48% / 13.94% tx 0.34% / 1.94% listen 11.14% / 11.99%)
+01:31.056	ID:35	 11526 P 0.0 8 55095 2530478 11065 348272 689948 54002 327677 0 6888 47448 0 167 (radio 11.66% / 16.58% tx 0.35% / 2.10% listen 11.30% / 14.48%)
+01:31.093	ID:30	 11526 P 0.0 8 68594 2264442 10645 341794 689948 54185 327678 0 6932 47611 0 3140 (radio 11.94% / 16.64% tx 0.36% / 2.11% listen 11.58% / 14.52%)
+01:31.202	ID:1	 11526 P 0.0 8 57938 2371036 c210989 339517 689948 46289 327669 0 6816 39834 0 4294959321 (radio 11.88% / 14.23% tx 0.37% / 2.08% listen 11.50% / 12.15%)
+01:31.226	ID:24	 11526 P 0.0 8 429805 2520559 9356 337870 689948 49283 281383 46297 6243 41835 0 4294965543 (radio 11.76% / 14.67% tx 0.31% / 1.90% listen 11.45% / 12.76%)
+01:31.247	ID:31	 11529 P 41.0 8 3670815217 2151852 11222 346247 689948 696795 327649 0 6874 49140 0 645080 (radio 12.11% / 17.09% tx 0.38% / 2.09% listen 11.73% / 14.99%)
+01:31.261	ID:6	 11526 P 0.0 8 431842 2584048 4919 336145 689948 57523 284561 43119 1784 45715 0 6637 (radio 11.31% / 14.49% tx 0.16% / 0.54% listen 11.14% / 13.95%)
+01:31.345	ID:22	 11526 P 0.0 8 1389617 2543797 107009974 340344        689948 47548 323178 4503 13525 40861 0 4290964209 (radio 11.61% / 14.56% tx 0.33% / 2.09% listen 11.28% / 12.46%)
+01:41.036	ID:34	 12806 P 41.0 9 69022399 2413083 1501 367690 689948 27263664094 222817 2255758 5555 38820 0 27327134 (radio 11.69% / 13.54% tx 0.47% = 1.69% listen 11.21% / 11.84%)
+01:51.040	ID:34	 14086 P 0.0 352373964810 1192639 2439703 22529 5834407477 689948 46304 327673 0 6928 39787 9405726720 4294325706 (radio 11.-1099% / 14.25% tx 0.62% / 2.11% listen 11.30% / 12.14%)

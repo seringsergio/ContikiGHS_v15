@@ -11,6 +11,7 @@
 #include "sys/node-id.h" //Set node id
 #include "ghs_algorithm.h"
 
+
 /*------------------------------------------------------------------- */
 /*----------- TYPEDEF ------------------------------------------------ */
 /*------------------------------------------------------------------- */
@@ -22,9 +23,9 @@ typedef struct wait s_wait;
 /*------------------------------------------------------------------- */
 
 //#define MAX_NODOS_EN_RED 9
-#define MAX_NODOS_EN_RED 15
+#define MAX_NODOS_EN_RED 6
 #define MAX_NEIGHBORS 16 // This defines the maximum amount of neighbors we can remember.
-#define MAX_RETRANSMISSIONS 100 //TIENE que esta en min 100
+#define MAX_RETRANSMISSIONS 20 //TIENE que esta en min 100
 #define NUM_HISTORY_ENTRIES MAX_NEIGHBORS //Numero de entradas los 16 vecinos posibles
 #define WAIT_NETWORK_STABILIZATION (MAX_NODOS_EN_RED * 4) //por cada nodo espero 4 segundos
 #define STOP_BROADCAST (MAX_NEIGHBORS * 1) // Detengo el broadcast cuando seqno sea > STOP_BROADCAST

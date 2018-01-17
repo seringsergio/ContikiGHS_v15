@@ -61,6 +61,7 @@
 #include "ghs_algorithm.h"
 #include <stdio.h>
 
+
 /*------------------------------------------------------------------- */
 /*----------GLOBAL VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
@@ -89,10 +90,11 @@ PROCESS(wait, "Wait for Network Stabilization");
 PROCESS(n_broadcast_neighbor_discovery, "Neighbor Discovery via Broadcast");
 PROCESS(n_link_weight_worst_case, "Assume Worst Weight for Link");
 PROCESS(master_neighbor_discovery, "GHS Control");
+PROCESS(energy_measurement, "Energy measurement");
 
 AUTOSTART_PROCESSES(&master_neighbor_discovery, &n_broadcast_neighbor_discovery,
                      &wait, &n_link_weight_worst_case,
-                     &master_co_i);
+                     &master_co_i, &energy_measurement);
 
 /*------------------------------------------------------------------- */
 /*-----------FUNCIONES-------------------------------------------------*/
@@ -164,6 +166,25 @@ static void master_neighbor_discovery_exit_handler(void)
 /*-----------PROCESOS------------------------------------------------*/
 /*------------------------------------------------------------------- */
 /*---------------------------------------------------------------------------*/
+
+PROCESS_THREAD(energy_measurement, ev, data)
+{
+    static struct etimer et;
+
+
+    PROCESS_BEGIN();
+
+    powertrace_start(CLOCK_SECOND * 10);
+
+    while(1)
+    {
+      /* Delay 2-4 seconds */
+      etimer_set(&et, CLOCK_SECOND * 4 + random_rand() % (CLOCK_SECOND * 4));
+
+      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+    }
+    PROCESS_END();
+}
 /* Este es el proceso MASTER. Este proceso controla a los otros procesos esclavos.
 *  Los puede controlar con start, stop, exit, continue, etc. Es decir, este proceso
 *  le indica a los otros cuando correr y cuando detenerse
