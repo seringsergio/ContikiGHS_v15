@@ -657,6 +657,15 @@ PROCESS_THREAD(send_message_co_i, ev, data)
                         packetbuf_copyfrom(&co_msg, sizeof(co_msg));
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, CONNECT);
                         runicast_send(&runicast, &co_msg.destination, MAX_RETRANSMISSIONS);
+                        stats_ghs.connect_sent++;
+                        MY_DBG_1("stats %d %lu %lu %lu %lu %lu %lu %lu\n",linkaddr_node_addr.u8[0], stats_ghs.connect_sent,
+                                                                                                  stats_ghs.initiate_sent,
+                                                                                                  stats_ghs.test_sent,
+                                                                                                  stats_ghs.accept_sent,
+                                                                                                  stats_ghs.reject_sent,
+                                                                                                  stats_ghs.report_sent,
+                                                                                                  stats_ghs.changeroot_sent);
+
                         MY_DBG_3("Envio CONECT to %d , level=%d \n", co_msg.destination.u8[0], co_msg.level);
 
                         //remuevo el elemento de la lista
@@ -680,6 +689,7 @@ PROCESS_THREAD(send_message_co_i, ev, data)
                 {
                     if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
                     {
+
                         llenar_initiate_msg(&i_msg,
                                             i_list_out_p->i_msg.f.name_str,
                                             i_list_out_p->i_msg.f.level,
@@ -689,6 +699,15 @@ PROCESS_THREAD(send_message_co_i, ev, data)
                         packetbuf_copyfrom(&i_msg, sizeof(i_msg));
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, INITIATE);
                         runicast_send(&runicast, &i_msg.destination, MAX_RETRANSMISSIONS);
+                        stats_ghs.initiate_sent++;
+                        MY_DBG_1("stats %d %lu %lu %lu %lu %lu %lu %lu\n",linkaddr_node_addr.u8[0], stats_ghs.connect_sent,
+                                                                                                  stats_ghs.initiate_sent,
+                                                                                                  stats_ghs.test_sent,
+                                                                                                  stats_ghs.accept_sent,
+                                                                                                  stats_ghs.reject_sent,
+                                                                                                  stats_ghs.report_sent,
+                                                                                                  stats_ghs.changeroot_sent);
+
                         MY_DBG_3("Envio initiate a %d level= %d name=%d.%02d i_msg.flags=%04X\n", i_msg.destination.u8[0],
                         i_msg.f.level,
                         (int)(i_msg.f.name_str.weight / SEQNO_EWMA_UNITY),

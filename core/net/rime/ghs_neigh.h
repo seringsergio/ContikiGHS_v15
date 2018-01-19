@@ -31,6 +31,22 @@ typedef struct wait s_wait;
 #define STOP_BROADCAST (MAX_NEIGHBORS * 1) // Detengo el broadcast cuando seqno sea > STOP_BROADCAST
 
 /*------------------------------------------------------------------- */
+/*----------- Estadisticas------------------------------------------------ */
+/*------------------------------------------------------------------- */
+
+
+/* Statistics structure */
+struct {
+  uint32_t connect_sent;
+  uint32_t initiate_sent;
+  uint32_t test_sent;
+  uint32_t accept_sent;
+  uint32_t reject_sent;
+  uint32_t report_sent;
+  uint32_t changeroot_sent;
+} stats_ghs;
+
+/*------------------------------------------------------------------- */
 /*----------- DEFINE ------------------------------------------------ */
 /*------------------------------------------------------------------- */
 

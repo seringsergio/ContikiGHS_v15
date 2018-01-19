@@ -173,29 +173,7 @@ PROCESS_THREAD(energy_measurement, ev, data)
 
     PROCESS_BEGIN();
 
-
-    //static struct etimer et_energy_measurement; //tiene que se global este timer para q siempre se ejecute el energy_measurement
-
-    powertrace_start(CLOCK_SECOND * 10);
-
-/*    while(1)
-    {
-
-      //PROCESS_WAIT_EVENT(); // Wait for any event.
-
-      etimer_set(&et_energy_measurement, CLOCK_SECOND * 20 + random_rand() % (CLOCK_SECOND * 20));
-
-      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et_energy_measurement));
-
-      leds_toggle(LEDS_GREEN);
-    }*/
-
-    /*while(1) {
-      PROCESS_WAIT_UNTIL(etimer_expired(&et_energy_measurement));
-      //etimer_reset(&periodic);
-      etimer_set(&et_energy_measurement, CLOCK_SECOND * 10 );
-      powertrace_print("");
-    }*/
+    //powertrace_start(CLOCK_SECOND * 10);
 
     PROCESS_END();
 }

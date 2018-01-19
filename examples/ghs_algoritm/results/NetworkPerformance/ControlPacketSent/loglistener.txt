@@ -1,0 +1,818 @@
+00:00.297	ID:39	Rime started with address 39.0
+00:00.298	ID:34	Rime started with address 34.0
+00:00.305	ID:39	MAC 27:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 39.
+00:00.305	ID:24	Rime started with address 24.0
+00:00.306	ID:34	MAC 22:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 34.
+00:00.314	ID:24	MAC 18:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 24.
+00:00.314	ID:39	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.315	ID:34	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.316	ID:39	Starting 'Test LIBP process'
+00:00.317	ID:34	Starting 'Test LIBP process'
+00:00.323	ID:24	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.325	ID:24	Starting 'Test LIBP process'
+00:00.343	ID:8	Rime started with address 8.0
+00:00.351	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 8.
+00:00.360	ID:8	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.362	ID:8	Starting 'Test LIBP process'
+00:00.412	ID:28	Rime started with address 28.0
+00:00.420	ID:28	MAC 1c:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 28.
+00:00.429	ID:28	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.431	ID:28	Starting 'Test LIBP process'
+00:00.461	ID:11	Rime started with address 11.0
+00:00.469	ID:11	MAC 0b:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 11.
+00:00.474	ID:31	Rime started with address 31.0
+00:00.478	ID:11	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.480	ID:11	Starting 'Test LIBP process'
+00:00.482	ID:31	MAC 1f:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 31.
+00:00.484	ID:35	Rime started with address 35.0
+00:00.491	ID:31	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.492	ID:35	MAC 23:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 35.
+00:00.493	ID:31	Starting 'Test LIBP process'
+00:00.501	ID:35	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.503	ID:35	Starting 'Test LIBP process'
+00:00.506	ID:2	Rime started with address 2.0
+00:00.514	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 2.
+00:00.515	ID:30	Rime started with address 30.0
+00:00.521	ID:6	Rime started with address 6.0
+00:00.523	ID:30	MAC 1e:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 30.
+00:00.523	ID:2	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.526	ID:2	Starting 'Test LIBP process'
+00:00.529	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 6.
+00:00.532	ID:30	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.534	ID:30	Starting 'Test LIBP process'
+00:00.538	ID:6	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.540	ID:6	Starting 'Test LIBP process'
+00:00.597	ID:18	Rime started with address 18.0
+00:00.605	ID:18	MAC 12:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 18.
+00:00.614	ID:18	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.616	ID:18	Starting 'Test LIBP process'
+00:00.619	ID:4	Rime started with address 4.0
+00:00.626	ID:33	Rime started with address 33.0
+00:00.627	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 4.
+00:00.634	ID:33	MAC 21:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 33.
+00:00.636	ID:4	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.638	ID:4	Starting 'Test LIBP process'
+00:00.643	ID:33	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.645	ID:33	Starting 'Test LIBP process'
+00:00.653	ID:1	Rime started with address 1.0
+00:00.656	ID:27	Rime started with address 27.0
+00:00.660	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 1.
+00:00.664	ID:27	MAC 1b:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 27.
+00:00.669	ID:1	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.672	ID:1	Starting 'Test LIBP process'
+00:00.672	ID:7	Rime started with address 7.0
+00:00.673	ID:27	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.674	ID:1	I am sink
+00:00.675	ID:27	Starting 'Test LIBP process'
+00:00.680	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 7.
+00:00.683	ID:40	Rime started with address 40.0
+00:00.689	ID:7	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.691	ID:40	MAC 28:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 40.
+00:00.691	ID:7	Starting 'Test LIBP process'
+00:00.700	ID:40	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.702	ID:40	Starting 'Test LIBP process'
+00:00.721	ID:14	Rime started with address 14.0
+00:00.729	ID:14	MAC 0e:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 14.
+00:00.733	ID:15	Rime started with address 15.0
+00:00.738	ID:14	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.738	ID:25	Rime started with address 25.0
+00:00.740	ID:14	Starting 'Test LIBP process'
+00:00.741	ID:15	MAC 0f:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 15.
+00:00.743	ID:20	Rime started with address 20.0
+00:00.743	ID:16	Rime started with address 16.0
+00:00.744	ID:37	Rime started with address 37.0
+00:00.746	ID:25	MAC 19:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 25.
+00:00.750	ID:15	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.751	ID:20	MAC 14:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 20.
+00:00.751	ID:16	MAC 10:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 16.
+00:00.752	ID:37	MAC 25:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 37.
+00:00.752	ID:15	Starting 'Test LIBP process'
+00:00.755	ID:25	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.757	ID:25	Starting 'Test LIBP process'
+00:00.760	ID:20	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.760	ID:16	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.761	ID:37	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.762	ID:20	Starting 'Test LIBP process'
+00:00.763	ID:16	Starting 'Test LIBP process'
+00:00.763	ID:37	Starting 'Test LIBP process'
+00:00.827	ID:10	Rime started with address 10.0
+00:00.835	ID:10	MAC 0a:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 10.
+00:00.844	ID:10	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.846	ID:10	Starting 'Test LIBP process'
+00:00.865	ID:12	Rime started with address 12.0
+00:00.873	ID:12	MAC 0c:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 12.
+00:00.882	ID:12	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.884	ID:12	Starting 'Test LIBP process'
+00:00.907	ID:29	Rime started with address 29.0
+00:00.916	ID:29	MAC 1d:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 29.
+00:00.924	ID:29	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.927	ID:29	Starting 'Test LIBP process'
+00:00.934	ID:22	Rime started with address 22.0
+00:00.942	ID:22	MAC 16:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 22.
+00:00.951	ID:22	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.953	ID:22	Starting 'Test LIBP process'
+00:00.961	ID:26	Rime started with address 26.0
+00:00.969	ID:26	MAC 1a:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 26.
+00:00.978	ID:26	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.979	ID:9	Rime started with address 9.0
+00:00.980	ID:26	Starting 'Test LIBP process'
+00:00.985	ID:5	Rime started with address 5.0
+00:00.987	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 9.
+00:00.990	ID:19	Rime started with address 19.0
+00:00.993	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 5.
+00:00.996	ID:9	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:00.998	ID:19	MAC 13:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 19.
+00:00.998	ID:9	Starting 'Test LIBP process'
+00:01.002	ID:5	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:01.004	ID:5	Starting 'Test LIBP process'
+00:01.007	ID:19	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:01.009	ID:19	Starting 'Test LIBP process'
+00:01.058	ID:38	Rime started with address 38.0
+00:01.066	ID:38	MAC 26:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 38.
+00:01.075	ID:38	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:01.078	ID:38	Starting 'Test LIBP process'
+00:01.080	ID:17	Rime started with address 17.0
+00:01.088	ID:17	MAC 11:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 17.
+00:01.097	ID:17	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:01.099	ID:17	Starting 'Test LIBP process'
+00:01.152	ID:36	Rime started with address 36.0
+00:01.154	ID:13	Rime started with address 13.0
+00:01.160	ID:36	MAC 24:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 36.
+00:01.162	ID:13	MAC 0d:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 13.
+00:01.169	ID:36	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:01.170	ID:3	Rime started with address 3.0
+00:01.171	ID:36	Starting 'Test LIBP process'
+00:01.171	ID:13	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:01.174	ID:13	Starting 'Test LIBP process'
+00:01.177	ID:21	Rime started with address 21.0
+00:01.178	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 3.
+00:01.185	ID:21	MAC 15:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 21.
+00:01.187	ID:3	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:01.189	ID:3	Starting 'Test LIBP process'
+00:01.194	ID:21	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:01.196	ID:21	Starting 'Test LIBP process'
+00:01.216	ID:23	Rime started with address 23.0
+00:01.224	ID:23	MAC 17:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 23.
+00:01.233	ID:23	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:01.235	ID:23	Starting 'Test LIBP process'
+00:01.248	ID:32	Rime started with address 32.0
+00:01.256	ID:32	MAC 20:00:00:00:00:00:00:00 Contiki 2.6 started. Node id is set to 32.
+00:01.265	ID:32	CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26
+00:01.267	ID:32	Starting 'Test LIBP process'
+00:06.163	ID:5	stats 5 0 0 1 
+00:06.256	ID:19	stats 19 0 1 0 
+00:08.647	ID:27	stats 27 0 0 1 
+00:09.046	ID:13	stats 13 0 1 0 
+00:10.455	ID:38	stats 38 0 0 1 
+00:10.575	ID:22	stats 22 0 1 0 
+00:13.855	ID:21	stats 21 0 0 1 
+00:13.875	ID:35	stats 35 0 1 0 
+00:16.578	ID:4	stats 4 0 0 1 
+00:16.667	ID:36	stats 36 0 1 0 
+00:18.098	ID:15	stats 15 0 0 1 
+00:18.168	ID:36	stats 36 0 2 0 
+00:18.764	ID:11	stats 11 0 0 1 
+00:18.794	ID:1	stats 1 0 1 0 
+00:20.922	ID:37	stats 37 0 0 1 
+00:20.978	ID:11	stats 11 0 1 1 
+00:24.202	ID:20	stats 20 0 0 1 
+00:24.311	ID:3	stats 3 0 1 0 
+00:25.339	ID:31	stats 31 0 0 1 
+00:25.448	ID:40	stats 40 0 1 0 
+00:27.064	ID:1	stats 1 1 1 0 
+00:27.910	ID:3	stats 3 0 1 1 
+00:28.044	ID:36	stats 36 0 3 0 
+00:28.867	ID:14	stats 14 0 0 1 
+00:29.002	ID:5	stats 5 0 1 1 
+00:30.291	ID:25	stats 25 0 0 1 
+00:30.374	ID:15	stats 15 0 1 1 
+00:32.111	ID:36	stats 36 0 3 1 
+00:32.420	ID:1	stats 1 1 2 0 
+00:33.177	ID:8	stats 8 0 0 1 
+00:33.260	ID:4	stats 4 0 1 1 
+00:33.533	ID:36	stats 36 1 3 1 
+00:35.230	ID:19	stats 19 0 1 1 
+00:35.294	ID:1	stats 1 1 3 0 
+00:36.161	ID:30	stats 30 0 0 1 
+00:36.260	ID:37	stats 37 0 1 1 
+00:38.028	ID:2	stats 2 0 0 1 
+00:38.067	ID:21	stats 21 0 1 1 
+00:38.861	ID:22	stats 22 1 1 0 
+00:39.711	ID:16	stats 16 0 0 1 
+00:39.788	ID:6	stats 6 0 1 0 
+00:40.082	ID:13	stats 13 0 1 1 
+00:40.179	ID:28	stats 28 0 1 0 
+00:40.640	ID:24	stats 24 0 0 1 
+00:40.752	ID:5	stats 5 0 2 1 
+00:41.513	ID:11	stats 11 1 1 1 
+00:41.582	ID:32	stats 32 0 0 1 
+00:41.782	ID:9	stats 9 0 0 1 
+00:41.873	ID:15	stats 15 1 1 1 
+00:41.881	ID:25	stats 25 0 1 1 
+00:42.023	ID:2	stats 2 0 1 1 
+00:42.224	ID:35	stats 35 0 1 1 
+00:42.293	ID:1	stats 1 1 4 0 
+00:42.366	ID:33	stats 33 0 0 1 
+00:42.438	ID:7	stats 7 0 1 0 
+00:44.287	ID:7	stats 7 0 1 1 
+00:44.429	ID:28	stats 28 0 2 0 
+00:44.740	ID:27	stats 27 0 0 2 
+00:44.814	ID:7	stats 7 0 2 1 
+00:45.619	ID:18	stats 18 0 0 1 
+00:45.637	ID:37	stats 37 0 2 1 
+00:46.829	ID:38	stats 38 1 0 1 
+00:47.335	ID:29	stats 29 0 0 1 
+00:47.380	ID:25	stats 25 0 2 1 
+00:48.232	ID:35	stats 35 1 1 1 
+00:48.517	ID:40	stats 40 0 1 1 
+00:48.804	ID:28	stats 28 0 3 0 
+00:50.103	ID:25	stats 25 1 2 1 
+00:50.574	ID:12	stats 12 0 0 1 
+00:50.624	ID:15	stats 15 1 2 1 
+00:51.142	ID:1	stats 1 2 4 0 
+00:51.519	ID:12	stats 12 1 0 1 
+00:52.331	ID:23	stats 23 0 0 1 
+00:52.444	ID:21	stats 21 0 2 1 
+00:52.819	ID:34	stats 34 0 0 1 
+00:52.880	ID:10	stats 10 0 0 1 
+00:52.898	ID:2	stats 2 0 2 1 
+00:52.951	ID:38	stats 38 1 1 1 
+00:53.609	ID:4	stats 4 1 1 1 
+00:53.924	ID:22	stats 22 1 1 1 
+00:53.925	ID:13	stats 13 1 1 1 
+00:54.294	ID:1	stats 1 2 5 0 
+00:54.553	ID:11	stats 11 2 1 1 
+00:54.918	ID:6	stats 6 0 1 1 
+00:55.007	ID:19	stats 19 0 2 1 
+00:55.577	ID:34	stats 34 1 0 1 
+00:55.620	ID:6	stats 6 1 1 1 
+00:56.449	ID:28	stats 28 1 3 0 
+00:56.559	ID:3	stats 3 1 1 1 
+00:56.647	ID:29	stats 29 1 0 1 
+00:56.903	ID:17	stats 17 0 0 1 
+00:56.939	ID:34	stats 34 1 1 1 
+00:57.621	ID:28	stats 28 1 3 1 
+00:57.919	ID:1	stats 1 2 6 0 
+00:58.912	ID:39	stats 39 0 0 1 
+00:59.031	ID:30	stats 30 0 1 1 
+00:59.107	ID:26	stats 26 0 0 1 
+00:59.148	ID:2	stats 2 0 3 1 
+00:59.315	ID:23	stats 23 1 0 1 
+01:00.614	ID:15	stats 15 2 2 1 
+01:01.632	ID:17	stats 17 1 0 1 
+01:02.234	ID:5	stats 5 1 2 1 
+01:02.958	ID:35	stats 35 2 1 1 
+01:03.548	ID:38	stats 38 2 1 1 
+01:03.938	ID:9	stats 9 1 0 1 
+01:04.233	ID:16	stats 16 1 0 1 
+01:05.226	ID:37	stats 37 1 2 1 
+01:05.418	ID:2	stats 2 1 3 1 
+01:05.733	ID:7	stats 7 1 2 1 
+01:07.738	ID:12	stats 12 2 0 1 
+01:07.882	ID:14	stats 14 1 0 1 
+01:08.260	ID:25	stats 25 1 2 2 
+01:08.311	ID:3	stats 3 1 2 1 
+01:08.698	ID:19	stats 19 1 2 1 
+01:09.225	ID:34	stats 34 1 1 2 
+01:09.288	ID:6	stats 6 1 2 1 
+01:10.642	ID:36	stats 36 2 3 1 
+01:10.679	ID:20	stats 20 1 0 1 
+01:11.546	ID:33	stats 33 1 0 1 
+01:11.905	ID:34	stats 34 2 1 2 
+01:12.145	ID:30	stats 30 1 1 1 
+01:12.254	ID:10	stats 10 1 0 1 
+01:13.053	ID:26	stats 26 1 0 1 
+01:14.148	ID:17	stats 17 2 0 1 
+01:14.684	ID:13	stats 13 2 1 1 
+01:14.823	ID:1	stats 1 3 6 0 
+01:14.906	ID:29	stats 29 2 0 1 
+01:15.238	ID:13	stats 13 2 1 2 
+01:15.374	ID:35	stats 35 2 2 1 
+01:15.482	ID:8	stats 8 1 0 1 
+01:15.827	ID:5	stats 5 2 2 1 
+01:16.283	ID:18	stats 18 1 0 1 
+01:16.853	ID:40	stats 40 1 1 1 
+01:17.496	ID:3	stats 3 2 2 1 
+01:18.746	ID:32	stats 32 1 0 1 
+01:19.845	ID:38	stats 38 3 1 1 
+01:21.003	ID:21	stats 21 1 2 1 
+01:21.042	ID:12	stats 12 3 0 1 
+01:21.186	ID:27	stats 27 1 0 2 
+01:21.836	ID:9	stats 9 2 0 1 
+01:22.186	ID:39	stats 39 1 0 1 
+01:22.522	ID:11	stats 11 3 1 1 
+01:22.855	ID:28	stats 28 2 3 1 
+01:23.195	ID:37	stats 37 2 2 1 
+01:23.277	ID:31	stats 31 1 0 1 
+01:23.835	ID:5	stats 5 3 2 1 
+01:25.939	ID:22	stats 22 2 1 1 
+01:27.460	ID:29	stats 29 3 0 1 
+01:27.598	ID:10	stats 10 2 0 1 
+01:27.607	ID:26	stats 26 2 0 1 
+01:27.716	ID:8	stats 8 2 0 1 
+01:28.257	ID:20	stats 20 2 0 1 
+01:28.535	ID:13	stats 13 3 1 2 
+01:28.756	ID:11	stats 11 4 1 1 
+01:28.866	ID:34	stats 34 3 1 2 
+01:29.345	ID:40	stats 40 2 1 1 
+01:29.480	ID:12	stats 12 3 0 2 
+01:29.675	ID:29	stats 29 3 1 1 
+01:32.538	ID:33	stats 33 2 0 1 
+01:32.991	ID:24	stats 24 1 0 1 
+01:33.968	ID:4	stats 4 2 1 1 
+01:34.630	ID:39	stats 39 2 0 1 
+01:34.856	ID:2	stats 2 2 3 1 
+01:35.015	ID:37	stats 37 3 2 1 
+01:35.263	ID:35	stats 35 3 2 1 
+01:35.768	ID:38	stats 38 3 1 2 
+01:35.788	ID:6	stats 6 1 3 1 
+01:36.050	ID:19	stats 19 2 2 1 
+01:36.174	ID:1	stats 1 4 6 0 
+01:37.339	ID:12	stats 12 4 0 2 
+01:37.946	ID:9	stats 9 3 0 1 
+01:38.948	ID:31	stats 31 2 0 1 
+01:39.421	ID:16	stats 16 2 0 1 
+01:40.654	ID:27	stats 27 2 0 2 
+01:40.674	ID:23	stats 23 2 0 1 
+01:40.832	ID:3	stats 3 3 2 1 
+01:42.240	ID:26	stats 26 3 0 1 
+01:42.396	ID:8	stats 8 3 0 1 
+01:42.533	ID:22	stats 22 3 1 1 
+01:42.552	ID:8	stats 8 3 0 2 
+01:42.833	ID:30	stats 30 2 1 1 
+01:43.181	ID:18	stats 18 2 0 1 
+01:43.201	ID:38	stats 38 3 2 2 
+01:43.357	ID:35	stats 35 4 2 1 
+01:44.298	ID:40	stats 40 2 1 2 
+01:44.382	ID:19	stats 19 2 3 1 
+01:44.892	ID:40	stats 40 3 1 2 
+01:45.452	ID:34	stats 34 4 1 2 
+01:45.999	ID:24	stats 24 2 0 1 
+01:46.116	ID:33	stats 33 2 0 2 
+01:46.173	ID:27	stats 27 2 1 2 
+01:46.361	ID:25	stats 25 2 2 2 
+01:47.334	ID:33	stats 33 3 0 2 
+01:47.721	ID:23	stats 23 3 0 1 
+01:48.074	ID:32	stats 32 2 0 1 
+01:49.599	ID:39	stats 39 3 0 1 
+01:50.554	ID:4	stats 4 3 1 1 
+01:50.793	ID:28	stats 28 3 3 1 
+01:51.058	ID:6	stats 6 2 3 1 
+01:51.491	ID:17	stats 17 3 0 1 
+01:51.850	ID:11	stats 11 5 1 1 
+01:52.122	ID:15	stats 15 3 2 1 
+01:52.289	ID:14	stats 14 2 0 1 
+01:53.101	ID:20	stats 20 3 0 1 
+01:53.218	ID:29	stats 29 4 1 1 
+01:53.755	ID:27	stats 27 3 1 2 
+01:55.231	ID:10	stats 10 3 0 1 
+01:55.292	ID:21	stats 21 2 2 1 
+01:55.845	ID:18	stats 18 3 0 1 
+01:56.679	ID:16	stats 16 3 0 1 
+01:56.975	ID:26	stats 26 4 0 1 
+01:58.298	ID:38	stats 38 4 2 2 
+01:58.657	ID:40	stats 40 4 1 2 
+01:58.665	ID:25	stats 25 3 2 2 
+02:00.197	ID:36	stats 36 3 3 1 
+02:00.198	ID:12	stats 12 5 0 2 
+02:00.673	ID:1	Hi from sink thread
+02:00.673	ID:1	
+02:01.073	ID:1	stats 1 5 6 0 
+02:01.090	ID:13	stats 13 4 1 2 
+02:01.378	ID:39	Sending
+02:01.382	ID:39	stats 39 3 0 2 
+02:01.384	ID:39	#L 30 1
+02:01.533	ID:30	stats 30 2 2 1 
+02:01.536	ID:30	stats 30 2 2 2 
+02:01.638	ID:37	stats 37 3 3 1 
+02:01.640	ID:37	stats 37 3 3 2 
+02:01.728	ID:11	stats 11 5 2 1 
+02:01.731	ID:11	stats 11 5 2 2 
+02:01.767	ID:31	Sending
+02:01.770	ID:31	stats 31 2 0 2 
+02:01.772	ID:31	#L 40 1
+02:01.795	ID:1	stats 1 5 7 0 
+02:01.800	ID:1	Sink got message from 39.0, seqno 0, hops 4: len 9 'Hello 30'
+02:01.826	ID:40	stats 40 4 2 2 
+02:01.828	ID:40	stats 40 4 2 3 
+02:01.882	ID:19	stats 19 2 4 1 
+02:01.885	ID:19	stats 19 2 4 2 
+02:01.919	ID:1	stats 1 5 8 0 
+02:01.924	ID:1	Sink got message from 31.0, seqno 0, hops 3: len 9 'Hello 40'
+02:02.031	ID:37	stats 37 4 3 2 
+02:02.591	ID:14	Sending
+02:02.595	ID:14	stats 14 2 0 2 
+02:02.597	ID:14	#L 5 1
+02:02.629	ID:5	stats 5 3 3 1 
+02:02.631	ID:5	stats 5 3 3 2 
+02:02.827	ID:33	stats 33 4 0 2 
+02:03.411	ID:35	stats 35 5 2 1 
+02:03.632	ID:19	stats 19 2 5 2 
+02:03.634	ID:19	stats 19 2 5 3 
+02:03.670	ID:1	stats 1 5 9 0 
+02:03.675	ID:1	Sink got message from 14.0, seqno 0, hops 3: len 8 'Hello 5'
+02:03.703	ID:17	stats 17 4 0 1 
+02:03.766	ID:14	stats 14 3 0 2 
+02:03.918	ID:2	stats 2 3 3 1 
+02:04.004	ID:1	Sending
+02:04.009	ID:1	Sink got message from 1.0, seqno 0, hops 0: len 8 'Hello 0'
+02:04.129	ID:19	stats 19 3 5 3 
+02:04.210	ID:20	stats 20 4 0 1 
+02:04.721	ID:15	Sending
+02:04.724	ID:15	stats 15 3 2 2 
+02:04.726	ID:15	#L 36 1
+02:04.796	ID:36	stats 36 3 4 1 
+02:04.798	ID:36	stats 36 3 4 2 
+02:04.920	ID:1	stats 1 5 10 0 
+02:04.925	ID:1	Sink got message from 15.0, seqno 0, hops 2: len 9 'Hello 36'
+02:05.329	ID:19	Sending
+02:05.332	ID:19	stats 19 3 5 4 
+02:05.334	ID:19	#L 1 1
+02:05.420	ID:1	stats 1 5 11 0 
+02:05.425	ID:1	Sink got message from 19.0, seqno 0, hops 1: len 8 'Hello 1'
+02:05.889	ID:39	stats 39 4 0 2 
+02:05.960	ID:24	stats 24 3 0 1 
+02:06.017	ID:3	Sending
+02:06.020	ID:3	stats 3 3 2 2 
+02:06.022	ID:3	#L 36 1
+02:06.169	ID:36	stats 36 3 5 2 
+02:06.172	ID:36	stats 36 3 5 3 
+02:06.295	ID:1	stats 1 5 12 0 
+02:06.299	ID:1	Sink got message from 3.0, seqno 0, hops 2: len 9 'Hello 36'
+02:06.364	ID:15	stats 15 4 2 2 
+02:07.196	ID:21	Sending
+02:07.199	ID:21	stats 21 2 2 2 
+02:07.201	ID:21	#L 35 1
+02:07.378	ID:35	stats 35 5 3 1 
+02:07.380	ID:35	stats 35 5 3 2 
+02:07.420	ID:1	stats 1 5 13 0 
+02:07.425	ID:1	Sink got message from 21.0, seqno 0, hops 2: len 9 'Hello 35'
+02:07.557	ID:30	Sending
+02:07.561	ID:30	stats 30 2 2 3 
+02:07.563	ID:30	#L 37 1
+02:07.635	ID:37	stats 37 4 4 2 
+02:07.637	ID:37	stats 37 4 4 3 
+02:07.730	ID:11	stats 11 5 3 2 
+02:07.732	ID:11	stats 11 5 3 3 
+02:07.841	ID:17	Sending
+02:07.844	ID:17	stats 17 4 0 2 
+02:07.846	ID:17	#L 34 1
+02:07.849	ID:27	stats 27 4 1 2 
+02:07.939	ID:34	stats 34 4 2 2 
+02:07.942	ID:34	stats 34 4 2 3 
+02:08.038	ID:6	stats 6 2 4 1 
+02:08.040	ID:6	stats 6 2 4 2 
+02:08.045	ID:1	stats 1 5 14 0 
+02:08.050	ID:1	Sink got message from 30.0, seqno 0, hops 3: len 9 'Hello 37'
+02:08.132	ID:19	stats 19 3 6 4 
+02:08.135	ID:19	stats 19 3 6 5 
+02:08.170	ID:1	stats 1 5 15 0 
+02:08.175	ID:1	Sink got message from 17.0, seqno 0, hops 4: len 9 'Hello 34'
+02:08.942	ID:16	Sending
+02:08.946	ID:16	stats 16 3 0 2 
+02:08.948	ID:16	#L 6 1
+02:09.039	ID:6	stats 6 2 5 2 
+02:09.041	ID:6	stats 6 2 5 3 
+02:09.203	ID:29	stats 29 5 1 1 
+02:09.218	ID:38	Sending
+02:09.221	ID:38	stats 38 4 2 3 
+02:09.223	ID:38	#L 6 1
+02:09.257	ID:19	stats 19 3 7 5 
+02:09.259	ID:19	stats 19 3 7 6 
+02:09.296	ID:1	stats 1 5 16 0 
+02:09.301	ID:1	Sink got message from 16.0, seqno 0, hops 3: len 8 'Hello 6'
+02:09.347	ID:27	Sending
+02:09.350	ID:27	stats 27 4 1 3 
+02:09.352	ID:27	#L 13 1
+02:09.423	ID:13	stats 13 4 2 2 
+02:09.425	ID:13	stats 13 4 2 3 
+02:09.501	ID:35	stats 35 5 4 2 
+02:09.504	ID:35	stats 35 5 4 3 
+02:09.545	ID:1	stats 1 5 17 0 
+02:09.550	ID:1	Sink got message from 27.0, seqno 0, hops 3: len 8 'Hello 7'
+02:09.663	ID:6	stats 6 2 6 3 
+02:09.666	ID:6	stats 6 2 6 4 
+02:09.758	ID:19	stats 19 3 8 6 
+02:09.761	ID:19	stats 19 3 8 7 
+02:09.795	ID:1	stats 1 5 18 0 
+02:09.800	ID:1	Sink got message from 38.0, seqno 0, hops 3: len 8 'Hello 6'
+02:09.925	ID:21	stats 21 3 2 2 
+02:10.097	ID:31	stats 31 3 0 2 
+02:10.161	ID:10	stats 10 4 0 1 
+02:10.310	ID:11	stats 11 6 3 3 
+02:10.879	ID:28	stats 28 4 3 1 
+02:11.098	ID:24	Sending
+02:11.102	ID:24	stats 24 3 0 2 
+02:11.103	ID:24	#L 5 1
+02:11.193	ID:26	stats 26 5 0 1 
+02:11.253	ID:5	stats 5 3 4 2 
+02:11.255	ID:5	stats 5 3 4 3 
+02:11.345	ID:22	stats 22 4 1 1 
+02:11.407	ID:13	Sending
+02:11.411	ID:13	stats 13 4 2 4 
+02:11.415	ID:13	#L 35 1
+02:11.503	ID:35	stats 35 5 5 3 
+02:11.505	ID:35	stats 35 5 5 4 
+02:11.546	ID:1	stats 1 5 19 0 
+02:11.551	ID:1	Sink got message from 13.0, seqno 0, hops 2: len 9 'Hello 35'
+02:11.792	ID:12	stats 12 6 0 2 
+02:11.883	ID:19	stats 19 3 9 7 
+02:11.886	ID:19	stats 19 3 9 8 
+02:11.920	ID:1	stats 1 5 20 0 
+02:11.925	ID:1	Sink got message from 24.0, seqno 0, hops 3: len 8 'Hello 5'
+02:11.941	ID:3	stats 3 4 2 2 
+02:12.436	ID:36	Sending
+02:12.440	ID:36	stats 36 3 5 4 
+02:12.442	ID:36	#L 1 1
+02:12.546	ID:1	stats 1 5 21 0 
+02:12.551	ID:1	Sink got message from 36.0, seqno 0, hops 1: len 8 'Hello 1'
+02:12.581	ID:35	Sending
+02:12.584	ID:35	stats 35 5 5 5 
+02:12.586	ID:35	#L 1 1
+02:12.780	ID:34	stats 34 5 2 3 
+02:12.920	ID:1	stats 1 5 22 0 
+02:12.925	ID:1	Sink got message from 35.0, seqno 0, hops 1: len 8 'Hello 1'
+02:13.189	ID:18	stats 18 4 0 1 
+02:13.554	ID:5	stats 5 4 4 3 
+02:14.184	ID:34	Sending
+02:14.187	ID:34	stats 34 5 2 4 
+02:14.189	ID:34	#L 6 1
+02:14.289	ID:6	stats 6 2 7 4 
+02:14.292	ID:6	stats 6 2 7 5 
+02:14.383	ID:19	stats 19 3 10 8 
+02:14.386	ID:19	stats 19 3 10 9 
+02:14.422	ID:1	stats 1 5 23 0 
+02:14.426	ID:1	Sink got message from 34.0, seqno 0, hops 3: len 8 'Hello 6'
+02:16.641	ID:9	stats 9 4 0 1 
+02:16.694	ID:33	stats 33 5 0 2 
+02:17.245	ID:23	stats 23 4 0 1 
+02:17.285	ID:32	stats 32 3 0 1 
+02:17.809	ID:15	stats 15 5 2 2 
+02:18.097	ID:11	Sending
+02:18.101	ID:11	stats 11 6 3 4 
+02:18.103	ID:11	#L 1 1
+02:18.170	ID:1	stats 1 5 24 0 
+02:18.175	ID:1	Sink got message from 11.0, seqno 0, hops 1: len 8 'Hello 1'
+02:18.280	ID:16	stats 16 4 0 2 
+02:18.850	ID:9	Sending
+02:18.853	ID:9	stats 9 4 0 2 
+02:18.855	ID:9	#L 25 1
+02:18.881	ID:25	stats 25 3 3 2 
+02:18.883	ID:25	stats 25 3 3 3 
+02:18.938	ID:3	stats 3 4 3 2 
+02:18.940	ID:3	stats 3 4 3 3 
+02:19.046	ID:36	stats 36 3 6 4 
+02:19.048	ID:36	stats 36 3 6 5 
+02:19.170	ID:1	stats 1 5 25 0 
+02:19.175	ID:1	Sink got message from 9.0, seqno 0, hops 4: len 9 'Hello 25'
+02:19.388	ID:37	Sending
+02:19.391	ID:37	stats 37 4 4 4 
+02:19.393	ID:37	#L 11 1
+02:19.479	ID:11	stats 11 6 4 4 
+02:19.482	ID:11	stats 11 6 4 5 
+02:19.547	ID:1	stats 1 5 26 0 
+02:19.551	ID:1	Sink got message from 37.0, seqno 0, hops 2: len 9 'Hello 11'
+02:19.554	ID:22	Sending
+02:19.558	ID:22	stats 22 4 1 2 
+02:19.560	ID:22	#L 1 1
+02:19.598	ID:20	Sending
+02:19.602	ID:20	stats 20 4 0 2 
+02:19.604	ID:20	#L 3 1
+02:19.672	ID:1	stats 1 5 27 0 
+02:19.676	ID:1	Sink got message from 22.0, seqno 0, hops 1: len 8 'Hello 1'
+02:19.688	ID:3	stats 3 4 4 3 
+02:19.811	ID:3	stats 3 4 4 4 
+02:19.858	ID:39	stats 39 5 0 2 
+02:19.954	ID:6	Sending
+02:19.958	ID:6	stats 6 2 7 6 
+02:19.960	ID:6	#L 19 1
+02:20.007	ID:19	stats 19 3 11 9 
+02:20.010	ID:19	stats 19 3 11 10 
+02:20.046	ID:1	stats 1 5 28 0 
+02:20.051	ID:1	Sink got message from 6.0, seqno 0, hops 2: len 9 'Hello 19'
+02:20.170	ID:36	stats 36 3 7 5 
+02:20.172	ID:36	stats 36 3 7 6 
+02:20.295	ID:1	stats 1 5 29 0 
+02:20.300	ID:1	Sink got message from 20.0, seqno 0, hops 3: len 8 'Hello 3'
+02:20.349	ID:35	stats 35 6 5 5 
+02:20.757	ID:17	stats 17 5 0 2 
+02:21.082	ID:7	Sending
+02:21.085	ID:7	stats 7 1 2 2 
+02:21.087	ID:7	#L 28 1
+02:21.179	ID:28	stats 28 4 4 1 
+02:21.182	ID:38	stats 38 5 2 3 
+02:21.182	ID:28	stats 28 4 4 2 
+02:21.429	ID:14	stats 14 4 0 2 
+02:21.897	ID:20	stats 20 5 0 2 
+02:22.045	ID:1	stats 1 5 30 0 
+02:22.050	ID:1	Sink got message from 7.0, seqno 0, hops 2: len 9 'Hello 28'
+02:22.072	ID:32	Sending
+02:22.075	ID:32	stats 32 3 0 2 
+02:22.077	ID:32	#L 2 1
+02:22.148	ID:2	stats 2 3 4 1 
+02:22.151	ID:2	stats 2 3 4 2 
+02:22.155	ID:7	stats 7 2 2 2 
+02:22.171	ID:29	stats 29 6 1 1 
+02:22.445	ID:21	stats 21 3 3 2 
+02:22.447	ID:21	stats 21 3 3 3 
+02:22.502	ID:35	stats 35 6 6 5 
+02:22.504	ID:35	stats 35 6 6 6 
+02:22.545	ID:1	stats 1 5 31 0 
+02:22.550	ID:1	Sink got message from 32.0, seqno 0, hops 4: len 8 'Hello 2'
+02:22.679	ID:33	stats 33 5 0 3 
+02:22.740	ID:31	stats 31 3 1 2 
+02:22.855	ID:19	stats 19 4 11 10 
+02:22.961	ID:37	stats 37 5 4 4 
+02:23.394	ID:21	stats 21 4 3 3 
+02:23.727	ID:12	Sending
+02:23.731	ID:12	stats 12 6 0 3 
+02:23.733	ID:12	#L 15 1
+02:23.875	ID:15	stats 15 5 3 2 
+02:23.878	ID:15	stats 15 5 3 3 
+02:23.920	ID:36	stats 36 3 8 6 
+02:23.923	ID:36	stats 36 3 8 7 
+02:23.941	ID:33	Sending
+02:23.945	ID:33	stats 33 5 0 4 
+02:23.947	ID:33	#L 27 1
+02:24.047	ID:1	stats 1 5 32 0 
+02:24.048	ID:27	stats 27 4 2 3 
+02:24.051	ID:27	stats 27 4 2 4 
+02:24.051	ID:1	Sink got message from 12.0, seqno 0, hops 3: len 9 'Hello 29'
+02:24.075	ID:10	stats 10 5 0 1 
+02:24.422	ID:13	stats 13 4 3 4 
+02:24.425	ID:13	stats 13 4 3 5 
+02:24.471	ID:28	Sending
+02:24.474	ID:28	stats 28 4 4 3 
+02:24.476	ID:28	#L 1 1
+02:24.502	ID:35	stats 35 6 7 6 
+02:24.505	ID:35	stats 35 6 7 7 
+02:24.546	ID:1	stats 1 5 33 0 
+02:24.551	ID:1	Sink got message from 28.0, seqno 0, hops 1: len 8 'Hello 1'
+02:24.797	ID:1	stats 1 5 34 0 
+02:24.801	ID:1	Sink got message from 33.0, seqno 0, hops 4: len 9 'Hello 31'
+02:24.970	ID:36	stats 36 4 8 7 
+02:25.690	ID:1	stats 1 6 34 0 
+02:25.763	ID:26	stats 26 6 0 1 
+02:25.808	ID:8	Sending
+02:25.811	ID:8	stats 8 3 0 3 
+02:25.813	ID:8	#L 38 1
+02:25.900	ID:2	Sending
+02:25.904	ID:2	stats 2 3 4 3 
+02:25.906	ID:2	#L 21 1
+02:25.944	ID:21	stats 21 4 4 3 
+02:25.946	ID:21	stats 21 4 4 4 
+02:26.001	ID:35	stats 35 6 8 7 
+02:26.004	ID:35	stats 35 6 8 8 
+02:26.046	ID:1	stats 1 6 35 0 
+02:26.051	ID:1	Sink got message from 2.0, seqno 0, hops 3: len 9 'Hello 21'
+02:26.061	ID:27	stats 27 5 2 4 
+02:26.326	ID:38	stats 38 5 3 3 
+02:26.328	ID:38	stats 38 5 3 4 
+02:26.414	ID:6	stats 6 2 8 6 
+02:26.417	ID:6	stats 6 2 8 7 
+02:26.509	ID:19	stats 19 4 12 10 
+02:26.512	ID:19	stats 19 4 12 11 
+02:26.545	ID:1	stats 1 6 36 0 
+02:26.550	ID:1	Sink got message from 8.0, seqno 0, hops 4: len 9 'Hello 38'
+02:27.054	ID:24	stats 24 4 0 2 
+02:27.085	ID:18	Sending
+02:27.088	ID:18	stats 18 4 0 2 
+02:27.090	ID:18	#L 37 1
+02:27.137	ID:37	stats 37 5 5 4 
+02:27.139	ID:37	stats 37 5 5 5 
+02:27.229	ID:11	stats 11 6 5 5 
+02:27.231	ID:11	stats 11 6 5 6 
+02:27.294	ID:1	stats 1 6 37 0 
+02:27.299	ID:1	Sink got message from 18.0, seqno 0, hops 3: len 9 'Hello 37'
+02:27.419	ID:8	stats 8 4 0 3 
+02:27.787	ID:4	Sending
+02:27.790	ID:4	stats 4 3 1 2 
+02:27.792	ID:4	#L 36 1
+02:27.920	ID:36	stats 36 4 9 7 
+02:27.922	ID:36	stats 36 4 9 8 
+02:28.046	ID:1	stats 1 6 38 0 
+02:28.051	ID:1	Sink got message from 4.0, seqno 0, hops 2: len 9 'Hello 36'
+02:28.359	ID:9	stats 9 5 0 2 
+02:28.368	ID:23	Sending
+02:28.371	ID:23	stats 23 4 0 2 
+02:28.373	ID:23	#L 21 1
+02:28.446	ID:21	stats 21 4 5 4 
+02:28.448	ID:21	stats 21 4 5 5 
+02:28.628	ID:35	stats 35 6 9 8 
+02:28.630	ID:35	stats 35 6 9 9 
+02:28.650	ID:25	stats 25 4 3 3 
+02:28.670	ID:1	stats 1 6 39 0 
+02:28.675	ID:1	Sink got message from 23.0, seqno 0, hops 3: len 9 'Hello 21'
+02:28.723	ID:5	Sending
+02:28.727	ID:5	stats 5 4 4 4 
+02:28.729	ID:5	#L 19 1
+02:28.730	ID:6	stats 6 3 8 7 
+02:28.903	ID:29	Sending
+02:28.907	ID:29	stats 29 6 1 2 
+02:28.909	ID:29	#L 25 1
+02:28.960	ID:40	Sending
+02:28.964	ID:40	stats 40 4 2 4 
+02:28.966	ID:40	#L 19 1
+02:29.006	ID:25	stats 25 4 4 3 
+02:29.008	ID:25	stats 25 4 4 4 
+02:29.187	ID:3	stats 3 4 5 4 
+02:29.190	ID:3	stats 3 4 5 5 
+02:29.258	ID:19	stats 19 4 13 11 
+02:29.261	ID:19	stats 19 4 13 12 
+02:29.335	ID:25	Sending
+02:29.338	ID:25	stats 25 4 4 5 
+02:29.340	ID:25	#L 3 1
+02:29.402	ID:31	stats 31 4 1 2 
+02:29.562	ID:3	stats 3 4 6 5 
+02:29.633	ID:19	stats 19 4 14 12 
+02:29.670	ID:36	stats 36 4 10 8 
+02:29.672	ID:36	stats 36 4 10 9 
+02:29.839	ID:26	Sending
+02:29.842	ID:26	stats 26 6 0 2 
+02:29.845	ID:26	#L 2 1
+02:29.899	ID:2	stats 2 3 5 3 
+02:29.901	ID:2	stats 2 3 5 4 
+02:29.920	ID:1	stats 1 6 40 0 
+02:29.925	ID:1	Sink got message from 5.0, seqno 0, hops 2: len 9 'Hello 19'
+02:29.946	ID:21	stats 21 4 6 5 
+02:29.948	ID:21	stats 21 4 6 6 
+02:30.002	ID:35	stats 35 6 10 9 
+02:30.005	ID:35	stats 35 6 10 10 
+02:30.045	ID:1	stats 1 6 41 0 
+02:30.050	ID:1	Sink got message from 26.0, seqno 0, hops 4: len 8 'Hello 2'
+02:30.258	ID:19	stats 19 4 14 13 
+02:30.296	ID:1	stats 1 6 42 0 
+02:30.301	ID:1	Sink got message from 40.0, seqno 0, hops 2: len 9 'Hello 19'
+02:30.316	ID:39	Sending
+02:30.316	ID:34	Sending
+02:30.319	ID:39	stats 39 5 0 3 
+02:30.320	ID:34	stats 34 5 2 5 
+02:30.324	ID:24	Sending
+02:30.328	ID:24	stats 24 4 0 3 
+02:30.362	ID:8	Sending
+02:30.365	ID:8	stats 8 4 0 4 
+02:30.407	ID:30	stats 30 2 3 3 
+02:30.410	ID:30	stats 30 2 3 4 
+02:30.413	ID:6	stats 6 3 9 7 
+02:30.416	ID:6	stats 6 3 9 8 
+02:30.431	ID:28	Sending
+02:30.434	ID:28	stats 28 4 4 4 
+02:30.452	ID:38	stats 38 5 4 4 
+02:30.455	ID:38	stats 38 5 4 5 
+02:30.480	ID:11	Sending
+02:30.483	ID:11	stats 11 6 5 7 
+02:30.493	ID:31	Sending
+02:30.496	ID:31	stats 31 4 1 3 
+02:30.503	ID:35	Sending
+02:30.507	ID:35	stats 35 6 10 11 
+02:30.508	ID:19	stats 19 4 15 13 
+02:30.512	ID:19	stats 19 4 15 14 
+02:30.512	ID:37	stats 37 5 6 5 
+02:30.514	ID:37	stats 37 5 6 6 
+02:30.525	ID:2	Sending
+02:30.529	ID:2	stats 2 3 5 5 
+02:30.533	ID:30	Sending
+02:30.546	ID:1	stats 1 6 43 0 
+02:30.549	ID:6	stats 6 3 10 8 
+02:30.551	ID:1	Sink got message from 35.0, seqno 1, hops 1: len 8 'Hello 1'
+02:30.561	ID:6	Sending
+02:30.570	ID:21	stats 21 4 7 6 
+02:30.572	ID:21	stats 21 4 7 7 
+02:30.575	ID:40	stats 40 4 3 4 
+02:30.578	ID:40	stats 40 4 3 5 
+02:30.596	ID:10	Sending
+02:30.599	ID:10	stats 10 5 0 2 
+02:30.601	ID:10	#L 2 1
+02:30.603	ID:11	stats 11 6 6 7 
+02:30.616	ID:18	Sending
+02:30.619	ID:18	stats 18 4 0 3 
+02:30.627	ID:35	stats 35 6 11 11 
+02:30.638	ID:4	Sending
+02:30.641	ID:4	stats 4 3 1 3 
+02:30.645	ID:33	Sending
+02:30.648	ID:33	stats 33 5 0 5 
+02:30.664	ID:6	stats 6 3 10 9 
+02:30.671	ID:1	Sending
+02:30.675	ID:27	Sending
+02:30.676	ID:1	Sink got message from 1.0, seqno 1, hops 0: len 8 'Hello 0'
+02:30.678	ID:27	stats 27 5 2 5 
+02:30.691	ID:7	Sending
+02:30.694	ID:7	stats 7 2 2 3 
+02:30.702	ID:40	Sending
+02:30.739	ID:14	Sending
+02:30.743	ID:14	stats 14 4 0 3 
+02:30.752	ID:15	Sending
+02:30.754	ID:5	stats 5 4 5 4 
+02:30.755	ID:15	stats 15 5 3 4 
+02:30.756	ID:5	stats 5 4 5 5 
+02:30.757	ID:25	Sending
+02:30.760	ID:25	stats 25 4 4 6 
+02:30.761	ID:37	stats 37 5 7 6 
+02:30.762	ID:20	Sending
+02:30.762	ID:16	Sending
+02:30.764	ID:37	Sending
+02:30.765	ID:20	stats 20 5 0 3 
+02:30.766	ID:16	stats 16 4 0 3 
+02:30.821	ID:31	Sending
+02:30.824	ID:31	stats 31 4 1 4 
+02:30.846	ID:10	Sending

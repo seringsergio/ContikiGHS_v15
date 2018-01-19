@@ -699,6 +699,14 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
                         packetbuf_copyfrom(&rp_msg, sizeof(rp_msg));
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, REPORT);
                         runicast_send(&runicast, &rp_msg.destination, MAX_RETRANSMISSIONS);
+                        stats_ghs.report_sent++;
+                        MY_DBG_1("stats %d %lu %lu %lu %lu %lu %lu %lu\n",linkaddr_node_addr.u8[0], stats_ghs.connect_sent,
+                                                                                                  stats_ghs.initiate_sent,
+                                                                                                  stats_ghs.test_sent,
+                                                                                                  stats_ghs.accept_sent,
+                                                                                                  stats_ghs.reject_sent,
+                                                                                                  stats_ghs.report_sent,
+                                                                                                  stats_ghs.changeroot_sent);
                         MY_DBG_3("Envie report a %d Neigh=%d Weight=%d.%02d flags=%04X\n",
                                 rp_msg.destination.u8[0],
                                 rp_msg.neighbor_r.u8[0],
@@ -731,6 +739,14 @@ PROCESS_THREAD(send_message_report_ChaRoot, ev, data)
                             packetbuf_copyfrom(&cr_msg, sizeof(cr_msg));
                             packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, CHANGE_ROOT);
                             runicast_send(&runicast, &cr_msg.next_hop, MAX_RETRANSMISSIONS);
+                            stats_ghs.changeroot_sent++;
+                            MY_DBG_1("stats %d %lu %lu %lu %lu %lu %lu %lu\n",linkaddr_node_addr.u8[0], stats_ghs.connect_sent,
+                                                                                                      stats_ghs.initiate_sent,
+                                                                                                      stats_ghs.test_sent,
+                                                                                                      stats_ghs.accept_sent,
+                                                                                                      stats_ghs.reject_sent,
+                                                                                                      stats_ghs.report_sent,
+                                                                                                      stats_ghs.changeroot_sent);
                             MY_DBG_3("Envie CHANGE_RooT next_hop=%d final_destination=%d\n",
                                     cr_msg.next_hop.u8[0],
                                     cr_msg.final_destination.u8[0]

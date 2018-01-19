@@ -535,6 +535,14 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                         packetbuf_copyfrom(&t_msg, sizeof(t_msg));
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, TEST);
                         runicast_send(&runicast, &t_msg.destination, MAX_RETRANSMISSIONS);
+                        stats_ghs.test_sent++;
+                        MY_DBG_1("stats %d %lu %lu %lu %lu %lu %lu %lu\n",linkaddr_node_addr.u8[0], stats_ghs.connect_sent,
+                                                                                                  stats_ghs.initiate_sent,
+                                                                                                  stats_ghs.test_sent,
+                                                                                                  stats_ghs.accept_sent,
+                                                                                                  stats_ghs.reject_sent,
+                                                                                                  stats_ghs.report_sent,
+                                                                                                  stats_ghs.changeroot_sent);
 
                         MY_DBG_3("Deseo enviar e_msg_test a %d\n", t_msg.destination.u8[0]);
                         //remuevo el elemento de la lista
@@ -564,6 +572,15 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                         packetbuf_copyfrom(&r_msg, sizeof(r_msg));
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_REJECT);
                         runicast_send(&runicast, &r_msg.destination, MAX_RETRANSMISSIONS);
+                        stats_ghs.reject_sent++;
+                        MY_DBG_1("stats %d %lu %lu %lu %lu %lu %lu %lu\n",linkaddr_node_addr.u8[0], stats_ghs.connect_sent,
+                                                                                                  stats_ghs.initiate_sent,
+                                                                                                  stats_ghs.test_sent,
+                                                                                                  stats_ghs.accept_sent,
+                                                                                                  stats_ghs.reject_sent,
+                                                                                                  stats_ghs.report_sent,
+                                                                                                  stats_ghs.changeroot_sent);
+
                         MY_DBG_3("Envie reject a %d\n",r_msg.destination.u8[0] );
 
                         //remuevo el elemento de la lista
@@ -593,7 +610,14 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
                         packetbuf_copyfrom(&a_msg, sizeof(a_msg));
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_ACCEPT);
                         runicast_send(&runicast, &a_msg.destination, MAX_RETRANSMISSIONS);
-
+                        stats_ghs.accept_sent++;
+                        MY_DBG_1("stats %d %lu %lu %lu %lu %lu %lu %lu\n",linkaddr_node_addr.u8[0], stats_ghs.connect_sent,
+                                                                                                  stats_ghs.initiate_sent,
+                                                                                                  stats_ghs.test_sent,
+                                                                                                  stats_ghs.accept_sent,
+                                                                                                  stats_ghs.reject_sent,
+                                                                                                  stats_ghs.report_sent,
+                                                                                                  stats_ghs.changeroot_sent);
                         MY_DBG_3("Envie accept a %d \n",a_msg.destination.u8[0]);
                         //remuevo el elemento de la lista
                         my_list_remove(a_list_out, a_list_out_p); //Remove a specific element from a list.
