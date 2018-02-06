@@ -15,3 +15,5 @@ g++ -o divideFileByID divideFileByID.cpp
 4. Ejecutar el divisor de archivos indicando el numero de nodos, por ejemplo 9. 
 
 ./divideFileByID 9
+./divideFileByID_ghs 40
+./divideFileByID_libp 40

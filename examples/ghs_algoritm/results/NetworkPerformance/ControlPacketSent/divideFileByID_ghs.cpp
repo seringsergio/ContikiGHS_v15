@@ -10,7 +10,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    std::ifstream file("stats-ghs.dat");
+    std::ifstream file("stats.dat");
     std::string line;
 
     if ( argc != 2 ) // argc should be 2 for correct execution
@@ -45,18 +45,14 @@ int main(int argc, char *argv[])
                 std::istringstream ss(line);
 
                 //Variable para guardar los datos que vienen en el archivo
-                float linkaddr_node_addr;
-                std::string connect_sent;
-                std::string initiate_sent;
-                std::string test_sent;
-                std::string accept_sent;
-                std::string reject_sent;
-                std::string report_sent;
-                std::string changeroot_sent;
+                float rimeaddr_node_addr;
+                std::string beaconsent;
+                std::string acksent;
+                std::string datasent;
 
 
                 //Sacar los todos los valores de la linea que estan separados por espacio
-                ss >> linkaddr_node_addr >> connect_sent >> initiate_sent >> test_sent >> accept_sent >> reject_sent >> report_sent >> changeroot_sent;
+                ss >> rimeaddr_node_addr >> beaconsent >> acksent >> datasent;
                 //Imprimir los valores guardados
                 //std::cout << linkaddr_node_addr << " " << all_cpu << " " <<
                 //all_lpm  << all_transmit << all_listen <<"\n";
@@ -64,7 +60,7 @@ int main(int argc, char *argv[])
                 //En que archivo guardo la linea?
                 for (float i = 1; i <= num_nodos; i++)
                 {
-                    if(linkaddr_node_addr == i)
+                    if(rimeaddr_node_addr == i)
                     {
                         //escribo en archivo i
                         stringstream a;
@@ -73,8 +69,8 @@ int main(int argc, char *argv[])
                         filename += ".dat";
                         files.open(filename.c_str(), std::ios_base::app);
                         //cout << filename << endl;
-                        files <<   std::fixed << setprecision(1) << linkaddr_node_addr << " "
-                        << connect_sent << " " << initiate_sent << " " << test_sent << " " << accept_sent << " " << reject_sent << " " << report_sent << " " << changeroot_sent << "\n";
+                        files <<   std::fixed << setprecision(1) << rimeaddr_node_addr << " "
+                        << beaconsent << " " << acksent << " " << datasent <<"\n";
                         files.close();
                     }
                 }
