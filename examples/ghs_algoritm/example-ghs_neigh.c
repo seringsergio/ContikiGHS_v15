@@ -91,10 +91,11 @@ PROCESS(n_broadcast_neighbor_discovery, "Neighbor Discovery via Broadcast");
 PROCESS(n_link_weight_worst_case, "Assume Worst Weight for Link");
 PROCESS(master_neighbor_discovery, "GHS Control");
 PROCESS(energy_measurement, "Energy measurement");
+PROCESS(DataCollection, "Data Collection - Send packet 30seconds"); // Process that sends a packet every 30 seconds to its parent
 
 AUTOSTART_PROCESSES(&energy_measurement , &master_neighbor_discovery, &n_broadcast_neighbor_discovery,
                      &wait, &n_link_weight_worst_case,
-                     &master_co_i );
+                     &master_co_i, &DataCollection );
 
 /*------------------------------------------------------------------- */
 /*-----------FUNCIONES-------------------------------------------------*/
@@ -158,6 +159,31 @@ static void n_broadcast_recv(struct broadcast_conn *c, const linkaddr_t *from)
 static const struct broadcast_callbacks broadcast_call = {n_broadcast_recv};
 /* Exit handler del proceso master_neighbor_discovery
 */
+//----------------------Unicast para el data collection------------
+static void
+recv_uc_data_collection(struct unicast_conn *c, const linkaddr_t *from)
+{
+  //MY_DEBUG_2
+  printf("unicast message received from %d.%d - Data Collection\n",
+	 from->u8[0], from->u8[1]);
+}
+/*---------------------------------------------------------------------------*/
+static void
+sent_uc_data_collection(struct unicast_conn *c, int status, int num_tx)
+{
+  const linkaddr_t *dest = packetbuf_addr(PACKETBUF_ADDR_RECEIVER);
+  if(linkaddr_cmp(dest, &linkaddr_null)) {
+    return;
+  }
+  //MY_DEBUG_2
+  printf("unicast message sent to %d.%d: status %d num_tx %d - Data Collection\n",
+    dest->u8[0], dest->u8[1], status, num_tx);
+}
+/*---------------------------------------------------------------------------*/
+static const struct unicast_callbacks unicast_callbacks = {recv_uc_data_collection, sent_uc_data_collection};  //Unicast para el data collection
+static struct unicast_conn uc; //Conexion de unicast para el data collection
+/*---------------------------------------------------------------------------*/
+
 static void master_neighbor_discovery_exit_handler(void)
 {
     MY_DBG_3("Process Exit: master_neighbor_discovery \n");
@@ -167,12 +193,50 @@ static void master_neighbor_discovery_exit_handler(void)
 /*------------------------------------------------------------------- */
 /*---------------------------------------------------------------------------*/
 
+PROCESS_THREAD(DataCollection, ev, data)
+{
+    static struct etimer periodic;
+    static struct etimer et;
+
+    PROCESS_BEGIN();
+
+    unicast_open(&uc, 146, &unicast_callbacks);
+
+    /* Allow some time for the network to settle - Esperar a que el arbol se construya -El timepo de convergencia de GHS es 160 segundos segun mediciones */
+    etimer_set(&et, 160 * CLOCK_SECOND);
+    PROCESS_WAIT_UNTIL(etimer_expired(&et));
+
+    while(1)
+    {
+
+        /* Send a packet every 30 seconds. */
+        if(etimer_expired(&periodic))
+        {
+            etimer_set(&periodic, CLOCK_SECOND * 30);
+            etimer_set(&et, random_rand() % (CLOCK_SECOND * 30));
+        }
+
+        PROCESS_WAIT_EVENT();
+
+        if(etimer_expired(&et))
+        {
+            packetbuf_copyfrom("Hello", 5);
+            //if(!linkaddr_cmp(&nd.parent, &linkaddr_node_addr)) { //Al comienzo yo soy mi padre. Es decir, parent = linkaddr_node_addr
+              unicast_send(&uc, &nd.parent);
+            //}
+        }
+
+      }//END WHILE
+      PROCESS_END();
+} //END PROCESS
+
 PROCESS_THREAD(energy_measurement, ev, data)
 {
 
 
     PROCESS_BEGIN();
 
+    //Quitar el comentario para medir la energia
     //powertrace_start(CLOCK_SECOND * 10);
 
     PROCESS_END();

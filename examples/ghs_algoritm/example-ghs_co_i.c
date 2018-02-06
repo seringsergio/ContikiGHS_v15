@@ -130,7 +130,7 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
    } else {
      // Detect duplicate callback
      if(e->seq == seqno) {
-       MY_DBG_3("runicast (co-i) message received from %d.%d, seqno %d (DUPLICATE)\n",
+       MY_DBG_1("runicast (co-i) message received from %d.%d, seqno %d (DUPLICATE)\n",
         from->u8[0], from->u8[1], seqno);
        return;
      }
@@ -183,6 +183,8 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
           process_post(&evaluar_msg_test, PROCESS_EVENT_CONTINUE, NULL ) ;
        }
 
+   }else{
+      MY_DBG_1("ERROR: No se de que tipo es CONNECT o INITIATE");
    } //END if msg es INITIATE
 
 }

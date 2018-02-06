@@ -23,9 +23,9 @@ typedef struct wait s_wait;
 /*------------------------------------------------------------------- */
 
 //#define MAX_NODOS_EN_RED 9
-#define MAX_NODOS_EN_RED 6
-#define MAX_NEIGHBORS 8 // This defines the maximum amount of neighbors we can remember. 16 con 16 se muere el programa por memoria
-#define MAX_RETRANSMISSIONS 100 //TIENE que esta en min 100
+#define MAX_NODOS_EN_RED 6 //Originalmente estaba en 15, luego paso a 6.
+#define MAX_NEIGHBORS 8 // This defines the maximum amount of neighbors we can remember. 16 con 16 se muere el programa por memoria. Con 8 no molesta por memoria
+#define MAX_RETRANSMISSIONS 100 //TIENE que esta en min 100.
 #define NUM_HISTORY_ENTRIES MAX_NEIGHBORS //Numero de entradas los 16 vecinos posibles
 #define WAIT_NETWORK_STABILIZATION (MAX_NODOS_EN_RED * 4) //por cada nodo espero 4 segundos
 #define STOP_BROADCAST (MAX_NEIGHBORS * 1) // Detengo el broadcast cuando seqno sea > STOP_BROADCAST
