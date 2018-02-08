@@ -172,7 +172,7 @@ static void recv_runicast_test(struct runicast_conn *c, const linkaddr_t *from, 
               process_post(&evaluar_msg_test, PROCESS_EVENT_CONTINUE, NULL ) ;
 
           }
-      }else
+      }/*else
       if(msg_type == M_ACCEPT)
       {
           accept_list *a_list_p;
@@ -201,12 +201,15 @@ static void recv_runicast_test(struct runicast_conn *c, const linkaddr_t *from, 
               list_add(rj_list, rj_list_p); //Add an item at the end of a list.
               process_post(&evaluar_msg_reject, PROCESS_EVENT_CONTINUE, NULL);
           }
+      }*/
+      else{
+         MY_DBG_1("ERROR: No se de que tipo es - test");
       }
 }
 
 static void recv_runicast_accept(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 {
-    void *msg = packetbuf_dataptr();
+    //void *msg = packetbuf_dataptr();
 
    /* OPTIONAL: Sender history */
 
@@ -238,7 +241,7 @@ static void recv_runicast_accept(struct runicast_conn *c, const linkaddr_t *from
       //Leer el packet buffer attribute: Especificamente el tipo de mensaje
       packetbuf_attr_t msg_type = packetbuf_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG);
       // Evaluo el tipo de msg que llego
-      if(msg_type == TEST)
+      /*if(msg_type == TEST)
       {
           test_list *t_list_p;
           t_list_p = memb_alloc(&t_mem); //Alocar memoria
@@ -253,7 +256,7 @@ static void recv_runicast_accept(struct runicast_conn *c, const linkaddr_t *from
               process_post(&evaluar_msg_test, PROCESS_EVENT_CONTINUE, NULL ) ;
 
           }
-      }else
+      }else*/
       if(msg_type == M_ACCEPT)
       {
           accept_list *a_list_p;
@@ -268,7 +271,7 @@ static void recv_runicast_accept(struct runicast_conn *c, const linkaddr_t *from
               process_post(&evaluar_msg_accept, PROCESS_EVENT_CONTINUE, NULL);
 
           }
-      }else
+      }/*else
       if(msg_type == M_REJECT)
       {
           reject_list *rj_list_p;
@@ -282,12 +285,17 @@ static void recv_runicast_accept(struct runicast_conn *c, const linkaddr_t *from
               list_add(rj_list, rj_list_p); //Add an item at the end of a list.
               process_post(&evaluar_msg_reject, PROCESS_EVENT_CONTINUE, NULL);
           }
+      }*/
+      else{
+         MY_DBG_1("ERROR: No se de que tipo es - ACCEPT");
       }
 }
 
+
+
 static void recv_runicast_reject(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 {
-    void *msg = packetbuf_dataptr();
+    //void *msg = packetbuf_dataptr();
 
    /* OPTIONAL: Sender history */
 
@@ -319,7 +327,7 @@ static void recv_runicast_reject(struct runicast_conn *c, const linkaddr_t *from
       //Leer el packet buffer attribute: Especificamente el tipo de mensaje
       packetbuf_attr_t msg_type = packetbuf_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG);
       // Evaluo el tipo de msg que llego
-      if(msg_type == TEST)
+      /*if(msg_type == TEST)
       {
           test_list *t_list_p;
           t_list_p = memb_alloc(&t_mem); //Alocar memoria
@@ -349,7 +357,7 @@ static void recv_runicast_reject(struct runicast_conn *c, const linkaddr_t *from
               process_post(&evaluar_msg_accept, PROCESS_EVENT_CONTINUE, NULL);
 
           }
-      }else
+      }else*/
       if(msg_type == M_REJECT)
       {
           reject_list *rj_list_p;
@@ -363,6 +371,8 @@ static void recv_runicast_reject(struct runicast_conn *c, const linkaddr_t *from
               list_add(rj_list, rj_list_p); //Add an item at the end of a list.
               process_post(&evaluar_msg_reject, PROCESS_EVENT_CONTINUE, NULL);
           }
+      }else{
+         MY_DBG_1("ERROR: No se de que tipo es - REJECT");
       }
 }
 

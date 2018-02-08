@@ -158,7 +158,7 @@
 
               process_post(&evaluar_msg_rp, PROCESS_EVENT_CONTINUE, NULL);
           }
-       }else //end IF REPORT
+       }/*else //end IF REPORT
        if(msg_type == CHANGE_ROOT)
        {
            change_root_list *cr_list_p;
@@ -173,6 +173,9 @@
                list_add(cr_list, cr_list_p); //Add an item at the end of a list.
                process_post(&evaluar_msg_cr, PROCESS_EVENT_CONTINUE, NULL);
            }
+       }*/
+       else{
+          MY_DBG_1("ERROR: No se de que tipo es - REPORT");
        }
  }
 
@@ -210,7 +213,7 @@
     }
        //Leer el packet buffer attribute: Especificamente el tipo de mensaje
        packetbuf_attr_t msg_type = packetbuf_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG);
-       if(msg_type == REPORT)
+       /*if(msg_type == REPORT)
        {
           report_list *rp_list_p;
           rp_list_p = memb_alloc(&rp_mem); //Alocar memoria
@@ -233,7 +236,7 @@
 
               process_post(&evaluar_msg_rp, PROCESS_EVENT_CONTINUE, NULL);
           }
-       }else //end IF REPORT
+       }else //end IF REPORT*/
        if(msg_type == CHANGE_ROOT)
        {
            change_root_list *cr_list_p;
@@ -248,6 +251,8 @@
                list_add(cr_list, cr_list_p); //Add an item at the end of a list.
                process_post(&evaluar_msg_cr, PROCESS_EVENT_CONTINUE, NULL);
            }
+       }else{
+          MY_DBG_1("ERROR: No se de que tipo es - CHANGE_ROOT");
        }
  }
 

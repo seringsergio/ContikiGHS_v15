@@ -165,8 +165,8 @@ static void recv_runicast_co(struct runicast_conn *c, const linkaddr_t *from, ui
 
        }
 
-   }else
-   if(msg_type == INITIATE)
+   }
+   /*if(msg_type == INITIATE)
    {
 
        initiate_list *i_list_p;
@@ -188,8 +188,9 @@ static void recv_runicast_co(struct runicast_conn *c, const linkaddr_t *from, ui
           process_post(&evaluar_msg_test, PROCESS_EVENT_CONTINUE, NULL ) ;
        }
 
-   }else{
-      MY_DBG_1("ERROR: No se de que tipo es CONNECT o INITIATE");
+   }else*/
+   else{
+      MY_DBG_1("ERROR: No se de que tipo es  - CONNECT");
    } //END if msg es INITIATE
 
 }
@@ -230,7 +231,7 @@ static void recv_runicast_i(struct runicast_conn *c, const linkaddr_t *from, uin
    packetbuf_attr_t msg_type = packetbuf_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG);
 
    // Evaluo el tipo de msg que llego
-   if(msg_type == CONNECT)
+   /*if(msg_type == CONNECT)
    {
        connect_list *co_list_p;
        co_list_p = memb_alloc(&co_mem); //Alocar memoria
@@ -248,7 +249,7 @@ static void recv_runicast_i(struct runicast_conn *c, const linkaddr_t *from, uin
 
        }
 
-   }else
+   }else*/
    if(msg_type == INITIATE)
    {
 
@@ -272,7 +273,7 @@ static void recv_runicast_i(struct runicast_conn *c, const linkaddr_t *from, uin
        }
 
    }else{
-      MY_DBG_1("ERROR: No se de que tipo es CONNECT o INITIATE");
+      MY_DBG_1("ERROR: No se de que tipo es - INITIATE");
    } //END if msg es INITIATE
 
 }
