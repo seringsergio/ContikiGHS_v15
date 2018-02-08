@@ -80,7 +80,7 @@ LIST(history_list);
 /*----------STATIC VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
 static struct broadcast_conn n_broadcast; // Es la conexion broadcast.
-static struct runicast_conn runicast; //Es la conexion de runicast
+static struct runicast_conn runicast_worst_case; //Es la conexion de runicast
 
 /*------------------------------------------------------------------- */
 /*----------PROCESSES------- -----------------------------------------*/
@@ -90,12 +90,15 @@ PROCESS(wait, "Wait for Network Stabilization");
 PROCESS(n_broadcast_neighbor_discovery, "Neighbor Discovery via Broadcast");
 PROCESS(n_link_weight_worst_case, "Assume Worst Weight for Link");
 PROCESS(master_neighbor_discovery, "GHS Control");
-PROCESS(energy_measurement, "Energy measurement");
-PROCESS(DataCollection, "Data Collection - Send packet 30seconds"); // Process that sends a packet every 30 seconds to its parent
+//PROCESS(energy_measurement, "Energy measurement");
+//PROCESS(DataCollection, "Data Collection - Send packet 30seconds"); // Process that sends a packet every 30 seconds to its parent
 
-AUTOSTART_PROCESSES(&energy_measurement , &master_neighbor_discovery, &n_broadcast_neighbor_discovery,
+AUTOSTART_PROCESSES( //&energy_measurement ,
+                    &master_neighbor_discovery, &n_broadcast_neighbor_discovery,
                      &wait, &n_link_weight_worst_case,
-                     &master_co_i, &DataCollection );
+                     &master_co_i
+                     //, &DataCollection
+                     );
 
 /*------------------------------------------------------------------- */
 /*-----------FUNCIONES-------------------------------------------------*/
@@ -131,7 +134,7 @@ static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
 */
 static void n_link_weight_worst_exit_handler(void)
 {
-    runicast_close(&runicast);
+    runicast_close(&runicast_worst_case);
     ghs_n_link_weight_worst_exit_handler(list_head(neighbors_list), &linkaddr_node_addr);
 }
 /*---------------------------------------------------------------------------*/
@@ -160,6 +163,7 @@ static const struct broadcast_callbacks broadcast_call = {n_broadcast_recv};
 /* Exit handler del proceso master_neighbor_discovery
 */
 //----------------------Unicast para el data collection------------
+/*
 static void
 recv_uc_data_collection(struct unicast_conn *c, const linkaddr_t *from)
 {
@@ -167,7 +171,7 @@ recv_uc_data_collection(struct unicast_conn *c, const linkaddr_t *from)
   printf("unicast message received from %d.%d - Data Collection\n",
 	 from->u8[0], from->u8[1]);
 }
-/*---------------------------------------------------------------------------*/
+//
 static void
 sent_uc_data_collection(struct unicast_conn *c, int status, int num_tx)
 {
@@ -179,9 +183,9 @@ sent_uc_data_collection(struct unicast_conn *c, int status, int num_tx)
   printf("unicast message sent to %d.%d: status %d num_tx %d - Data Collection\n",
     dest->u8[0], dest->u8[1], status, num_tx);
 }
-/*---------------------------------------------------------------------------*/
+
 static const struct unicast_callbacks unicast_callbacks = {recv_uc_data_collection, sent_uc_data_collection};  //Unicast para el data collection
-static struct unicast_conn uc; //Conexion de unicast para el data collection
+static struct unicast_conn uc; //Conexion de unicast para el data collection */
 /*---------------------------------------------------------------------------*/
 
 static void master_neighbor_discovery_exit_handler(void)
@@ -193,23 +197,22 @@ static void master_neighbor_discovery_exit_handler(void)
 /*------------------------------------------------------------------- */
 /*---------------------------------------------------------------------------*/
 
-PROCESS_THREAD(DataCollection, ev, data)
+/*PROCESS_THREAD(DataCollection, ev, data)
 {
-    static struct etimer periodic;
-    static struct etimer et;
+    //static struct etimer periodic;
+    //static struct etimer et;
 
     PROCESS_BEGIN();
-
     unicast_open(&uc, 146, &unicast_callbacks);
 
-    /* Allow some time for the network to settle - Esperar a que el arbol se construya -El timepo de convergencia de GHS es 160 segundos segun mediciones */
+    // Allow some time for the network to settle - Esperar a que el arbol se construya -El timepo de convergencia de GHS es 160 segundos segun mediciones
     etimer_set(&et, 160 * CLOCK_SECOND);
     PROCESS_WAIT_UNTIL(etimer_expired(&et));
 
     while(1)
     {
 
-        /* Send a packet every 30 seconds. */
+        // Send a packet every 30 seconds.
         if(etimer_expired(&periodic))
         {
             etimer_set(&periodic, CLOCK_SECOND * 30);
@@ -228,9 +231,9 @@ PROCESS_THREAD(DataCollection, ev, data)
 
       }//END WHILE
       PROCESS_END();
-} //END PROCESS
+} //END PROCESS*/
 
-PROCESS_THREAD(energy_measurement, ev, data)
+/*PROCESS_THREAD(energy_measurement, ev, data)
 {
 
 
@@ -240,7 +243,7 @@ PROCESS_THREAD(energy_measurement, ev, data)
     //powertrace_start(CLOCK_SECOND * 10);
 
     PROCESS_END();
-}
+}*/
 
 /* Este es el proceso MASTER. Este proceso controla a los otros procesos esclavos.
 *  Los puede controlar con start, stop, exit, continue, etc. Es decir, este proceso
@@ -360,7 +363,7 @@ PROCESS_THREAD(n_link_weight_worst_case, ev, data)
   PROCESS_EXITHANDLER(n_link_weight_worst_exit_handler());
   PROCESS_BEGIN();
 
-  runicast_open(&runicast, 144, &runicast_callbacks);
+  runicast_open(&runicast_worst_case, 144, &runicast_callbacks);
 
   /* OPTIONAL: Sender history */
   list_init(history_list);
@@ -382,7 +385,7 @@ PROCESS_THREAD(n_link_weight_worst_case, ev, data)
             etimer_set(&et, CLOCK_SECOND * 2 + random_rand() % (CLOCK_SECOND * 2));
             PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
-            if(!runicast_is_transmitting(&runicast)) // Si runicast no esta TX, entra
+            if(!runicast_is_transmitting(&runicast_worst_case)) // Si runicast no esta TX, entra
             {
                 msg.avg_seqno_gap = n_aux->avg_seqno_gap; //llenar el msg
                 packetbuf_copyfrom(&msg, sizeof(msg));
@@ -391,8 +394,8 @@ PROCESS_THREAD(n_link_weight_worst_case, ev, data)
                    linkaddr_node_addr.u8[1],
                    n_aux->addr.u8[0],
                    n_aux->addr.u8[1]);
-                runicast_send(&runicast, &n_aux->addr, MAX_RETRANSMISSIONS);
-                while (runicast_is_transmitting(&runicast))
+                runicast_send(&runicast_worst_case, &n_aux->addr, MAX_RETRANSMISSIONS);
+                while (runicast_is_transmitting(&runicast_worst_case))
                 {
                     PROCESS_PAUSE();
                 }

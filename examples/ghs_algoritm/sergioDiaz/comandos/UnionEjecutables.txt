@@ -28,6 +28,7 @@ En la siguiente linea se especifica el numero de nodos en la red
 //Copiar y pegar el contenido de gnuGraph_vectors.txt y gnuGraph_lines.txt
 
 //para 40 nodos
+./parserLogListener_vectors 10 > edges_vectors.dat && ./parserLogListener_lines > edges_lines.dat && java readSimulation > pnts.dat && gnuplot
 ./parserLogListener_vectors 40 > edges_vectors.dat && ./parserLogListener_lines > edges_lines.dat && java readSimulation > pnts.dat && gnuplot
 ./parserLogListener_vectors 50 > edges_vectors.dat && ./parserLogListener_lines > edges_lines.dat && java readSimulation > pnts.dat && gnuplot
 

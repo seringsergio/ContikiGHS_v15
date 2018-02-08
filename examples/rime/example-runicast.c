@@ -122,6 +122,7 @@ PROCESS_THREAD(test_runicast_process, ev, data)
 
   PROCESS_BEGIN();
 
+  // 
   runicast_open(&runicast, 144, &runicast_callbacks);
 
   /* OPTIONAL: Sender history */

@@ -1,921 +1,180 @@
-00:00.282	ID:20	Rime started with address 20.0
-00:00.284	ID:36	Rime started with address 36.0
-00:00.291	ID:20	MAC 14:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 20.
-00:00.293	ID:36	MAC 24:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 36.
-00:00.303	ID:20	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.305	ID:36	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.305	ID:27	Rime started with address 27.0
-00:00.314	ID:27	MAC 1b:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 27.
-00:00.317	ID:20	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.319	ID:36	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.323	ID:4	Rime started with address 4.0
-00:00.326	ID:27	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.332	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 4.
-00:00.340	ID:27	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.343	ID:4	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.353	ID:25	Rime started with address 25.0
-00:00.358	ID:4	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.362	ID:25	MAC 19:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 25.
-00:00.374	ID:25	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.388	ID:25	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.406	ID:12	Rime started with address 12.0
-00:00.414	ID:12	MAC 0c:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 12.
-00:00.426	ID:12	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.428	ID:10	Rime started with address 10.0
-00:00.433	ID:23	Rime started with address 23.0
-00:00.437	ID:10	MAC 0a:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 10.
-00:00.438	ID:29	Rime started with address 29.0
-00:00.440	ID:12	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.442	ID:23	MAC 17:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 23.
-00:00.446	ID:29	MAC 1d:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 29.
-00:00.449	ID:10	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.453	ID:23	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.458	ID:29	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.463	ID:10	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.468	ID:23	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.472	ID:29	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.525	ID:40	Rime started with address 40.0
-00:00.533	ID:40	MAC 28:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 40.
-00:00.545	ID:40	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.559	ID:40	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.569	ID:11	Rime started with address 11.0
-00:00.569	ID:33	Rime started with address 33.0
-00:00.573	ID:17	Rime started with address 17.0
-00:00.578	ID:11	MAC 0b:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 11.
-00:00.578	ID:33	MAC 21:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 33.
-00:00.582	ID:17	MAC 11:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 17.
-00:00.589	ID:11	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.590	ID:33	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.593	ID:17	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.604	ID:11	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.604	ID:33	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.608	ID:17	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.635	ID:5	Rime started with address 5.0
-00:00.644	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 5.
-00:00.647	ID:7	Rime started with address 7.0
-00:00.655	ID:5	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.656	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 7.
-00:00.667	ID:7	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.670	ID:5	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.682	ID:7	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.715	ID:28	Rime started with address 28.0
-00:00.724	ID:28	MAC 1c:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 28.
-00:00.725	ID:8	Rime started with address 8.0
-00:00.734	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 8.
-00:00.735	ID:28	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.745	ID:8	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.750	ID:28	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.760	ID:8	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.761	ID:21	Rime started with address 21.0
-00:00.770	ID:21	MAC 15:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 21.
-00:00.781	ID:21	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.796	ID:21	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.798	ID:15	Rime started with address 15.0
-00:00.806	ID:15	MAC 0f:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 15.
-00:00.818	ID:15	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.832	ID:15	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.914	ID:38	Rime started with address 38.0
-00:00.923	ID:38	MAC 26:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 38.
-00:00.935	ID:38	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.941	ID:3	Rime started with address 3.0
-00:00.948	ID:34	Rime started with address 34.0
-00:00.949	ID:38	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.949	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 3.
-00:00.957	ID:34	MAC 22:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 34.
-00:00.961	ID:3	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.969	ID:34	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:00.975	ID:3	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.980	ID:16	Rime started with address 16.0
-00:00.983	ID:34	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:00.984	ID:35	Rime started with address 35.0
-00:00.989	ID:16	MAC 10:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 16.
-00:00.990	ID:9	Rime started with address 9.0
-00:00.993	ID:35	MAC 23:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 35.
-00:00.999	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 9.
-00:01.000	ID:16	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:01.004	ID:35	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:01.010	ID:9	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:01.015	ID:16	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:01.019	ID:35	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:01.020	ID:30	Rime started with address 30.0
-00:01.024	ID:32	Rime started with address 32.0
-00:01.025	ID:9	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:01.029	ID:30	MAC 1e:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 30.
-00:01.032	ID:32	MAC 20:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 32.
-00:01.041	ID:30	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:01.043	ID:18	Rime started with address 18.0
-00:01.044	ID:32	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:01.052	ID:18	MAC 12:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 18.
-00:01.055	ID:30	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:01.059	ID:32	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:01.063	ID:18	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:01.074	ID:19	Rime started with address 19.0
-00:01.078	ID:18	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:01.083	ID:19	MAC 13:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 19.
-00:01.089	ID:2	Rime started with address 2.0
-00:01.094	ID:19	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:01.097	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 2.
-00:01.109	ID:2	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:01.109	ID:19	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:01.123	ID:2	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:01.124	ID:1	Rime started with address 1.0
-00:01.132	ID:13	Rime started with address 13.0
-00:01.133	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 1.
-00:01.134	ID:14	Rime started with address 14.0
-00:01.139	ID:39	Rime started with address 39.0
-00:01.141	ID:13	MAC 0d:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 13.
-00:01.143	ID:14	MAC 0e:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 14.
-00:01.144	ID:1	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:01.148	ID:39	MAC 27:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 39.
-00:01.150	ID:31	Rime started with address 31.0
-00:01.151	ID:24	Rime started with address 24.0
-00:01.152	ID:13	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:01.154	ID:14	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:01.158	ID:31	MAC 1f:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 31.
-00:01.159	ID:1	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:01.160	ID:39	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:01.160	ID:24	MAC 18:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 24.
-00:01.167	ID:13	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:01.169	ID:14	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:01.170	ID:31	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:01.171	ID:24	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:01.174	ID:39	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:01.185	ID:31	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:01.186	ID:6	Rime started with address 6.0
-00:01.186	ID:24	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:01.187	ID:37	Rime started with address 37.0
-00:01.194	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 6.
-00:01.196	ID:37	MAC 25:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 37.
-00:01.206	ID:6	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:01.207	ID:37	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:01.221	ID:6	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:01.221	ID:37	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:01.222	ID:26	Rime started with address 26.0
-00:01.230	ID:26	MAC 1a:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 26.
-00:01.242	ID:26	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:01.256	ID:26	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-00:01.261	ID:22	Rime started with address 22.0
-00:01.270	ID:22	MAC 16:00:00:00:00:00:00:00 Contiki-933704c started. Node id is set to 22.
-00:01.281	ID:22	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
-00:01.296	ID:22	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
-01:46.990	ID:12	READ 12 17 1.21 2 
-01:46.992	ID:12	READ 12 28 1.45 1 
-01:46.996	ID:12	READ 12 23 1.46 1 
-01:47.022	ID:35	READ 35 13 1.10 2 
-01:47.024	ID:35	READ 35 37 1.21 1 
-01:47.028	ID:35	READ 35 31 1.41 1 
-01:47.030	ID:35	READ 35 36 1.62 1 
-01:47.042	ID:18	READ 18 33 1.26 2 
-01:47.044	ID:18	READ 18 6 1.26 1 
-01:47.048	ID:18	READ 18 15 1.74 1 
-01:47.740	ID:13	READ 13 35 1.10 2 
-01:47.742	ID:13	READ 13 31 1.12 1 
-01:47.746	ID:13	READ 13 23 1.20 1 
-01:47.748	ID:13	READ 13 28 1.32 1 
-01:47.913	ID:38	READ 38 30 1.08 2 
-01:47.915	ID:38	READ 38 32 1.25 1 
-01:47.919	ID:38	READ 38 9 1.41 1 
-01:47.921	ID:38	READ 38 25 1.53 1 
-01:49.141	ID:5	READ 5 17 1.01 2 
-01:49.143	ID:5	READ 5 4 1.17 1 
-01:49.147	ID:5	READ 5 14 1.52 1 
-01:50.489	ID:10	READ 10 25 1.15 2 
-01:50.491	ID:10	READ 10 9 1.46 1 
-01:50.495	ID:10	READ 10 34 1.80 1 
-01:50.510	ID:16	READ 16 1 1.08 2 
-01:50.512	ID:16	READ 16 39 1.10 1 
-01:50.516	ID:16	READ 16 11 1.25 1 
-01:50.518	ID:16	READ 16 36 1.35 1 
-01:50.521	ID:16	READ 16 9 1.37 1 
-01:51.000	ID:17	READ 17 5 1.01 2 
-01:51.003	ID:17	READ 17 12 1.21 1 
-01:51.006	ID:17	READ 17 7 1.25 1 
-01:51.008	ID:17	READ 17 28 1.32 1 
-01:51.520	ID:9	READ 9 16 1.37 2 
-01:51.522	ID:29	READ 29 4 1.13 2 
-01:51.522	ID:9	READ 9 38 1.41 1 
-01:51.524	ID:29	READ 29 22 1.27 1 
-01:51.526	ID:9	READ 9 34 1.41 1 
-01:51.528	ID:29	READ 29 21 1.53 1 
-01:51.528	ID:9	READ 9 10 1.46 1 
-01:51.530	ID:9	READ 9 36 1.62 1 
-01:51.564	ID:4	READ 4 29 1.13 2 
-01:51.565	ID:4	READ 4 5 1.17 1 
-01:51.569	ID:4	READ 4 14 1.26 1 
-01:51.571	ID:4	READ 4 22 1.75 1 
-01:51.630	ID:37	READ 37 36 1.18 2 
-01:51.632	ID:37	READ 37 35 1.21 1 
-01:51.636	ID:37	READ 37 34 1.27 1 
-01:51.880	ID:8	READ 8 24 1.01 2 
-01:51.881	ID:8	READ 8 26 1.09 1 
-01:51.885	ID:8	READ 8 20 1.59 1 
-01:51.900	ID:26	READ 26 20 1.04 2 
-01:51.902	ID:26	READ 26 30 1.07 1 
-01:51.905	ID:26	READ 26 8 1.09 1 
-01:51.907	ID:26	READ 26 32 1.63 1 
-01:52.111	ID:23	READ 23 13 1.20 2 
-01:52.113	ID:23	READ 23 12 1.46 1 
-01:52.117	ID:23	READ 23 28 1.85 1 
-01:52.892	ID:2	READ 2 33 1.00 2 
-01:52.894	ID:2	READ 2 6 1.03 1 
-01:52.897	ID:2	READ 2 39 1.04 1 
-01:52.899	ID:2	READ 2 24 1.13 1 
-01:52.901	ID:2	READ 2 40 1.19 1 
-01:52.905	ID:2	READ 2 20 1.36 1 
-01:53.008	ID:25	READ 25 10 1.15 2 
-01:53.010	ID:25	READ 25 30 1.33 1 
-01:53.014	ID:25	READ 25 38 1.53 1 
-01:53.165	ID:34	READ 34 37 1.27 2 
-01:53.167	ID:34	READ 34 9 1.41 1 
-01:53.171	ID:34	READ 34 10 1.80 1 
-01:53.262	ID:6	READ 6 2 1.03 2 
-01:53.264	ID:6	READ 6 33 1.09 1 
-01:53.268	ID:6	READ 6 18 1.26 1 
-01:53.270	ID:6	READ 6 24 1.51 1 
-01:53.514	ID:32	READ 32 38 1.25 2 
-01:53.516	ID:32	READ 32 20 1.55 1 
-01:53.520	ID:32	READ 32 26 1.63 1 
-01:53.522	ID:32	READ 32 30 1.82 1 
-01:53.524	ID:32	READ 32 39 1.95 1 
-01:54.265	ID:40	READ 40 33 1.04 2 
-01:54.267	ID:40	READ 40 2 1.19 1 
-01:54.271	ID:40	READ 40 27 1.34 1 
-01:54.273	ID:40	READ 40 1 1.36 1 
-01:54.275	ID:40	READ 40 39 1.51 1 
-01:54.279	ID:40	READ 40 19 1.94 1 
-01:54.615	ID:11	READ 11 16 1.25 2 
-01:54.618	ID:11	READ 11 1 1.35 1 
-01:54.621	ID:11	READ 11 36 1.36 1 
-01:54.622	ID:7	READ 7 3 1.10 2 
-01:54.623	ID:11	READ 11 31 1.47 1 
-01:54.624	ID:7	READ 7 17 1.25 1 
-01:54.627	ID:11	READ 11 19 1.51 1 
-01:54.628	ID:7	READ 7 19 1.30 1 
-01:54.629	ID:11	READ 11 3 1.53 1 
-01:54.630	ID:7	READ 7 14 1.31 1 
-01:54.632	ID:7	READ 7 28 2.04 1 
-01:54.964	ID:30	READ 30 26 1.07 2 
-01:54.966	ID:30	READ 30 38 1.08 1 
-01:54.970	ID:30	READ 30 25 1.33 1 
-01:54.972	ID:30	READ 30 32 1.82 1 
-01:55.306	ID:21	READ 21 15 1.26 2 
-01:55.309	ID:21	READ 21 29 1.53 1 
-01:55.312	ID:21	READ 21 22 1.62 1 
-01:56.146	ID:39	READ 39 2 1.04 2 
-01:56.148	ID:39	READ 39 16 1.10 1 
-01:56.152	ID:39	READ 39 1 1.46 1 
-01:56.154	ID:39	READ 39 40 1.51 1 
-01:56.156	ID:39	READ 39 20 1.63 1 
-01:56.160	ID:39	READ 39 32 1.95 1 
-01:56.252	ID:3	READ 3 31 1.03 2 
-01:56.254	ID:3	READ 3 7 1.10 1 
-01:56.257	ID:3	READ 3 19 1.12 1 
-01:56.259	ID:3	READ 3 28 1.43 1 
-01:56.261	ID:3	READ 3 11 1.53 1 
-01:56.291	ID:22	READ 22 29 1.27 2 
-01:56.293	ID:22	READ 22 27 1.30 1 
-01:56.297	ID:22	READ 22 15 1.30 1 
-01:56.299	ID:22	READ 22 21 1.62 1 
-01:56.302	ID:22	READ 22 4 1.75 1 
-01:56.414	ID:14	READ 14 19 1.04 2 
-01:56.417	ID:14	READ 14 27 1.13 1 
-01:56.420	ID:14	READ 14 4 1.26 1 
-01:56.422	ID:14	READ 14 7 1.31 1 
-01:56.424	ID:14	READ 14 5 1.52 1 
-01:57.024	ID:24	READ 24 8 1.01 2 
-01:57.026	ID:24	READ 24 2 1.13 1 
-01:57.030	ID:24	READ 24 20 1.15 1 
-01:57.032	ID:24	READ 24 6 1.51 1 
-01:57.166	ID:36	READ 36 37 1.18 2 
-01:57.168	ID:36	READ 36 31 1.29 1 
-01:57.172	ID:36	READ 36 16 1.35 1 
-01:57.174	ID:36	READ 36 11 1.36 1 
-01:57.177	ID:36	READ 36 35 1.62 1 
-01:57.180	ID:36	READ 36 9 1.62 1 
-01:57.224	ID:1	READ 1 16 1.08 2 
-01:57.226	ID:1	READ 1 11 1.35 1 
-01:57.230	ID:1	READ 1 40 1.36 1 
-01:57.232	ID:1	READ 1 19 1.40 1 
-01:57.234	ID:1	READ 1 39 1.46 1 
-01:57.804	ID:15	READ 15 27 1.25 2 
-01:57.806	ID:15	READ 15 21 1.26 1 
-01:57.810	ID:15	READ 15 33 1.29 1 
-01:57.812	ID:15	READ 15 22 1.30 1 
-01:57.815	ID:15	READ 15 18 1.74 1 
-01:59.089	ID:28	READ 28 13 1.32 2 
-01:59.092	ID:28	READ 28 17 1.32 1 
-01:59.095	ID:28	READ 28 3 1.43 1 
-01:59.097	ID:28	READ 28 12 1.45 1 
-01:59.100	ID:28	READ 28 23 1.85 1 
-01:59.103	ID:28	READ 28 7 2.04 1 
-01:59.456	ID:19	READ 19 14 1.04 2 
-01:59.458	ID:19	READ 19 3 1.12 1 
-01:59.461	ID:19	READ 19 27 1.14 1 
-01:59.463	ID:19	READ 19 7 1.30 1 
-01:59.465	ID:19	READ 19 1 1.40 1 
-01:59.469	ID:19	READ 19 11 1.51 1 
-01:59.471	ID:19	READ 19 40 1.94 1 
-02:00.172	ID:31	READ 31 3 1.03 2 
-02:00.174	ID:31	READ 31 13 1.12 1 
-02:00.177	ID:31	READ 31 36 1.29 1 
-02:00.180	ID:31	READ 31 35 1.41 1 
-02:00.182	ID:31	READ 31 11 1.47 1 
-02:01.310	ID:33	READ 33 2 1.00 2 
-02:01.312	ID:33	READ 33 40 1.04 1 
-02:01.316	ID:33	READ 33 6 1.09 1 
-02:01.318	ID:33	READ 33 18 1.26 1 
-02:01.320	ID:33	READ 33 15 1.29 1 
-02:01.324	ID:33	READ 33 27 1.30 1 
-02:01.383	ID:20	READ 20 26 1.04 2 
-02:01.385	ID:20	READ 20 24 1.15 1 
-02:01.388	ID:20	READ 20 2 1.36 1 
-02:01.391	ID:20	READ 20 32 1.55 1 
-02:01.393	ID:20	READ 20 8 1.59 1 
-02:01.396	ID:20	READ 20 39 1.63 1 
-02:07.117	ID:27	READ 27 14 1.13 2 
-02:07.119	ID:27	READ 27 19 1.14 1 
-02:07.123	ID:27	READ 27 15 1.25 1 
-02:07.125	ID:27	READ 27 33 1.30 1 
-02:07.128	ID:27	READ 27 22 1.30 1 
-02:07.131	ID:27	READ 27 40 1.34 1 
-02:11.136	ID:35	END 35 13 1.10 2 1.10 
-02:11.181	ID:35	REAAD 35 13 1.10 2 
-02:11.185	ID:35	REAAD 35 37 1.21 1 
-02:11.187	ID:35	REAAD 35 31 1.41 1 
-02:11.191	ID:35	REAAD 35 36 1.62 1 
-02:11.833	ID:13	END 13 35 1.10 2 1.10 
-02:11.883	ID:13	REAAD 13 35 1.10 2 
-02:11.887	ID:13	REAAD 13 31 1.12 1 
-02:11.889	ID:13	REAAD 13 23 1.20 1 
-02:11.892	ID:13	REAAD 13 28 1.32 1 
-02:13.220	ID:5	END 5 17 1.01 2 1.01 
-02:13.260	ID:5	REAAD 5 17 1.01 2 
-02:13.264	ID:5	REAAD 5 4 1.17 1 
-02:13.266	ID:5	REAAD 5 14 1.52 1 
-02:14.583	ID:10	END 10 25 1.15 2 1.15 
-02:14.594	ID:16	END 16 1 1.08 2 1.08 
-02:14.628	ID:10	REAAD 10 25 1.15 2 
-02:14.630	ID:10	REAAD 10 9 1.46 1 
-02:14.632	ID:10	REAAD 10 34 1.80 1 
-02:14.645	ID:16	REAAD 16 1 1.08 2 
-02:14.649	ID:16	REAAD 16 39 1.10 1 
-02:14.651	ID:16	REAAD 16 11 1.25 1 
-02:14.654	ID:16	REAAD 16 36 1.35 1 
-02:14.657	ID:16	REAAD 16 9 1.37 1 
-02:15.601	ID:29	END 29 4 1.13 2 1.13 
-02:15.646	ID:29	REAAD 29 4 1.13 2 
-02:15.648	ID:29	REAAD 29 22 1.27 1 
-02:15.652	ID:29	REAAD 29 21 1.53 1 
-02:15.706	ID:37	END 37 36 1.18 2 1.18 
-02:15.720	ID:4	END 4 29 1.13 2 1.13 
-02:15.744	ID:9	END 9 16 1.37 2 1.08 
-02:15.748	ID:37	REAAD 37 36 1.18 2 
-02:15.750	ID:37	REAAD 37 35 1.21 1 
-02:15.754	ID:37	REAAD 37 34 1.27 1 
-02:15.765	ID:4	REAAD 4 29 1.13 2 
-02:15.767	ID:4	REAAD 4 5 1.17 1 
-02:15.769	ID:4	REAAD 4 14 1.26 1 
-02:15.773	ID:4	REAAD 4 22 1.75 1 
-02:15.792	ID:9	REAAD 9 16 1.37 2 
-02:15.794	ID:9	REAAD 9 38 1.41 1 
-02:15.797	ID:9	REAAD 9 34 1.41 1 
-02:15.800	ID:9	REAAD 9 10 1.46 1 
-02:15.802	ID:9	REAAD 9 36 1.62 1 
-02:15.818	ID:17	END 17 5 1.01 2 1.01 
-02:15.892	ID:17	REAAD 17 5 1.01 2 
-02:15.895	ID:17	REAAD 17 12 1.21 2 
-02:15.898	ID:17	REAAD 17 7 1.25 1 
-02:15.900	ID:17	REAAD 17 28 1.32 1 
-02:15.925	ID:12	END 12 17 1.21 2 1.01 
-02:15.990	ID:12	REAAD 12 17 1.21 2 
-02:15.992	ID:12	REAAD 12 28 1.45 1 
-02:15.996	ID:12	REAAD 12 23 1.46 1 
-02:16.891	ID:23	END 23 13 1.20 2 1.10 
-02:16.936	ID:23	REAAD 23 13 1.20 2 
-02:16.938	ID:23	REAAD 23 12 1.46 1 
-02:16.941	ID:23	REAAD 23 28 1.85 1 
-02:17.004	ID:8	END 8 24 1.01 2 1.01 
-02:17.043	ID:23	END 23 13 1.20 2 1.10 
-02:17.075	ID:25	END 25 10 1.15 2 1.15 
-02:17.082	ID:8	REAAD 8 24 1.01 2 
-02:17.084	ID:8	REAAD 8 26 1.09 1 
-02:17.088	ID:8	REAAD 8 20 1.59 1 
-02:17.115	ID:25	REAAD 25 10 1.15 2 
-02:17.117	ID:25	REAAD 25 30 1.33 1 
-02:17.119	ID:25	REAAD 25 38 1.53 1 
-02:17.221	ID:26	END 26 20 1.04 2 1.04 
-02:17.228	ID:34	END 34 37 1.27 2 1.18 
-02:17.257	ID:2	END 2 33 1.00 2 1.00 
-02:17.272	ID:34	REAAD 34 37 1.27 2 
-02:17.274	ID:34	REAAD 34 9 1.41 1 
-02:17.276	ID:34	REAAD 34 10 1.80 1 
-02:17.293	ID:2	REAAD 2 33 1.00 2 
-02:17.296	ID:2	REAAD 2 6 1.03 1 
-02:17.297	ID:26	REAAD 26 20 1.04 2 
-02:17.298	ID:2	REAAD 2 39 1.04 1 
-02:17.299	ID:26	REAAD 26 30 1.07 1 
-02:17.300	ID:2	REAAD 2 24 1.13 1 
-02:17.301	ID:26	REAAD 26 8 1.09 1 
-02:17.304	ID:2	REAAD 2 40 1.19 1 
-02:17.304	ID:26	REAAD 26 32 1.63 1 
-02:17.308	ID:2	REAAD 2 20 1.36 1 
-02:17.798	ID:34	END 34 37 1.27 2 1.18 
-02:18.376	ID:6	END 6 2 1.03 2 1.00 
-02:18.419	ID:6	REAAD 6 2 1.03 2 
-02:18.422	ID:6	REAAD 6 33 1.09 1 
-02:18.425	ID:6	REAAD 6 18 1.26 1 
-02:18.427	ID:6	REAAD 6 24 1.51 1 
-02:18.455	ID:2	ERROR: Preguntarse porque quiero volver rejected un edge q ya es BRANCH
-02:18.464	ID:2	ERROR: (Duplicate) Preguntarse porque quiero volver rejected un edge q ya es BRANCH. Rejected llega de 6
-02:18.484	ID:2	REAAD 2 33 1.00 2 
-02:18.486	ID:2	REAAD 2 6 1.03 2 
-02:18.488	ID:2	REAAD 2 39 1.04 1 
-02:18.491	ID:2	REAAD 2 24 1.13 1 
-02:18.494	ID:2	REAAD 2 40 1.19 1 
-02:18.496	ID:2	REAAD 2 20 1.36 1 
-02:19.691	ID:11	END 11 16 1.25 2 1.08 
-02:19.748	ID:11	REAAD 11 16 1.25 2 
-02:19.752	ID:11	REAAD 11 1 1.35 1 
-02:19.754	ID:11	REAAD 11 36 1.36 1 
-02:19.756	ID:11	REAAD 11 31 1.47 1 
-02:19.760	ID:11	REAAD 11 19 1.51 1 
-02:19.762	ID:11	REAAD 11 3 1.53 1 
-02:20.222	ID:39	END 39 2 1.04 2 1.00 
-02:20.279	ID:39	REAAD 39 2 1.04 2 
-02:20.282	ID:39	REAAD 39 16 1.10 1 
-02:20.285	ID:39	REAAD 39 1 1.46 1 
-02:20.287	ID:39	REAAD 39 40 1.51 1 
-02:20.290	ID:39	REAAD 39 20 1.63 1 
-02:20.293	ID:39	REAAD 39 32 1.95 1 
-02:20.367	ID:3	END 3 31 1.03 2 1.03 
-02:20.429	ID:3	REAAD 3 31 1.03 2 
-02:20.431	ID:3	REAAD 3 7 1.10 2 
-02:20.432	ID:7	END 7 3 1.10 2 1.03 
-02:20.433	ID:3	REAAD 3 19 1.12 1 
-02:20.437	ID:3	REAAD 3 28 1.43 1 
-02:20.439	ID:3	REAAD 3 11 1.53 1 
-02:20.488	ID:7	REAAD 7 3 1.10 2 
-02:20.490	ID:7	REAAD 7 17 1.25 1 
-02:20.494	ID:7	REAAD 7 19 1.30 1 
-02:20.496	ID:7	REAAD 7 14 1.31 1 
-02:20.498	ID:7	REAAD 7 28 2.04 1 
-02:21.016	ID:30	END 30 26 1.07 2 1.04 
-02:21.104	ID:30	REAAD 30 26 1.07 2 
-02:21.106	ID:30	REAAD 30 38 1.08 2 
-02:21.110	ID:30	REAAD 30 25 1.33 1 
-02:21.112	ID:30	REAAD 30 32 1.82 1 
-02:21.224	ID:38	END 38 30 1.08 2 1.04 
-02:21.313	ID:38	REAAD 38 30 1.08 2 
-02:21.316	ID:32	END 32 38 1.25 2 1.04 
-02:21.317	ID:38	REAAD 38 32 1.25 2 
-02:21.319	ID:38	REAAD 38 9 1.41 1 
-02:21.321	ID:38	REAAD 38 25 1.53 1 
-02:21.363	ID:22	END 22 29 1.27 2 1.13 
-02:21.371	ID:32	REAAD 32 38 1.25 2 
-02:21.373	ID:32	REAAD 32 20 1.55 1 
-02:21.375	ID:32	REAAD 32 26 1.63 1 
-02:21.379	ID:32	REAAD 32 30 1.82 1 
-02:21.382	ID:32	REAAD 32 39 1.95 1 
-02:21.409	ID:22	REAAD 22 29 1.27 2 
-02:21.413	ID:22	REAAD 22 27 1.30 1 
-02:21.415	ID:22	REAAD 22 15 1.30 1 
-02:21.417	ID:22	REAAD 22 21 1.62 1 
-02:21.421	ID:22	REAAD 22 4 1.75 1 
-02:21.478	ID:2	ERROR: Preguntarse porque quiero volver rejected un edge q ya es BRANCH
-02:21.482	ID:14	END 14 19 1.04 2 1.04 
-02:21.486	ID:2	ERROR: (Duplicate) Preguntarse porque quiero volver rejected un edge q ya es BRANCH. Rejected llega de 39
-02:21.509	ID:39	END 39 2 1.04 2 1.00 
-02:21.513	ID:2	REAAD 2 33 1.00 2 
-02:21.515	ID:2	REAAD 2 6 1.03 2 
-02:21.517	ID:2	REAAD 2 39 1.04 2 
-02:21.521	ID:2	REAAD 2 24 1.13 1 
-02:21.521	ID:7	END 7 3 1.10 2 1.03 
-02:21.523	ID:2	REAAD 2 40 1.19 1 
-02:21.525	ID:2	REAAD 2 20 1.36 1 
-02:21.538	ID:14	REAAD 14 19 1.04 2 
-02:21.540	ID:14	REAAD 14 27 1.13 1 
-02:21.544	ID:14	REAAD 14 4 1.26 1 
-02:21.546	ID:14	REAAD 14 7 1.31 1 
-02:21.548	ID:14	REAAD 14 5 1.52 1 
-02:21.672	ID:29	ERROR: Preguntarse porque quiero volver rejected un edge q ya es BRANCH
-02:21.681	ID:29	ERROR: (Duplicate) Preguntarse porque quiero volver rejected un edge q ya es BRANCH. Rejected llega de 22
-02:21.700	ID:29	REAAD 29 4 1.13 2 
-02:21.702	ID:29	REAAD 29 22 1.27 2 
-02:21.705	ID:29	REAAD 29 21 1.53 1 
-02:22.094	ID:24	END 24 8 1.01 2 1.01 
-02:22.143	ID:24	REAAD 24 8 1.01 2 
-02:22.147	ID:24	REAAD 24 2 1.13 1 
-02:22.149	ID:24	REAAD 24 20 1.15 1 
-02:22.151	ID:24	REAAD 24 6 1.51 1 
-02:22.265	ID:36	END 36 37 1.18 2 1.18 
-02:22.314	ID:36	REAAD 36 37 1.18 2 
-02:22.316	ID:36	REAAD 36 31 1.29 1 
-02:22.320	ID:36	REAAD 36 16 1.35 1 
-02:22.322	ID:36	REAAD 36 11 1.36 1 
-02:22.325	ID:36	REAAD 36 35 1.62 1 
-02:22.328	ID:36	REAAD 36 9 1.62 1 
-02:22.342	ID:9	END 9 16 1.37 2 1.08 
-02:22.346	ID:8	END 8 24 1.01 2 1.01 
-02:23.188	ID:28	END 28 13 1.32 2 1.10 
-02:23.245	ID:28	REAAD 28 13 1.32 2 
-02:23.248	ID:28	REAAD 28 17 1.32 1 
-02:23.251	ID:28	REAAD 28 3 1.43 1 
-02:23.253	ID:28	REAAD 28 12 1.45 1 
-02:23.257	ID:28	REAAD 28 23 1.85 1 
-02:23.259	ID:28	REAAD 28 7 2.04 1 
-02:23.292	ID:1	END 1 16 1.08 2 1.08 
-02:23.340	ID:1	REAAD 1 16 1.08 2 
-02:23.342	ID:1	REAAD 1 11 1.35 1 
-02:23.342	ID:10	END 10 25 1.15 2 1.15 
-02:23.345	ID:1	REAAD 1 40 1.36 1 
-02:23.348	ID:1	REAAD 1 19 1.40 1 
-02:23.350	ID:1	REAAD 1 39 1.46 1 
-02:23.391	ID:11	REAAD 11 16 1.25 2 
-02:23.394	ID:11	REAAD 11 1 1.35 4 
-02:23.396	ID:11	REAAD 11 36 1.36 1 
-02:23.399	ID:11	REAAD 11 31 1.47 1 
-02:23.402	ID:11	REAAD 11 19 1.51 1 
-02:23.404	ID:11	REAAD 11 3 1.53 1 
-02:23.532	ID:19	END 19 14 1.04 2 1.04 
-02:23.586	ID:19	REAAD 19 14 1.04 2 
-02:23.588	ID:19	REAAD 19 3 1.12 1 
-02:23.591	ID:19	REAAD 19 27 1.14 1 
-02:23.594	ID:19	REAAD 19 7 1.30 1 
-02:23.596	ID:19	REAAD 19 1 1.40 1 
-02:23.599	ID:19	REAAD 19 11 1.51 1 
-02:23.602	ID:19	REAAD 19 40 1.94 1 
-02:23.792	ID:11	END 11 16 1.25 2 1.08 
-02:23.810	ID:1	REAAD 1 16 1.08 2 
-02:23.813	ID:1	REAAD 1 11 1.35 4 
-02:23.816	ID:1	REAAD 1 40 1.36 1 
-02:23.818	ID:1	REAAD 1 19 1.40 1 
-02:23.821	ID:1	REAAD 1 39 1.46 1 
-02:24.249	ID:31	END 31 3 1.03 2 1.03 
-02:24.289	ID:12	END 12 17 1.21 2 1.01 
-02:24.316	ID:31	REAAD 31 3 1.03 2 
-02:24.319	ID:31	REAAD 31 13 1.12 1 
-02:24.321	ID:31	REAAD 31 36 1.29 1 
-02:24.325	ID:31	REAAD 31 35 1.41 1 
-02:24.327	ID:31	REAAD 31 11 1.47 1 
-02:24.415	ID:13	END 13 35 1.10 2 1.10 
-02:24.445	ID:28	END 28 13 1.32 2 1.10 
-02:24.491	ID:37	END 37 36 1.18 2 1.18 
-02:24.565	ID:17	END 17 5 1.01 2 1.01 
-02:24.751	ID:3	END 3 31 1.03 2 1.03 
-02:25.389	ID:33	END 33 2 1.00 2 1.00 
-02:25.473	ID:33	REAAD 33 2 1.00 2 
-02:25.475	ID:33	REAAD 33 40 1.04 2 
-02:25.479	ID:33	REAAD 33 6 1.09 1 
-02:25.481	ID:33	REAAD 33 18 1.26 2 
-02:25.483	ID:33	REAAD 33 15 1.29 1 
-02:25.487	ID:33	REAAD 33 27 1.30 1 
-02:25.510	ID:18	END 18 33 1.26 2 1.00 
-02:25.555	ID:18	REAAD 18 33 1.26 2 
-02:25.557	ID:18	REAAD 18 6 1.26 1 
-02:25.559	ID:18	REAAD 18 15 1.74 1 
-02:25.650	ID:40	END 40 33 1.04 2 1.00 
-02:25.704	ID:40	REAAD 40 33 1.04 2 
-02:25.708	ID:40	REAAD 40 2 1.19 1 
-02:25.710	ID:40	REAAD 40 27 1.34 1 
-02:25.712	ID:40	REAAD 40 1 1.36 1 
-02:25.717	ID:40	REAAD 40 39 1.51 1 
-02:25.720	ID:40	REAAD 40 19 1.94 1 
-02:25.757	ID:1	END 1 16 1.08 2 1.08 
-02:25.903	ID:20	END 20 26 1.04 2 1.04 
-02:25.966	ID:40	REAAD 40 33 1.04 2 
-02:25.967	ID:20	REAAD 20 26 1.04 2 
-02:25.968	ID:40	REAAD 40 2 1.19 4 
-02:25.969	ID:20	REAAD 20 24 1.15 1 
-02:25.970	ID:40	REAAD 40 27 1.34 1 
-02:25.973	ID:20	REAAD 20 2 1.36 1 
-02:25.974	ID:40	REAAD 40 1 1.36 1 
-02:25.975	ID:20	REAAD 20 32 1.55 1 
-02:25.976	ID:40	REAAD 40 39 1.51 1 
-02:25.977	ID:20	REAAD 20 8 1.59 1 
-02:25.978	ID:40	REAAD 40 19 1.94 1 
-02:25.981	ID:20	REAAD 20 39 1.63 1 
-02:26.495	ID:6	REAAD 6 2 1.03 2 
-02:26.497	ID:6	REAAD 6 33 1.09 4 
-02:26.499	ID:6	REAAD 6 18 1.26 1 
-02:26.503	ID:6	REAAD 6 24 1.51 1 
-02:26.954	ID:18	REAAD 18 33 1.26 2 
-02:26.956	ID:18	REAAD 18 6 1.26 4 
-02:26.959	ID:18	REAAD 18 15 1.74 1 
-02:26.990	ID:32	REAAD 32 38 1.25 2 
-02:26.992	ID:32	REAAD 32 20 1.55 4 
-02:26.996	ID:32	REAAD 32 26 1.63 1 
-02:26.998	ID:32	REAAD 32 30 1.82 1 
-02:27.000	ID:32	REAAD 32 39 1.95 1 
-02:27.046	ID:33	REAAD 33 2 1.00 2 
-02:27.049	ID:33	REAAD 33 40 1.04 2 
-02:27.051	ID:33	REAAD 33 6 1.09 4 
-02:27.056	ID:33	REAAD 33 18 1.26 2 
-02:27.058	ID:33	REAAD 33 15 1.29 1 
-02:27.060	ID:33	REAAD 33 27 1.30 1 
-02:27.106	ID:32	REAAD 32 38 1.25 2 
-02:27.109	ID:32	REAAD 32 20 1.55 4 
-02:27.112	ID:32	REAAD 32 26 1.63 4 
-02:27.115	ID:32	REAAD 32 30 1.82 1 
-02:27.117	ID:32	REAAD 32 39 1.95 1 
-02:28.068	ID:6	REAAD 6 2 1.03 2 
-02:28.072	ID:6	REAAD 6 33 1.09 4 
-02:28.074	ID:6	REAAD 6 18 1.26 4 
-02:28.076	ID:6	REAAD 6 24 1.51 1 
-02:28.108	ID:26	ERROR: Preguntarse porque quiero volver rejected un edge q ya es BRANCH
-02:28.117	ID:26	ERROR: (Duplicate) Preguntarse porque quiero volver rejected un edge q ya es BRANCH. Rejected llega de 30
-02:28.126	ID:26	REAAD 26 20 1.04 2 
-02:28.128	ID:26	REAAD 26 30 1.07 2 
-02:28.131	ID:26	REAAD 26 8 1.09 1 
-02:28.134	ID:26	REAAD 26 32 1.63 1 
-02:28.250	ID:32	REAAD 32 38 1.25 2 
-02:28.253	ID:32	REAAD 32 20 1.55 4 
-02:28.256	ID:32	REAAD 32 26 1.63 4 
-02:28.258	ID:32	REAAD 32 30 1.82 4 
-02:28.262	ID:32	REAAD 32 39 1.95 1 
-02:29.154	ID:6	END 6 2 1.03 2 1.00 
-02:29.285	ID:32	END 32 38 1.25 2 1.04 
-02:30.326	ID:38	END 38 30 1.08 2 1.04 
-02:30.365	ID:30	END 30 26 1.07 2 1.04 
-02:30.409	ID:26	END 26 20 1.04 2 1.04 
-02:30.483	ID:26	END 26 8 1.09 2 1.09 
-02:30.518	ID:8	END 8 26 1.09 2 1.09 
-02:30.529	ID:26	REAAD 26 20 1.04 2 
-02:30.532	ID:26	REAAD 26 30 1.07 2 
-02:30.534	ID:26	REAAD 26 8 1.09 2 
-02:30.537	ID:26	REAAD 26 32 1.63 1 
-02:30.558	ID:8	REAAD 8 24 1.01 2 
-02:30.560	ID:8	REAAD 8 26 1.09 2 
-02:30.562	ID:8	REAAD 8 20 1.59 1 
-02:30.569	ID:20	END 20 26 1.04 2 1.09 
-02:30.603	ID:20	REAAD 20 26 1.04 2 
-02:30.605	ID:20	REAAD 20 24 1.15 8 
-02:30.607	ID:20	REAAD 20 2 1.36 1 
-02:30.609	ID:20	REAAD 20 32 1.55 1 
-02:30.611	ID:20	REAAD 20 8 1.59 1 
-02:30.615	ID:20	REAAD 20 39 1.63 1 
-02:30.625	ID:24	END 24 8 1.01 2 1.09 
-02:30.656	ID:24	REAAD 24 8 1.01 2 
-02:30.658	ID:24	REAAD 24 2 1.13 8 
-02:30.662	ID:24	REAAD 24 20 1.15 1 
-02:30.666	ID:24	REAAD 24 6 1.51 1 
-02:30.893	ID:8	REAAD 8 24 1.01 2 
-02:30.896	ID:8	REAAD 8 26 1.09 2 
-02:30.900	ID:8	REAAD 8 20 1.59 4 
-02:30.913	ID:20	REAAD 20 26 1.04 2 
-02:30.915	ID:20	REAAD 20 24 1.15 4 
-02:30.918	ID:20	REAAD 20 2 1.36 1 
-02:30.921	ID:20	REAAD 20 32 1.55 1 
-02:30.923	ID:20	REAAD 20 8 1.59 1 
-02:30.925	ID:20	REAAD 20 39 1.63 1 
-02:31.216	ID:27	END 27 14 1.13 2 1.04 
-02:31.293	ID:27	REAAD 27 14 1.13 2 
-02:31.295	ID:15	END 15 27 1.25 2 1.04 
-02:31.295	ID:27	REAAD 27 19 1.14 1 
-02:31.298	ID:27	REAAD 27 15 1.25 2 
-02:31.302	ID:27	REAAD 27 33 1.30 1 
-02:31.304	ID:27	REAAD 27 22 1.30 1 
-02:31.306	ID:27	REAAD 27 40 1.34 1 
-02:31.335	ID:14	ERROR: Preguntarse porque quiero volver rejected un edge q ya es BRANCH
-02:31.344	ID:14	ERROR: (Duplicate) Preguntarse porque quiero volver rejected un edge q ya es BRANCH. Rejected llega de 27
-02:31.368	ID:15	REAAD 15 27 1.25 2 
-02:31.368	ID:14	REAAD 14 19 1.04 2 
-02:31.372	ID:15	REAAD 15 21 1.26 2 
-02:31.372	ID:14	REAAD 14 27 1.13 2 
-02:31.374	ID:15	REAAD 15 33 1.29 1 
-02:31.374	ID:14	REAAD 14 4 1.26 1 
-02:31.376	ID:15	REAAD 15 22 1.30 1 
-02:31.376	ID:14	REAAD 14 7 1.31 1 
-02:31.380	ID:14	REAAD 14 5 1.52 1 
-02:31.380	ID:15	REAAD 15 18 1.74 1 
-02:31.422	ID:18	END 18 33 1.26 2 1.00 
-02:31.462	ID:21	END 21 15 1.26 2 1.04 
-02:31.507	ID:21	REAAD 21 15 1.26 2 
-02:31.509	ID:21	REAAD 21 29 1.53 1 
-02:31.511	ID:21	REAAD 21 22 1.62 1 
-02:31.586	ID:29	END 29 4 1.13 2 1.13 
-02:31.738	ID:30	END 30 26 1.07 2 1.09 
-02:31.799	ID:30	REAAD 30 26 1.07 2 
-02:31.801	ID:30	REAAD 30 38 1.08 2 
-02:31.802	ID:38	END 38 30 1.08 2 1.09 
-02:31.805	ID:30	REAAD 30 25 1.33 2 
-02:31.807	ID:30	REAAD 30 32 1.82 1 
-02:31.820	ID:4	END 4 5 1.17 2 1.17 
-02:31.837	ID:4	REAAD 4 29 1.13 2 
-02:31.839	ID:4	REAAD 4 5 1.17 2 
-02:31.840	ID:38	REAAD 38 30 1.08 2 
-02:31.843	ID:38	REAAD 38 32 1.25 2 
-02:31.843	ID:4	REAAD 4 14 1.26 1 
-02:31.845	ID:38	REAAD 38 9 1.41 8 
-02:31.845	ID:4	REAAD 4 22 1.75 1 
-02:31.848	ID:38	REAAD 38 25 1.53 1 
-02:31.857	ID:25	END 25 30 1.33 2 1.09 
-02:31.892	ID:32	END 32 38 1.25 2 1.09 
-02:31.900	ID:25	REAAD 25 10 1.15 2 
-02:31.903	ID:10	END 10 25 1.15 2 1.09 
-02:31.904	ID:25	REAAD 25 30 1.33 2 
-02:31.906	ID:25	REAAD 25 38 1.53 1 
-02:31.942	ID:10	REAAD 10 25 1.15 2 
-02:31.944	ID:10	REAAD 10 9 1.46 8 
-02:31.948	ID:10	REAAD 10 34 1.80 1 
-02:31.982	ID:32	REAAD 32 38 1.25 2 
-02:31.985	ID:32	REAAD 32 20 1.55 4 
-02:31.988	ID:32	REAAD 32 26 1.63 4 
-02:31.991	ID:32	REAAD 32 30 1.82 4 
-02:31.993	ID:32	REAAD 32 39 1.95 8 
-02:32.489	ID:5	END 5 4 1.17 2 1.17 
-02:32.556	ID:5	REAAD 5 17 1.01 2 
-02:32.557	ID:5	REAAD 5 4 1.17 2 
-02:32.561	ID:5	REAAD 5 14 1.52 1 
-02:32.602	ID:17	END 17 5 1.01 2 1.17 
-02:32.641	ID:17	REAAD 17 5 1.01 2 
-02:32.646	ID:17	REAAD 17 12 1.21 2 
-02:32.648	ID:17	REAAD 17 7 1.25 8 
-02:32.650	ID:17	REAAD 17 28 1.32 1 
-02:32.694	ID:29	END 29 4 1.13 2 1.17 
-02:32.770	ID:12	END 12 17 1.21 2 1.17 
-02:32.786	ID:29	REAAD 29 4 1.13 2 
-02:32.789	ID:29	REAAD 29 22 1.27 2 
-02:32.792	ID:29	REAAD 29 21 1.53 8 
-02:32.793	ID:12	REAAD 12 17 1.21 2 
-02:32.796	ID:12	REAAD 12 28 1.45 8 
-02:32.799	ID:12	REAAD 12 23 1.46 1 
-02:32.826	ID:21	END 21 15 1.26 2 1.04 
-02:32.831	ID:22	END 22 29 1.27 2 1.17 
-02:32.861	ID:22	REAAD 22 29 1.27 2 
-02:32.864	ID:22	REAAD 22 27 1.30 1 
-02:32.866	ID:22	REAAD 22 15 1.30 1 
-02:32.869	ID:22	REAAD 22 21 1.62 1 
-02:32.871	ID:22	REAAD 22 4 1.75 1 
-02:32.875	ID:15	END 15 27 1.25 2 1.04 
-02:33.007	ID:25	REAAD 25 10 1.15 2 
-02:33.008	ID:26	REAAD 26 20 1.04 2 
-02:33.009	ID:25	REAAD 25 30 1.33 2 
-02:33.010	ID:26	REAAD 26 30 1.07 2 
-02:33.013	ID:25	REAAD 25 38 1.53 4 
-02:33.014	ID:26	REAAD 26 8 1.09 2 
-02:33.016	ID:26	REAAD 26 32 1.63 4 
-02:33.547	ID:14	END 14 19 1.04 2 1.04 
-02:33.685	ID:27	REAAD 27 14 1.13 2 
-02:33.688	ID:27	REAAD 27 19 1.14 4 
-02:33.691	ID:27	REAAD 27 15 1.25 2 
-02:33.694	ID:27	REAAD 27 33 1.30 1 
-02:33.696	ID:27	REAAD 27 22 1.30 1 
-02:33.700	ID:27	REAAD 27 40 1.34 1 
-02:33.793	ID:27	END 27 14 1.13 2 1.04 
-02:34.730	ID:19	END 19 3 1.12 2 1.12 
-02:34.759	ID:19	REAAD 19 14 1.04 2 
-02:34.761	ID:19	REAAD 19 3 1.12 2 
-02:34.765	ID:19	REAAD 19 27 1.14 1 
-02:34.767	ID:19	REAAD 19 7 1.30 1 
-02:34.769	ID:19	REAAD 19 1 1.40 1 
-02:34.773	ID:19	REAAD 19 11 1.51 1 
-02:34.775	ID:19	REAAD 19 40 1.94 1 
-02:34.811	ID:3	END 3 19 1.12 2 1.12 
-02:34.877	ID:3	REAAD 3 31 1.03 2 
-02:34.879	ID:3	REAAD 3 7 1.10 2 
-02:34.880	ID:31	END 31 3 1.03 2 1.12 
-02:34.882	ID:3	REAAD 3 19 1.12 2 
-02:34.886	ID:3	REAAD 3 28 1.43 1 
-02:34.890	ID:3	REAAD 3 11 1.53 1 
-02:34.896	ID:14	END 14 19 1.04 2 1.12 
-02:34.937	ID:31	REAAD 31 3 1.03 2 
-02:34.939	ID:31	REAAD 31 13 1.12 2 
-02:34.941	ID:13	END 13 31 1.12 2 1.12 
-02:34.943	ID:31	REAAD 31 36 1.29 1 
-02:34.946	ID:31	REAAD 31 35 1.41 1 
-02:34.951	ID:31	REAAD 31 11 1.47 1 
-02:34.977	ID:14	REAAD 14 19 1.04 2 
-02:34.979	ID:14	REAAD 14 27 1.13 2 
-02:34.981	ID:27	END 27 14 1.13 2 1.12 
-02:34.982	ID:14	REAAD 14 4 1.26 8 
-02:34.985	ID:14	REAAD 14 7 1.31 1 
-02:34.987	ID:14	REAAD 14 5 1.52 1 
-02:34.995	ID:13	REAAD 13 35 1.10 2 
-02:34.997	ID:13	REAAD 13 31 1.12 2 
-02:34.999	ID:13	REAAD 13 23 1.20 2 
-02:35.003	ID:13	REAAD 13 28 1.32 2 
-02:35.012	ID:7	END 7 3 1.10 2 1.12 
-02:35.043	ID:7	REAAD 7 3 1.10 2 
-02:35.045	ID:7	REAAD 7 17 1.25 8 
-02:35.047	ID:7	REAAD 7 19 1.30 1 
-02:35.050	ID:27	REAAD 27 14 1.13 2 
-02:35.052	ID:7	REAAD 7 14 1.31 1 
-02:35.053	ID:15	END 15 27 1.25 2 1.12 
-02:35.053	ID:27	REAAD 27 19 1.14 4 
-02:35.054	ID:7	REAAD 7 28 2.04 1 
-02:35.055	ID:27	REAAD 27 15 1.25 2 
-02:35.059	ID:27	REAAD 27 33 1.30 8 
-02:35.061	ID:27	REAAD 27 22 1.30 1 
-02:35.063	ID:27	REAAD 27 40 1.34 1 
-02:35.105	ID:15	REAAD 15 27 1.25 2 
-02:35.108	ID:15	REAAD 15 21 1.26 2 
-02:35.112	ID:15	REAAD 15 33 1.29 8 
-02:35.115	ID:15	REAAD 15 22 1.30 1 
-02:35.119	ID:15	REAAD 15 18 1.74 1 
-02:35.168	ID:21	END 21 15 1.26 2 1.12 
-02:35.222	ID:21	REAAD 21 15 1.26 2 
-02:35.226	ID:21	REAAD 21 29 1.53 8 
-02:35.228	ID:21	REAAD 21 22 1.62 1 
-02:35.279	ID:7	END 7 3 1.10 2 1.12 
-02:36.069	ID:22	END 22 29 1.27 2 1.17 
-02:36.088	ID:21	END 21 15 1.26 2 1.12 
-02:36.298	ID:40	END 40 33 1.04 2 1.00 
-02:36.337	ID:29	END 29 4 1.13 2 1.17 
-02:36.350	ID:33	END 33 2 1.00 2 1.00 
-02:36.508	ID:22	END 22 29 1.27 2 1.17 
-02:36.519	ID:39	END 39 16 1.10 2 1.10 
-02:36.582	ID:19	REAAD 19 14 1.04 2 
-02:36.586	ID:19	REAAD 19 3 1.12 2 
-02:36.588	ID:19	REAAD 19 27 1.14 4 
-02:36.590	ID:39	REAAD 39 2 1.04 2 
-02:36.590	ID:19	REAAD 19 7 1.30 1 
-02:36.592	ID:39	REAAD 39 16 1.10 2 
-02:36.594	ID:16	END 16 39 1.10 2 1.10 
-02:36.594	ID:19	REAAD 19 1 1.40 1 
-02:36.595	ID:39	REAAD 39 1 1.46 1 
-02:36.596	ID:19	REAAD 19 11 1.51 1 
-02:36.598	ID:39	REAAD 39 40 1.51 1 
-02:36.599	ID:19	REAAD 19 40 1.94 1 
-02:36.600	ID:39	REAAD 39 20 1.63 1 
-02:36.604	ID:39	REAAD 39 32 1.95 1 
-02:36.646	ID:16	REAAD 16 1 1.08 2 
-02:36.648	ID:16	REAAD 16 39 1.10 2 
-02:36.651	ID:16	REAAD 16 11 1.25 2 
-02:36.653	ID:16	REAAD 16 36 1.35 1 
-02:36.656	ID:16	REAAD 16 9 1.37 2 
-02:36.702	ID:32	END 32 38 1.25 2 1.09 
-02:36.868	ID:19	REAAD 19 14 1.04 2 
-02:36.870	ID:19	REAAD 19 3 1.12 2 
-02:36.874	ID:19	REAAD 19 27 1.14 4 
-02:36.874	ID:2	END 2 39 1.04 2 1.10 
-02:36.876	ID:19	REAAD 19 7 1.30 4 
-02:36.878	ID:19	REAAD 19 1 1.40 1 
-02:36.882	ID:19	REAAD 19 11 1.51 1 
-02:36.885	ID:19	REAAD 19 40 1.94 1 
-02:36.952	ID:2	REAAD 2 33 1.00 2 
-02:36.954	ID:2	REAAD 2 6 1.03 2 
-02:36.956	ID:2	REAAD 2 39 1.04 2 
-02:36.960	ID:2	REAAD 2 24 1.13 8 
-02:36.962	ID:2	REAAD 2 40 1.19 1 
-02:36.964	ID:2	REAAD 2 20 1.36 1 
-02:37.005	ID:33	END 33 2 1.00 2 1.10 
-02:37.059	ID:33	REAAD 33 2 1.00 2 
-02:37.063	ID:33	REAAD 33 40 1.04 2 
-02:37.065	ID:33	REAAD 33 6 1.09 4 
-02:37.067	ID:33	REAAD 33 18 1.26 2 
-02:37.070	ID:33	REAAD 33 15 1.29 8 
-02:37.073	ID:33	REAAD 33 27 1.30 1 
-02:37.122	ID:15	END 15 27 1.25 2 1.12 
-02:37.124	ID:40	END 40 33 1.04 2 1.10 
-02:37.192	ID:40	REAAD 40 33 1.04 2 
-02:37.194	ID:40	REAAD 40 2 1.19 4 
-02:37.196	ID:40	REAAD 40 27 1.34 8 
-02:37.200	ID:40	REAAD 40 1 1.36 1 
-02:37.202	ID:40	REAAD 40 39 1.51 1 
-02:37.205	ID:40	REAAD 40 19 1.94 1 
-02:37.385	ID:18	END 18 33 1.26 2 1.10 
-02:37.440	ID:18	REAAD 18 33 1.26 2 
-02:37.442	ID:18	REAAD 18 6 1.26 4 
-02:37.446	ID:18	REAAD 18 15 1.74 8 
-02:37.483	ID:40	END 40 33 1.04 2 1.10 
-02:37.575	ID:18	END 18 33 1.26 2 1.10 
-02:37.618	ID:33	END 33 2 1.00 2 1.10 
-02:37.955	ID:24	END 24 8 1.01 2 1.09 
-02:38.092	ID:20	END 20 26 1.04 2 1.09 
-02:38.151	ID:27	END 27 14 1.13 2 1.12 
-02:38.213	ID:14	END 14 19 1.04 2 1.12 
-02:38.645	ID:1	END 1 16 1.08 2 1.10 
-02:38.683	ID:1	REAAD 1 16 1.08 2 
-02:38.685	ID:1	REAAD 1 11 1.35 4 
-02:38.687	ID:1	REAAD 1 40 1.36 8 
-02:38.691	ID:1	REAAD 1 19 1.40 1 
-02:38.693	ID:1	REAAD 1 39 1.46 1 
-02:38.859	ID:39	REAAD 39 2 1.04 2 
-02:38.862	ID:39	REAAD 39 16 1.10 2 
-02:38.865	ID:39	REAAD 39 1 1.46 4 
-02:38.867	ID:39	REAAD 39 40 1.51 1 
-02:38.871	ID:39	REAAD 39 20 1.63 1 
-02:38.874	ID:39	REAAD 39 32 1.95 1 
-02:39.706	ID:11	END 11 16 1.25 2 1.10 
-02:39.745	ID:11	REAAD 11 16 1.25 2 
-02:39.747	ID:11	REAAD 11 1 1.35 4 
-02:39.749	ID:11	REAAD 11 36 1.36 8 
-02:39.752	ID:11	REAAD 11 31 1.47 1 
-02:39.755	ID:11	REAAD 11 19 1.51 1 
-02:39.757	ID:11	REAAD 11 3 1.53 1 
-02:39.770	ID:9	END 9 16 1.37 2 1.10 
-02:39.838	ID:9	REAAD 9 16 1.37 2 
-02:39.840	ID:9	REAAD 9 38 1.41 8 
-02:39.842	ID:9	REAAD 9 34 1.41 1 
-02:39.846	ID:9	REAAD 9 10 1.46 1 
-02:39.848	ID:9	REAAD 9 36 1.62 1 
-02:39.888	ID:38	END 38 30 1.08 2 1.09 
-02:40.097	ID:10	END 10 25 1.15 2 1.09 
-02:40.146	ID:25	END 25 30 1.33 2 1.09 
-02:40.240	ID:9	END 9 16 1.37 2 1.10 
-02:40.957	ID:39	REAAD 39 2 1.04 2 
-02:40.959	ID:39	REAAD 39 16 1.10 2 
-02:40.963	ID:39	REAAD 39 1 1.46 4 
-02:40.965	ID:39	REAAD 39 40 1.51 4 
-02:40.967	ID:39	REAAD 39 20 1.63 1 
-02:40.971	ID:39	REAAD 39 32 1.95 1 
+00:00.344	ID:8	Rime started with address 8.0
+00:00.352	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-b261a2c started. Node id is set to 8.
+00:00.364	ID:8	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.378	ID:8	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:00.507	ID:2	Rime started with address 2.0
+00:00.516	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-b261a2c started. Node id is set to 2.
+00:00.522	ID:6	Rime started with address 6.0
+00:00.527	ID:2	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.530	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-b261a2c started. Node id is set to 6.
+00:00.542	ID:6	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.542	ID:2	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:00.556	ID:6	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:00.619	ID:4	Rime started with address 4.0
+00:00.628	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-b261a2c started. Node id is set to 4.
+00:00.639	ID:4	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.653	ID:1	Rime started with address 1.0
+00:00.654	ID:4	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:00.662	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-b261a2c started. Node id is set to 1.
+00:00.673	ID:7	Rime started with address 7.0
+00:00.673	ID:1	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.681	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-b261a2c started. Node id is set to 7.
+00:00.688	ID:1	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:00.693	ID:7	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.707	ID:7	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:00.827	ID:10	Rime started with address 10.0
+00:00.836	ID:10	MAC 0a:00:00:00:00:00:00:00 Contiki-b261a2c started. Node id is set to 10.
+00:00.848	ID:10	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:00.862	ID:10	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:00.979	ID:9	Rime started with address 9.0
+00:00.986	ID:5	Rime started with address 5.0
+00:00.988	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-b261a2c started. Node id is set to 9.
+00:00.995	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-b261a2c started. Node id is set to 5.
+00:00.999	ID:9	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.006	ID:5	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.014	ID:9	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:01.021	ID:5	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+00:01.170	ID:3	Rime started with address 3.0
+00:01.179	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-b261a2c started. Node id is set to 3.
+00:01.190	ID:3	nullsec CSMA ContikiMAC, channel check rate 128 Hz, radio channel 20
+00:01.205	ID:3	Starting 'GHS Control' 'Neighbor Discovery via Broadcast' 'Wait for Network Stabilization' 'Assume Worst Weight for Link' 'Proceso master de los msg connect-initiate'
+01:21.876	ID:1	READ 1 6 1.21 2 
+01:21.878	ID:1	READ 1 3 1.89 1 
+01:22.802	ID:5	READ 5 8 1.00 2 
+01:22.804	ID:5	READ 5 4 1.00 1 
+01:22.952	ID:9	READ 9 10 1.05 2 
+01:22.954	ID:9	READ 9 7 1.18 1 
+01:22.956	ID:9	READ 9 2 1.32 1 
+01:24.076	ID:4	READ 4 8 1.00 2 
+01:24.078	ID:4	READ 4 5 1.00 1 
+01:24.080	ID:4	READ 4 10 1.00 1 
+01:25.224	ID:7	READ 7 9 1.18 2 
+01:25.226	ID:7	READ 7 6 1.26 1 
+01:25.228	ID:7	READ 7 2 1.54 1 
+01:26.403	ID:10	READ 10 8 1.00 2 
+01:26.405	ID:10	READ 10 4 1.00 1 
+01:26.406	ID:10	READ 10 9 1.05 1 
+01:26.410	ID:10	READ 10 2 1.18 1 
+01:28.214	ID:3	READ 3 6 1.18 2 
+01:28.215	ID:3	READ 3 2 1.32 1 
+01:28.217	ID:3	READ 3 8 1.35 1 
+01:28.221	ID:3	READ 3 1 1.89 1 
+01:28.612	ID:6	READ 6 2 1.07 2 
+01:28.614	ID:6	READ 6 3 1.18 1 
+01:28.616	ID:6	READ 6 1 1.21 1 
+01:28.619	ID:6	READ 6 7 1.26 1 
+01:30.466	ID:8	READ 8 5 1.00 2 
+01:30.467	ID:8	READ 8 10 1.00 1 
+01:30.469	ID:8	READ 8 4 1.00 1 
+01:30.473	ID:8	READ 8 2 1.29 1 
+01:30.475	ID:8	READ 8 3 1.35 1 
+01:31.676	ID:2	READ 2 6 1.07 2 
+01:31.678	ID:2	READ 2 10 1.18 1 
+01:31.680	ID:2	READ 2 8 1.29 1 
+01:31.683	ID:2	READ 2 9 1.32 1 
+01:31.685	ID:2	READ 2 3 1.32 1 
+01:31.687	ID:2	READ 2 7 1.54 1 
+01:46.926	ID:6	runicast (co-i) message received from 1.0, seqno 0 (DUPLICATE)
+01:47.848	ID:8	runicast (co-i) message received from 5.0, seqno 0 (DUPLICATE)
+01:47.961	ID:5	END 5 8 1.00 2 1.00 
+01:48.001	ID:5	REAAD 5 8 1.00 2 
+01:48.005	ID:5	REAAD 5 4 1.00 1 
+01:51.459	ID:8	runicast (co-i) message received from 10.0, seqno 0 (DUPLICATE)
+01:53.681	ID:6	END 6 2 1.07 2 1.07 
+01:53.729	ID:6	runicast (co-i) message received from 2.0, seqno 0 (DUPLICATE)
+01:53.747	ID:6	REAAD 6 2 1.07 2 
+01:53.749	ID:6	REAAD 6 3 1.18 2 
+01:53.750	ID:1	END 1 6 1.21 2 1.07 
+01:53.752	ID:6	REAAD 6 1 1.21 2 
+01:53.754	ID:6	REAAD 6 7 1.26 1 
+01:53.796	ID:1	REAAD 1 6 1.21 2 
+01:53.798	ID:1	REAAD 1 3 1.89 1 
+01:53.915	ID:3	END 3 6 1.18 2 1.07 
+01:53.965	ID:3	REAAD 3 6 1.18 2 
+01:53.967	ID:3	REAAD 3 2 1.32 1 
+01:53.970	ID:3	REAAD 3 8 1.35 1 
+01:53.972	ID:3	REAAD 3 1 1.89 1 
+01:54.009	ID:1	REAAD 1 6 1.21 2 
+01:54.011	ID:1	REAAD 1 3 1.89 4 
+01:54.016	ID:1	END 1 6 1.21 2 1.07 
+01:54.021	ID:1	END 1 6 1.21 2 1.07 
+01:54.546	ID:8	END 8 5 1.00 2 1.00 
+01:54.613	ID:8	REAAD 8 5 1.00 2 
+01:54.615	ID:8	REAAD 8 10 1.00 2 
+01:54.616	ID:4	END 4 8 1.00 2 1.00 
+01:54.617	ID:8	REAAD 8 4 1.00 2 
+01:54.621	ID:8	REAAD 8 2 1.29 1 
+01:54.623	ID:8	REAAD 8 3 1.35 1 
+01:54.659	ID:4	REAAD 4 8 1.00 2 
+01:54.661	ID:4	REAAD 4 5 1.00 1 
+01:54.663	ID:4	REAAD 4 10 1.00 1 
+01:54.687	ID:10	END 10 8 1.00 2 1.00 
+01:54.747	ID:10	REAAD 10 8 1.00 2 
+01:54.749	ID:10	REAAD 10 4 1.00 1 
+01:54.751	ID:10	REAAD 10 9 1.05 2 
+01:54.754	ID:10	REAAD 10 2 1.18 1 
+01:54.774	ID:9	END 9 10 1.05 2 1.00 
+01:54.838	ID:9	REAAD 9 10 1.05 2 
+01:54.842	ID:7	END 7 9 1.18 2 1.00 
+01:54.842	ID:9	REAAD 9 7 1.18 2 
+01:54.844	ID:9	REAAD 9 2 1.32 1 
+01:54.888	ID:7	REAAD 7 9 1.18 2 
+01:54.889	ID:7	REAAD 7 6 1.26 1 
+01:54.891	ID:7	REAAD 7 2 1.54 1 
+01:55.018	ID:7	END 7 9 1.18 2 1.00 
+01:55.701	ID:5	REAAD 5 8 1.00 2 
+01:55.703	ID:5	REAAD 5 4 1.00 4 
+01:55.724	ID:5	END 5 8 1.00 2 1.00 
+01:55.870	ID:10	REAAD 10 8 1.00 2 
+01:55.872	ID:10	REAAD 10 4 1.00 4 
+01:55.874	ID:10	REAAD 10 9 1.05 2 
+01:55.877	ID:10	REAAD 10 2 1.18 1 
+01:55.890	ID:4	REAAD 4 8 1.00 2 
+01:55.891	ID:4	REAAD 4 5 1.00 4 
+01:55.893	ID:4	REAAD 4 10 1.00 1 
+01:56.003	ID:2	END 2 6 1.07 2 1.07 
+01:56.053	ID:2	REAAD 2 6 1.07 2 
+01:56.056	ID:2	REAAD 2 10 1.18 1 
+01:56.059	ID:2	REAAD 2 8 1.29 1 
+01:56.060	ID:2	REAAD 2 9 1.32 1 
+01:56.062	ID:2	REAAD 2 3 1.32 1 
+01:56.066	ID:2	REAAD 2 7 1.54 1 
+01:56.150	ID:4	REAAD 4 8 1.00 2 
+01:56.152	ID:4	REAAD 4 5 1.00 4 
+01:56.155	ID:4	REAAD 4 10 1.00 4 
+01:56.159	ID:4	END 4 8 1.00 2 1.00 
+01:56.165	ID:4	END 4 8 1.00 2 1.00 
+01:56.221	ID:3	REAAD 3 6 1.18 2 
+01:56.222	ID:3	REAAD 3 2 1.32 4 
+01:56.224	ID:3	REAAD 3 8 1.35 1 
+01:56.228	ID:3	REAAD 3 1 1.89 1 
+01:56.420	ID:9	END 9 10 1.05 2 1.00 
+01:56.482	ID:3	END 3 6 1.18 2 1.07 
+01:56.699	ID:2	END 2 6 1.07 2 1.07 
+01:57.453	ID:10	END 10 8 1.00 2 1.00 
+01:57.503	ID:8	END 8 5 1.00 2 1.00 
+01:57.631	ID:10	END 10 2 1.18 2 1.18 
+01:57.647	ID:10	REAAD 10 8 1.00 2 
+01:57.651	ID:10	REAAD 10 4 1.00 4 
+01:57.653	ID:10	REAAD 10 9 1.05 2 
+01:57.655	ID:10	REAAD 10 2 1.18 2 
+01:57.703	ID:2	END 2 10 1.18 2 1.18 
+01:57.764	ID:2	REAAD 2 6 1.07 2 
+01:57.768	ID:2	REAAD 2 10 1.18 2 
+01:57.770	ID:8	runicast (co-i) message received from 10.0, seqno 0 (DUPLICATE)
+01:57.770	ID:2	REAAD 2 8 1.29 1 
+01:57.772	ID:2	REAAD 2 9 1.32 1 
+01:57.776	ID:2	REAAD 2 3 1.32 1 
+01:57.778	ID:2	REAAD 2 7 1.54 1 
+01:57.803	ID:6	END 6 2 1.07 2 1.18 
+01:57.888	ID:6	REAAD 6 2 1.07 2 
+01:57.891	ID:6	REAAD 6 3 1.18 2 
+01:57.893	ID:6	REAAD 6 1 1.21 2 
+01:57.895	ID:6	REAAD 6 7 1.26 8 
+01:57.908	ID:9	runicast (co-i) message received from 10.0, seqno 1 (DUPLICATE)
+01:57.942	ID:3	END 3 6 1.18 2 1.18 
+01:57.987	ID:3	REAAD 3 6 1.18 2 
+01:57.989	ID:3	REAAD 3 2 1.32 4 
+01:57.991	ID:3	REAAD 3 8 1.35 8 
+01:57.995	ID:3	REAAD 3 1 1.89 1 
+01:58.034	ID:1	runicast (co-i) message received from 6.0, seqno 1 (DUPLICATE)

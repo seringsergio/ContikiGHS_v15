@@ -69,8 +69,14 @@ PROCESS(evaluar_msg_reject, "Evaluar Mensaje de Reject");
 /*Listas de runicastt para saber cual seq ha llegado. Si ha llegado
 * duplicado o no
 */
-MEMB(history_mem, struct history_entry, NUM_HISTORY_ENTRIES);
-LIST(history_list);
+MEMB(history_mem_test, struct history_entry, NUM_HISTORY_ENTRIES);
+LIST(history_list_test);
+
+MEMB(history_mem_accept, struct history_entry, NUM_HISTORY_ENTRIES);
+LIST(history_list_accept);
+
+MEMB(history_mem_reject, struct history_entry, NUM_HISTORY_ENTRIES);
+LIST(history_list_reject);
 
 // Lista para guardar los msg de test
 MEMB(t_mem,  test_list   , MAX_TAMANO_LISTA_MSG);
@@ -108,33 +114,36 @@ struct memb *rj_mem_out_g;
 /*------------------------------------------------------------------- */
 /*----------STATIC VARIABLES -----------------------------------------*/
 /*------------------------------------------------------------------- */
-static struct runicast_conn runicast; //Es la conexion de runicastt
+static struct runicast_conn runicast_test; //Es la conexion de runicastt
+static struct runicast_conn runicast_reject; //Es la conexion de runicastt
+static struct runicast_conn runicast_accept; //Es la conexion de runicastt
+
 /*----------------------------------------------------------------------------*/
 
 /*------------------------------------------------------------------- */
 /*-----------FUNCIONES-------------------------------------------------*/
 /*------------------------------------------------------------------- */
-static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
+static void recv_runicast_test(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 {
     void *msg = packetbuf_dataptr();
 
    /* OPTIONAL: Sender history */
 
    struct history_entry *e = NULL;
-   for(e = list_head(history_list); e != NULL; e = e->next) {
+   for(e = list_head(history_list_test); e != NULL; e = e->next) {
      if(linkaddr_cmp(&e->addr, from)) { // Si las dir son iguales entra
        break;
      }
    }
    if(e == NULL) {
      /* Create new history entry */
-     e = memb_alloc(&history_mem);
+     e = memb_alloc(&history_mem_test);
      if(e == NULL) {
-       e = list_chop(history_list); /* Remove oldest at full history */
+       e = list_chop(history_list_test); /* Remove oldest at full history */
      }
      linkaddr_copy(&e->addr, from);
      e->seq = seqno;
-     list_push(history_list, e);
+     list_push(history_list_test, e);
    } else {
      /* Detect duplicate callback */
      if(e->seq == seqno) {
@@ -194,21 +203,217 @@ static void recv_runicast(struct runicast_conn *c, const linkaddr_t *from, uint8
           }
       }
 }
-static void
-sent_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
+
+static void recv_runicast_accept(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
 {
-  MY_DBG_3("runicastt (test-ar) message sent to %d.%d, retransmissions %d\n",
+    void *msg = packetbuf_dataptr();
+
+   /* OPTIONAL: Sender history */
+
+   struct history_entry *e = NULL;
+   for(e = list_head(history_list_accept); e != NULL; e = e->next) {
+     if(linkaddr_cmp(&e->addr, from)) { // Si las dir son iguales entra
+       break;
+     }
+   }
+   if(e == NULL) {
+     /* Create new history entry */
+     e = memb_alloc(&history_mem_accept);
+     if(e == NULL) {
+       e = list_chop(history_list_accept); /* Remove oldest at full history */
+     }
+     linkaddr_copy(&e->addr, from);
+     e->seq = seqno;
+     list_push(history_list_accept, e);
+   } else {
+     /* Detect duplicate callback */
+     if(e->seq == seqno) {
+       MY_DBG_3("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
+ 	     from->u8[0], from->u8[1], seqno);
+       return;
+     }
+     /* Update existing history entry */
+     e->seq = seqno;
+   }
+      //Leer el packet buffer attribute: Especificamente el tipo de mensaje
+      packetbuf_attr_t msg_type = packetbuf_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG);
+      // Evaluo el tipo de msg que llego
+      if(msg_type == TEST)
+      {
+          test_list *t_list_p;
+          t_list_p = memb_alloc(&t_mem); //Alocar memoria
+          if(t_list_p == NULL)
+          {
+              MY_DBG_1("ERROR: La lista de msg de test esta llena\n");
+          }else
+          {
+              t_list_p->t_msg = *((test_msg *)msg); //msg le hago cast.Luego cojo todo el msg
+              linkaddr_copy(&t_list_p->from, from);
+              list_add(t_list, t_list_p); //Add an item at the end of a list.
+              process_post(&evaluar_msg_test, PROCESS_EVENT_CONTINUE, NULL ) ;
+
+          }
+      }else
+      if(msg_type == M_ACCEPT)
+      {
+          accept_list *a_list_p;
+          a_list_p = memb_alloc(&a_mem); //Alocar memoria
+          if(a_list_p == NULL)
+          {
+              MY_DBG_1("ERROR: La lista de msg de accept esta llena\n");
+          }else
+          {
+              linkaddr_copy(&a_list_p->from, from);
+              list_add(a_list, a_list_p); //Add an item at the end of a list.
+              process_post(&evaluar_msg_accept, PROCESS_EVENT_CONTINUE, NULL);
+
+          }
+      }else
+      if(msg_type == M_REJECT)
+      {
+          reject_list *rj_list_p;
+          rj_list_p = memb_alloc(&rj_mem); //Alocar memoria
+          if(rj_list_p == NULL)
+          {
+              MY_DBG_1("ERROR: La lista de msg de Reject esta llena\n");
+          }else
+          {
+              linkaddr_copy(&rj_list_p->from, from);
+              list_add(rj_list, rj_list_p); //Add an item at the end of a list.
+              process_post(&evaluar_msg_reject, PROCESS_EVENT_CONTINUE, NULL);
+          }
+      }
+}
+
+static void recv_runicast_reject(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
+{
+    void *msg = packetbuf_dataptr();
+
+   /* OPTIONAL: Sender history */
+
+   struct history_entry *e = NULL;
+   for(e = list_head(history_list_reject); e != NULL; e = e->next) {
+     if(linkaddr_cmp(&e->addr, from)) { // Si las dir son iguales entra
+       break;
+     }
+   }
+   if(e == NULL) {
+     /* Create new history entry */
+     e = memb_alloc(&history_mem_reject);
+     if(e == NULL) {
+       e = list_chop(history_list_reject); /* Remove oldest at full history */
+     }
+     linkaddr_copy(&e->addr, from);
+     e->seq = seqno;
+     list_push(history_list_reject, e);
+   } else {
+     /* Detect duplicate callback */
+     if(e->seq == seqno) {
+       MY_DBG_3("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
+ 	     from->u8[0], from->u8[1], seqno);
+       return;
+     }
+     /* Update existing history entry */
+     e->seq = seqno;
+   }
+      //Leer el packet buffer attribute: Especificamente el tipo de mensaje
+      packetbuf_attr_t msg_type = packetbuf_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG);
+      // Evaluo el tipo de msg que llego
+      if(msg_type == TEST)
+      {
+          test_list *t_list_p;
+          t_list_p = memb_alloc(&t_mem); //Alocar memoria
+          if(t_list_p == NULL)
+          {
+              MY_DBG_1("ERROR: La lista de msg de test esta llena\n");
+          }else
+          {
+              t_list_p->t_msg = *((test_msg *)msg); //msg le hago cast.Luego cojo todo el msg
+              linkaddr_copy(&t_list_p->from, from);
+              list_add(t_list, t_list_p); //Add an item at the end of a list.
+              process_post(&evaluar_msg_test, PROCESS_EVENT_CONTINUE, NULL ) ;
+
+          }
+      }else
+      if(msg_type == M_ACCEPT)
+      {
+          accept_list *a_list_p;
+          a_list_p = memb_alloc(&a_mem); //Alocar memoria
+          if(a_list_p == NULL)
+          {
+              MY_DBG_1("ERROR: La lista de msg de accept esta llena\n");
+          }else
+          {
+              linkaddr_copy(&a_list_p->from, from);
+              list_add(a_list, a_list_p); //Add an item at the end of a list.
+              process_post(&evaluar_msg_accept, PROCESS_EVENT_CONTINUE, NULL);
+
+          }
+      }else
+      if(msg_type == M_REJECT)
+      {
+          reject_list *rj_list_p;
+          rj_list_p = memb_alloc(&rj_mem); //Alocar memoria
+          if(rj_list_p == NULL)
+          {
+              MY_DBG_1("ERROR: La lista de msg de Reject esta llena\n");
+          }else
+          {
+              linkaddr_copy(&rj_list_p->from, from);
+              list_add(rj_list, rj_list_p); //Add an item at the end of a list.
+              process_post(&evaluar_msg_reject, PROCESS_EVENT_CONTINUE, NULL);
+          }
+      }
+}
+
+static void sent_runicast_test(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
+{
+  MY_DBG_3("runicastt (test) message sent to %d.%d, retransmissions %d\n",
 	 to->u8[0], to->u8[1], retransmissions);
 }
-static void
-timedout_runicast(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
+
+static void sent_runicast_accept(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
 {
-  MY_DBG_1("ERROR: runicastt (test-ar) message timed out when sending to %d.%d, retransmissions %d\n",
+  MY_DBG_3("runicastt (accept) message sent to %d.%d, retransmissions %d\n",
 	 to->u8[0], to->u8[1], retransmissions);
 }
-static const struct runicast_callbacks runicast_callbacks = {recv_runicast,
-							     sent_runicast,
-							     timedout_runicast};
+
+static void sent_runicast_reject(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
+{
+  MY_DBG_3("runicastt (reject) message sent to %d.%d, retransmissions %d\n",
+	 to->u8[0], to->u8[1], retransmissions);
+}
+static void timedout_runicast_test(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
+{
+  MY_DBG_1("ERROR: runicastt (test) message timed out when sending to %d.%d, retransmissions %d\n",
+	 to->u8[0], to->u8[1], retransmissions);
+}
+
+static void timedout_runicast_accept(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
+{
+  MY_DBG_1("ERROR: runicastt (accept) message timed out when sending to %d.%d, retransmissions %d\n",
+	 to->u8[0], to->u8[1], retransmissions);
+}
+
+static void timedout_runicast_reject(struct runicast_conn *c, const linkaddr_t *to, uint8_t retransmissions)
+{
+  MY_DBG_1("ERROR: runicastt (reject) message timed out when sending to %d.%d, retransmissions %d\n",
+	 to->u8[0], to->u8[1], retransmissions);
+}
+
+static const struct runicast_callbacks runicast_callbacks_test = {recv_runicast_test,
+							     sent_runicast_test,
+							     timedout_runicast_test};
+
+static const struct runicast_callbacks runicast_callbacks_accept = {recv_runicast_accept,
+							     sent_runicast_accept,
+							     timedout_runicast_accept};
+
+static const struct runicast_callbacks runicast_callbacks_reject = {recv_runicast_reject,
+							     sent_runicast_reject,
+							     timedout_runicast_reject};
+
+
 
 /*------------------------------------------------------------------- */
 /*-----------PROCESOS------------------------------------------------*/
@@ -478,7 +683,9 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
     process_start(&evaluar_msg_accept, NULL);
     process_start(&evaluar_msg_reject, NULL);
 
-    runicast_open(&runicast, 145, &runicast_callbacks); //el 144 ya esta usado
+    runicast_open(&runicast_test, 147, &runicast_callbacks_test); //el 144 ya esta usado
+    runicast_open(&runicast_accept, 148, &runicast_callbacks_accept); //el 144 ya esta usado
+    runicast_open(&runicast_reject, 149, &runicast_callbacks_reject); //el 144 ya esta usado
 
     //proceso test_ar
     //estados
@@ -491,8 +698,14 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
     e_msg_accept          = process_alloc_event(); // Darle un numero al evento
 
     /* OPTIONAL: Sender history */
-    list_init(history_list);
-    memb_init(&history_mem);
+    list_init(history_list_test);
+    memb_init(&history_mem_test);
+
+    list_init(history_list_accept);
+    memb_init(&history_mem_accept);
+
+    list_init(history_list_reject);
+    memb_init(&history_mem_reject);
 
     list_init(t_list_out);
     memb_init(&t_mem_out);
@@ -528,15 +741,15 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
             {
                 for(t_list_out_p = list_head(t_list_out); t_list_out_p != NULL; t_list_out_p = t_list_out_p->next)
                 {
-                    if(!runicast_is_transmitting(&runicast)) // Si runicastt no esta TX, entra
+                    if(!runicast_is_transmitting(&runicast_test)) // Si runicastt no esta TX, entra
                     {
                         llenar_test_msg(&t_msg, &t_list_out_p->t_msg.destination,
                                         t_list_out_p->t_msg.f);
                         packetbuf_copyfrom(&t_msg, sizeof(t_msg));
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, TEST);
-                        runicast_send(&runicast, &t_msg.destination, MAX_RETRANSMISSIONS);
+                        runicast_send(&runicast_test, &t_msg.destination, MAX_RETRANSMISSIONS);
                         stats_ghs.test_sent++;
-                        MY_DBG_1("stats %d %lu %lu %lu %lu %lu %lu %lu\n",linkaddr_node_addr.u8[0], stats_ghs.connect_sent,
+                        MY_DBG_2("stats %d %lu %lu %lu %lu %lu %lu %lu\n",linkaddr_node_addr.u8[0], stats_ghs.connect_sent,
                                                                                                   stats_ghs.initiate_sent,
                                                                                                   stats_ghs.test_sent,
                                                                                                   stats_ghs.accept_sent,
@@ -566,14 +779,14 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
             {
                 for(rj_list_out_p = list_head(rj_list_out); rj_list_out_p != NULL; rj_list_out_p = rj_list_out_p->next)
                 {
-                    if(!runicast_is_transmitting(&runicast)) // Si runicastt no esta TX, entra
+                    if(!runicast_is_transmitting(&runicast_reject)) // Si runicastt no esta TX, entra
                     {
                         llenar_reject_msg(&r_msg, &rj_list_out_p->rj_msg.destination);
                         packetbuf_copyfrom(&r_msg, sizeof(r_msg));
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_REJECT);
-                        runicast_send(&runicast, &r_msg.destination, MAX_RETRANSMISSIONS);
+                        runicast_send(&runicast_reject, &r_msg.destination, MAX_RETRANSMISSIONS);
                         stats_ghs.reject_sent++;
-                        MY_DBG_1("stats %d %lu %lu %lu %lu %lu %lu %lu\n",linkaddr_node_addr.u8[0], stats_ghs.connect_sent,
+                        MY_DBG_2("stats %d %lu %lu %lu %lu %lu %lu %lu\n",linkaddr_node_addr.u8[0], stats_ghs.connect_sent,
                                                                                                   stats_ghs.initiate_sent,
                                                                                                   stats_ghs.test_sent,
                                                                                                   stats_ghs.accept_sent,
@@ -604,14 +817,14 @@ PROCESS_THREAD(send_message_test_ar, ev, data)
             {
                 for(a_list_out_p = list_head(a_list_out); a_list_out_p != NULL; a_list_out_p = a_list_out_p->next)
                 {
-                    if(!runicast_is_transmitting(&runicast)) // Si runicastt no esta TX, entra
+                    if(!runicast_is_transmitting(&runicast_accept)) // Si runicastt no esta TX, entra
                     {
                         llenar_accept_msg(&a_msg, &a_list_out_p->a_msg.destination);
                         packetbuf_copyfrom(&a_msg, sizeof(a_msg));
                         packetbuf_set_attr(PACKETBUF_ATTR_PACKET_GHS_TYPE_MSG, M_ACCEPT);
-                        runicast_send(&runicast, &a_msg.destination, MAX_RETRANSMISSIONS);
+                        runicast_send(&runicast_accept, &a_msg.destination, MAX_RETRANSMISSIONS);
                         stats_ghs.accept_sent++;
-                        MY_DBG_1("stats %d %lu %lu %lu %lu %lu %lu %lu\n",linkaddr_node_addr.u8[0], stats_ghs.connect_sent,
+                        MY_DBG_2("stats %d %lu %lu %lu %lu %lu %lu %lu\n",linkaddr_node_addr.u8[0], stats_ghs.connect_sent,
                                                                                                   stats_ghs.initiate_sent,
                                                                                                   stats_ghs.test_sent,
                                                                                                   stats_ghs.accept_sent,
