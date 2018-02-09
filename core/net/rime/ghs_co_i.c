@@ -87,8 +87,16 @@ void become_branch(edges *e_list_head, const linkaddr_t *node_addr)
     {
         if(linkaddr_cmp(&e_aux->addr, node_addr)) //Entra si las direcciones son iguales
         {
-            e_aux->state = BRANCH;
-            break;
+            if(e_aux->state != E_REJECTED)
+            {
+              e_aux->state = BRANCH;
+              break;
+            }else
+            {
+              MY_DBG_1("ERROR: Preguntarse porque quiero volver BRANCH un edge q ya esta E_REJECTED ");
+              break;
+            }
+
         }
     }
 

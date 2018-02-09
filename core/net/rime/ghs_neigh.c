@@ -232,7 +232,7 @@ void ghs_n_recv_ruc(struct neighbor *n_list_head,
     } else {
       // Detect duplicate callback
       if(e->seq == seqno) {
-        MY_DBG_3("runicast message received from %d.%d, seqno %d (DUPLICATE)\n",
+        MY_DBG_3("runicast message (weight_worst) received from %d.%d, seqno %d (DUPLICATE)\n",
   	     from->u8[0], from->u8[1], seqno);
         return;
       }

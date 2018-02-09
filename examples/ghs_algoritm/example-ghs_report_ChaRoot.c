@@ -101,8 +101,7 @@
  /*------------------------------------------------------------------- */
  /*-----------FUNCIONES-------------------------------------------------*/
  /*------------------------------------------------------------------- */
- static void
- recv_runicast_report(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
+ static void  recv_runicast_report(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
  {
 
     void *msg = packetbuf_dataptr();
@@ -179,8 +178,7 @@
        }
  }
 
- static void
- recv_runicast_ChaRoot(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
+ static void  recv_runicast_ChaRoot(struct runicast_conn *c, const linkaddr_t *from, uint8_t seqno)
  {
 
     void *msg = packetbuf_dataptr();
@@ -403,7 +401,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
                                     if( nd.lwoe.node.weight <= nd.lwoe.children.weight ) //mejor children o mi edge?
                                     {
                                         //envio CHANGE_ROOT imaginario
-                                        become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root
+                                        become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root -- ERROR un edge q ya es BRANCH
                                         //Si alguien se vuelve branch evaluo si hay msg de connect pendientes:
                                         //Corresponde al texto "qp is or becomes a branch edge"
                                         //process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
@@ -444,6 +442,7 @@ PROCESS_THREAD(e_LWOE, ev, data)
 
                             //Ya encontre el LWOE del fragmento. No reenvio CHANGE_ROOT
                             //del otro CORE_NODE, ni tampoco enviaria un connect a mi LWOE
+                            //Bandera chichi para no reeenviar CHANGE_ROOT innecesariamente
                             nd.flags |= FRAGMENTO_LWOE;
 
                             process_post(&master_co_i, e_found, NULL);
@@ -688,7 +687,7 @@ PROCESS_THREAD(evaluar_msg_cr, ev, data)
                             //El msg de CHANGE_ROOT ES PARA MI
                             MY_DBG_3("El msg de ChangeRooot es para mi, from=%d\n",cr_list_p->from.u8[0]);
 
-                            become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root
+                            become_branch(e_list_head_g, &nd.lwoe.node.neighbor); // become branch de change root ERROR: un edge q ya es BRANCH
                             //Si alguien se vuelve branch evaluo si hay msg de connect pendientes:
                             //Corresponde al texto "qp is or becomes a branch edge"
                             //process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);

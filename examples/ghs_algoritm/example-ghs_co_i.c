@@ -160,7 +160,6 @@ static void recv_runicast_co(struct runicast_conn *c, const linkaddr_t *from, ui
            linkaddr_copy(&co_list_p->from, from);
            list_add(co_list, co_list_p); //Add an item at the end of a list.
            MY_DBG_3("llego connect de from %d\n",from->u8[0] );
-           //process_post_synch(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
            process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
 
        }
@@ -184,7 +183,7 @@ static void recv_runicast_co(struct runicast_conn *c, const linkaddr_t *from, ui
 
           //LLamar al proceso para que evalue el pospone agregado o actualizado
           // Se hace aca porque el INITIATE es quien cambia el level del fragmento
-          process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL); //"fragment is or becomes greater than l" pg. 83 del pdf
+      //process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL); //"fragment is or becomes greater than l" pg. 83 del pdf
           process_post(&evaluar_msg_test, PROCESS_EVENT_CONTINUE, NULL ) ;
        }
 
@@ -244,8 +243,7 @@ static void recv_runicast_i(struct runicast_conn *c, const linkaddr_t *from, uin
            linkaddr_copy(&co_list_p->from, from);
            list_add(co_list, co_list_p); //Add an item at the end of a list.
            MY_DBG_3("llego connect de from %d\n",from->u8[0] );
-           //process_post_synch(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
-           process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
+      // process_post(&evaluar_msg_co, PROCESS_EVENT_CONTINUE, NULL);
 
        }
 
@@ -526,7 +524,7 @@ PROCESS_THREAD(evaluar_msg_co, ev, data)
                          co_list_p->from.u8[0],
                          co_list_p->co_msg.level, nd.f.level );
 
-                        become_branch(e_list_head_g, &co_list_p->from); // become branch de connect
+                         become_branch(e_list_head_g, &co_list_p->from); // become branch de connect  -- ERROR un edge q ya es BRANCH
 
                         //PAra que el otro_core_node no deje de serlo
                         //PENDIENTE este if
