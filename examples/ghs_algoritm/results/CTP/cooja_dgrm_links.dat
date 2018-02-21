@@ -1,0 +1,129 @@
+# format:  [src] [dst] [prr] [prr_ci] [num_tx] [num_rx] [rssi] [rssi_min] [rssi_max]
+# [src] and [dst]: the IDs of the source and destination. if no node exists with theses IDs, an error is reported.
+# [prr]: the packet reception ratio in [0,1]
+# [prr_ci]: The Confidence interval of the packet reception ratio. En el archivo DGRMConfigurator.java esta comentariado. Entonces no hace nada. Se deja en 0.
+# [num_tx]: En el archivo DGRMConfigurator.java esta comentariado. Entonces no hace nada. Se deja en 0.
+# [num_rx]: En el archivo DGRMConfigurator.java esta comentariado. Entonces no hace nada. Se deja en 0.
+# [rssi] and [lqi]: the received signal strength indicator and the average *correlation* *value *(used as link quality indicator)
+# [delay] is the reception delay in milliseconds
+# [rssi_min] [rssi_max]: En el archivo DGRMConfigurator.java esta comentariado. Entonces no hace nada. Se deja en 0.
+1 15 1.00 0 0 0 -10 0 0
+15 1 1.00 0 0 0 -10 0 0
+#
+1 7 1.00 0 0 0 -10 0 0
+7 1 1.00 0 0 0 -10 0 0
+#
+15 7 1.00 0 0 0 -10 0 0
+7 15 1.00 0 0 0 -10 0 0
+#
+15 9 1.00 0 0 0 -10 0 0
+9 15 1.00 0 0 0 -10 0 0
+#
+7 9 1.00 0 0 0 -10 0 0
+9 7 1.00 0 0 0 -10 0 0
+#
+10 9 1.00 0 0 0 -10 0 0
+9 10 1.00 0 0 0 -10 0 0
+#
+12 9 1.00 0 0 0 -10 0 0
+9 12 1.00 0 0 0 -10 0 0
+#
+12 10 1.00 0 0 0 -10 0 0
+10 12 1.00 0 0 0 -10 0 0
+# LINK DEFECTUOSO
+20 10 0.90 0 0 0 -10 0 0
+10 20 0.90 0 0 0 -10 0 0
+#
+12 4 1.00 0 0 0 -10 0 0
+4 12 1.00 0 0 0 -10 0 0
+#
+11 4 1.00 0 0 0 -10 0 0
+4 11 1.00 0 0 0 -10 0 0
+#
+8 4 1.00 0 0 0 -10 0 0
+4 8 1.00 0 0 0 -10 0 0
+#
+8 20 1.00 0 0 0 -10 0 0
+20 8 1.00 0 0 0 -10 0 0
+#
+11 20 1.00 0 0 0 -10 0 0
+20 11 1.00 0 0 0 -10 0 0
+#
+11 8 1.00 0 0 0 -10 0 0
+8 11 1.00 0 0 0 -10 0 0
+#
+3 8 1.00 0 0 0 -10 0 0
+8 3 1.00 0 0 0 -10 0 0
+#
+3 11 1.00 0 0 0 -10 0 0
+11 3 1.00 0 0 0 -10 0 0
+#
+5 8 1.00 0 0 0 -10 0 0
+8 5 1.00 0 0 0 -10 0 0
+#
+6 8 1.00 0 0 0 -10 0 0
+8 6 1.00 0 0 0 -10 0 0
+#
+6 5 1.00 0 0 0 -10 0 0
+5 6 1.00 0 0 0 -10 0 0
+#
+13 5 1.00 0 0 0 -10 0 0
+5 13 1.00 0 0 0 -10 0 0
+#
+13 6 1.00 0 0 0 -10 0 0
+6 13 1.00 0 0 0 -10 0 0
+#
+14 6 1.00 0 0 0 -10 0 0
+6 14 1.00 0 0 0 -10 0 0
+#
+14 8 1.00 0 0 0 -10 0 0
+8 14 1.00 0 0 0 -10 0 0
+#
+14 13 1.00 0 0 0 -10 0 0
+13 14 1.00 0 0 0 -10 0 0
+#
+14 3 1.00 0 0 0 -10 0 0
+3 14 1.00 0 0 0 -10 0 0
+#
+14 18 1.00 0 0 0 -10 0 0
+18 14 1.00 0 0 0 -10 0 0
+#
+14 19 1.00 0 0 0 -10 0 0
+19 14 1.00 0 0 0 -10 0 0
+#
+18 19 1.00 0 0 0 -10 0 0
+19 18 1.00 0 0 0 -10 0 0
+#
+18 3 1.00 0 0 0 -10 0 0
+3 18 1.00 0 0 0 -10 0 0
+#
+18 11 1.00 0 0 0 -10 0 0
+11 18 1.00 0 0 0 -10 0 0
+#
+17 11 1.00 0 0 0 -10 0 0
+11 17 1.00 0 0 0 -10 0 0
+#
+2 11 1.00 0 0 0 -10 0 0
+11 2 1.00 0 0 0 -10 0 0
+#
+2 17 1.00 0 0 0 -10 0 0
+17 2 1.00 0 0 0 -10 0 0
+#
+2 16 1.00 0 0 0 -10 0 0
+16 2 1.00 0 0 0 -10 0 0
+#
+17 16 1.00 0 0 0 -10 0 0
+16 17 1.00 0 0 0 -10 0 0
+#
+18 16 1.00 0 0 0 -10 0 0
+16 18 1.00 0 0 0 -10 0 0
+#
+18 17 1.00 0 0 0 -10 0 0
+17 18 1.00 0 0 0 -10 0 0
+#
+20 12 0.90 0 0 0 -10 0 0
+12 20 0.90 0 0 0 -10 0 0
+#
+10 4 1.00 0 0 0 -10 0 0
+4 10 1.00 0 0 0 -10 0 0
+#
